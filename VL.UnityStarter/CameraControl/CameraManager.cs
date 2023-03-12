@@ -25,8 +25,6 @@ public class CameraManager : MonoBehaviour
         var is1 = Input.GetKey(KeyCode.Alpha1);
         if (is1)
         {
-            // camera1.SetActive(true);
-
             Debug.Log($"camera1:SetActive");
             var target = camera1;
             foreach (var camera in cameras)
@@ -43,8 +41,6 @@ public class CameraManager : MonoBehaviour
         var is2 = Input.GetKey(KeyCode.Alpha2);
         if (is2)
         {
-            // camera2.SetActive(true);
-            
             Debug.Log($"camera2:SetActive");
             var target = camera2;
             foreach (var camera in cameras)
