@@ -6,14 +6,19 @@ using UnityEngine.UI;
 
 public class Gaming0311 : MonoBehaviour
 {
-    public GameObject canvasGO;
-    public GameObject playerGO;
-    Text playerText;
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log($"Game Start");
+        int displayTime = 2;
+        DisplayLevel(displayTime);
+        Invoke(nameof(StartGame), displayTime);
+        Debug.Log($"Game Started");
+    }
+
+    void DisplayLevel(int displayTime)
+    {
         //添加关卡文本
         var textLevelGO = VLCreator.CreateText("Lv", canvasGO);
         var textLevel = textLevelGO.GetComponent<Text>();
@@ -22,10 +27,12 @@ public class Gaming0311 : MonoBehaviour
         textLevel.verticalOverflow = VerticalWrapMode.Overflow;
         var rect = textLevelGO.GetComponent<RectTransform>();
         rect.sizeDelta = new Vector2(160, 30);
-        Destroy(textLevelGO, 2);
-        Invoke(nameof(StartGame), 2);
-        Debug.Log($"Game Started");
+        Destroy(textLevelGO, displayTime);
     }
+
+    public GameObject canvasGO;
+    public GameObject playerGO;
+    Text playerText;
 
     void StartGame()
     {
@@ -40,62 +47,66 @@ public class Gaming0311 : MonoBehaviour
         playerText = playerGO.GetComponent<Text>();
     }
 
-
-    bool isJumpingSetup = false;
-    bool isJumping = false;
-    Vector2 startPosition;
-    Vector2 targetPosition;
-    Vector2 jump;
-    float jumpStartTime = 0f;
-    float jumpDuration = 0.5f;
-
     void Update()
     {
-        if (Input.GetKey(KeyCode.W) && !isJumpingSetup && !isJumping)
+        PlayerMove();
+    }
+
+    bool isMovingSetup = false;
+    bool isMoving = false;
+    Vector2 startPosition;
+    Vector2 targetPosition;
+    Vector2 move;
+    float moveStartTime = 0f;
+    float moveDuration = 0.2f;
+    int step = 20;
+
+    void PlayerMove()
+    {
+        if (Input.GetKey(KeyCode.W) && !isMovingSetup && !isMoving)
         {
-            isJumpingSetup = true;
-            jump = new Vector2(0, 100);
+            isMovingSetup = true;
+            move = new Vector2(0, step);
         }
-        if (Input.GetKey(KeyCode.A) && !isJumpingSetup && !isJumping)
+        if (Input.GetKey(KeyCode.A) && !isMovingSetup && !isMoving)
         {
-            isJumpingSetup = true;
-            jump = new Vector2(-100, 0);
+            isMovingSetup = true;
+            move = new Vector2(-step, 0);
         }
-        if (Input.GetKey(KeyCode.S) && !isJumpingSetup && !isJumping)
+        if (Input.GetKey(KeyCode.S) && !isMovingSetup && !isMoving)
         {
-            isJumpingSetup = true;
-            jump = new Vector2(0, -100);
+            isMovingSetup = true;
+            move = new Vector2(0, -step);
         }
-        if (Input.GetKey(KeyCode.D) && !isJumpingSetup && !isJumping)
+        if (Input.GetKey(KeyCode.D) && !isMovingSetup && !isMoving)
         {
-            isJumpingSetup = true;
-            jump = new Vector2(100, 0);
+            isMovingSetup = true;
+            move = new Vector2(step, 0);
         }
-        if (isJumpingSetup)
+        if (isMovingSetup)
         {
             startPosition = playerText.rectTransform.anchoredPosition;
-            targetPosition = new Vector2(startPosition.x + jump.x, startPosition.y + jump.y);
-            jumpStartTime = Time.time;
-            isJumping = true;
-            isJumpingSetup = false;
+            targetPosition = new Vector2(startPosition.x + move.x, startPosition.y + move.y);
+            moveStartTime = Time.time;
+            isMoving = true;
+            isMovingSetup = false;
         }
-        if (isJumping)
+        if (isMoving)
         {
-            Jump(playerText);
+            SmoothMove(playerText);
         }
     }
 
-    float clampTime;
-    void Jump(Text go)
+    void SmoothMove(Text go)
     {
-        float elapsedTime = Time.time - jumpStartTime;
-        clampTime = Mathf.Clamp01(elapsedTime / jumpDuration);
+        float elapsedTime = Time.time - moveStartTime;
+        float clampTime = Mathf.Clamp01(elapsedTime / moveDuration);
         Vector2 newPosition = Vector2.Lerp(startPosition, targetPosition, clampTime);
         go.rectTransform.anchoredPosition = newPosition;
         if (clampTime >= 1.0f)
         {
-            isJumping = false;
-            isJumpingSetup = false;
+            isMoving = false;
+            isMovingSetup = false;
         }
     }
 }
