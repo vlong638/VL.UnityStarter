@@ -17,6 +17,11 @@ public class Gaming0311 : MonoBehaviour
         Debug.Log($"Game Started");
     }
 
+    void Update()
+    {
+        PlayerMove();
+    }
+
     void DisplayLevel(int displayTime)
     {
         //添加关卡文本
@@ -47,19 +52,14 @@ public class Gaming0311 : MonoBehaviour
         playerText = playerGO.GetComponent<Text>();
     }
 
-    void Update()
-    {
-        PlayerMove();
-    }
-
     bool isMovingSetup = false;
     bool isMoving = false;
     Vector2 startPosition;
     Vector2 targetPosition;
     Vector2 move;
     float moveStartTime = 0f;
-    float moveDuration = 0.2f;
-    int step = 20;
+    float moveDuration = 0.1f;
+    int step = 50;
 
     void PlayerMove()
     {
@@ -103,10 +103,12 @@ public class Gaming0311 : MonoBehaviour
         float clampTime = Mathf.Clamp01(elapsedTime / moveDuration);
         Vector2 newPosition = Vector2.Lerp(startPosition, targetPosition, clampTime);
         go.rectTransform.anchoredPosition = newPosition;
+        VLDebug.DelegateDebug(() => { go.text = $"X:{newPosition.x},Y:{newPosition.y}"; });
         if (clampTime >= 1.0f)
         {
             isMoving = false;
             isMovingSetup = false;
         }
     }
+
 }
