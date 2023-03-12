@@ -37,19 +37,46 @@ public class Gaming0311 : MonoBehaviour
 
     public GameObject canvasGO;
     public GameObject playerGO;
-    Text playerText;
+    //Text playerText;
 
     void StartGame()
     {
+        //创建地面
+        float width = 2560, height = 1440;
+        int xSteps = 20, ySteps = 12;
+        stepX = width / xSteps;
+        stepY = height / ySteps;
+        float paddingX = stepX / 10;
+        float paddingY = stepY / 10;
+        float floorWidth = stepX - paddingX * 2;
+        float floorHeight = stepY - paddingY * 2;
+        Color floorColor;
+        ColorUtility.TryParseHtmlString("#BC9401", out floorColor);
+        for (int i = 0; i < xSteps; i++)
+        {
+            for (int j = 0; j < ySteps; j++)
+            {
+                var image = VLCreator.CreateImage("floor" + i + j, canvasGO).GetComponent<Image>();
+                image.color = floorColor;
+                image.rectTransform.anchorMin = new Vector2(0f, 0f);
+                image.rectTransform.anchorMax = new Vector2(0f, 0f);
+                image.rectTransform.pivot = new Vector2(0f, 0f);
+                image.rectTransform.sizeDelta = new Vector2(floorWidth, floorHeight);
+                image.rectTransform.anchoredPosition = new Vector2(i * stepX + paddingX, j * stepY + paddingY);
+            }
+        }
+
+
+        //生成道具
+        //生成敌人
+        //创建Player
         playerGO.transform.parent = canvasGO.transform;
         playerGO.SetActive(true);
         RectTransform rectTransform = playerGO.GetComponent<RectTransform>();
         rectTransform.anchorMin = new Vector2(0f, 0f);
-        rectTransform.anchorMax = new Vector2(1f, 1f);
-        rectTransform.offsetMin = new Vector2(0f, 0f);
-        rectTransform.offsetMax = new Vector2(0f, 0f);
-        rectTransform.localPosition = new Vector3(0f, 0f, 0f);
-        playerText = playerGO.GetComponent<Text>();
+        rectTransform.anchorMax = new Vector2(0f, 0f);
+        rectTransform.pivot = new Vector2(0f, 0f);
+        rectTransform.anchoredPosition = new Vector2(0, floorHeight / 2);
     }
 
     bool isMovingSetup = false;
@@ -59,33 +86,33 @@ public class Gaming0311 : MonoBehaviour
     Vector2 move;
     float moveStartTime = 0f;
     float moveDuration = 0.1f;
-    int step = 50;
+    float stepX, stepY;
 
     void PlayerMove()
     {
         if (Input.GetKey(KeyCode.W) && !isMovingSetup && !isMoving)
         {
             isMovingSetup = true;
-            move = new Vector2(0, step);
-        }
-        if (Input.GetKey(KeyCode.A) && !isMovingSetup && !isMoving)
-        {
-            isMovingSetup = true;
-            move = new Vector2(-step, 0);
+            move = new Vector2(0, stepY);
         }
         if (Input.GetKey(KeyCode.S) && !isMovingSetup && !isMoving)
         {
             isMovingSetup = true;
-            move = new Vector2(0, -step);
+            move = new Vector2(0, -stepY);
+        }
+        if (Input.GetKey(KeyCode.A) && !isMovingSetup && !isMoving)
+        {
+            isMovingSetup = true;
+            move = new Vector2(-stepX, 0);
         }
         if (Input.GetKey(KeyCode.D) && !isMovingSetup && !isMoving)
         {
             isMovingSetup = true;
-            move = new Vector2(step, 0);
+            move = new Vector2(stepX, 0);
         }
         if (isMovingSetup)
         {
-            startPosition = playerText.rectTransform.anchoredPosition;
+            startPosition = playerGO.GetComponent<RectTransform>().anchoredPosition;
             targetPosition = new Vector2(startPosition.x + move.x, startPosition.y + move.y);
             moveStartTime = Time.time;
             isMoving = true;
@@ -93,17 +120,21 @@ public class Gaming0311 : MonoBehaviour
         }
         if (isMoving)
         {
-            SmoothMove(playerText);
+            SmoothMove(playerGO);
         }
     }
 
-    void SmoothMove(Text go)
+    void SmoothMove(GameObject go)
     {
         float elapsedTime = Time.time - moveStartTime;
         float clampTime = Mathf.Clamp01(elapsedTime / moveDuration);
         Vector2 newPosition = Vector2.Lerp(startPosition, targetPosition, clampTime);
-        go.rectTransform.anchoredPosition = newPosition;
-        VLDebug.DelegateDebug(() => { go.text = $"X:{newPosition.x},Y:{newPosition.y}"; });
+        var rectTransform = go.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = newPosition;
+        VLDebug.DelegateDebug(() => {
+            //go.text = $"X:{newPosition.x},Y:{newPosition.y}"; 
+            Debug.Log($"X:{newPosition.x},Y:{newPosition.y}");
+        });
         if (clampTime >= 1.0f)
         {
             isMoving = false;

@@ -56,6 +56,7 @@
     <Compile Include="CameraControl\FollowPlanePlayer.cs" />
     <Compile Include="CameraControl\FollowPlayer.cs" />
     <Compile Include="Creator\VLCreator.cs" />
+    <Compile Include="Debug\VLDebug.cs" />
     <Compile Include="GamingStudy\Gaming0311.cs" />
     <Compile Include="PlayerControl\PlanePlayerController.cs" />
     <Compile Include="PlayerControl\PlayerController.cs" />
