@@ -40,15 +40,16 @@ public class Gaming0311 : MonoBehaviour
 
     void StartGame()
     {
-        //创建地面
+        //棋盘参数
         float width = 2560, height = 1440;
         int xSteps = 20, ySteps = 12;
         stepX = width / xSteps;
         stepY = height / ySteps;
-        float paddingX = stepX / 10;
-        float paddingY = stepY / 10;
-        float floorWidth = stepX - paddingX * 2;
-        float floorHeight = stepY - paddingY * 2;
+        //创建地面
+        float floorPaddingX = stepX / 10;
+        float floorPaddingY = stepY / 10;
+        float floorWidth = stepX - floorPaddingX * 2;
+        float floorHeight = stepY - floorPaddingY * 2;
         Color floorColor;
         ColorUtility.TryParseHtmlString("#BC9401", out floorColor);
         for (int i = 0; i < xSteps; i++)
@@ -61,13 +62,50 @@ public class Gaming0311 : MonoBehaviour
                 image.rectTransform.anchorMax = new Vector2(0f, 0f);
                 image.rectTransform.pivot = new Vector2(0f, 0f);
                 image.rectTransform.sizeDelta = new Vector2(floorWidth, floorHeight);
-                image.rectTransform.anchoredPosition = new Vector2(i * stepX + paddingX, j * stepY + paddingY);
+                image.rectTransform.anchoredPosition = new Vector2(i * stepX + floorPaddingX, j * stepY + floorPaddingY);
             }
         }
-
-
         //生成道具
+        float itemWidth = Mathf.Max(stepX / 4, 60);
+        float itemHeight = Mathf.Max(stepY / 4, 30);
+        Color itemColor;
+        ColorUtility.TryParseHtmlString("#00FF47", out itemColor);
+        for (int i = 0; i < xSteps; i++)
+        {
+            for (int j = 0; j < ySteps; j++)
+            {
+                if (Random.Range(0, 100) < 90)
+                    continue;
+                var image = VLCreator.CreateImage("item" + i + j, canvasGO).GetComponent<Image>();
+                image.color = itemColor;
+                image.rectTransform.anchorMin = new Vector2(0f, 0f);
+                image.rectTransform.anchorMax = new Vector2(0f, 0f);
+                image.rectTransform.pivot = new Vector2(0f, 0f);
+                image.rectTransform.sizeDelta = new Vector2(itemWidth, itemHeight);
+                image.rectTransform.anchoredPosition = new Vector2(i * stepX + floorPaddingX, j * stepY + floorPaddingY);
+            }
+        }
         //生成敌人
+        float enemyWidth = Mathf.Max(stepX / 4, 60);
+        float enemyHeight = Mathf.Max(stepY / 4, 30);
+        Color enemyColor;
+        ColorUtility.TryParseHtmlString("#FF0F00", out enemyColor);
+        for (int i = 0; i < xSteps; i++)
+        {
+            for (int j = 0; j < ySteps; j++)
+            {
+                if (Random.Range(0, 100) < 95)
+                    continue;
+                var image = VLCreator.CreateImage("enemy" + i + j, canvasGO).GetComponent<Image>();
+                image.color = enemyColor;
+                image.rectTransform.anchorMin = new Vector2(0f, 0f);
+                image.rectTransform.anchorMax = new Vector2(0f, 0f);
+                image.rectTransform.pivot = new Vector2(0f, 0f);
+                image.rectTransform.sizeDelta = new Vector2(enemyWidth, enemyHeight);
+                image.rectTransform.anchoredPosition = new Vector2(i * stepX + floorPaddingX + floorWidth - enemyWidth
+                    , j * stepY + floorPaddingY + floorHeight - enemyHeight);
+            }
+        }
         //创建Player
         playerGO.transform.parent = canvasGO.transform;
         playerGO.SetActive(true);
@@ -75,7 +113,7 @@ public class Gaming0311 : MonoBehaviour
         rectTransform.anchorMin = new Vector2(0f, 0f);
         rectTransform.anchorMax = new Vector2(0f, 0f);
         rectTransform.pivot = new Vector2(0f, 0f);
-        rectTransform.anchoredPosition = new Vector2(0, floorHeight / 2);
+        rectTransform.anchoredPosition = new Vector2(floorPaddingX, floorPaddingY + floorHeight / 2 - 20);
     }
 
     bool isMovingSetup = false;
