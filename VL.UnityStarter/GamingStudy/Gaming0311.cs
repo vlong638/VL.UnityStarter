@@ -1,17 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Gaming0311 : MonoBehaviour
 {
+    GameBoard GameBoard = new GameBoard();
+    public GameObject canvasGO;
+    public GameObject playerGO;
 
-    // Start is called before the first frame update
     void Start()
     {
         Debug.Log($"Game Start");
-        Player = new Player(playerGO);
+        GameBoard.Player = new Player(playerGO)
+        {
+            Attr_HP = 100,
+            Attr_AttackMax = 10,
+            Attr_AttackMin = 5,
+            Attr_Defend = 3
+        };
+        GameBoard.CanvasGO = canvasGO;
         int displayTime = 2;
         DisplayLevel(displayTime);
         Invoke(nameof(StartGame), displayTime);
@@ -20,12 +30,8 @@ public class Gaming0311 : MonoBehaviour
 
     void Update()
     {
-        PlayerOperation();
-        EnermyOperation();
-    }
-
-    private void EnermyOperation()
-    {
+        GameBoard.PlayerOperation();
+        GameBoard.EnermyOperation();
     }
 
     void DisplayLevel(int displayTime)
@@ -41,9 +47,6 @@ public class Gaming0311 : MonoBehaviour
         Destroy(textLevelGO, displayTime);
     }
 
-    public GameObject canvasGO;
-    public GameObject playerGO;
-    Player Player;
 
     void StartGame()
     {
@@ -86,7 +89,10 @@ public class Gaming0311 : MonoBehaviour
                 image.rectTransform.pivot = new Vector2(0f, 0f);
                 image.rectTransform.sizeDelta = new Vector2(GameBoard.itemWidth, GameBoard.itemHeight);
                 image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + GameBoard.floorPaddingX, j * GameBoard.StepY + GameBoard.floorPaddingY);
-                GameBoard.Floors[i, j].Items.Add(new Item(image));
+                GameBoard.Floors[i, j].Items.Add(new Item(image)
+                {
+                    Name = image.name,
+                });
             }
         }
         //生成敌人
@@ -108,7 +114,14 @@ public class Gaming0311 : MonoBehaviour
                 image.rectTransform.sizeDelta = new Vector2(GameBoard.enemyWidth, GameBoard.enemyHeight);
                 image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + GameBoard.floorPaddingX + GameBoard.floorWidth - GameBoard.enemyWidth
                     , j * GameBoard.StepY + GameBoard.floorPaddingY + GameBoard.floorHeight - GameBoard.enemyHeight);
-                GameBoard.Floors[i, j].Creatures.Add(new Creature(image));
+                GameBoard.Floors[i, j].Creatures.Add(new Creature(image)
+                {
+                    Name = image.name,
+                    Attr_HP = Random.Range(15, 50),
+                    Attr_AttackMax = Random.Range(7, 10),
+                    Attr_AttackMin = Random.Range(4, 7),
+                    Attr_Defend = Random.Range(3, 6),
+                }); ;
             }
         }
         //创建Player
@@ -119,62 +132,11 @@ public class Gaming0311 : MonoBehaviour
         rectTransform.anchorMax = new Vector2(0f, 0f);
         rectTransform.pivot = new Vector2(0f, 0f);
         rectTransform.anchoredPosition = new Vector2(GameBoard.floorPaddingX, GameBoard.floorPaddingY + GameBoard.floorHeight / 2 - 20);
-        Player.X = 0;
-        Player.Y = 0;
+        GameBoard.Player.X = 0;
+        GameBoard.Player.Y = 0;
+        GameBoard.Player.Name = playerGO.GetComponentInChildren<Text>().text;
     }
 
-    Movement movement;
-
-    void PlayerOperation()
-    {
-        if (!Player.OperationData.IsMovingSetup && !Player.OperationData.IsMoving)
-        {
-            if (Input.GetKey(KeyCode.W))
-            {
-                Player.OperationData.IsMovingSetup = true;
-                movement = new Movement(0, 1);
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                Player.OperationData.IsMovingSetup = true;
-                movement = new Movement(0, -1);
-            }
-            else if (Input.GetKey(KeyCode.A))
-            {
-                Player.OperationData.IsMovingSetup = true;
-                movement = new Movement(-1, 0);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                Player.OperationData.IsMovingSetup = true;
-                movement = new Movement(1, 0);
-            }
-            else if (Input.GetKey(KeyCode.Space))
-            {
-                Player.OperationData.IsCollectting = true;
-            }
-        }
-        if (Player.OperationData.IsMovingSetup)
-        {
-            var startPosition = playerGO.GetComponent<RectTransform>().anchoredPosition;
-            var targetPosition = new Vector2(startPosition.x + movement.XLength, startPosition.y + movement.YLength);
-            movement.startPosition = startPosition;
-            movement.targetPosition = targetPosition;
-            movement.moveStartTime = Time.time;
-            Player.OperationData.IsMoving = true;
-            Player.OperationData.IsMovingSetup = false;
-
-            Player.Move(movement);
-        }
-        if (Player.OperationData.IsMoving)
-        {
-            Player.DisplaySmoothMove(playerGO, movement);
-        }
-        if (Player.OperationData.IsCollectting)
-        {
-            Player.Collect(GameBoard.Floors);
-        }
-    }
 }
 class Movement
 {
@@ -201,15 +163,87 @@ class GameBoard
     public static int YSteps = 12;
     public static float StepX = Width / XSteps;
     public static float StepY = Height / YSteps;
-    public static Floor[,] Floors = new Floor[XSteps, YSteps];
-    internal static float floorPaddingX;
-    internal static float floorPaddingY;
-    internal static float floorWidth;
-    internal static float floorHeight;
-    internal static float itemWidth;
-    internal static float itemHeight;
-    internal static float enemyWidth;
-    internal static float enemyHeight;
+    public Floor[,] Floors;
+    internal float floorPaddingX;
+    internal float floorPaddingY;
+    internal float floorWidth;
+    internal float floorHeight;
+    internal float itemWidth;
+    internal float itemHeight;
+    internal float enemyWidth;
+    internal float enemyHeight;
+    internal Player Player;
+    internal Movement movement;
+
+    public GameObject CanvasGO { get; internal set; }
+
+    public GameBoard()
+    {
+        Floors = new Floor[XSteps, YSteps];
+    }
+
+    public void PlayerOperation()
+    {
+        if (!Player.OperationData.IsOperating)
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                Player.OperationData.IsMovingSetup = true;
+                movement = new Movement(0, 1);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                Player.OperationData.IsMovingSetup = true;
+                movement = new Movement(0, -1);
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                Player.OperationData.IsMovingSetup = true;
+                movement = new Movement(-1, 0);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                Player.OperationData.IsMovingSetup = true;
+                movement = new Movement(1, 0);
+            }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Player.OperationData.IsCollecttingSetup = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.F))
+            {
+                Player.OperationData.IsAttackingSetup = true;
+            }
+        }
+        if (Player.OperationData.IsMovingSetup)
+        {
+            var startPosition = Player.PlayerGO.GetComponent<RectTransform>().anchoredPosition;
+            var targetPosition = new Vector2(startPosition.x + movement.XLength, startPosition.y + movement.YLength);
+            movement.startPosition = startPosition;
+            movement.targetPosition = targetPosition;
+            movement.moveStartTime = Time.time;
+            Player.OperationData.IsMoving = true;
+            Player.OperationData.IsMovingSetup = false;
+
+            Player.Move(movement);
+        }
+        if (Player.OperationData.IsMoving)
+        {
+            Player.DisplaySmoothMove(Player.PlayerGO, movement);
+        }
+        if (Player.OperationData.IsCollecttingSetup)
+        {
+            Player.Collect(Floors);
+        }
+        if (Player.OperationData.IsAttackingSetup)
+        {
+            Player.Attack(Floors);
+        }
+    }
+
+    public void EnermyOperation()
+    {
+    }
 }
 class Floor
 {
@@ -244,26 +278,29 @@ class Item
         this.Image = image;
     }
 }
-class Creature
+class Creature : AttackableCreature
 {
     public string Name;
-    private Image image;
+    public Image Image;
 
     public Creature(Image image)
     {
-        this.image = image;
+        this.Image = image;
     }
 }
-
 class OperationData
 {
-    public bool IsOperating { get { return !IsMovingSetup & !IsMoving & !IsCollectting; } }
+    public bool IsOperating { get { return IsMovingSetup | IsMoving | IsCollecttingSetup | IsAttackingSetup; } }
+
+
+    public bool IsAttackingSetup = false;
     public bool IsMovingSetup = false;
     public bool IsMoving = false;
-    public bool IsCollectting = false;
+    public bool IsCollecttingSetup = false;
 }
-class Player
+class Player : AttackableCreature
 {
+    public string Name;
     public GameObject PlayerGO;
     public OperationData OperationData = new OperationData();
     public int X;
@@ -293,19 +330,6 @@ class Player
         }
     }
 
-    internal void Collect(Floor[,] floors)
-    {
-        for (int i = floors[X, Y].Items.Count - 1; i >= 0; i--)
-        {
-            var item = floors[X, Y].Items[i];
-            Items.Add(item);
-            floors[X, Y].Items.Remove(item);
-            Object.Destroy(item.Image);
-            VLDebug.DelegateDebug(() => { Debug.Log($"拾取了{item.Name}"); });
-        }
-        OperationData.IsCollectting = false;
-    }
-
     internal void Move(Movement movement)
     {
         X += movement.X;
@@ -315,4 +339,73 @@ class Player
             Debug.Log($"Move X:{X},Y:{Y}");
         });
     }
+
+    internal void Collect(Floor[,] floors)
+    {
+        if (floors[X, Y].Items.Count == 0)
+        {
+            VLDebug.DelegateDebug(() => { Debug.Log($"{Name}捡了一把空气"); });
+            return;
+        }
+        for (int i = floors[X, Y].Items.Count - 1; i >= 0; i--)
+        {
+            var item = floors[X, Y].Items[i];
+            Items.Add(item);
+            floors[X, Y].Items.Remove(item);
+            Object.Destroy(item.Image);
+            VLDebug.DelegateDebug(() => { Debug.Log($"拾取了{item.Name}"); });
+        }
+        OperationData.IsCollecttingSetup = false;
+    }
+
+    internal void Attack(Floor[,] floors)
+    {
+        OperationData.IsAttackingSetup = false;
+        var creature = floors[X, Y].Creatures.FirstOrDefault();
+        if (creature == null)
+        {
+            VLDebug.DelegateDebug(() => { Debug.Log($"{Name}打在了空气中"); });
+            return;
+        }
+        var result = Attack(creature);
+        VLDebug.DelegateDebug(() => { Debug.Log($"{Name}:{GetAttackableCreatureDiscription()}"); });
+        VLDebug.DelegateDebug(() => { Debug.Log($"{creature.Name}:{creature.GetAttackableCreatureDiscription()}"); });
+        VLDebug.DelegateDebug(() => { Debug.Log($"{Name}攻击了{creature.Name},造成了{result.ChangedHP}点伤害"); });
+        if (result.IsDead)
+        {
+            floors[X, Y].Creatures.Remove(creature);
+            Object.Destroy(creature.Image);
+            VLDebug.DelegateDebug(() => { Debug.Log($"{creature.Name}被打倒了"); });
+        }
+    }
 }
+
+class AttackableCreature
+{
+    public int Attr_HP;
+    public int Attr_AttackMax;
+
+    public int Attr_AttackMin;
+    public int Attr_Defend;
+
+    internal AttackResult Attack(AttackableCreature creature)
+    {
+        AttackResult result = new AttackResult();
+        result.ChangedHP = Mathf.Max(0, Random.Range(Attr_AttackMin, Attr_AttackMax) - creature.Attr_Defend);
+        creature.Attr_HP -= result.ChangedHP;
+        result.IsDead = creature.Attr_HP <= 0;
+        return result;
+    }
+
+    public string GetAttackableCreatureDiscription()
+    {
+        return $@"生命:{Attr_HP},攻击:{Attr_AttackMax},防御:{Attr_Defend}";
+    }
+}
+
+class AttackResult
+{
+    public int ChangedHP;
+    public bool IsDead;
+}
+
