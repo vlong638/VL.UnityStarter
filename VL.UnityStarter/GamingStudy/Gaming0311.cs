@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class Gaming0311 : MonoBehaviour
     GameBoard GameBoard = new GameBoard();
     public GameObject canvasGO;
     public GameObject playerGO;
+    public GameObject textGO;
 
     void Start()
     {
@@ -50,91 +52,7 @@ public class Gaming0311 : MonoBehaviour
 
     void StartGame()
     {
-        //创建地面
-        GameBoard.floorPaddingX = GameBoard.StepX / 10;
-        GameBoard.floorPaddingY = GameBoard.StepY / 10;
-        GameBoard.floorWidth = GameBoard.StepX - GameBoard.floorPaddingX * 2;
-        GameBoard.floorHeight = GameBoard.StepY - GameBoard.floorPaddingY * 2;
-        Color floorColor;
-        ColorUtility.TryParseHtmlString("#BC9401", out floorColor);
-        for (int i = 0; i < GameBoard.XSteps; i++)
-        {
-            for (int j = 0; j < GameBoard.YSteps; j++)
-            {
-                var image = VLCreator.CreateImage("floor" + i + j, canvasGO).GetComponent<Image>();
-                image.color = floorColor;
-                image.rectTransform.anchorMin = new Vector2(0f, 0f);
-                image.rectTransform.anchorMax = new Vector2(0f, 0f);
-                image.rectTransform.pivot = new Vector2(0f, 0f);
-                image.rectTransform.sizeDelta = new Vector2(GameBoard.floorWidth, GameBoard.floorHeight);
-                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + GameBoard.floorPaddingX, j * GameBoard.StepY + GameBoard.floorPaddingY);
-                GameBoard.Floors[i, j] = new Floor(image);
-            }
-        }
-        //生成道具
-        GameBoard.itemWidth = Mathf.Max(GameBoard.StepX / 4, 30);
-        GameBoard.itemHeight = Mathf.Max(GameBoard.StepY / 4, 30);
-        Color itemColor;
-        ColorUtility.TryParseHtmlString("#00FF47", out itemColor);
-        for (int i = 0; i < GameBoard.XSteps; i++)
-        {
-            for (int j = 0; j < GameBoard.YSteps; j++)
-            {
-                if (Random.Range(0, 100) < 90)
-                    continue;
-                var image = VLCreator.CreateImage("item" + i + j, canvasGO).GetComponent<Image>();
-                image.color = itemColor;
-                image.rectTransform.anchorMin = new Vector2(0f, 0f);
-                image.rectTransform.anchorMax = new Vector2(0f, 0f);
-                image.rectTransform.pivot = new Vector2(0f, 0f);
-                image.rectTransform.sizeDelta = new Vector2(GameBoard.itemWidth, GameBoard.itemHeight);
-                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + GameBoard.floorPaddingX, j * GameBoard.StepY + GameBoard.floorPaddingY);
-                GameBoard.Floors[i, j].Items.Add(new Item(image)
-                {
-                    Name = image.name,
-                });
-            }
-        }
-        //生成敌人
-        GameBoard.enemyWidth = Mathf.Max(GameBoard.StepX / 4, 30);
-        GameBoard.enemyHeight = Mathf.Max(GameBoard.StepY / 4, 30);
-        Color enemyColor;
-        ColorUtility.TryParseHtmlString("#FF0F00", out enemyColor);
-        for (int i = 0; i < GameBoard.XSteps; i++)
-        {
-            for (int j = 0; j < GameBoard.YSteps; j++)
-            {
-                if (Random.Range(0, 100) < 95)
-                    continue;
-                var image = VLCreator.CreateImage("enemy" + i + j, canvasGO).GetComponent<Image>();
-                image.color = enemyColor;
-                image.rectTransform.anchorMin = new Vector2(0f, 0f);
-                image.rectTransform.anchorMax = new Vector2(0f, 0f);
-                image.rectTransform.pivot = new Vector2(0f, 0f);
-                image.rectTransform.sizeDelta = new Vector2(GameBoard.enemyWidth, GameBoard.enemyHeight);
-                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + GameBoard.floorPaddingX + GameBoard.floorWidth - GameBoard.enemyWidth
-                    , j * GameBoard.StepY + GameBoard.floorPaddingY + GameBoard.floorHeight - GameBoard.enemyHeight);
-                GameBoard.Floors[i, j].Creatures.Add(new Creature(image)
-                {
-                    Name = image.name,
-                    Attr_HP = Random.Range(15, 50),
-                    Attr_AttackMax = Random.Range(7, 10),
-                    Attr_AttackMin = Random.Range(4, 7),
-                    Attr_Defend = Random.Range(3, 6),
-                }); ;
-            }
-        }
-        //创建Player
-        playerGO.transform.parent = canvasGO.transform;
-        playerGO.SetActive(true);
-        RectTransform rectTransform = playerGO.GetComponent<RectTransform>();
-        rectTransform.anchorMin = new Vector2(0f, 0f);
-        rectTransform.anchorMax = new Vector2(0f, 0f);
-        rectTransform.pivot = new Vector2(0f, 0f);
-        rectTransform.anchoredPosition = new Vector2(GameBoard.floorPaddingX, GameBoard.floorPaddingY + GameBoard.floorHeight / 2 - 20);
-        GameBoard.Player.X = 0;
-        GameBoard.Player.Y = 0;
-        GameBoard.Player.Name = playerGO.GetComponentInChildren<Text>().text;
+        GameBoard.Init();
     }
 
 }
@@ -176,6 +94,11 @@ class GameBoard
     internal Movement movement;
 
     public GameObject CanvasGO { get; internal set; }
+    public GameObject ScrollViewGO { get; private set; }
+    public GameObject ScrollTextGO { get; private set; }
+    public Text ScrollText { get; private set; }
+
+    public ScrollRect ScrollRect;
 
     public GameBoard()
     {
@@ -243,6 +166,143 @@ class GameBoard
 
     public void EnermyOperation()
     {
+        //if (floors[X, Y].Items.Count == 0)
+        //{
+        //    VLDebug.DelegateDebug(() => { Debug.Log($"{Name}捡了一把空气"); });
+        //    return;
+        //}
+        //for (int i = floors[X, Y].Items.Count - 1; i >= 0; i--)
+        //{
+        //    var item = floors[X, Y].Items[i];
+        //    Items.Add(item);
+        //    floors[X, Y].Items.Remove(item);
+        //    Object.Destroy(item.Image);
+        //    VLDebug.DelegateDebug(() => { Debug.Log($"拾取了{item.Name}"); });
+        //}
+        //OperationData.IsCollecttingSetup = false;
+    }
+
+    internal void Init()
+    {//创建地面
+        floorPaddingX = StepX / 10;
+        floorPaddingY = StepY / 10;
+        floorWidth = StepX - floorPaddingX * 2;
+        floorHeight = StepY - floorPaddingY * 2;
+        Color floorColor;
+        ColorUtility.TryParseHtmlString("#BC9401", out floorColor);
+        for (int i = 0; i < XSteps; i++)
+        {
+            for (int j = 0; j < YSteps; j++)
+            {
+                var image = VLCreator.CreateImage("floor" + i + j, CanvasGO).GetComponent<Image>();
+                image.color = floorColor;
+                image.rectTransform.anchorMin = new Vector2(0f, 0f);
+                image.rectTransform.anchorMax = new Vector2(0f, 0f);
+                image.rectTransform.pivot = new Vector2(0f, 0f);
+                image.rectTransform.sizeDelta = new Vector2(floorWidth, floorHeight);
+                image.rectTransform.anchoredPosition = new Vector2(i * StepX + floorPaddingX, j * StepY + floorPaddingY);
+                Floors[i, j] = new Floor(image);
+            }
+        }
+        //生成道具
+        itemWidth = Mathf.Max(StepX / 4, 30);
+        itemHeight = Mathf.Max(StepY / 4, 30);
+        Color itemColor;
+        ColorUtility.TryParseHtmlString("#00FF47", out itemColor);
+        for (int i = 0; i < XSteps; i++)
+        {
+            for (int j = 0; j < YSteps; j++)
+            {
+                if (Random.Range(0, 100) < 90)
+                    continue;
+                var image = VLCreator.CreateImage("item" + i + j, CanvasGO).GetComponent<Image>();
+                image.color = itemColor;
+                image.rectTransform.anchorMin = new Vector2(0f, 0f);
+                image.rectTransform.anchorMax = new Vector2(0f, 0f);
+                image.rectTransform.pivot = new Vector2(0f, 0f);
+                image.rectTransform.sizeDelta = new Vector2(itemWidth, itemHeight);
+                image.rectTransform.anchoredPosition = new Vector2(i * StepX + floorPaddingX, j * StepY + floorPaddingY);
+                Floors[i, j].Items.Add(new Item(image)
+                {
+                    Name = image.name,
+                });
+            }
+        }
+        //生成敌人
+        enemyWidth = Mathf.Max(StepX / 4, 30);
+        enemyHeight = Mathf.Max(StepY / 4, 30);
+        Color enemyColor;
+        ColorUtility.TryParseHtmlString("#FF0F00", out enemyColor);
+        for (int i = 0; i < XSteps; i++)
+        {
+            for (int j = 0; j < YSteps; j++)
+            {
+                if (Random.Range(0, 100) < 95)
+                    continue;
+                var image = VLCreator.CreateImage("enemy" + i + j, CanvasGO).GetComponent<Image>();
+                image.color = enemyColor;
+                image.rectTransform.anchorMin = new Vector2(0f, 0f);
+                image.rectTransform.anchorMax = new Vector2(0f, 0f);
+                image.rectTransform.pivot = new Vector2(0f, 0f);
+                image.rectTransform.sizeDelta = new Vector2(enemyWidth, enemyHeight);
+                image.rectTransform.anchoredPosition = new Vector2(i * StepX + floorPaddingX + floorWidth - enemyWidth
+                    , j * StepY + floorPaddingY + floorHeight - enemyHeight);
+                Floors[i, j].Creatures.Add(new Creature(image)
+                {
+                    Name = image.name,
+                    Attr_HP = Random.Range(15, 50),
+                    Attr_AttackMax = Random.Range(7, 10),
+                    Attr_AttackMin = Random.Range(4, 7),
+                    Attr_Defend = Random.Range(3, 6),
+                }); ;
+            }
+        }
+        //创建Player
+        Player.PlayerGO.transform.parent = CanvasGO.transform;
+        Player.PlayerGO.SetActive(true);
+        RectTransform rect = Player.PlayerGO.GetComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0f, 0f);
+        rect.anchorMax = new Vector2(0f, 0f);
+        rect.pivot = new Vector2(0f, 0f);
+        rect.anchoredPosition = new Vector2(floorPaddingX, floorPaddingY + floorHeight / 2 - 20);
+        Player.X = 0;
+        Player.Y = 0;
+        Player.Name = Player.PlayerGO.GetComponentInChildren<Text>().text;
+        Player.GameBoard = this;
+        //创建文本输出框
+        ScrollViewGO = VLCreator.CreateScrollView("TextDisplay", CanvasGO);
+        ScrollRect = ScrollViewGO.GetComponent<ScrollRect>();
+        rect = ScrollViewGO.GetComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0, 0);
+        rect.anchorMax = new Vector2(0, 0);
+        rect.pivot = new Vector2(0, 0);
+        rect.sizeDelta = new Vector2(600, 800);
+        rect.anchoredPosition = new Vector2(0, 0);
+        var canvasGroup = ScrollViewGO.AddComponent<CanvasGroup>();
+        canvasGroup.alpha = 0.6f;
+        ScrollTextGO = VLCreator.CreateText("ScrollText", ScrollViewGO);
+        rect = ScrollTextGO.GetComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0, 0);
+        rect.anchorMax = new Vector2(1, 1);
+        rect.offsetMin = new Vector2(0f, 0f);
+        rect.offsetMax = new Vector2(0f, 0f);
+        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0f, rect.rect.width);
+        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0f, rect.rect.width);
+        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0f, rect.rect.height);
+        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, rect.rect.height);
+        ScrollText = ScrollTextGO.GetComponent<Text>();
+        ScrollText.fontSize = 32;
+        ScrollText.color = Color.black;
+        ScrollText.alignment = TextAnchor.UpperLeft;
+    }
+
+    public void DisplayText(string message)
+    {
+        var texts = ScrollText.text.Split('\n').ToList();
+        texts.Add(message);
+        if (texts.Count > 20)
+            texts.RemoveAt(0);
+        ScrollText.text = string.Join("\n", texts);
     }
 }
 class Floor
@@ -300,6 +360,8 @@ class OperationData
 }
 class Player : AttackableCreature
 {
+    public GameBoard GameBoard { get; internal set; }
+
     public string Name;
     public GameObject PlayerGO;
     public OperationData OperationData = new OperationData();
@@ -342,9 +404,10 @@ class Player : AttackableCreature
 
     internal void Collect(Floor[,] floors)
     {
+        OperationData.IsCollecttingSetup = false;
         if (floors[X, Y].Items.Count == 0)
         {
-            VLDebug.DelegateDebug(() => { Debug.Log($"{Name}捡了一把空气"); });
+            GameBoard.DisplayText($"{Name}捡了一把空气");
             return;
         }
         for (int i = floors[X, Y].Items.Count - 1; i >= 0; i--)
@@ -353,9 +416,8 @@ class Player : AttackableCreature
             Items.Add(item);
             floors[X, Y].Items.Remove(item);
             Object.Destroy(item.Image);
-            VLDebug.DelegateDebug(() => { Debug.Log($"拾取了{item.Name}"); });
+            GameBoard.DisplayText($"{Name}拾取了{item.Name}");
         }
-        OperationData.IsCollecttingSetup = false;
     }
 
     internal void Attack(Floor[,] floors)
@@ -364,18 +426,28 @@ class Player : AttackableCreature
         var creature = floors[X, Y].Creatures.FirstOrDefault();
         if (creature == null)
         {
-            VLDebug.DelegateDebug(() => { Debug.Log($"{Name}打在了空气中"); });
+            GameBoard.DisplayText($"{Name}打在了空气中");
             return;
         }
+        GameBoard.DisplayText($"{Name}:{GetAttackableCreatureDiscription()}");
+        GameBoard.DisplayText($"{creature.Name}:{creature.GetAttackableCreatureDiscription()}");
         var result = Attack(creature);
-        VLDebug.DelegateDebug(() => { Debug.Log($"{Name}:{GetAttackableCreatureDiscription()}"); });
-        VLDebug.DelegateDebug(() => { Debug.Log($"{creature.Name}:{creature.GetAttackableCreatureDiscription()}"); });
-        VLDebug.DelegateDebug(() => { Debug.Log($"{Name}攻击了{creature.Name},造成了{result.ChangedHP}点伤害"); });
+        GameBoard.DisplayText($"{Name}攻击了{creature.Name},造成了{result.ChangedHP}点伤害");
         if (result.IsDead)
         {
             floors[X, Y].Creatures.Remove(creature);
             Object.Destroy(creature.Image);
-            VLDebug.DelegateDebug(() => { Debug.Log($"{creature.Name}被打倒了"); });
+            GameBoard.DisplayText($"{creature.Name}被打倒了");
+        }
+        else
+        {
+            result = creature.Attack(this);
+            GameBoard.DisplayText($"{creature.Name}攻击了{Name},造成了{result.ChangedHP}点伤害");
+            if (result.IsDead)
+            {
+                PlayerGO.SetActive(false);
+                GameBoard.DisplayText($"{Name}被打倒了");
+            }
         }
     }
 }

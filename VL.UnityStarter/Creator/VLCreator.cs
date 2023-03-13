@@ -33,7 +33,6 @@ public static class VLCreator
         GameObject gameObject = new GameObject(name);
         if (parent) gameObject.transform.SetParent(parent.transform);
         Text textComponent = gameObject.AddComponent<Text>();
-        textComponent.text = "Hello, World!";
         textComponent.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         textComponent.fontSize = 32;
         textComponent.color = Color.white;
@@ -56,6 +55,15 @@ public static class VLCreator
         GameObject gameObject = new GameObject(name);
         if (parent) gameObject.transform.SetParent(parent.transform);
         gameObject.AddComponent<Button>();
+        return gameObject;
+    }
+
+    public static GameObject CreateScrollView(string name = "", GameObject parent = null)
+    {
+        GameObject gameObject = new GameObject(name);
+        if (parent) gameObject.transform.SetParent(parent.transform);
+        gameObject.AddComponent<Image>();
+        gameObject.AddComponent<ScrollRect>();
         return gameObject;
     }
 }
