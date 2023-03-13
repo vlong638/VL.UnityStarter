@@ -40,21 +40,16 @@ public class Gaming0311 : MonoBehaviour
 
     void StartGame()
     {
-        //棋盘参数
-        float width = 2560, height = 1440;
-        int xSteps = 20, ySteps = 12;
-        stepX = width / xSteps;
-        stepY = height / ySteps;
         //创建地面
-        float floorPaddingX = stepX / 10;
-        float floorPaddingY = stepY / 10;
-        float floorWidth = stepX - floorPaddingX * 2;
-        float floorHeight = stepY - floorPaddingY * 2;
+        float floorPaddingX = GameBoard.StepX / 10;
+        float floorPaddingY = GameBoard.StepY / 10;
+        float floorWidth = GameBoard.StepX - floorPaddingX * 2;
+        float floorHeight = GameBoard.StepY - floorPaddingY * 2;
         Color floorColor;
         ColorUtility.TryParseHtmlString("#BC9401", out floorColor);
-        for (int i = 0; i < xSteps; i++)
+        for (int i = 0; i < GameBoard.XSteps; i++)
         {
-            for (int j = 0; j < ySteps; j++)
+            for (int j = 0; j < GameBoard.YSteps; j++)
             {
                 var image = VLCreator.CreateImage("floor" + i + j, canvasGO).GetComponent<Image>();
                 image.color = floorColor;
@@ -62,17 +57,18 @@ public class Gaming0311 : MonoBehaviour
                 image.rectTransform.anchorMax = new Vector2(0f, 0f);
                 image.rectTransform.pivot = new Vector2(0f, 0f);
                 image.rectTransform.sizeDelta = new Vector2(floorWidth, floorHeight);
-                image.rectTransform.anchoredPosition = new Vector2(i * stepX + floorPaddingX, j * stepY + floorPaddingY);
+                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + floorPaddingX, j * GameBoard.StepY + floorPaddingY);
+                GameBoard.Floors[i, j] = new Floor(image);
             }
         }
         //生成道具
-        float itemWidth = Mathf.Max(stepX / 4, 60);
-        float itemHeight = Mathf.Max(stepY / 4, 30);
+        float itemWidth = Mathf.Max(GameBoard.StepX / 4, 60);
+        float itemHeight = Mathf.Max(GameBoard.StepY / 4, 30);
         Color itemColor;
         ColorUtility.TryParseHtmlString("#00FF47", out itemColor);
-        for (int i = 0; i < xSteps; i++)
+        for (int i = 0; i < GameBoard.XSteps; i++)
         {
-            for (int j = 0; j < ySteps; j++)
+            for (int j = 0; j < GameBoard.YSteps; j++)
             {
                 if (Random.Range(0, 100) < 90)
                     continue;
@@ -82,17 +78,18 @@ public class Gaming0311 : MonoBehaviour
                 image.rectTransform.anchorMax = new Vector2(0f, 0f);
                 image.rectTransform.pivot = new Vector2(0f, 0f);
                 image.rectTransform.sizeDelta = new Vector2(itemWidth, itemHeight);
-                image.rectTransform.anchoredPosition = new Vector2(i * stepX + floorPaddingX, j * stepY + floorPaddingY);
+                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + floorPaddingX, j * GameBoard.StepY + floorPaddingY);
+                GameBoard.Floors[i, j].Items.Add(new Item(image));
             }
         }
         //生成敌人
-        float enemyWidth = Mathf.Max(stepX / 4, 60);
-        float enemyHeight = Mathf.Max(stepY / 4, 30);
+        float enemyWidth = Mathf.Max(GameBoard.StepX / 4, 60);
+        float enemyHeight = Mathf.Max(GameBoard.StepY / 4, 30);
         Color enemyColor;
         ColorUtility.TryParseHtmlString("#FF0F00", out enemyColor);
-        for (int i = 0; i < xSteps; i++)
+        for (int i = 0; i < GameBoard.XSteps; i++)
         {
-            for (int j = 0; j < ySteps; j++)
+            for (int j = 0; j < GameBoard.YSteps; j++)
             {
                 if (Random.Range(0, 100) < 95)
                     continue;
@@ -102,8 +99,9 @@ public class Gaming0311 : MonoBehaviour
                 image.rectTransform.anchorMax = new Vector2(0f, 0f);
                 image.rectTransform.pivot = new Vector2(0f, 0f);
                 image.rectTransform.sizeDelta = new Vector2(enemyWidth, enemyHeight);
-                image.rectTransform.anchoredPosition = new Vector2(i * stepX + floorPaddingX + floorWidth - enemyWidth
-                    , j * stepY + floorPaddingY + floorHeight - enemyHeight);
+                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + floorPaddingX + floorWidth - enemyWidth
+                    , j * GameBoard.StepY + floorPaddingY + floorHeight - enemyHeight);
+                GameBoard.Floors[i, j].Creatures.Add(new Creature(image));
             }
         }
         //创建Player
@@ -118,16 +116,7 @@ public class Gaming0311 : MonoBehaviour
 
     bool isMovingSetup = false;
     bool isMoving = false;
-    Vector2 move;
-    float stepX, stepY;
-
-    class Movement
-    {
-        public Vector2 startPosition;
-        public Vector2 targetPosition;
-        public float moveStartTime = 0f;
-        public float moveDuration = 0.2f;
-    }
+    Vector2 moveData;
     Movement movement;
 
     void PlayerMove()
@@ -135,27 +124,27 @@ public class Gaming0311 : MonoBehaviour
         if (Input.GetKey(KeyCode.W) && !isMovingSetup && !isMoving)
         {
             isMovingSetup = true;
-            move = new Vector2(0, stepY);
+            moveData = new Vector2(0, GameBoard.StepY);
         }
         if (Input.GetKey(KeyCode.S) && !isMovingSetup && !isMoving)
         {
             isMovingSetup = true;
-            move = new Vector2(0, -stepY);
+            moveData = new Vector2(0, -GameBoard.StepY);
         }
         if (Input.GetKey(KeyCode.A) && !isMovingSetup && !isMoving)
         {
             isMovingSetup = true;
-            move = new Vector2(-stepX, 0);
+            moveData = new Vector2(-GameBoard.StepX, 0);
         }
         if (Input.GetKey(KeyCode.D) && !isMovingSetup && !isMoving)
         {
             isMovingSetup = true;
-            move = new Vector2(stepX, 0);
+            moveData = new Vector2(GameBoard.StepX, 0);
         }
         if (isMovingSetup)
         {
             var startPosition = playerGO.GetComponent<RectTransform>().anchoredPosition;
-            var targetPosition = new Vector2(startPosition.x + move.x, startPosition.y + move.y);
+            var targetPosition = new Vector2(startPosition.x + moveData.x, startPosition.y + moveData.y);
             movement = new Movement()
             {
                 startPosition = startPosition,
@@ -187,5 +176,66 @@ public class Gaming0311 : MonoBehaviour
             isMoving = false;
             isMovingSetup = false;
         }
+    }
+}
+
+class Movement
+{
+    public Vector2 startPosition;
+    public Vector2 targetPosition;
+    public float moveStartTime = 0f;
+    public float moveDuration = 0.2f;
+}
+class GameBoard
+{
+    public static float Width = 2560;
+    public static float Height = 1440;
+    public static int XSteps = 20;
+    public static int YSteps = 12;
+    public static float StepX = Width / XSteps;
+    public static float StepY = Height / YSteps;
+    public static Floor[,] Floors = new Floor[XSteps, YSteps];
+}
+class Floor
+{
+    public int X;
+    public int Y;
+    public FloorType FloorType;
+    public List<Item> Items = new List<Item>();
+    public List<Creature> Creatures = new List<Creature>();
+    private Image image;
+
+    public Floor(Image image)
+    {
+        this.image = image;
+    }
+}
+enum FloorType
+{
+    None = 0,
+    Plain,
+    Grassland,
+    Forest,
+    Mountain,
+    River,
+}
+class Item
+{
+    public string Name;
+    private Image image;
+
+    public Item(Image image)
+    {
+        this.image = image;
+    }
+}
+class Creature
+{
+    public string Name;
+    private Image image;
+
+    public Creature(Image image)
+    {
+        this.image = image;
     }
 }
