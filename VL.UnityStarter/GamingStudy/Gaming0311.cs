@@ -11,6 +11,7 @@ public class Gaming0311 : MonoBehaviour
     void Start()
     {
         Debug.Log($"Game Start");
+        Player = new Player(playerGO);
         int displayTime = 2;
         DisplayLevel(displayTime);
         Invoke(nameof(StartGame), displayTime);
@@ -19,7 +20,12 @@ public class Gaming0311 : MonoBehaviour
 
     void Update()
     {
-        PlayerMove();
+        PlayerOperation();
+        EnermyOperation();
+    }
+
+    private void EnermyOperation()
+    {
     }
 
     void DisplayLevel(int displayTime)
@@ -37,14 +43,15 @@ public class Gaming0311 : MonoBehaviour
 
     public GameObject canvasGO;
     public GameObject playerGO;
+    Player Player;
 
     void StartGame()
     {
         //创建地面
-        float floorPaddingX = GameBoard.StepX / 10;
-        float floorPaddingY = GameBoard.StepY / 10;
-        float floorWidth = GameBoard.StepX - floorPaddingX * 2;
-        float floorHeight = GameBoard.StepY - floorPaddingY * 2;
+        GameBoard.floorPaddingX = GameBoard.StepX / 10;
+        GameBoard.floorPaddingY = GameBoard.StepY / 10;
+        GameBoard.floorWidth = GameBoard.StepX - GameBoard.floorPaddingX * 2;
+        GameBoard.floorHeight = GameBoard.StepY - GameBoard.floorPaddingY * 2;
         Color floorColor;
         ColorUtility.TryParseHtmlString("#BC9401", out floorColor);
         for (int i = 0; i < GameBoard.XSteps; i++)
@@ -56,14 +63,14 @@ public class Gaming0311 : MonoBehaviour
                 image.rectTransform.anchorMin = new Vector2(0f, 0f);
                 image.rectTransform.anchorMax = new Vector2(0f, 0f);
                 image.rectTransform.pivot = new Vector2(0f, 0f);
-                image.rectTransform.sizeDelta = new Vector2(floorWidth, floorHeight);
-                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + floorPaddingX, j * GameBoard.StepY + floorPaddingY);
+                image.rectTransform.sizeDelta = new Vector2(GameBoard.floorWidth, GameBoard.floorHeight);
+                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + GameBoard.floorPaddingX, j * GameBoard.StepY + GameBoard.floorPaddingY);
                 GameBoard.Floors[i, j] = new Floor(image);
             }
         }
         //生成道具
-        float itemWidth = Mathf.Max(GameBoard.StepX / 4, 60);
-        float itemHeight = Mathf.Max(GameBoard.StepY / 4, 30);
+        GameBoard.itemWidth = Mathf.Max(GameBoard.StepX / 4, 30);
+        GameBoard.itemHeight = Mathf.Max(GameBoard.StepY / 4, 30);
         Color itemColor;
         ColorUtility.TryParseHtmlString("#00FF47", out itemColor);
         for (int i = 0; i < GameBoard.XSteps; i++)
@@ -77,14 +84,14 @@ public class Gaming0311 : MonoBehaviour
                 image.rectTransform.anchorMin = new Vector2(0f, 0f);
                 image.rectTransform.anchorMax = new Vector2(0f, 0f);
                 image.rectTransform.pivot = new Vector2(0f, 0f);
-                image.rectTransform.sizeDelta = new Vector2(itemWidth, itemHeight);
-                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + floorPaddingX, j * GameBoard.StepY + floorPaddingY);
+                image.rectTransform.sizeDelta = new Vector2(GameBoard.itemWidth, GameBoard.itemHeight);
+                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + GameBoard.floorPaddingX, j * GameBoard.StepY + GameBoard.floorPaddingY);
                 GameBoard.Floors[i, j].Items.Add(new Item(image));
             }
         }
         //生成敌人
-        float enemyWidth = Mathf.Max(GameBoard.StepX / 4, 60);
-        float enemyHeight = Mathf.Max(GameBoard.StepY / 4, 30);
+        GameBoard.enemyWidth = Mathf.Max(GameBoard.StepX / 4, 30);
+        GameBoard.enemyHeight = Mathf.Max(GameBoard.StepY / 4, 30);
         Color enemyColor;
         ColorUtility.TryParseHtmlString("#FF0F00", out enemyColor);
         for (int i = 0; i < GameBoard.XSteps; i++)
@@ -98,9 +105,9 @@ public class Gaming0311 : MonoBehaviour
                 image.rectTransform.anchorMin = new Vector2(0f, 0f);
                 image.rectTransform.anchorMax = new Vector2(0f, 0f);
                 image.rectTransform.pivot = new Vector2(0f, 0f);
-                image.rectTransform.sizeDelta = new Vector2(enemyWidth, enemyHeight);
-                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + floorPaddingX + floorWidth - enemyWidth
-                    , j * GameBoard.StepY + floorPaddingY + floorHeight - enemyHeight);
+                image.rectTransform.sizeDelta = new Vector2(GameBoard.enemyWidth, GameBoard.enemyHeight);
+                image.rectTransform.anchoredPosition = new Vector2(i * GameBoard.StepX + GameBoard.floorPaddingX + GameBoard.floorWidth - GameBoard.enemyWidth
+                    , j * GameBoard.StepY + GameBoard.floorPaddingY + GameBoard.floorHeight - GameBoard.enemyHeight);
                 GameBoard.Floors[i, j].Creatures.Add(new Creature(image));
             }
         }
@@ -111,80 +118,80 @@ public class Gaming0311 : MonoBehaviour
         rectTransform.anchorMin = new Vector2(0f, 0f);
         rectTransform.anchorMax = new Vector2(0f, 0f);
         rectTransform.pivot = new Vector2(0f, 0f);
-        rectTransform.anchoredPosition = new Vector2(floorPaddingX, floorPaddingY + floorHeight / 2 - 20);
+        rectTransform.anchoredPosition = new Vector2(GameBoard.floorPaddingX, GameBoard.floorPaddingY + GameBoard.floorHeight / 2 - 20);
+        Player.X = 0;
+        Player.Y = 0;
     }
 
-    bool isMovingSetup = false;
-    bool isMoving = false;
-    Vector2 moveData;
     Movement movement;
 
-    void PlayerMove()
+    void PlayerOperation()
     {
-        if (Input.GetKey(KeyCode.W) && !isMovingSetup && !isMoving)
+        if (!Player.OperationData.IsMovingSetup && !Player.OperationData.IsMoving)
         {
-            isMovingSetup = true;
-            moveData = new Vector2(0, GameBoard.StepY);
+            if (Input.GetKey(KeyCode.W))
+            {
+                Player.OperationData.IsMovingSetup = true;
+                movement = new Movement(0, 1);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                Player.OperationData.IsMovingSetup = true;
+                movement = new Movement(0, -1);
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                Player.OperationData.IsMovingSetup = true;
+                movement = new Movement(-1, 0);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                Player.OperationData.IsMovingSetup = true;
+                movement = new Movement(1, 0);
+            }
+            else if (Input.GetKey(KeyCode.Space))
+            {
+                Player.OperationData.IsCollectting = true;
+            }
         }
-        if (Input.GetKey(KeyCode.S) && !isMovingSetup && !isMoving)
-        {
-            isMovingSetup = true;
-            moveData = new Vector2(0, -GameBoard.StepY);
-        }
-        if (Input.GetKey(KeyCode.A) && !isMovingSetup && !isMoving)
-        {
-            isMovingSetup = true;
-            moveData = new Vector2(-GameBoard.StepX, 0);
-        }
-        if (Input.GetKey(KeyCode.D) && !isMovingSetup && !isMoving)
-        {
-            isMovingSetup = true;
-            moveData = new Vector2(GameBoard.StepX, 0);
-        }
-        if (isMovingSetup)
+        if (Player.OperationData.IsMovingSetup)
         {
             var startPosition = playerGO.GetComponent<RectTransform>().anchoredPosition;
-            var targetPosition = new Vector2(startPosition.x + moveData.x, startPosition.y + moveData.y);
-            movement = new Movement()
-            {
-                startPosition = startPosition,
-                targetPosition = targetPosition,
-                moveStartTime = Time.time,
-            };
-            isMoving = true;
-            isMovingSetup = false;
-        }
-        if (isMoving)
-        {
-            SmoothMove(playerGO, movement);
-        }
-    }
+            var targetPosition = new Vector2(startPosition.x + movement.XLength, startPosition.y + movement.YLength);
+            movement.startPosition = startPosition;
+            movement.targetPosition = targetPosition;
+            movement.moveStartTime = Time.time;
+            Player.OperationData.IsMoving = true;
+            Player.OperationData.IsMovingSetup = false;
 
-    void SmoothMove(GameObject go, Movement m)
-    {
-        float elapsedTime = Time.time - m.moveStartTime;
-        float clampTime = Mathf.Clamp01(elapsedTime / m.moveDuration);
-        Vector2 newPosition = Vector2.Lerp(m.startPosition, m.targetPosition, clampTime);
-        var rectTransform = go.GetComponent<RectTransform>();
-        rectTransform.anchoredPosition = newPosition;
-        VLDebug.DelegateDebug(() => {
-            //go.text = $"X:{newPosition.x},Y:{newPosition.y}"; 
-            Debug.Log($"X:{newPosition.x},Y:{newPosition.y}");
-        });
-        if (clampTime >= 1.0f)
+            Player.Move(movement);
+        }
+        if (Player.OperationData.IsMoving)
         {
-            isMoving = false;
-            isMovingSetup = false;
+            Player.DisplaySmoothMove(playerGO, movement);
+        }
+        if (Player.OperationData.IsCollectting)
+        {
+            Player.Collect(GameBoard.Floors);
         }
     }
 }
-
 class Movement
 {
+    public int X, Y;
+    public float XLength { get { return X * GameBoard.StepX; } }
+    public float YLength { get { return Y * GameBoard.StepY; } }
+
     public Vector2 startPosition;
     public Vector2 targetPosition;
     public float moveStartTime = 0f;
     public float moveDuration = 0.2f;
+
+    public Movement(int x, int y)
+    {
+        this.X = x;
+        this.Y = y;
+    }
 }
 class GameBoard
 {
@@ -195,6 +202,14 @@ class GameBoard
     public static float StepX = Width / XSteps;
     public static float StepY = Height / YSteps;
     public static Floor[,] Floors = new Floor[XSteps, YSteps];
+    internal static float floorPaddingX;
+    internal static float floorPaddingY;
+    internal static float floorWidth;
+    internal static float floorHeight;
+    internal static float itemWidth;
+    internal static float itemHeight;
+    internal static float enemyWidth;
+    internal static float enemyHeight;
 }
 class Floor
 {
@@ -222,11 +237,11 @@ enum FloorType
 class Item
 {
     public string Name;
-    private Image image;
+    public Image Image;
 
     public Item(Image image)
     {
-        this.image = image;
+        this.Image = image;
     }
 }
 class Creature
@@ -237,5 +252,67 @@ class Creature
     public Creature(Image image)
     {
         this.image = image;
+    }
+}
+
+class OperationData
+{
+    public bool IsOperating { get { return !IsMovingSetup & !IsMoving & !IsCollectting; } }
+    public bool IsMovingSetup = false;
+    public bool IsMoving = false;
+    public bool IsCollectting = false;
+}
+class Player
+{
+    public GameObject PlayerGO;
+    public OperationData OperationData = new OperationData();
+    public int X;
+    public int Y;
+    public List<Item> Items = new List<Item>();
+
+    public Player(GameObject playerGO)
+    {
+        this.PlayerGO = playerGO;
+    }
+
+    public void DisplaySmoothMove(GameObject go, Movement m)
+    {
+        float elapsedTime = Time.time - m.moveStartTime;
+        float clampTime = Mathf.Clamp01(elapsedTime / m.moveDuration);
+        Vector2 newPosition = Vector2.Lerp(m.startPosition, m.targetPosition, clampTime);
+        var rectTransform = go.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = newPosition;
+        VLDebug.DelegateDebug(() =>
+        {
+            Debug.Log($"DisplaySmoothMove X:{newPosition.x},Y:{newPosition.y}");
+        });
+        if (clampTime >= 1.0f)
+        {
+            OperationData.IsMoving = false;
+            OperationData.IsMovingSetup = false;
+        }
+    }
+
+    internal void Collect(Floor[,] floors)
+    {
+        for (int i = floors[X, Y].Items.Count - 1; i >= 0; i--)
+        {
+            var item = floors[X, Y].Items[i];
+            Items.Add(item);
+            floors[X, Y].Items.Remove(item);
+            Object.Destroy(item.Image);
+            VLDebug.DelegateDebug(() => { Debug.Log($"拾取了{item.Name}"); });
+        }
+        OperationData.IsCollectting = false;
+    }
+
+    internal void Move(Movement movement)
+    {
+        X += movement.X;
+        Y += movement.Y;
+        VLDebug.DelegateDebug(() =>
+        {
+            Debug.Log($"Move X:{X},Y:{Y}");
+        });
     }
 }
