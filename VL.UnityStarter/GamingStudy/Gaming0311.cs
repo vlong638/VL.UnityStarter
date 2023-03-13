@@ -140,15 +140,10 @@ class GameBoard
         }
         if (Player.OperationData.IsMovingSetup)
         {
-            var startPosition = Player.PlayerGO.GetComponent<RectTransform>().anchoredPosition;
-            var targetPosition = new Vector2(startPosition.x + movement.XLength, startPosition.y + movement.YLength);
-            movement.startPosition = startPosition;
-            movement.targetPosition = targetPosition;
-            movement.moveStartTime = Time.time;
+            movement = CalculateMovement();
+            Player.Move(movement);
             Player.OperationData.IsMoving = true;
             Player.OperationData.IsMovingSetup = false;
-
-            Player.Move(movement);
         }
         if (Player.OperationData.IsMoving)
         {
@@ -164,22 +159,18 @@ class GameBoard
         }
     }
 
+    public Movement CalculateMovement()
+    {
+        var startPosition = Player.PlayerGO.GetComponent<RectTransform>().anchoredPosition;
+        var targetPosition = new Vector2(startPosition.x + movement.XLength, startPosition.y + movement.YLength);
+        movement.startPosition = startPosition;
+        movement.targetPosition = targetPosition;
+        movement.moveStartTime = Time.time;
+        return movement;
+    }
+
     public void EnermyOperation()
     {
-        //if (floors[X, Y].Items.Count == 0)
-        //{
-        //    VLDebug.DelegateDebug(() => { Debug.Log($"{Name}捡了一把空气"); });
-        //    return;
-        //}
-        //for (int i = floors[X, Y].Items.Count - 1; i >= 0; i--)
-        //{
-        //    var item = floors[X, Y].Items[i];
-        //    Items.Add(item);
-        //    floors[X, Y].Items.Remove(item);
-        //    Object.Destroy(item.Image);
-        //    VLDebug.DelegateDebug(() => { Debug.Log($"拾取了{item.Name}"); });
-        //}
-        //OperationData.IsCollecttingSetup = false;
     }
 
     internal void Init()
@@ -208,7 +199,7 @@ class GameBoard
         itemWidth = Mathf.Max(StepX / 4, 30);
         itemHeight = Mathf.Max(StepY / 4, 30);
         Color itemColor;
-        ColorUtility.TryParseHtmlString("#00FF47", out itemColor);
+        ItemType[] itemTypes = { ItemType.DoubleAttack, ItemType.DoubleDefence, ItemType.DoubleSpeed };
         for (int i = 0; i < XSteps; i++)
         {
             for (int j = 0; j < YSteps; j++)
@@ -216,7 +207,24 @@ class GameBoard
                 if (Random.Range(0, 100) < 90)
                     continue;
                 var image = VLCreator.CreateImage("item" + i + j, CanvasGO).GetComponent<Image>();
-                image.color = itemColor;
+                var itemType = itemTypes[Random.Range(0, 3)];
+                switch (itemType)
+                {
+                    case ItemType.None:
+                        break;
+                    case ItemType.DoubleAttack:
+                        ColorUtility.TryParseHtmlString("#DC00E7", out itemColor);
+                        image.color = itemColor;
+                        break;
+                    case ItemType.DoubleDefence:
+                        image.color = Color.yellow;
+                        break;
+                    case ItemType.DoubleSpeed:
+                        image.color = Color.blue;
+                        break;
+                    default:
+                        break;
+                }
                 image.rectTransform.anchorMin = new Vector2(0f, 0f);
                 image.rectTransform.anchorMax = new Vector2(0f, 0f);
                 image.rectTransform.pivot = new Vector2(0f, 0f);
@@ -229,8 +237,8 @@ class GameBoard
             }
         }
         //生成敌人
-        enemyWidth = Mathf.Max(StepX / 4, 30);
-        enemyHeight = Mathf.Max(StepY / 4, 30);
+        enemyWidth = Mathf.Max(StepX / 4, 50);
+        enemyHeight = Mathf.Max(StepY / 4, 50);
         Color enemyColor;
         ColorUtility.TryParseHtmlString("#FF0F00", out enemyColor);
         for (int i = 0; i < XSteps; i++)
@@ -267,6 +275,11 @@ class GameBoard
         rect.anchoredPosition = new Vector2(floorPaddingX, floorPaddingY + floorHeight / 2 - 20);
         Player.X = 0;
         Player.Y = 0;
+        movement = new Movement(10, 7);
+        movement = CalculateMovement();
+        Player.Move(movement);
+        Player.OperationData.IsMoving = true;
+        Player.OperationData.IsMovingSetup = false;
         Player.Name = Player.PlayerGO.GetComponentInChildren<Text>().text;
         Player.GameBoard = this;
         //创建文本输出框
@@ -294,6 +307,27 @@ class GameBoard
         ScrollText.fontSize = 32;
         ScrollText.color = Color.black;
         ScrollText.alignment = TextAnchor.UpperLeft;
+        //生成道具栏
+        for (int i = 1; i <= 5; i++)
+        {
+            var imageGO = VLCreator.CreateImage("FastItem" + i, CanvasGO);
+            var image = imageGO.GetComponent<Image>();
+            Color inventoryColor;
+            ColorUtility.TryParseHtmlString("#AAFFC1", out inventoryColor);
+            image.color = inventoryColor;
+            image.rectTransform.anchorMin = new Vector2(0f, 0f);
+            image.rectTransform.anchorMax = new Vector2(0f, 0f);
+            image.rectTransform.pivot = new Vector2(0f, 0f);
+            image.rectTransform.sizeDelta = new Vector2(100, 100);
+            image.rectTransform.anchoredPosition = new Vector2(500 + i * 240, 120);
+            canvasGroup = imageGO.AddComponent<CanvasGroup>();
+            canvasGroup.alpha = 0.8f;
+            Player.FastItems.Add(new FastItem(imageGO)
+            {
+                Name = image.name,
+                Key = i.ToString(),
+            }); ;
+        }
     }
 
     public void DisplayText(string message)
@@ -305,6 +339,24 @@ class GameBoard
         ScrollText.text = string.Join("\n", texts);
     }
 }
+class FastItem
+{
+    public GameObject InventoryImageGO;
+    public GameObject ItemGO;
+    public string Name;
+    public string Key;
+
+    public FastItem(GameObject imageGO)
+    {
+        this.InventoryImageGO = imageGO;
+    }
+
+    internal void AddItem(Item item)
+    {
+        throw new System.NotImplementedException();
+    }
+}
+
 class Floor
 {
     public int X;
@@ -327,6 +379,13 @@ enum FloorType
     Forest,
     Mountain,
     River,
+}
+enum ItemType
+{
+    None = 0,
+    DoubleAttack = 1,
+    DoubleDefence = 2,
+    DoubleSpeed = 3,
 }
 class Item
 {
@@ -368,6 +427,7 @@ class Player : AttackableCreature
     public int X;
     public int Y;
     public List<Item> Items = new List<Item>();
+    public List<FastItem> FastItems = new List<FastItem>();
 
     public Player(GameObject playerGO)
     {
@@ -417,6 +477,9 @@ class Player : AttackableCreature
             floors[X, Y].Items.Remove(item);
             Object.Destroy(item.Image);
             GameBoard.DisplayText($"{Name}拾取了{item.Name}");
+
+            var fastItem = FastItems.FirstOrDefault(c => c.ItemGO == null);
+            fastItem.AddItem(item);
         }
     }
 
