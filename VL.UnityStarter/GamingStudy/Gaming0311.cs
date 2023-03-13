@@ -37,7 +37,6 @@ public class Gaming0311 : MonoBehaviour
 
     public GameObject canvasGO;
     public GameObject playerGO;
-    //Text playerText;
 
     void StartGame()
     {
@@ -81,12 +80,17 @@ public class Gaming0311 : MonoBehaviour
 
     bool isMovingSetup = false;
     bool isMoving = false;
-    Vector2 startPosition;
-    Vector2 targetPosition;
     Vector2 move;
-    float moveStartTime = 0f;
-    float moveDuration = 0.1f;
     float stepX, stepY;
+
+    class Movement
+    {
+        public Vector2 startPosition;
+        public Vector2 targetPosition;
+        public float moveStartTime = 0f;
+        public float moveDuration = 0.2f;
+    }
+    Movement movement;
 
     void PlayerMove()
     {
@@ -112,23 +116,28 @@ public class Gaming0311 : MonoBehaviour
         }
         if (isMovingSetup)
         {
-            startPosition = playerGO.GetComponent<RectTransform>().anchoredPosition;
-            targetPosition = new Vector2(startPosition.x + move.x, startPosition.y + move.y);
-            moveStartTime = Time.time;
+            var startPosition = playerGO.GetComponent<RectTransform>().anchoredPosition;
+            var targetPosition = new Vector2(startPosition.x + move.x, startPosition.y + move.y);
+            movement = new Movement()
+            {
+                startPosition = startPosition,
+                targetPosition = targetPosition,
+                moveStartTime = Time.time,
+            };
             isMoving = true;
             isMovingSetup = false;
         }
         if (isMoving)
         {
-            SmoothMove(playerGO);
+            SmoothMove(playerGO, movement);
         }
     }
 
-    void SmoothMove(GameObject go)
+    void SmoothMove(GameObject go, Movement m)
     {
-        float elapsedTime = Time.time - moveStartTime;
-        float clampTime = Mathf.Clamp01(elapsedTime / moveDuration);
-        Vector2 newPosition = Vector2.Lerp(startPosition, targetPosition, clampTime);
+        float elapsedTime = Time.time - m.moveStartTime;
+        float clampTime = Mathf.Clamp01(elapsedTime / m.moveDuration);
+        Vector2 newPosition = Vector2.Lerp(m.startPosition, m.targetPosition, clampTime);
         var rectTransform = go.GetComponent<RectTransform>();
         rectTransform.anchoredPosition = newPosition;
         VLDebug.DelegateDebug(() => {
@@ -141,5 +150,4 @@ public class Gaming0311 : MonoBehaviour
             isMovingSetup = false;
         }
     }
-
 }
