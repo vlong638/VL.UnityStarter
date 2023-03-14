@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using System.Text;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class Gaming0311 : MonoBehaviour
@@ -21,7 +21,8 @@ public class Gaming0311 : MonoBehaviour
             Attr_HP = 100,
             Attr_AttackMax = 10,
             Attr_AttackMin = 5,
-            Attr_Defend = 3
+            Attr_Defend = 3,
+            GameBoard = GameBoard,
         };
         GameBoard.CanvasGO = canvasGO;
         int displayTime = 2;
@@ -137,13 +138,33 @@ class GameBoard
             {
                 Player.OperationData.IsAttackingSetup = true;
             }
+            else if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Player.UseFastItem("1");
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Player.UseFastItem("2");
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                Player.UseFastItem("3");
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                Player.UseFastItem("4");
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                Player.UseFastItem("5");
+            }
         }
         if (Player.OperationData.IsMovingSetup)
         {
-            movement = CalculateMovement();
-            Player.Move(movement);
             Player.OperationData.IsMoving = true;
             Player.OperationData.IsMovingSetup = false;
+            movement = CalculateMovement();
+            Player.Move(movement);
         }
         if (Player.OperationData.IsMoving)
         {
@@ -151,10 +172,12 @@ class GameBoard
         }
         if (Player.OperationData.IsCollecttingSetup)
         {
+            Player.OperationData.IsCollecttingSetup = false;
             Player.Collect(Floors);
         }
         if (Player.OperationData.IsAttackingSetup)
         {
+            Player.OperationData.IsAttackingSetup = false;
             Player.Attack(Floors);
         }
     }
@@ -270,15 +293,7 @@ class GameBoard
         rect.anchorMax = new Vector2(0f, 0f);
         rect.pivot = new Vector2(0f, 0f);
         rect.anchoredPosition = new Vector2(floorPaddingX, floorPaddingY + floorHeight / 2 - 20);
-        Player.X = 0;
-        Player.Y = 0;
-        movement = new Movement(12, 6);
-        movement = CalculateMovement();
-        Player.Move(movement);
-        Player.OperationData.IsMoving = true;
-        Player.OperationData.IsMovingSetup = false;
         Player.Name = Player.PlayerGO.GetComponentInChildren<Text>().text;
-        Player.GameBoard = this;
         //创建文本输出框
         ScrollViewGO = VLCreator.CreateScrollView("TextDisplay", CanvasGO);
         ScrollRect = ScrollViewGO.GetComponent<ScrollRect>();
@@ -330,6 +345,14 @@ class GameBoard
                 Parent = fastItemBlockGO,
             }); ;
         }
+        //调整对象位置
+        Player.X = 0;
+        Player.Y = 0;
+        movement = new Movement(12, 6);
+        movement = CalculateMovement();
+        Player.Move(movement);
+        Player.OperationData.IsMoving = true;
+        Player.OperationData.IsMovingSetup = false;
     }
 
     public void DisplayText(string message)
@@ -368,6 +391,7 @@ class FastItem
         image.rectTransform.pivot = new Vector2(0f, 0f);
         image.rectTransform.sizeDelta = new Vector2(40, 40);
         image.rectTransform.anchoredPosition = new Vector2(FastItemBlockX + 20, FastItemBlockY + 20);
+        image.rectTransform.localScale = new Vector3(1.5f, 1.5f, 0);
         Item = item;
     }
 
@@ -400,7 +424,7 @@ enum FloorType
     Mountain,
     River,
 }
-enum ItemType
+public enum ItemType
 {
     None = 0,
     DoubleAttack = 1,
@@ -438,6 +462,14 @@ class OperationData
     public bool IsMoving = false;
     public bool IsCollecttingSetup = false;
 }
+
+public enum Buff
+{
+    None = 0,
+    DoubleAttack = 1,
+    DoubleDefend = 2,
+    DoubleSpeed = 3,
+}
 class Player : AttackableCreature
 {
     public GameBoard GameBoard { get; internal set; }
@@ -449,6 +481,7 @@ class Player : AttackableCreature
     public int Y;
     public List<Item> Items = new List<Item>();
     public List<FastItem> FastItems = new List<FastItem>();
+    public Dictionary<Buff, int> Buffs = new Dictionary<Buff, int>();
 
     public Player(GameObject playerGO)
     {
@@ -481,12 +514,24 @@ class Player : AttackableCreature
         {
             Debug.Log($"Move X:{X},Y:{Y}");
         });
+        foreach (var key in Buffs.Keys)
+        {
+            Buffs[key]--;
+            if (Buffs[key] == 0)
+            {
+                Buffs.Remove(key);
+                GameBoard.DisplayText($"{key.ToString()},不再生效");
+            }
+            else
+            {
+                GameBoard.DisplayText($"{key.ToString()},剩余({ Buffs[key]})回合");
+            }
+        }
     }
 
     internal void Collect(Floor[,] floors)
     {
         GameBoard.DisplayText($"---拾取---");
-        OperationData.IsCollecttingSetup = false;
         if (floors[X, Y].Items.Count == 0)
         {
             GameBoard.DisplayText($"{Name}捡了一把空气");
@@ -508,7 +553,6 @@ class Player : AttackableCreature
     internal void Attack(Floor[,] floors)
     {
         GameBoard.DisplayText($"---攻击---");
-        OperationData.IsAttackingSetup = false;
         var creature = floors[X, Y].Creatures.FirstOrDefault();
         if (creature == null)
         {
@@ -535,6 +579,22 @@ class Player : AttackableCreature
                 GameBoard.DisplayText($"{Name}被打倒了");
             }
         }
+    }
+
+    internal void UseFastItem(string v)
+    {
+        GameBoard.DisplayText($"---使用道具---");
+        var fastItem = FastItems.FirstOrDefault(c => c.Key == v);
+        if (fastItem == null)
+        {
+            GameBoard.DisplayText($"{Name}喝了口空气");
+            return;
+        }
+        FastItems.Remove(fastItem);
+        Items.Remove(fastItem.Item);
+        var buff = Dictionaries.BuffDic[fastItem.Item.ItemType];
+        Buffs.Add(buff.Key, buff.Value);
+        GameBoard.DisplayText($"{Name}使用了{buff.Key},持续({ buff.Value})回合");
     }
 }
 class AttackableCreature
