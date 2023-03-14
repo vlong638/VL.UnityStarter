@@ -165,6 +165,7 @@ class GameBoard
             Player.OperationData.IsMovingSetup = false;
             movement = CalculateMovement();
             Player.Move(movement);
+            Player.UpdateBuffs();
         }
         if (Player.OperationData.IsMoving)
         {
@@ -179,6 +180,7 @@ class GameBoard
         {
             Player.OperationData.IsAttackingSetup = false;
             Player.Attack(Floors);
+            Player.UpdateBuffs();
         }
     }
 
@@ -483,7 +485,6 @@ class Player : AttackableCreature
     public int Y;
     public List<Item> Items = new List<Item>();
     public List<FastItem> FastItems = new List<FastItem>();
-    public Dictionary<Buff, int> Buffs = new Dictionary<Buff, int>();
 
     public Player(GameObject playerGO)
     {
@@ -516,6 +517,10 @@ class Player : AttackableCreature
         {
             Debug.Log($"Move X:{X},Y:{Y}");
         });
+    }
+
+    internal void UpdateBuffs()
+    {
         foreach (var key in Buffs.Keys)
         {
             Buffs[key]--;
@@ -563,7 +568,7 @@ class Player : AttackableCreature
         }
         GameBoard.DisplayText($"{Name}:{GetAttackableCreatureDiscription()}");
         GameBoard.DisplayText($"{creature.Name}:{creature.GetAttackableCreatureDiscription()}");
-        var result = Attack(creature);
+        var result = Attack(creature, Buffs);
         GameBoard.DisplayText($"{Name}攻击了{creature.Name},造成了{result.ChangedHP}点伤害");
         if (result.IsDead)
         {
@@ -573,7 +578,7 @@ class Player : AttackableCreature
         }
         else
         {
-            result = creature.Attack(this);
+            result = creature.Attack(this, Buffs);
             GameBoard.DisplayText($"{creature.Name}攻击了{Name},造成了{result.ChangedHP}点伤害");
             if (result.IsDead)
             {
@@ -592,26 +597,33 @@ class Player : AttackableCreature
             GameBoard.DisplayText($"{Name}喝了口空气");
             return;
         }
-        FastItems.Remove(fastItem);
-        Gaming0311.Destroy(fastItem.Item.ImageGO);
-        Items.Remove(fastItem.Item);
         var buff = Dictionaries.BuffDic[fastItem.Item.ItemType];
         Buffs.Add(buff.Key, buff.Value);
         GameBoard.DisplayText($"{Name}使用了{buff.Key},持续({ buff.Value})回合");
+
+        //二步走
+        //操作 界面对象
+        //操作 逻辑对象
+        Gaming0311.Destroy(fastItem.Item.ImageGO);//界面
+        Items.Remove(fastItem.Item);//包裹
+        fastItem.Item = null;//快捷栏
     }
 }
 class AttackableCreature
 {
     public int Attr_HP;
     public int Attr_AttackMax;
-
     public int Attr_AttackMin;
     public int Attr_Defend;
+    public Dictionary<Buff, int> Buffs = new Dictionary<Buff, int>();
 
-    internal AttackResult Attack(AttackableCreature creature)
+    internal AttackResult Attack(AttackableCreature creature, Dictionary<Buff, int> buffs)
     {
         AttackResult result = new AttackResult();
-        result.ChangedHP = Mathf.Max(0, Random.Range(Attr_AttackMin, Attr_AttackMax) - creature.Attr_Defend);
+        var real_AttackMin = buffs.Keys.Any(c => c == Buff.DoubleAttack) ? Attr_AttackMin * 2 : Attr_AttackMin;
+        var real_AttackMax = buffs.Keys.Any(c => c == Buff.DoubleAttack) ? Attr_AttackMax * 2 : Attr_AttackMax;
+        var real_Defend = Buffs.Keys.Any(c => c == Buff.DoubleDefend) ? Attr_Defend * 2 : Attr_Defend;
+        result.ChangedHP = Mathf.Max(0, Random.Range(real_AttackMin, real_AttackMax) - creature.Attr_Defend);
         creature.Attr_HP -= result.ChangedHP;
         result.IsDead = creature.Attr_HP <= 0;
         return result;
@@ -619,7 +631,10 @@ class AttackableCreature
 
     public string GetAttackableCreatureDiscription()
     {
-        return $@"当前状态<<<生命:{Attr_HP},攻击:{Attr_AttackMax},防御:{Attr_Defend}>>>";
+        var real_AttackMin = Buffs.Keys.Any(c => c == Buff.DoubleAttack) ? Attr_AttackMin * 2 : Attr_AttackMin;
+        var real_AttackMax = Buffs.Keys.Any(c => c == Buff.DoubleAttack) ? Attr_AttackMax * 2 : Attr_AttackMax;
+        var real_Defend = Buffs.Keys.Any(c => c == Buff.DoubleDefend) ? Attr_Defend * 2 : Attr_Defend;
+        return $@"当前状态<生命:{Attr_HP},攻击:{real_AttackMin}-{real_AttackMax},防御:{real_Defend}>";
     }
 }
 class AttackResult
