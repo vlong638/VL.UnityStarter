@@ -173,20 +173,19 @@ class GameBoard
     {
     }
 
+
     internal void Init()
     {//创建地面
         floorPaddingX = StepX / 10;
         floorPaddingY = StepY / 10;
         floorWidth = StepX - floorPaddingX * 2;
         floorHeight = StepY - floorPaddingY * 2;
-        Color floorColor;
-        ColorUtility.TryParseHtmlString("#BC9401", out floorColor);
         for (int i = 0; i < XSteps; i++)
         {
             for (int j = 0; j < YSteps; j++)
             {
                 var image = VLCreator.CreateImage("floor" + i + j, CanvasGO).GetComponent<Image>();
-                image.color = floorColor;
+                image.color = Dictionaries.ColorDic[nameof(Floor)];
                 image.rectTransform.anchorMin = new Vector2(0f, 0f);
                 image.rectTransform.anchorMax = new Vector2(0f, 0f);
                 image.rectTransform.pivot = new Vector2(0f, 0f);
@@ -199,7 +198,7 @@ class GameBoard
         itemWidth = Mathf.Max(StepX / 4, 30);
         itemHeight = Mathf.Max(StepY / 4, 30);
         Color itemColor;
-        ItemType[] itemTypes = { ItemType.DoubleAttack, ItemType.DoubleDefence, ItemType.DoubleSpeed };
+        ItemType[] itemTypes = { ItemType.DoubleAttack, ItemType.DoubleDefend, ItemType.DoubleSpeed };
         for (int i = 0; i < XSteps; i++)
         {
             for (int j = 0; j < YSteps; j++)
@@ -213,14 +212,13 @@ class GameBoard
                     case ItemType.None:
                         break;
                     case ItemType.DoubleAttack:
-                        ColorUtility.TryParseHtmlString("#DC00E7", out itemColor);
-                        image.color = itemColor;
+                        image.color = Dictionaries.ColorDic[nameof(ItemType.DoubleAttack)];
                         break;
-                    case ItemType.DoubleDefence:
-                        image.color = Color.yellow;
+                    case ItemType.DoubleDefend:
+                        image.color = Dictionaries.ColorDic[nameof(ItemType.DoubleDefend)];
                         break;
                     case ItemType.DoubleSpeed:
-                        image.color = Color.blue;
+                        image.color = Dictionaries.ColorDic[nameof(ItemType.DoubleSpeed)];
                         break;
                     default:
                         break;
@@ -233,22 +231,21 @@ class GameBoard
                 Floors[i, j].Items.Add(new Item(image)
                 {
                     Name = image.name,
+                    ItemType = itemType,
                 });
             }
         }
         //生成敌人
         enemyWidth = Mathf.Max(StepX / 4, 50);
         enemyHeight = Mathf.Max(StepY / 4, 50);
-        Color enemyColor;
-        ColorUtility.TryParseHtmlString("#FF0F00", out enemyColor);
         for (int i = 0; i < XSteps; i++)
         {
             for (int j = 0; j < YSteps; j++)
             {
                 if (Random.Range(0, 100) < 95)
                     continue;
-                var image = VLCreator.CreateImage("enemy" + i + j, CanvasGO).GetComponent<Image>();
-                image.color = enemyColor;
+                var image = VLCreator.CreateImage("Creature" + i + j, CanvasGO).GetComponent<Image>();
+                image.color = Dictionaries.ColorDic[nameof(Creature)];
                 image.rectTransform.anchorMin = new Vector2(0f, 0f);
                 image.rectTransform.anchorMax = new Vector2(0f, 0f);
                 image.rectTransform.pivot = new Vector2(0f, 0f);
@@ -275,7 +272,7 @@ class GameBoard
         rect.anchoredPosition = new Vector2(floorPaddingX, floorPaddingY + floorHeight / 2 - 20);
         Player.X = 0;
         Player.Y = 0;
-        movement = new Movement(10, 7);
+        movement = new Movement(12, 6);
         movement = CalculateMovement();
         Player.Move(movement);
         Player.OperationData.IsMoving = true;
@@ -289,7 +286,7 @@ class GameBoard
         rect.anchorMin = new Vector2(0, 0);
         rect.anchorMax = new Vector2(0, 0);
         rect.pivot = new Vector2(0, 0);
-        rect.sizeDelta = new Vector2(600, 800);
+        rect.sizeDelta = new Vector2(800, 800);
         rect.anchoredPosition = new Vector2(0, 0);
         var canvasGroup = ScrollViewGO.AddComponent<CanvasGroup>();
         canvasGroup.alpha = 0.6f;
@@ -310,22 +307,27 @@ class GameBoard
         //生成道具栏
         for (int i = 1; i <= 5; i++)
         {
-            var imageGO = VLCreator.CreateImage("FastItem" + i, CanvasGO);
+            var fastItemBlockGO = new GameObject("FastItemBlock" + i);
+            fastItemBlockGO.transform.parent = CanvasGO.transform;
+            var imageGO = VLCreator.CreateImage("FastItemBlockImage" + i, fastItemBlockGO);
             var image = imageGO.GetComponent<Image>();
-            Color inventoryColor;
-            ColorUtility.TryParseHtmlString("#AAFFC1", out inventoryColor);
-            image.color = inventoryColor;
+            image.color = Dictionaries.ColorDic[nameof(FastItem.FastItemBlock)];
             image.rectTransform.anchorMin = new Vector2(0f, 0f);
             image.rectTransform.anchorMax = new Vector2(0f, 0f);
             image.rectTransform.pivot = new Vector2(0f, 0f);
             image.rectTransform.sizeDelta = new Vector2(100, 100);
-            image.rectTransform.anchoredPosition = new Vector2(500 + i * 240, 120);
+            var x = rect.sizeDelta.x + i * 240;
+            var y = 120;
+            image.rectTransform.anchoredPosition = new Vector2(x, y);
             canvasGroup = imageGO.AddComponent<CanvasGroup>();
             canvasGroup.alpha = 0.8f;
             Player.FastItems.Add(new FastItem(imageGO)
             {
                 Name = image.name,
                 Key = i.ToString(),
+                FastItemBlockX = x,
+                FastItemBlockY = y,
+                Parent = fastItemBlockGO,
             }); ;
         }
     }
@@ -341,22 +343,40 @@ class GameBoard
 }
 class FastItem
 {
-    public GameObject InventoryImageGO;
-    public GameObject ItemGO;
+    public GameObject Parent;
+    public GameObject FastItemBlock;
+    public GameObject FastItemGO;
+    public Item Item;
     public string Name;
     public string Key;
 
     public FastItem(GameObject imageGO)
     {
-        this.InventoryImageGO = imageGO;
+        this.FastItemBlock = imageGO;
     }
+
+    public float FastItemBlockX { get; internal set; }
+    public float FastItemBlockY { get; internal set; }
 
     internal void AddItem(Item item)
     {
-        throw new System.NotImplementedException();
+        var imageGO = VLCreator.CreateImage("FastItem" + Key, Parent);
+        var image = imageGO.GetComponent<Image>();
+        image.color = Dictionaries.ColorDic[item.ItemType.ToString()];
+        image.rectTransform.anchorMin = new Vector2(0f, 0f);
+        image.rectTransform.anchorMax = new Vector2(0f, 0f);
+        image.rectTransform.pivot = new Vector2(0f, 0f);
+        image.rectTransform.sizeDelta = new Vector2(40, 40);
+        image.rectTransform.anchoredPosition = new Vector2(FastItemBlockX + 20, FastItemBlockY + 20);
+        Item = item;
+    }
+
+    internal void UseItem()
+    {
+        Item = null;
+        Gaming0311.Destroy(FastItemGO);
     }
 }
-
 class Floor
 {
     public int X;
@@ -384,13 +404,14 @@ enum ItemType
 {
     None = 0,
     DoubleAttack = 1,
-    DoubleDefence = 2,
+    DoubleDefend = 2,
     DoubleSpeed = 3,
 }
 class Item
 {
     public string Name;
     public Image Image;
+    internal ItemType ItemType;
 
     public Item(Image image)
     {
@@ -464,6 +485,7 @@ class Player : AttackableCreature
 
     internal void Collect(Floor[,] floors)
     {
+        GameBoard.DisplayText($"---拾取---");
         OperationData.IsCollecttingSetup = false;
         if (floors[X, Y].Items.Count == 0)
         {
@@ -476,15 +498,16 @@ class Player : AttackableCreature
             Items.Add(item);
             floors[X, Y].Items.Remove(item);
             Object.Destroy(item.Image);
-            GameBoard.DisplayText($"{Name}拾取了{item.Name}");
+            GameBoard.DisplayText($"{Name}拾取了{item.Name},{item.ItemType}");
 
-            var fastItem = FastItems.FirstOrDefault(c => c.ItemGO == null);
+            var fastItem = FastItems.FirstOrDefault(c => c.Item == null);
             fastItem.AddItem(item);
         }
     }
 
     internal void Attack(Floor[,] floors)
     {
+        GameBoard.DisplayText($"---攻击---");
         OperationData.IsAttackingSetup = false;
         var creature = floors[X, Y].Creatures.FirstOrDefault();
         if (creature == null)
@@ -514,7 +537,6 @@ class Player : AttackableCreature
         }
     }
 }
-
 class AttackableCreature
 {
     public int Attr_HP;
@@ -534,10 +556,9 @@ class AttackableCreature
 
     public string GetAttackableCreatureDiscription()
     {
-        return $@"生命:{Attr_HP},攻击:{Attr_AttackMax},防御:{Attr_Defend}";
+        return $@"当前状态<<<生命:{Attr_HP},攻击:{Attr_AttackMax},防御:{Attr_Defend}>>>";
     }
 }
-
 class AttackResult
 {
     public int ChangedHP;
