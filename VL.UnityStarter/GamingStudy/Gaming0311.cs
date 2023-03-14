@@ -220,7 +220,6 @@ class GameBoard
         //生成道具
         itemWidth = Mathf.Max(StepX / 4, 30);
         itemHeight = Mathf.Max(StepY / 4, 30);
-        Color itemColor;
         ItemType[] itemTypes = { ItemType.DoubleAttack, ItemType.DoubleDefend, ItemType.DoubleSpeed };
         for (int i = 0; i < XSteps; i++)
         {
@@ -228,7 +227,8 @@ class GameBoard
             {
                 if (Random.Range(0, 100) < 90)
                     continue;
-                var image = VLCreator.CreateImage("item" + i + j, CanvasGO).GetComponent<Image>();
+                var imageGO = VLCreator.CreateImage("item" + i + j, CanvasGO);
+                var image = imageGO.GetComponent<Image>();
                 var itemType = itemTypes[Random.Range(0, 3)];
                 switch (itemType)
                 {
@@ -251,7 +251,7 @@ class GameBoard
                 image.rectTransform.pivot = new Vector2(0f, 0f);
                 image.rectTransform.sizeDelta = new Vector2(itemWidth, itemHeight);
                 image.rectTransform.anchoredPosition = new Vector2(i * StepX + floorPaddingX, j * StepY + floorPaddingY);
-                Floors[i, j].Items.Add(new Item(image)
+                Floors[i, j].Items.Add(new Item(imageGO)
                 {
                     Name = image.name,
                     ItemType = itemType,
@@ -324,6 +324,7 @@ class GameBoard
         {
             var fastItemBlockGO = new GameObject("FastItemBlock" + i);
             fastItemBlockGO.transform.parent = CanvasGO.transform;
+
             var imageGO = VLCreator.CreateImage("FastItemBlockImage" + i, fastItemBlockGO);
             var image = imageGO.GetComponent<Image>();
             image.color = Dictionaries.ColorDic[nameof(FastItem.FastItemBlock)];
@@ -331,6 +332,7 @@ class GameBoard
             image.rectTransform.anchorMax = new Vector2(0f, 0f);
             image.rectTransform.pivot = new Vector2(0f, 0f);
             image.rectTransform.sizeDelta = new Vector2(100, 100);
+
             var x = rect.sizeDelta.x + i * 240;
             var y = 120;
             image.rectTransform.anchoredPosition = new Vector2(x, y);
@@ -368,7 +370,6 @@ class FastItem
 {
     public GameObject Parent;
     public GameObject FastItemBlock;
-    public GameObject FastItemGO;
     public Item Item;
     public string Name;
     public string Key;
@@ -383,7 +384,7 @@ class FastItem
 
     internal void AddItem(Item item)
     {
-        var imageGO = VLCreator.CreateImage("FastItem" + Key, Parent);
+        var imageGO = VLCreator.CreateImage("FastItemImage", Parent);
         var image = imageGO.GetComponent<Image>();
         image.color = Dictionaries.ColorDic[item.ItemType.ToString()];
         image.rectTransform.anchorMin = new Vector2(0f, 0f);
@@ -392,13 +393,14 @@ class FastItem
         image.rectTransform.sizeDelta = new Vector2(40, 40);
         image.rectTransform.anchoredPosition = new Vector2(FastItemBlockX + 20, FastItemBlockY + 20);
         image.rectTransform.localScale = new Vector3(1.5f, 1.5f, 0);
+        item.ImageGO = imageGO;
         Item = item;
     }
 
     internal void UseItem()
     {
+        Gaming0311.Destroy(Item.ImageGO);
         Item = null;
-        Gaming0311.Destroy(FastItemGO);
     }
 }
 class Floor
@@ -434,12 +436,12 @@ public enum ItemType
 class Item
 {
     public string Name;
-    public Image Image;
-    internal ItemType ItemType;
+    public ItemType ItemType;
+    public GameObject ImageGO;
 
-    public Item(Image image)
+    public Item(GameObject imageGO)
     {
-        this.Image = image;
+        this.ImageGO = imageGO;
     }
 }
 class Creature : AttackableCreature
@@ -542,7 +544,7 @@ class Player : AttackableCreature
             var item = floors[X, Y].Items[i];
             Items.Add(item);
             floors[X, Y].Items.Remove(item);
-            Object.Destroy(item.Image);
+            Object.Destroy(item.ImageGO);
             GameBoard.DisplayText($"{Name}拾取了{item.Name},{item.ItemType}");
 
             var fastItem = FastItems.FirstOrDefault(c => c.Item == null);
@@ -591,6 +593,7 @@ class Player : AttackableCreature
             return;
         }
         FastItems.Remove(fastItem);
+        Gaming0311.Destroy(fastItem.Item.ImageGO);
         Items.Remove(fastItem.Item);
         var buff = Dictionaries.BuffDic[fastItem.Item.ItemType];
         Buffs.Add(buff.Key, buff.Value);

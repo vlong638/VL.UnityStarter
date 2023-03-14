@@ -13,6 +13,12 @@ public static class Dictionaries
         { nameof(ItemType.DoubleDefend), Color.yellow},
         { nameof(ItemType.DoubleSpeed), Color.blue},
     };
+    public static Dictionary<ItemType, KeyValuePair<Buff, int>> BuffDic = new Dictionary<ItemType, KeyValuePair<Buff, int>>()
+    {
+        { ItemType.DoubleAttack, new KeyValuePair<Buff, int>(Buff.DoubleAttack,8) },
+        { ItemType.DoubleDefend, new KeyValuePair<Buff, int>(Buff.DoubleDefend,8) },
+        { ItemType.DoubleSpeed, new KeyValuePair<Buff, int>(Buff.DoubleSpeed,8) },
+    };
 }
 
 public static class ValueEx
