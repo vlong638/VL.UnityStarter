@@ -60,13 +60,15 @@
     <Compile Include="CameraControl\FollowPlayer.cs" />
     <Compile Include="Creator\VLCreator.cs" />
     <Compile Include="Debug\VLDebug.cs" />
-    <Compile Include="GamingStudy\Dictionaries.cs" />
-    <Compile Include="GamingStudy\Gaming0311.cs" />
+    <Compile Include="GamingStudy0311\Dictionaries.cs" />
+    <Compile Include="GamingStudy0311\Gaming0311.cs" />
+    <Compile Include="GamingStudy0316\Dictionaries.cs" />
+    <Compile Include="GamingStudy0316\Gaming0316.cs" />
     <Compile Include="PlayerControl\PlanePlayerController.cs" />
     <Compile Include="PlayerControl\PlayerController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SceneManager\InitSceneGaming2D.cs" />
+    <Compile Include="GamingStudy0311\InitSceneGaming2D.cs" />
     <Compile Include="SceneManager\InitScene.cs" />
   </ItemGroup>
   <ItemGroup>

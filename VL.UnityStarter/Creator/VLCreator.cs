@@ -33,6 +33,7 @@ public static class VLCreator
         GameObject gameObject = new GameObject(name);
         if (parent) gameObject.transform.SetParent(parent.transform);
         Text textComponent = gameObject.AddComponent<Text>();
+        textComponent.text = "Hello, World!";
         textComponent.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         textComponent.fontSize = 32;
         textComponent.color = Color.white;
@@ -42,6 +43,13 @@ public static class VLCreator
         return gameObject;
     }
 
+    public static GameObject CreateImage(Sprite sprite, string name = "", GameObject parent = null)
+    {
+        GameObject gameObject = CreateImage(name, parent);
+        var image = gameObject.GetComponent<Image>();
+        image.sprite = sprite;
+        return gameObject;
+    }
     public static GameObject CreateImage(string name = "", GameObject parent = null)
     {
         GameObject gameObject = new GameObject(name);
@@ -54,7 +62,14 @@ public static class VLCreator
     {
         GameObject gameObject = new GameObject(name);
         if (parent) gameObject.transform.SetParent(parent.transform);
+        gameObject.AddComponent<Image>();
         gameObject.AddComponent<Button>();
+        var text = CreateText("", gameObject);
+        var rectTransform = text.GetComponent<RectTransform>();
+        rectTransform.anchorMin = new Vector2(0f, 0f);
+        rectTransform.anchorMax = new Vector2(1f, 1f);
+        rectTransform.offsetMin = new Vector2(0f, 0f);
+        rectTransform.offsetMax = new Vector2(0f, 0f);
         return gameObject;
     }
 
