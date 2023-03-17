@@ -127,7 +127,6 @@ namespace VL.UnityStarter.GamingStudy0316
             }
         }
 
-
         #region StartGame
 
         private bool isStarting = false;
@@ -268,6 +267,7 @@ namespace VL.UnityStarter.GamingStudy0316
         internal Player Player;
         internal Movement movement;
 
+        public GameObject CanvasGO { get; private set; }
         public GameObject ScrollViewGO { get; set; }
         public GameObject ScrollTextGO { get; set; }
         public Text ScrollText { get; set; }
@@ -395,25 +395,23 @@ namespace VL.UnityStarter.GamingStudy0316
             ItemsGO = new GameObject("Items"); ItemsGO.SetParent(Mono.gamingGO);
             CreaturesGO = new GameObject("Creatures"); CreaturesGO.SetParent(Mono.gamingGO);
             //创建文本输出框
-            ScrollViewGO = VLCreator.CreateScrollView("TextDisplay", Mono.gamingGO);
+            CanvasGO = VLCreator.CreateCanvas("Canvas", Mono.gamingGO);
+            ScrollViewGO = VLCreator.CreateScrollView("TextDisplay", CanvasGO);
             var rect = ScrollViewGO.GetComponent<RectTransform>();
-            rect.anchorMin = new Vector2(0, 0);
-            rect.anchorMax = new Vector2(0, 0);
-            rect.pivot = new Vector2(0, 0);
-            rect.sizeDelta = new Vector2(800, 800);
+            rect.anchorMin = new Vector2(0, 1);
+            rect.anchorMax = new Vector2(0, 1);
+            rect.pivot = new Vector2(0, 1);
             rect.anchoredPosition = new Vector2(0, 0);
+            rect.sizeDelta = new Vector2(400, 600);
             var canvasGroup = ScrollViewGO.AddComponent<CanvasGroup>();
             canvasGroup.alpha = 0.6f;
-            ScrollTextGO = VLCreator.CreateText("ScrollText", ScrollViewGO);
+            ScrollTextGO = VLCreator.CreateText("ScrollText", CanvasGO);
             rect = ScrollTextGO.GetComponent<RectTransform>();
-            rect.anchorMin = new Vector2(0, 0);
-            rect.anchorMax = new Vector2(1, 1);
-            rect.offsetMin = new Vector2(0f, 0f);
-            rect.offsetMax = new Vector2(0f, 0f);
-            rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0f, rect.rect.width);
-            rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0f, rect.rect.width);
-            rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0f, rect.rect.height);
-            rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, rect.rect.height);
+            rect.anchorMin = new Vector2(0, 1);
+            rect.anchorMax = new Vector2(0, 1);
+            rect.pivot = new Vector2(0, 1);
+            rect.anchoredPosition = new Vector2(20, -20);
+            rect.sizeDelta = new Vector2(400, 600);
             ScrollText = ScrollTextGO.GetComponent<Text>();
             ScrollText.fontSize = 32;
             ScrollText.color = Color.black;
