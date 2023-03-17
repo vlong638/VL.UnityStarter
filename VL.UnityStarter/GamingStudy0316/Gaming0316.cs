@@ -348,6 +348,18 @@ namespace VL.UnityStarter.GamingStudy0316
                 {
                     Player.UseFastItem("5");
                 }
+                else if (Input.GetAxis("Mouse ScrollWheel") != 0)
+                {
+                    var value = Input.GetAxis("Mouse ScrollWheel");
+                    if (value > 0 && Player.CameraOffSet.z <= -1)
+                    {
+                        Player.CameraOffSet += new Vector3(0, 0, 0.5f);
+                    }
+                    else if (value < 0 && Player.CameraOffSet.z >= -3)
+                    {
+                        Player.CameraOffSet -= new Vector3(0, 0, 0.5f);
+                    }
+                }
             }
             if (Player.OperationData.IsMovingSetup)
             {
@@ -652,7 +664,7 @@ namespace VL.UnityStarter.GamingStudy0316
             var transform = camera2D.transform;
             transform.position = Player.PlayerGO.transform.position + Player.CameraOffSet;
             transform.rotation = Player.PlayerGO.transform.rotation;
-            camera2D.backgroundColor = Color.black;
+            camera2D.backgroundColor = "#282828".ToColor();
             CameraGO = cameraGO;
             Camera = camera2D;
             return null;
