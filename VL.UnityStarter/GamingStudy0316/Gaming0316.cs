@@ -9,20 +9,28 @@ namespace VL.UnityStarter.GamingStudy0316
     public static class Dictionaries
     {
         public static Dictionary<string, Color> ColorDic = new Dictionary<string, Color>()
-    {
-        { nameof(FastItem.FastItemBlock), Color.black},
-        { nameof(Creature), "#FF0F00".ToColor()},
-        { nameof(Floor), "#BC9401".ToColor()},
-        { nameof(ItemType.DoubleAttack), "#DC00E7".ToColor()},
-        { nameof(ItemType.DoubleDefend), Color.yellow},
-        { nameof(ItemType.DoubleSpeed), Color.blue},
-    };
+        {
+            { nameof(FastItem.FastItemBlock), Color.black},
+            { nameof(Creature), "#FF0F00".ToColor()},
+            { nameof(Floor), "#BC9401".ToColor()},
+            { nameof(ItemType.DoubleAttack), "#DC00E7".ToColor()},
+            { nameof(ItemType.DoubleDefend), Color.yellow},
+            { nameof(ItemType.DoubleSpeed), Color.blue},
+        };
         public static Dictionary<ItemType, KeyValuePair<Buff, int>> BuffDic = new Dictionary<ItemType, KeyValuePair<Buff, int>>()
+        {
+            { ItemType.DoubleAttack, new KeyValuePair<Buff, int>(Buff.DoubleAttack,8) },
+            { ItemType.DoubleDefend, new KeyValuePair<Buff, int>(Buff.DoubleDefend,8) },
+            { ItemType.DoubleSpeed, new KeyValuePair<Buff, int>(Buff.DoubleSpeed,8) },
+        };
+    }
+
+    enum SpriteType
     {
-        { ItemType.DoubleAttack, new KeyValuePair<Buff, int>(Buff.DoubleAttack,8) },
-        { ItemType.DoubleDefend, new KeyValuePair<Buff, int>(Buff.DoubleDefend,8) },
-        { ItemType.DoubleSpeed, new KeyValuePair<Buff, int>(Buff.DoubleSpeed,8) },
-    };
+        None = 0,
+        Floor = 3,
+        Item = 5,
+        Creature = 9,
     }
 
     public static partial class ValueEx
@@ -79,6 +87,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
             //预处理
             GameBoard = new GameBoard(this);
+            GameBoard.GamingGO = gamingGO;
             StartCoroutine(nameof(SetupGameBoard), GameBoard);
 
             Debug.Log($"Started");
@@ -90,6 +99,15 @@ namespace VL.UnityStarter.GamingStudy0316
                 return;
             GameBoard.PlayerOperation();
             GameBoard.EnermyOperation();
+        }
+
+        private void LateUpdate()
+        {
+            if (GameBoard == null || GameBoard.CameraGO == null)
+                return;
+            GameBoard.CameraGO.transform.position = GameBoard.Player.PlayerGO.transform.position + GameBoard.Player.CameraOffSet;
+            GameBoard.CameraGO.transform.rotation = GameBoard.Player.PlayerGO.transform.rotation;
+            Debug.Log($"LateUpdate");
         }
         #endregion
 
@@ -125,15 +143,14 @@ namespace VL.UnityStarter.GamingStudy0316
             Debug.Log($"StartingGame");
             isStarting = true;
             startGO.SetActive(false);
+            gamingGO.SetActive(true);
+            assetGO.SetActive(false);
+            settingGO.SetActive(false);
             GameBoard.PreInit();
-            GameBoard.DisplayText("Method A Started");
-            yield return new WaitForSeconds(1f); // 模拟长时间运行
-            GameBoard.DisplayText("Method B Started");
-            yield return new WaitForSeconds(1f); // 模拟长时间运行
             GameBoard.DisplayText("开始生成地形");
             yield return GameBoard.InitFloors();
-            GameBoard.DisplayText("开始生成草坪");
-            yield return GameBoard.InitGrasses();
+            GameBoard.DisplayText("开始生成树木");
+            yield return GameBoard.InitTrees();
             GameBoard.DisplayText("开始生成城镇");
             yield return GameBoard.InitTowns();
             GameBoard.DisplayText("开始生成矿坑");
@@ -142,6 +159,12 @@ namespace VL.UnityStarter.GamingStudy0316
             yield return GameBoard.InitRoads();
             GameBoard.DisplayText("开始生成河流");
             yield return GameBoard.InitRivers();
+            GameBoard.DisplayText("开始生成玩家");
+            yield return GameBoard.InitPlayer();
+            GameBoard.DisplayText("开始生成摄像头");
+            yield return GameBoard.InitCamera();
+            //yield return new WaitForSeconds(1f); // 模拟长时间运行
+
             isStarting = false;
         }
 
@@ -153,55 +176,57 @@ namespace VL.UnityStarter.GamingStudy0316
             //地形
             var sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Grass");
             GameBoard.Resource_Grounds = new List<Floor>();
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Grass_1"), "Grass_1", assetGO), FloorType.Grassland));
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Grass_2"), "Grass_2", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Grass_1"), "Grass_1", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Grass_2"), "Grass_2", assetGO), FloorType.Grassland));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/TexturedGrass");
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "TexturedGrass_1"), "TexuredGrass_1", assetGO), FloorType.Grassland));
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "TexturedGrass_2"), "TexuredGrass_2", assetGO), FloorType.Grassland));
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "TexturedGrass_4"), "TexuredGrass_4", assetGO), FloorType.Grassland));
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "TexturedGrass_5"), "TexuredGrass_5", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "TexturedGrass_1"), "TexuredGrass_1", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "TexturedGrass_2"), "TexuredGrass_2", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "TexturedGrass_4"), "TexuredGrass_4", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "TexturedGrass_5"), "TexuredGrass_5", assetGO), FloorType.Grassland));
             GameBoard.Resource_Waters = new List<Floor>();
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Shore");
-            GameBoard.Resource_Waters.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Shore_4"), "Shore_4", assetGO), FloorType.River));
+            GameBoard.Resource_Waters.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Shore_4"), "Shore_4", assetGO), FloorType.River));
             GameBoard.Resource_GradientWaters = new List<Floor>();
-            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Shore_0"), "Shore_0", assetGO), FloorType.Shore));
-            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Shore_1"), "Shore_1", assetGO), FloorType.Shore));
-            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Shore_2"), "Shore_2", assetGO), FloorType.Shore));
-            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Shore_3"), "Shore_3", assetGO), FloorType.Shore));
+            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Shore_0"), "Shore_0", assetGO), FloorType.Shore));
+            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Shore_1"), "Shore_1", assetGO), FloorType.Shore));
+            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Shore_2"), "Shore_2", assetGO), FloorType.Shore));
+            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Shore_3"), "Shore_3", assetGO), FloorType.Shore));
             GameBoard.Resource_Roads = new List<Floor>();
             GameBoard.Resource_Mountains_Stone = new List<Floor>();
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Cliff");
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_0"), "Cliff_0", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_1"), "Cliff_1", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_2"), "Cliff_2", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_5"), "Cliff_5", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_6"), "Cliff_6", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_7"), "Cliff_7", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_10"), "Cliff_10", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_11"), "Cliff_11", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_12"), "Cliff_12", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_StoneMine = new Entrance(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_9"), "Cliff_9", assetGO), FloorType.Mountain);
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_0"), "Cliff_0", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_1"), "Cliff_1", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_2"), "Cliff_2", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_5"), "Cliff_5", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_6"), "Cliff_6", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_7"), "Cliff_7", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_10"), "Cliff_10", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_11"), "Cliff_11", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_12"), "Cliff_12", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_StoneMine = new Entrance(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_9"), "Cliff_9", assetGO), FloorType.Mountain);
             GameBoard.Resource_Mountains_Copper = new List<Floor>();
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_38"), "Cliff_38", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_39"), "Cliff_39", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_40"), "Cliff_40", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_41"), "Cliff_41", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_42"), "Cliff_42", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_43"), "Cliff_43", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_48"), "Cliff_48", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_49"), "Cliff_49", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_50"), "Cliff_50", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_CopperMine = new Entrance(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_8"), "Cliff_8", assetGO), FloorType.Mountain);
-            GameBoard.Resource_Mountains_StoneOre = new BlockItem(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_4"), "Cliff_4", assetGO), BlockType.Stone);
-            GameBoard.Resource_Mountains_CutterOre = new BlockItem(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_3"), "Cliff_3", assetGO), BlockType.Stone);
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_38"), "Cliff_38", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_39"), "Cliff_39", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_40"), "Cliff_40", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_41"), "Cliff_41", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_42"), "Cliff_42", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_43"), "Cliff_43", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_48"), "Cliff_48", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_49"), "Cliff_49", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_50"), "Cliff_50", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_CopperMine = new Entrance(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_8"), "Cliff_8", assetGO), FloorType.Mountain);
+            GameBoard.Resource_Mountains_StoneOre = new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_4"), "Cliff_4", assetGO), BlockType.Stone);
+            GameBoard.Resource_Mountains_CutterOre = new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_3"), "Cliff_3", assetGO), BlockType.Stone);
             GameBoard.Resource_Mountains_BigOre = new List<BlockItem>();
-            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_15"), "Cliff_15", assetGO), BlockType.Stone));
-            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_16"), "Cliff_16", assetGO), BlockType.Stone));
-            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_22"), "Cliff_22", assetGO), BlockType.Stone));
-            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateImage(sprite.First(c => c.name == "Cliff_23"), "Cliff_23", assetGO), BlockType.Stone));
+            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_15"), "Cliff_15", assetGO), BlockType.Stone));
+            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_16"), "Cliff_16", assetGO), BlockType.Stone));
+            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_22"), "Cliff_22", assetGO), BlockType.Stone));
+            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_23"), "Cliff_23", assetGO), BlockType.Stone));
             //地点
             //物品
             //玩家
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Champions/Gangblanc");
+            GameBoard.Resource_Player = new Creature(VLCreator.CreateSprite(sprite[0], "Player"));
             //生物
             GameBoard.IsResourceReady = true;
         }
@@ -229,8 +254,8 @@ namespace VL.UnityStarter.GamingStudy0316
         public static float Height = 1440;
         public static int XSteps = 160;
         public static int YSteps = 90;
-        public static float StepX = 64;
-        public static float StepY = 64;
+        public static float StepX = 0.16f;
+        public static float StepY = 0.16f;
         public Floor[,] Floors;
         internal float floorPaddingX;
         internal float floorPaddingY;
@@ -243,7 +268,6 @@ namespace VL.UnityStarter.GamingStudy0316
         internal Player Player;
         internal Movement movement;
 
-        public GameObject CanvasGO { get; set; }
         public GameObject ScrollViewGO { get; set; }
         public GameObject ScrollTextGO { get; set; }
         public Text ScrollText { get; set; }
@@ -259,13 +283,16 @@ namespace VL.UnityStarter.GamingStudy0316
         public List<Floor> Resource_Mountains_Copper { get; internal set; }
         public List<BlockItem> Resource_Mountains_BigOre { get; internal set; }
         public bool IsResourceReady { get; internal set; }
+        public Creature Resource_Player { get; internal set; }
+        public GameObject CameraGO { get; internal set; }
+        public Camera Camera { get; internal set; }
+        public GameObject GamingGO { get; internal set; }
 
-        public ScrollRect ScrollRect;
-        private Gaming0316 gaming0316;
+        private Gaming0316 Mono;
 
         public GameBoard(Gaming0316 gaming0316)
         {
-            this.gaming0316 = gaming0316;
+            this.Mono = gaming0316;
             Floors = new Floor[XSteps, YSteps];
         }
 
@@ -349,7 +376,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public Movement CalculateMovement()
         {
-            var startPosition = Player.PlayerGO.GetComponent<RectTransform>().anchoredPosition;
+            var startPosition = Player.PlayerGO.transform.position;
             var targetPosition = new Vector2(startPosition.x + movement.XLength, startPosition.y + movement.YLength);
             movement.startPosition = startPosition;
             movement.targetPosition = targetPosition;
@@ -363,15 +390,12 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal Object PreInit()
         {
-            //创建画布
-            CanvasGO = VLCreator.CreateCanvas("GameboardCanvas", gaming0316.gamingGO);
             //分层管理
-            FloorsGO = new GameObject("Floors"); FloorsGO.SetParent(CanvasGO);
-            ItemsGO = new GameObject("Items"); ItemsGO.SetParent(CanvasGO);
-            CreaturesGO = new GameObject("Creatures"); CreaturesGO.SetParent(CanvasGO);
+            FloorsGO = new GameObject("Floors"); FloorsGO.SetParent(Mono.gamingGO);
+            ItemsGO = new GameObject("Items"); ItemsGO.SetParent(Mono.gamingGO);
+            CreaturesGO = new GameObject("Creatures"); CreaturesGO.SetParent(Mono.gamingGO);
             //创建文本输出框
-            ScrollViewGO = VLCreator.CreateScrollView("TextDisplay", CanvasGO);
-            ScrollRect = ScrollViewGO.GetComponent<ScrollRect>();
+            ScrollViewGO = VLCreator.CreateScrollView("TextDisplay", Mono.gamingGO);
             var rect = ScrollViewGO.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0, 0);
             rect.anchorMax = new Vector2(0, 0);
@@ -410,36 +434,15 @@ namespace VL.UnityStarter.GamingStudy0316
             {
                 for (int j = 0; j < YSteps; j++)
                 {
-                    var f = Resource_Grounds.First().Clone();
+                    var f = Resource_Grounds[Random.Range(0, Resource_Grounds.Count)].Clone();
                     Floors[i, j] = f;
-                    var image = f.ImageGO.GetComponent<Image>();
-                    image.rectTransform.anchorMin = new Vector2(0f, 0f);
-                    image.rectTransform.anchorMax = new Vector2(0f, 0f);
-                    image.rectTransform.pivot = new Vector2(0f, 0f);
-                    image.rectTransform.sizeDelta = new Vector2(floorWidth, floorHeight);
-                    image.rectTransform.anchoredPosition = new Vector2(i * StepX, j * StepY);
-                    f.ImageGO.SetParent(FloorsGO);
+                    var sprite = f.SpriteGO.GetComponent<SpriteRenderer>();
+                    sprite.transform.position = new Vector2(i * StepX, j * StepY);
+                    f.SpriteGO.SetParent(FloorsGO);
                 }
             }
             return null;
         }
-
-
-
-        internal void InitV2()
-        {
-            //创建画布
-            CanvasGO = VLCreator.CreateCanvas("GameboardCanvas", gaming0316.gamingGO);
-            //分层管理
-            var floorsGO = new GameObject("Floors"); floorsGO.SetParent(CanvasGO);
-
-            //创建地面
-            DisplayText("正在生成地面");
-            StepX = 20;
-            StepY = 10;
-            //InitFloors(floorsGO);
-        }
-
 
         //internal void Init()
         //{
@@ -611,29 +614,50 @@ namespace VL.UnityStarter.GamingStudy0316
             ScrollText.text = string.Join("\n", texts);
         }
 
-        internal object InitGrasses()
+        internal object InitTrees()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         internal object InitMines()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         internal object InitTowns()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         internal object InitRoads()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         internal object InitRivers()
         {
-            throw new System.NotImplementedException();
+            return null;
+        }
+
+        internal object InitPlayer()
+        {
+            Player = new Player(Resource_Player.SpriteGO);
+            Player.PlayerGO.transform.position = new Vector2(Player.X * StepX, Player.X * StepY);
+            Player.SpriteGO.SetParent(GamingGO);
+            return null;
+        }
+
+        internal object InitCamera()
+        {
+            var cameraGO = VLCreator.CreateCamera("Camera_Player", GamingGO);
+            var camera2D = cameraGO.GetComponent<Camera>();
+            var transform = camera2D.transform;
+            transform.position = Player.PlayerGO.transform.position + Player.CameraOffSet;
+            transform.rotation = Player.PlayerGO.transform.rotation;
+            camera2D.backgroundColor = Color.black;
+            CameraGO = cameraGO;
+            Camera = camera2D;
+            return null;
         }
     }
     class FastItem
@@ -663,13 +687,13 @@ namespace VL.UnityStarter.GamingStudy0316
             image.rectTransform.sizeDelta = new Vector2(40, 40);
             image.rectTransform.anchoredPosition = new Vector2(FastItemBlockX + 20, FastItemBlockY + 20);
             image.rectTransform.localScale = new Vector3(1.5f, 1.5f, 0);
-            item.ImageGO = imageGO;
+            item.SpriteGO = imageGO;
             Item = item;
         }
 
         internal void UseItem()
         {
-            Gaming0316.Destroy(Item.ImageGO);
+            Gaming0316.Destroy(Item.SpriteGO);
             Item = null;
         }
     }
@@ -700,17 +724,19 @@ namespace VL.UnityStarter.GamingStudy0316
         public List<Creature> Creatures = new List<Creature>();
         public FloorType FloorType;
 
-        public Floor(GameObject imageGO) : base(imageGO)
+        public Floor(GameObject spriteGO) : base(spriteGO)
         {
         }
-        public Floor(GameObject imageGO, FloorType floorType) : base(imageGO)
+        public Floor(GameObject spriteGO, FloorType floorType) : base(spriteGO)
         {
             FloorType = floorType;
+            var sprite = spriteGO.GetComponent<SpriteRenderer>();
+            sprite.sortingOrder = (int)SpriteType.Floor;
         }
 
         public Floor Clone()
         {
-            Floor clone = new Floor(CloneHelper.Clone(ImageGO));
+            Floor clone = new Floor(CloneHelper.Clone(SpriteGO));
             return clone;
         }
     }
@@ -753,11 +779,11 @@ namespace VL.UnityStarter.GamingStudy0316
 
     class UnityObject
     {
-        public GameObject ImageGO;
+        public GameObject SpriteGO;
 
         public UnityObject(GameObject imageGO)
         {
-            ImageGO = imageGO;
+            SpriteGO = imageGO;
         }
     }
     class Item : UnityObject
@@ -765,18 +791,21 @@ namespace VL.UnityStarter.GamingStudy0316
         public string Name;
         public ItemType ItemType;
 
-        public Item(GameObject imageGO) : base(imageGO)
+        public Item(GameObject spriteGO) : base(spriteGO)
         {
+            var sprite = spriteGO.GetComponent<SpriteRenderer>();
+            sprite.sortingOrder = (int)SpriteType.Item;
         }
     }
     class Creature : UnityObject, AttackableCreature
     {
         public string Name;
 
-        public Creature(GameObject imageGO) : base(imageGO)
+        public Creature(GameObject spriteGO) : base(spriteGO)
         {
+            var sprite = spriteGO.GetComponent<SpriteRenderer>();
+            sprite.sortingOrder = (int)SpriteType.Creature;
         }
-
 
         #region AttackableCreature
         public int Attr_HP { set; get; }
@@ -825,6 +854,7 @@ namespace VL.UnityStarter.GamingStudy0316
     class Player : Creature
     {
         public GameBoard GameBoard { get; internal set; }
+        public Vector3 CameraOffSet { get; internal set; }
 
         public GameObject PlayerGO;
         public OperationData OperationData = new OperationData();
@@ -835,6 +865,9 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public Player(GameObject imageGO) : base(imageGO)
         {
+            Name = "Player";
+            PlayerGO = imageGO;
+            CameraOffSet = new Vector3(0, 0, -2);
         }
 
         public void DisplaySmoothMove(GameObject go, Movement m)
@@ -842,8 +875,7 @@ namespace VL.UnityStarter.GamingStudy0316
             float elapsedTime = Time.time - m.moveStartTime;
             float clampTime = Mathf.Clamp01(elapsedTime / m.moveDuration);
             Vector2 newPosition = Vector2.Lerp(m.startPosition, m.targetPosition, clampTime);
-            var rectTransform = go.GetComponent<RectTransform>();
-            rectTransform.anchoredPosition = newPosition;
+            go.transform.position = newPosition;
             VLDebug.DelegateDebug(() =>
             {
                 Debug.Log($"DisplaySmoothMove X:{newPosition.x},Y:{newPosition.y}");
@@ -895,7 +927,7 @@ namespace VL.UnityStarter.GamingStudy0316
                 var item = floors[X, Y].Items[i];
                 Items.Add(item);
                 floors[X, Y].Items.Remove(item);
-                Object.Destroy(item.ImageGO);
+                Object.Destroy(item.SpriteGO);
                 GameBoard.DisplayText($"{Name}拾取了{item.Name},{item.ItemType}");
 
                 var fastItem = FastItems.FirstOrDefault(c => c.Item == null);
@@ -919,7 +951,7 @@ namespace VL.UnityStarter.GamingStudy0316
             if (result.IsDead)
             {
                 floors[X, Y].Creatures.Remove(creature);
-                Object.Destroy(creature.ImageGO);
+                Object.Destroy(creature.SpriteGO);
                 GameBoard.DisplayText($"{creature.Name}被打倒了");
             }
             else
@@ -950,7 +982,7 @@ namespace VL.UnityStarter.GamingStudy0316
             //二步走
             //操作 界面对象
             //操作 逻辑对象
-            Gaming0316.Destroy(fastItem.Item.ImageGO);//界面
+            Gaming0316.Destroy(fastItem.Item.SpriteGO);//界面
             Items.Remove(fastItem.Item);//包裹
             fastItem.Item = null;//快捷栏
         }

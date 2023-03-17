@@ -43,6 +43,22 @@ public static class VLCreator
         return gameObject;
     }
 
+    public static GameObject CreateSprite(Sprite sprite, string name = "", GameObject parent = null)
+    {
+        GameObject gameObject = CreateSprite(name, parent);
+        var image = gameObject.GetComponent<SpriteRenderer>();
+        image.sprite = sprite;
+        image.sortingOrder = 3;
+        return gameObject;
+    }
+    public static GameObject CreateSprite(string name = "", GameObject parent = null)
+    {
+        GameObject gameObject = new GameObject(name);
+        if (parent) gameObject.transform.SetParent(parent.transform);
+        gameObject.AddComponent<SpriteRenderer>();
+        return gameObject;
+    }
+
     public static GameObject CreateImage(Sprite sprite, string name = "", GameObject parent = null)
     {
         GameObject gameObject = CreateImage(name, parent);
