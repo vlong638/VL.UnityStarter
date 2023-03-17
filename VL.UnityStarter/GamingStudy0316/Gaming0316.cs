@@ -2,12 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Text;
-using UnityEditor;
 using UnityEngine.UI;
-using UnityEngine.U2D;
+
 namespace VL.UnityStarter.GamingStudy0316
 {
+    public static class Dictionaries
+    {
+        public static Dictionary<string, Color> ColorDic = new Dictionary<string, Color>()
+    {
+        { nameof(FastItem.FastItemBlock), Color.black},
+        { nameof(Creature), "#FF0F00".ToColor()},
+        { nameof(Floor), "#BC9401".ToColor()},
+        { nameof(ItemType.DoubleAttack), "#DC00E7".ToColor()},
+        { nameof(ItemType.DoubleDefend), Color.yellow},
+        { nameof(ItemType.DoubleSpeed), Color.blue},
+    };
+        public static Dictionary<ItemType, KeyValuePair<Buff, int>> BuffDic = new Dictionary<ItemType, KeyValuePair<Buff, int>>()
+    {
+        { ItemType.DoubleAttack, new KeyValuePair<Buff, int>(Buff.DoubleAttack,8) },
+        { ItemType.DoubleDefend, new KeyValuePair<Buff, int>(Buff.DoubleDefend,8) },
+        { ItemType.DoubleSpeed, new KeyValuePair<Buff, int>(Buff.DoubleSpeed,8) },
+    };
+    }
+
+    public static partial class ValueEx
+    {
+        public static Color ToColor(this string s)
+        {
+            ColorUtility.TryParseHtmlString(s, out var c);
+            return c;
+        }
+        public static void SetParent(this GameObject go, GameObject parent)
+        {
+            go.transform.parent = parent.transform;
+        }
+    }
     public class CloneHelper
     {
         public static GameObject Clone(GameObject gameObject)
@@ -18,10 +47,6 @@ namespace VL.UnityStarter.GamingStudy0316
 
     public class Gaming0316 : MonoBehaviour
     {
-        //public GameObject canvasGO;
-        //public GameObject playerGO;
-        //public GameObject textGO;
-
         internal GameObject startGO { set; get; }
         internal GameObject assetGO { set; get; }
         internal GameObject gamingGO { set; get; }
@@ -30,6 +55,7 @@ namespace VL.UnityStarter.GamingStudy0316
         GameBoard GameBoard;
 
 
+        #region Unity Mehtod
         void Start()
         {
             Debug.Log($"Start");
@@ -58,130 +84,22 @@ namespace VL.UnityStarter.GamingStudy0316
             Debug.Log($"Started");
         }
 
-
-
-        #region 协程案例
-        private bool isExecuting = false;
-        IEnumerator LongRunningMethod()
+        void Update()
         {
-            isExecuting = true;
-            startGO.SetActive(false);
-            GameBoard.PreInit();
-            GameBoard.DisplayText("Method A Started");
-            Debug.Log($"Method A Started");
-            yield return new WaitForSeconds(2.0f); // 模拟长时间运行
-            GameBoard.DisplayText("Method B Started");
-            Debug.Log($"Method B Started");
-            yield return new WaitForSeconds(2.0f); // 模拟长时间运行
-            GameBoard.DisplayText("Method C Started");
-            Debug.Log($"Method C Started");
-            yield return new WaitForSeconds(2.0f); // 模拟长时间运行
-            isExecuting = false;
-        }
-        IEnumerator LongRunningMethod2()
-        {
-            isExecuting = true;
-            Debug.Log($"Method A Started");
-            yield return new WaitForSeconds(2.0f); // 模拟长时间运行
-            Debug.Log($"Method B Started");
-            yield return new WaitForSeconds(2.0f); // 模拟长时间运行
-            Debug.Log($"Method C Started");
-            yield return new WaitForSeconds(2.0f); // 模拟长时间运行
-            isExecuting = false;
-        }
-        private void TestCoroutine()
-        {
-            if (!isExecuting)
-            {
-                Debug.Log($"Long running method started.");
-                StartCoroutine(LongRunningMethod());
-            }
+            if (GameBoard == null || GameBoard.Player == null)
+                return;
+            GameBoard.PlayerOperation();
+            GameBoard.EnermyOperation();
         }
         #endregion
 
         private void Load()
         {
-            if (!isExecuting)
-            {
-                Debug.Log($"Long running method started.");
-                StartCoroutine(LongRunningMethod());
-            }
+            Debug.Log($"Load Ended");
         }
-
         private void EndGame()
         {
             Debug.Log($"Game Ended");
-        }
-
-
-        #region StartGame
-        private bool isStarting = false;
-
-
-        IEnumerator StartingGame()
-        {
-            if (!GameBoard.IsResourceReady)
-            {
-                Debug.Log("资源尚未加载");
-                yield return null;
-            }
-
-            Debug.Log($"StartingGame");
-            isStarting = true;
-            startGO.SetActive(false);
-            GameBoard.PreInit();
-            GameBoard.DisplayText("Method A Started");
-            Debug.Log($"Method A Started");
-            yield return new WaitForSeconds(2.0f); // 模拟长时间运行
-            GameBoard.DisplayText("Method B Started");
-            Debug.Log($"Method B Started");
-            yield return new WaitForSeconds(2.0f); // 模拟长时间运行
-            GameBoard.DisplayText("Method C Started");
-            Debug.Log($"Method C Started");
-            yield return GameBoard.InitFloors();
-            isStarting = false;
-        }
-        IEnumerator StartingGame2()
-        {
-            if (!GameBoard.IsResourceReady)
-            {
-                Debug.Log("资源尚未加载");
-                yield return null;
-            }
-
-            Debug.Log($"StartingGame");
-            isStarting = true;
-
-            //隐藏开始界面
-            startGO.SetActive(false);
-            //创建角色
-            GameBoard.Player = new Player(new GameObject())
-            {
-                Attr_HP = 100,
-                Attr_AttackMax = 10,
-                Attr_AttackMin = 5,
-                Attr_Defend = 3,
-                GameBoard = GameBoard,
-            };
-            //创建角色相机
-            GameObject camereGO = VLCreator.CreateCamera("PlayerCamera", GameBoard.Player.PlayerGO);
-            var camera2D = camereGO.GetComponent<Camera>();
-            camera2D.orthographic = true;
-
-
-
-            Debug.Log($"Method GameBoard.PreInit() Started");
-            yield return GameBoard.PreInit();
-            Debug.Log($"Method GameBoard.PreInit() Ended");
-
-
-            Debug.Log($"Method GameBoard.InitFloors() Started");
-            GameBoard.DisplayText("正在生成地面");
-            Debug.Log($"Method GameBoard.InitFloors() Started2");
-            yield return GameBoard.InitFloors();
-            Debug.Log($"Method GameBoard.InitFloors() Ended");
-
-            isStarting = false;
         }
         private void StartGame()
         {
@@ -190,35 +108,44 @@ namespace VL.UnityStarter.GamingStudy0316
                 StartCoroutine(StartingGame());
             }
         }
+
+
+        #region StartGame
+
+        private bool isStarting = false;
+        IEnumerator StartingGame()
+        {
+            if (!GameBoard.IsResourceReady)
+            {
+                Debug.Log("资源尚未加载");
+                Invoke(nameof(StartingGame), 0.5f);
+                yield return null;
+            }
+
+            Debug.Log($"StartingGame");
+            isStarting = true;
+            startGO.SetActive(false);
+            GameBoard.PreInit();
+            GameBoard.DisplayText("Method A Started");
+            yield return new WaitForSeconds(1f); // 模拟长时间运行
+            GameBoard.DisplayText("Method B Started");
+            yield return new WaitForSeconds(1f); // 模拟长时间运行
+            GameBoard.DisplayText("开始生成地形");
+            yield return GameBoard.InitFloors();
+            GameBoard.DisplayText("开始生成草坪");
+            yield return GameBoard.InitGrasses();
+            GameBoard.DisplayText("开始生成城镇");
+            yield return GameBoard.InitTowns();
+            GameBoard.DisplayText("开始生成矿坑");
+            yield return GameBoard.InitMines();
+            GameBoard.DisplayText("开始生成道路");
+            yield return GameBoard.InitRoads();
+            GameBoard.DisplayText("开始生成河流");
+            yield return GameBoard.InitRivers();
+            isStarting = false;
+        }
+
         #endregion
-
-        //bool IsStartGame = false;
-        //private void StartGameOld()
-        //{
-        //    Debug.Log($"Game Started");
-        //    IsStartGame = true;
-
-
-        //    startGO.SetActive(false);
-        //    GameBoard.Player = new Player(new GameObject())
-        //    {
-        //        Attr_HP = 100,
-        //        Attr_AttackMax = 10,
-        //        Attr_AttackMin = 5,
-        //        Attr_Defend = 3,
-        //        GameBoard = GameBoard,
-        //    };
-        //    GameObject camereGO = VLCreator.CreateCamera("PlayerCamera", GameBoard.Player.PlayerGO);
-        //    var camera2D = camereGO.GetComponent<Camera>();
-        //    camera2D.orthographic = true;
-        //    while (!GameBoard.IsResourceReady)
-        //    {
-        //        Debug.Log("资源尚未准备就绪");
-        //        Wait(1.0f);
-        //    }
-        //    GameBoard.InitV2();
-        //    IsStartGame = false;
-        //}
 
         private void SetupGameBoard(GameBoard gameBoard)
         {
@@ -277,14 +204,6 @@ namespace VL.UnityStarter.GamingStudy0316
             //玩家
             //生物
             GameBoard.IsResourceReady = true;
-        }
-
-        void Update()
-        {
-            if (GameBoard == null || GameBoard.Player == null)
-                return;
-            GameBoard.PlayerOperation();
-            GameBoard.EnermyOperation();
         }
     }
     class Movement
@@ -690,6 +609,31 @@ namespace VL.UnityStarter.GamingStudy0316
             if (texts.Count > 20)
                 texts.RemoveAt(0);
             ScrollText.text = string.Join("\n", texts);
+        }
+
+        internal object InitGrasses()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal object InitMines()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal object InitTowns()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal object InitRoads()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal object InitRivers()
+        {
+            throw new System.NotImplementedException();
         }
     }
     class FastItem
