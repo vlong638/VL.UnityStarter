@@ -23,6 +23,111 @@ namespace VL.UnityStarter.GamingStudy0316
             { ItemType.DoubleDefend, new KeyValuePair<Buff, int>(Buff.DoubleDefend,8) },
             { ItemType.DoubleSpeed, new KeyValuePair<Buff, int>(Buff.DoubleSpeed,8) },
         };
+
+
+        public static Dictionary<string, string> CodeDescription = new Dictionary<string, string>()
+        {
+            {"Grass_1","Grass_1"},
+            {"Grass_2","Grass_2"},
+            {"Grass_3","Grass_3"},
+            {"Grass_4","Grass_4"},
+            {"TexturedGrass_1","TexturedGrass_1"},
+            {"TexturedGrass_2","TexturedGrass_2"},
+            {"TexturedGrass_4","TexturedGrass_4"},
+            {"TexturedGrass_5","TexturedGrass_5"},
+            {"Shore_4","Shore_4"},
+            {"Shore_0","Shore_0"},
+            {"Shore_1","Shore_1"},
+            {"Shore_2","Shore_2"},
+            {"Shore_3","Shore_3"},
+            {"Cliff_0","Cliff_0"},
+            {"Cliff_1","Cliff_1"},
+            {"Cliff_2","Cliff_2"},
+            {"Cliff_5","Cliff_5"},
+            {"Cliff_6","Cliff_6"},
+            {"Cliff_7","Cliff_7"},
+            {"Cliff_10","Cliff_10"},
+            {"Cliff_11","Cliff_11"},
+            {"Cliff_12","Cliff_12"},
+            {"Cliff_9","Cliff_9"},
+            {"Cliff_38","Cliff_38"},
+            {"Cliff_39","Cliff_39"},
+            {"Cliff_40","Cliff_40"},
+            {"Cliff_41","Cliff_41"},
+            {"Cliff_42","Cliff_42"},
+            {"Cliff_43","Cliff_43"},
+            {"Cliff_48","Cliff_48"},
+            {"Cliff_49","Cliff_49"},
+            {"Cliff_50","Cliff_50"},
+            {"Cliff_8","Cliff_8"},
+            {"Cliff_4","Cliff_4"},
+            {"Cliff_3","Cliff_3"},
+            {"Cliff_15","Cliff_15"},
+            {"Cliff_16","Cliff_16"},
+            {"Cliff_22","Cliff_22"},
+            {"Cliff_23","Cliff_23"},
+            {"PineTrees_1","PineTrees_1"},
+            {"PineTrees_0","PineTrees_0"},
+            {"Trees_0","Trees_0"},
+            {"Trees_1","Trees_1"},
+            {"Trees_2","Trees_2"},
+            {"Trees_3","Trees_3"},
+            {"Wheatfield_0","Wheatfield_0"},
+            {"Wheatfield_1","Wheatfield_1"},
+            {"Wheatfield_2","Wheatfield_2"},
+            {"Wheatfield_3","Wheatfield_3"},
+            {"CaveV2_0","CaveV2_0"},
+            {"CaveV2_1","CaveV2_1"},
+            {"CaveV2_2","CaveV2_2"},
+            {"CaveV2_3","CaveV2_3"},
+            {"CaveV2_4","CaveV2_4"},
+            {"CaveV2_5","CaveV2_5"},
+            {"Chapels_0","Chapels_0"},
+            {"Chapels_1","Chapels_1"},
+            {"Chapels_2","Chapels_2"},
+            {"Chapels_3","Chapels_3"},
+            {"Chapels_4","Chapels_4"},
+            {"Chapels_5","Chapels_5"},
+            {"Keep_0","Keep_0"},
+            {"Keep_1","Keep_1"},
+            {"Keep_6","Keep_6"},
+            {"Keep_7","Keep_7"},
+            {"Keep_4","Keep_4"},
+            {"Keep_5","Keep_5"},
+            {"Keep_10","Keep_10"},
+            {"Keep_11","Keep_11"},
+            {"AllBuildings-Preview_68","AllBuildings-Preview_68"},
+            {"AllBuildings-Preview_84","AllBuildings-Preview_84"},
+            {"AllBuildings-Preview_100","AllBuildings-Preview_100"},
+            {"AllBuildings-Preview_115","AllBuildings-Preview_115"},
+            {"AllBuildings-Preview_116","AllBuildings-Preview_116"},
+            {"AllBuildings-Preview_87","AllBuildings-Preview_87"},
+            {"AllBuildings-Preview_145","AllBuildings-Preview_145"},
+            {"AllBuildings-Preview_161","AllBuildings-Preview_161"},
+            {"AllBuildings-Preview_177","AllBuildings-Preview_177"},
+            {"AllBuildings-Preview_165","AllBuildings-Preview_165"},
+            {"AllBuildings-Preview_166","AllBuildings-Preview_166"},
+            {"AllBuildings-Preview_167","AllBuildings-Preview_167"},
+            {"AllBuildings-Preview_34","AllBuildings-Preview_34"},
+            {"AllBuildings-Preview_35","AllBuildings-Preview_35"},
+            {"AllBuildings-Preview_50","AllBuildings-Preview_50"},
+            {"AllBuildings-Preview_51","AllBuildings-Preview_51"},
+            {"AllBuildings-Preview_36","AllBuildings-Preview_36"},
+            {"AllBuildings-Preview_37","AllBuildings-Preview_37"},
+            {"AllBuildings-Preview_52","AllBuildings-Preview_52"},
+            {"AllBuildings-Preview_53","AllBuildings-Preview_53"},
+            {"AllBuildings-Preview_38","AllBuildings-Preview_38"},
+            {"AllBuildings-Preview_39","AllBuildings-Preview_39"},
+            {"AllBuildings-Preview_54","AllBuildings-Preview_54"},
+            {"AllBuildings-Preview_55","AllBuildings-Preview_55"},
+        };
+    }
+
+    class ResourceObject
+    {
+        public string Code;
+        public string ImageName;
+        public string CheckDescription;
     }
 
     enum SpriteType
@@ -107,7 +212,6 @@ namespace VL.UnityStarter.GamingStudy0316
                 return;
             GameBoard.CameraGO.transform.position = GameBoard.Player.PlayerGO.transform.position + GameBoard.Player.CameraOffSet;
             //GameBoard.CameraGO.transform.rotation = GameBoard.Player.PlayerGO.transform.rotation;
-            //Debug.Log($"LateUpdate");
         }
         #endregion
 
@@ -390,14 +494,8 @@ namespace VL.UnityStarter.GamingStudy0316
         public static float StepX = 0.16f;
         public static float StepY = 0.16f;
         public Floor[,] Floors;
-        internal float floorPaddingX;
-        internal float floorPaddingY;
         internal float floorWidth;
         internal float floorHeight;
-        internal float itemWidth;
-        internal float itemHeight;
-        internal float enemyWidth;
-        internal float enemyHeight;
         internal Player Player;
         internal Movement movement;
 
@@ -470,6 +568,10 @@ namespace VL.UnityStarter.GamingStudy0316
                 else if (Input.GetKeyDown(KeyCode.F))
                 {
                     Player.OperationData.IsAttackingSetup = true;
+                }
+                else if (Input.GetKeyDown(KeyCode.C))
+                {
+                    Player.Check(Floors);
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
@@ -1098,16 +1200,18 @@ namespace VL.UnityStarter.GamingStudy0316
     }
     class UnityObject
     {
+        public string Name;
         public GameObject SpriteGO;
 
         public UnityObject(GameObject spriteGO)
         {
             SpriteGO = spriteGO;
+            if (SpriteGO != null)
+                Name = SpriteGO.name;
         }
     }
     class Item : UnityObject
     {
-        public string Name;
         public ItemType ItemType;
 
         public Item(GameObject spriteGO) : base(spriteGO)
@@ -1120,7 +1224,13 @@ namespace VL.UnityStarter.GamingStudy0316
         internal Item Clone()
         {
             Item clone = new Item(CloneHelper.Clone(SpriteGO));
+            clone.Name = Name;
             return clone;
+        }
+
+        internal void Display(GameBoard gameBoard)
+        {
+            gameBoard.DisplayText(Dictionaries.CodeDescription[Name]);
         }
     }
     class Creature : UnityObject, AttackableCreature
@@ -1156,6 +1266,11 @@ namespace VL.UnityStarter.GamingStudy0316
             var real_AttackMax = Buffs.Keys.Any(c => c == Buff.DoubleAttack) ? Attr_AttackMax * 2 : Attr_AttackMax;
             var real_Defend = Buffs.Keys.Any(c => c == Buff.DoubleDefend) ? Attr_Defend * 2 : Attr_Defend;
             return $@"当前状态<生命:{Attr_HP},攻击:{real_AttackMin}-{real_AttackMax},防御:{real_Defend}>";
+        }
+
+        internal void Display(GameBoard gameBoard)
+        {
+            gameBoard.DisplayText(Dictionaries.CodeDescription[Name]);
         }
         #endregion
     }
@@ -1289,6 +1404,19 @@ namespace VL.UnityStarter.GamingStudy0316
                     PlayerGO.SetActive(false);
                     GameBoard.DisplayText($"{Name}被打倒了");
                 }
+            }
+        }
+
+        internal void Check(Floor[,] floors)
+        {
+            GameBoard.DisplayText($"---查看---");
+            foreach (var item in floors[X, Y].Items)
+            {
+                item.Display(GameBoard);
+            }
+            foreach (var creature in floors[X, Y].Creatures)
+            {
+                creature.Display(GameBoard);
             }
         }
 
