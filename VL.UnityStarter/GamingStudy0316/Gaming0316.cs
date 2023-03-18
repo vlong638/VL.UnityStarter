@@ -106,8 +106,8 @@ namespace VL.UnityStarter.GamingStudy0316
             if (GameBoard == null || GameBoard.CameraGO == null)
                 return;
             GameBoard.CameraGO.transform.position = GameBoard.Player.PlayerGO.transform.position + GameBoard.Player.CameraOffSet;
-            GameBoard.CameraGO.transform.rotation = GameBoard.Player.PlayerGO.transform.rotation;
-            Debug.Log($"LateUpdate");
+            //GameBoard.CameraGO.transform.rotation = GameBoard.Player.PlayerGO.transform.rotation;
+            //Debug.Log($"LateUpdate");
         }
         #endregion
 
@@ -149,16 +149,16 @@ namespace VL.UnityStarter.GamingStudy0316
             GameBoard.PreInit();
             GameBoard.DisplayText("开始生成地形");
             yield return GameBoard.InitFloors();
-            GameBoard.DisplayText("开始生成树木");
-            yield return GameBoard.InitTrees();
             GameBoard.DisplayText("开始生成城镇");
             yield return GameBoard.InitTowns();
-            GameBoard.DisplayText("开始生成地方城镇");
+            GameBoard.DisplayText("开始生成敌方城镇");
             yield return GameBoard.InitEnemyTowns();
             GameBoard.DisplayText("开始生成矿坑");
-            yield return GameBoard.InitMines();
+            yield return GameBoard.InitCaves();
             GameBoard.DisplayText("开始生成道路");
             yield return GameBoard.InitRoads();
+            GameBoard.DisplayText("开始生成树木");
+            yield return GameBoard.InitTrees();
             GameBoard.DisplayText("开始生成河流");
             yield return GameBoard.InitRivers();
             GameBoard.DisplayText("开始生成玩家");
@@ -548,6 +548,9 @@ namespace VL.UnityStarter.GamingStudy0316
             //分层管理
             FloorsGO = new GameObject("Floors"); FloorsGO.SetParent(Mono.gamingGO);
             ItemsGO = new GameObject("Items"); ItemsGO.SetParent(Mono.gamingGO);
+            CavesGO = new GameObject("Caves"); CavesGO.SetParent(Mono.gamingGO);
+            BuildingsGO = new GameObject("Buildings"); BuildingsGO.SetParent(Mono.gamingGO);
+            EnermyBuidingsGO = new GameObject("EnermyBuidings"); EnermyBuidingsGO.SetParent(Mono.gamingGO);
             CreaturesGO = new GameObject("Creatures"); CreaturesGO.SetParent(Mono.gamingGO);
             //创建文本输出框
             CanvasGO = VLCreator.CreateCanvas("Canvas", Mono.gamingGO);
@@ -557,7 +560,7 @@ namespace VL.UnityStarter.GamingStudy0316
             rect.anchorMax = new Vector2(0, 1);
             rect.pivot = new Vector2(0, 1);
             rect.anchoredPosition = new Vector2(0, 0);
-            rect.sizeDelta = new Vector2(400, 600);
+            rect.sizeDelta = new Vector2(600, 800);
             var canvasGroup = ScrollViewGO.AddComponent<CanvasGroup>();
             canvasGroup.alpha = 0.6f;
             ScrollTextGO = VLCreator.CreateText("ScrollText", CanvasGO);
@@ -566,7 +569,7 @@ namespace VL.UnityStarter.GamingStudy0316
             rect.anchorMax = new Vector2(0, 1);
             rect.pivot = new Vector2(0, 1);
             rect.anchoredPosition = new Vector2(20, -20);
-            rect.sizeDelta = new Vector2(400, 600);
+            rect.sizeDelta = new Vector2(600, 800);
             ScrollText = ScrollTextGO.GetComponent<Text>();
             ScrollText.fontSize = 32;
             ScrollText.color = Color.black;
@@ -577,6 +580,9 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public GameObject FloorsGO;
         public GameObject ItemsGO;
+        public GameObject CavesGO;
+        public GameObject BuildingsGO;
+        public GameObject EnermyBuidingsGO;
         public GameObject CreaturesGO;
 
         public Object InitFloors()
@@ -767,36 +773,30 @@ namespace VL.UnityStarter.GamingStudy0316
             ScrollText.text = string.Join("\n", texts);
         }
 
-        internal object InitTrees()
-        {
-            //floorWidth = StepX;
-            //floorHeight = StepY;
-            //for (int i = 0; i < XSteps; i++)
-            //{
-            //    for (int j = 0; j < YSteps; j++)
-            //    {
-            //        var f = Resource_t[Random.Range(0, Resource_Grounds.Count)].Clone();
-            //        Floors[i, j] = f;
-            //        var sprite = f.SpriteGO.GetComponent<SpriteRenderer>();
-            //        sprite.transform.position = new Vector2(i * StepX, j * StepY);
-            //        f.SpriteGO.SetParent(FloorsGO);
-            //    }
-            //}
-            return null;
-        }
-
-        internal object InitMines()
-        {
-            return null;
-        }
-
         internal object InitTowns()
         {
+            SeedRandom sr = new SeedRandom(500, 1);
+            var resources = Resource_Towns;
+            var target = BuildingsGO;
+            Init1StepItem(sr, resources.ToArray(), target, (f) => { return f.Items.Count > 0; });
             return null;
         }
 
         internal object InitEnemyTowns()
         {
+            SeedRandom sr = new SeedRandom(500, 1);
+            var resources = Resource_Orc_Towns;
+            var target = EnermyBuidingsGO;
+            Init1StepItem(sr, resources.ToArray(), target, (f) => { return f.Items.Count > 0; });
+            return null;
+        }
+
+        internal object InitCaves()
+        {
+            SeedRandom sr = new SeedRandom(1000, 1);
+            var resources = Resource_Caves;
+            var target = CavesGO;
+            Init1StepItem(sr, resources.ToArray(), target, (f) => { return f.Items.Count > 0; });
             return null;
         }
 
@@ -810,9 +810,19 @@ namespace VL.UnityStarter.GamingStudy0316
             return null;
         }
 
+        internal object InitTrees()
+        {
+            SeedRandom sr = new SeedRandom(100, 40);
+            var resources = Resource_Trees;
+            var target = ItemsGO;
+            Init1StepItem(sr, resources.ToArray(), target, (f) => { return f.Items.Count > 0; });
+            return null;
+        }
+
         internal object InitPlayer()
         {
             Player = new Player(Resource_Player.SpriteGO);
+            Player.GameBoard = this;
             Player.PlayerGO.transform.position = new Vector2(Player.X * StepX, Player.X * StepY);
             Player.SpriteGO.SetParent(GamingGO);
             return null;
@@ -829,6 +839,43 @@ namespace VL.UnityStarter.GamingStudy0316
             CameraGO = cameraGO;
             Camera = camera2D;
             return null;
+        }
+
+        private void Init1StepItem(SeedRandom sr, Item[] resources, GameObject target, System.Predicate<Floor> skipLogic = null)
+        {
+            for (int i = 0; i < XSteps; i++)
+            {
+                for (int j = 0; j < YSteps; j++)
+                {
+                    if (sr.GetNext() == 0)
+                        continue;
+
+                    if (skipLogic != null && skipLogic(Floors[i, j]))
+                        continue;
+
+                    var town = resources[Random.Range(0, resources.Length)].Clone();
+                    var sprite = town.SpriteGO.GetComponent<SpriteRenderer>();
+                    sprite.transform.position = new Vector2(i * StepX, j * StepY);
+                    town.SpriteGO.SetParent(target);
+                    Floors[i, j].Items.Add(town);
+                }
+            }
+        }
+        private void Init4StepItem(SeedRandom sr, Item[] resources, GameObject[] targets, System.Predicate<Floor> skipLogic = null)
+        {
+            for (int i = 0; i < XSteps; i++)
+            {
+                for (int j = 0; j < YSteps; j++)
+                {
+                    if (sr.GetNext() == 0)
+                        continue;
+
+                    if (skipLogic != null && skipLogic(Floors[i, j]))
+                        continue;
+
+
+                }
+            }
         }
     }
     class FastItem
@@ -1069,6 +1116,12 @@ namespace VL.UnityStarter.GamingStudy0316
                 return;
             spriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
         }
+
+        internal Item Clone()
+        {
+            Item clone = new Item(CloneHelper.Clone(SpriteGO));
+            return clone;
+        }
     }
     class Creature : UnityObject, AttackableCreature
     {
@@ -1167,6 +1220,7 @@ namespace VL.UnityStarter.GamingStudy0316
             {
                 Debug.Log($"Move X:{X},Y:{Y}");
             });
+            GameBoard.DisplayText($"Move X:{X},Y:{Y}");
         }
 
         internal void UpdateBuffs()
@@ -1273,6 +1327,47 @@ namespace VL.UnityStarter.GamingStudy0316
     {
         public int ChangedHP;
         public bool IsDead;
+    }
+
+    public class SeedRandom
+    {
+        private int[] numbers;
+        private int currentIndex;
+
+        public SeedRandom(int total, int seed)
+        {
+            numbers = new int[total];
+            for (int i = 0; i < seed; i++)
+            {
+                numbers[i] = 1;
+            }
+            for (int i = seed; i < total; i++)
+            {
+                numbers[i] = 0;
+            }
+            Shuffle();
+        }
+
+        private void Shuffle()
+        {
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                int j = Random.Range(i, numbers.Length);
+                int temp = numbers[i];
+                numbers[i] = numbers[j];
+                numbers[j] = temp;
+            }
+            currentIndex = 0;
+        }
+
+        public int GetNext()
+        {
+            if (currentIndex == numbers.Length)
+            {
+                Shuffle();
+            }
+            return numbers[currentIndex++];
+        }
     }
 
     public static partial class ValueEx
