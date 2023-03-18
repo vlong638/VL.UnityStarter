@@ -24,7 +24,6 @@ namespace VL.UnityStarter.GamingStudy0316
             { ItemType.DoubleSpeed, new KeyValuePair<Buff, int>(Buff.DoubleSpeed,8) },
         };
 
-
         public static Dictionary<string, string> CodeDescription = new Dictionary<string, string>()
         {
             {"Grass_1","Grass_1"},
@@ -68,47 +67,47 @@ namespace VL.UnityStarter.GamingStudy0316
             {"Cliff_23","Cliff_23"},
             {"PineTrees_1","PineTrees_1"},
             {"PineTrees_0","PineTrees_0"},
-            {"Trees_0","Trees_0"},
-            {"Trees_1","Trees_1"},
-            {"Trees_2","Trees_2"},
-            {"Trees_3","Trees_3"},
+            {"Trees_0","这是一片森林,有斧头的话,你可以尝试砍伐一些树木1"},
+            {"Trees_1","这是一片森林,有斧头的话,你可以尝试砍伐一些树木2"},
+            {"Trees_2","这是一片森林,有斧头的话,你可以尝试砍伐一些树木3"},
+            {"Trees_3","这是一片森林,有斧头的话,你可以尝试砍伐一些树木4"},
             {"Wheatfield_0","Wheatfield_0"},
             {"Wheatfield_1","Wheatfield_1"},
             {"Wheatfield_2","Wheatfield_2"},
             {"Wheatfield_3","Wheatfield_3"},
-            {"CaveV2_0","CaveV2_0"},
-            {"CaveV2_1","CaveV2_1"},
-            {"CaveV2_2","CaveV2_2"},
-            {"CaveV2_3","CaveV2_3"},
-            {"CaveV2_4","CaveV2_4"},
-            {"CaveV2_5","CaveV2_5"},
+            {"CaveV2_0","这里有一个废弃的矿坑,入口散落着碎石块."},
+            {"CaveV2_1","这里有一个废弃的矿坑,入口散落着2"},
+            {"CaveV2_2","这里有一个废弃的矿坑,入口散落着3"},
+            {"CaveV2_3","这里有一个废弃的矿坑,入口散落着4"},
+            {"CaveV2_4","这里有一个废弃的矿坑,入口散落着5"},
+            {"CaveV2_5","这里有一个废弃的矿坑,入口散落着6"},
             {"Chapels_0","Chapels_0"},
             {"Chapels_1","Chapels_1"},
             {"Chapels_2","Chapels_2"},
             {"Chapels_3","Chapels_3"},
             {"Chapels_4","Chapels_4"},
             {"Chapels_5","Chapels_5"},
-            {"Keep_0","Keep_0"},
-            {"Keep_1","Keep_1"},
-            {"Keep_6","Keep_6"},
-            {"Keep_7","Keep_7"},
-            {"Keep_4","Keep_4"},
-            {"Keep_5","Keep_5"},
-            {"Keep_10","Keep_10"},
-            {"Keep_11","Keep_11"},
-            {"AllBuildings-Preview_68","AllBuildings-Preview_68"},
-            {"AllBuildings-Preview_84","AllBuildings-Preview_84"},
-            {"AllBuildings-Preview_100","AllBuildings-Preview_100"},
-            {"AllBuildings-Preview_115","AllBuildings-Preview_115"},
-            {"AllBuildings-Preview_116","AllBuildings-Preview_116"},
-            {"AllBuildings-Preview_87","AllBuildings-Preview_87"},
-            {"AllBuildings-Preview_145","AllBuildings-Preview_145"},
-            {"AllBuildings-Preview_161","AllBuildings-Preview_161"},
-            {"AllBuildings-Preview_177","AllBuildings-Preview_177"},
-            {"AllBuildings-Preview_165","AllBuildings-Preview_165"},
-            {"AllBuildings-Preview_166","AllBuildings-Preview_166"},
-            {"AllBuildings-Preview_167","AllBuildings-Preview_167"},
-            {"AllBuildings-Preview_34","AllBuildings-Preview_34"},
+            {"Keep_0","这是一个小城镇,里面冉冉燃起了炊烟1"},
+            {"Keep_1","这是一个小城镇,里面冉冉燃起了炊烟2"},
+            {"Keep_6","这是一个小城镇,里面冉冉燃起了炊烟3"},
+            {"Keep_7","这是一个小城镇,里面冉冉燃起了炊烟4"},
+            {"Keep_4","这是一个小城镇,里面冉冉燃起了炊烟5"},
+            {"Keep_5","这是一个小城镇,里面冉冉燃起了炊烟6"},
+            {"Keep_10","这是一个小城镇,里面冉冉燃起了炊烟7"},
+            {"Keep_11","这是一个小城镇,里面冉冉燃起了炊烟8"},
+            {"AllBuildings-Preview_68","哥布林的巢穴,入口混乱不堪,掺杂着血迹1"},
+            {"AllBuildings-Preview_84","哥布林的巢穴,入口混乱不堪,掺杂着血迹2"},
+            {"AllBuildings-Preview_100","哥布林的巢穴,入口混乱不堪,掺杂着血迹3"},
+            {"AllBuildings-Preview_115","哥布林的巢穴,入口混乱不堪,掺杂着血迹4"},
+            {"AllBuildings-Preview_116","哥布林的巢穴,入口混乱不堪,掺杂着血迹5"},
+            {"AllBuildings-Preview_87","哥布林的巢穴,入口混乱不堪,掺杂着血迹6"},
+            {"AllBuildings-Preview_145","哥布林的巢穴,入口混乱不堪,掺杂着血迹7"},
+            {"AllBuildings-Preview_161","哥布林的巢穴,入口混乱不堪,掺杂着血迹8"},
+            {"AllBuildings-Preview_177","哥布林的巢穴,入口混乱不堪,掺杂着血迹9"},
+            {"AllBuildings-Preview_165","哥布林的巢穴,入口混乱不堪,掺杂着血迹10"},
+            {"AllBuildings-Preview_166","哥布林的巢穴,入口混乱不堪,掺杂着血迹11"},
+            {"AllBuildings-Preview_167","哥布林的巢穴,入口混乱不堪,掺杂着血迹12"},
+            {"AllBuildings-Preview_34","哥布林的巢穴,入口混乱不堪,掺杂着血迹13"},
             {"AllBuildings-Preview_35","AllBuildings-Preview_35"},
             {"AllBuildings-Preview_50","AllBuildings-Preview_50"},
             {"AllBuildings-Preview_51","AllBuildings-Preview_51"},
@@ -121,16 +120,148 @@ namespace VL.UnityStarter.GamingStudy0316
             {"AllBuildings-Preview_54","AllBuildings-Preview_54"},
             {"AllBuildings-Preview_55","AllBuildings-Preview_55"},
         };
+        public static Dictionary<string, CreatureMathModel> CodeCreatureMathModel = new Dictionary<string, CreatureMathModel>()
+        {
+            {"ArcherGoblin",new CreatureMathModel(){
+                Attr_AttackMax_from = 17,
+                Attr_AttackMax_to = 20,
+                Attr_AttackMin_from=4,
+                Attr_AttackMin_to = 6,
+                Attr_HP_from=30,
+                Attr_HP_to = 45,
+                Attr_Defend_from=3,
+                Attr_Defend_to=6,
+            } },
+            {"ClubGoblin",new CreatureMathModel(){
+                Attr_AttackMax_from = 17,
+                Attr_AttackMax_to = 20,
+                Attr_AttackMin_from=14,
+                Attr_AttackMin_to = 16,
+                Attr_HP_from=60,
+                Attr_HP_to = 75,
+                Attr_Defend_from=6,
+                Attr_Defend_to=7,} },
+            {"FarmerGoblin",new CreatureMathModel(){
+                Attr_AttackMax_from = 7,
+                Attr_AttackMax_to = 10,
+                Attr_AttackMin_from=4,
+                Attr_AttackMin_to = 6,
+                Attr_HP_from=50,
+                Attr_HP_to = 65,
+                Attr_Defend_from=1,
+                Attr_Defend_to=2,} },
+            {"KamikazeGoblin",new CreatureMathModel(){
+                Attr_AttackMax_from = 7,
+                Attr_AttackMax_to = 10,
+                Attr_AttackMin_from=4,
+                Attr_AttackMin_to = 6,
+                Attr_HP_from=30,
+                Attr_HP_to = 45,
+                Attr_Defend_from=3,
+                Attr_Defend_to=6,} },
+            {"SpearGoblin",new CreatureMathModel(){
+                Attr_AttackMax_from = 27,
+                Attr_AttackMax_to = 20,
+                Attr_AttackMin_from=14,
+                Attr_AttackMin_to = 16,
+                Attr_HP_from=60,
+                Attr_HP_to = 75,
+                Attr_Defend_from=11,
+                Attr_Defend_to=12,} },
+            {"Minotaur",new CreatureMathModel(){
+                Attr_AttackMax_from = 47,
+                Attr_AttackMax_to = 40,
+                Attr_AttackMin_from=34,
+                Attr_AttackMin_to = 36,
+                Attr_HP_from=230,
+                Attr_HP_to = 245,
+                Attr_Defend_from=31,
+                Attr_Defend_to=42,} },
+            {"Orc",new CreatureMathModel(){
+                Attr_AttackMax_from = 57,
+                Attr_AttackMax_to = 60,
+                Attr_AttackMin_from=44,
+                Attr_AttackMin_to = 46,
+                Attr_HP_from=130,
+                Attr_HP_to = 145,
+                Attr_Defend_from=21,
+                Attr_Defend_to=22,} },
+            {"OrcMage",new CreatureMathModel(){
+                Attr_AttackMax_from = 7,
+                Attr_AttackMax_to = 10,
+                Attr_AttackMin_from=4,
+                Attr_AttackMin_to = 6,
+                Attr_HP_from=70,
+                Attr_HP_to = 85,
+                Attr_Defend_from=11,
+                Attr_Defend_to=12, } },
+            {"OrcShaman",new CreatureMathModel(){
+                Attr_AttackMax_from = 7,
+                Attr_AttackMax_to = 10,
+                Attr_AttackMin_from=4,
+                Attr_AttackMin_to = 6,
+                Attr_HP_from=60,
+                Attr_HP_to = 75,
+                Attr_Defend_from=1,
+                Attr_Defend_to=2,} },
+            {"ArmouredRedDemon",new CreatureMathModel(){
+                Attr_AttackMax_from = 71,
+                Attr_AttackMax_to = 102,
+                Attr_AttackMin_from=41,
+                Attr_AttackMin_to = 62,
+                Attr_HP_from=230,
+                Attr_HP_to = 245,
+                Attr_Defend_from=61,
+                Attr_Defend_to=82,} },
+            {"PurpleDemon",new CreatureMathModel(){
+                Attr_AttackMax_from = 71,
+                Attr_AttackMax_to = 102,
+                Attr_AttackMin_from=41,
+                Attr_AttackMin_to = 62,
+                Attr_HP_from=230,
+                Attr_HP_to = 245,
+                Attr_Defend_from=61,
+                Attr_Defend_to=82,} },
+            {"RedDemon",new CreatureMathModel(){
+                Attr_AttackMax_from = 71,
+                Attr_AttackMax_to = 102,
+                Attr_AttackMin_from=41,
+                Attr_AttackMin_to = 62,
+                Attr_HP_from=230,
+                Attr_HP_to = 245,
+                Attr_Defend_from=61,
+                Attr_Defend_to=82,} },
+        };
     }
 
-    class ResourceObject
+    public class CreatureMathModel
+    {
+        public int Attr_HP_from { set; get; }
+        public int Attr_HP_to { set; get; }
+        public int Attr_AttackMax_from { set; get; }
+        public int Attr_AttackMax_to { set; get; }
+        public int Attr_AttackMin_from { set; get; }
+        public int Attr_AttackMin_to { set; get; }
+        public int Attr_Defend_from { set; get; }
+        public int Attr_Defend_to { set; get; }
+
+        internal void Decorate(Creature creature)
+        {
+            creature.Attr_HP = Random.Range(this.Attr_HP_from, this.Attr_HP_to);
+            creature.Attr_AttackMax = Random.Range(this.Attr_AttackMax_from, this.Attr_AttackMax_to);
+            creature.Attr_AttackMin = Random.Range(this.Attr_AttackMin_from, this.Attr_AttackMin_to);
+            creature.Attr_Defend = Random.Range(this.Attr_Defend_from, this.Attr_Defend_to);
+        }
+    }
+
+    public class ResourceObject
     {
         public string Code;
         public string ImageName;
         public string CheckDescription;
     }
 
-    enum SpriteType
+    public enum SpriteType
     {
         None = 0,
         Floor = 3,
@@ -150,13 +281,6 @@ namespace VL.UnityStarter.GamingStudy0316
             go.transform.parent = parent.transform;
         }
     }
-    public class CloneHelper
-    {
-        public static GameObject Clone(GameObject gameObject)
-        {
-            return Gaming0316.Instantiate(gameObject);
-        }
-    }
 
     public class Gaming0316 : MonoBehaviour
     {
@@ -168,7 +292,6 @@ namespace VL.UnityStarter.GamingStudy0316
         GameBoard GameBoard;
 
 
-        #region Unity Mehtod
         void Start()
         {
             Debug.Log($"Start");
@@ -213,7 +336,6 @@ namespace VL.UnityStarter.GamingStudy0316
             GameBoard.CameraGO.transform.position = GameBoard.Player.PlayerGO.transform.position + GameBoard.Player.CameraOffSet;
             //GameBoard.CameraGO.transform.rotation = GameBoard.Player.PlayerGO.transform.rotation;
         }
-        #endregion
 
         private void Load()
         {
@@ -256,7 +378,7 @@ namespace VL.UnityStarter.GamingStudy0316
             GameBoard.DisplayText("开始生成城镇");
             yield return GameBoard.InitTowns();
             GameBoard.DisplayText("开始生成敌方城镇");
-            yield return GameBoard.InitEnemyTowns();
+            yield return GameBoard.InitEnermyTowns();
             GameBoard.DisplayText("开始生成矿坑");
             yield return GameBoard.InitCaves();
             GameBoard.DisplayText("开始生成道路");
@@ -345,20 +467,24 @@ namespace VL.UnityStarter.GamingStudy0316
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Nature/PineTrees");
             GameBoard.Resource_Trees = new List<Tree>();
             GameBoard.Resource_Trees.Add(new Tree(
-                VLCreator.CreateSprite(sprite.First(c => c.name == "PineTrees_1"), "PineTrees_1", assetGO)
+                null
+                , VLCreator.CreateSprite(sprite.First(c => c.name == "PineTrees_1"), "PineTrees_1", assetGO)
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "PineTrees_0"), "PineTrees_0", assetGO)
                 ));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Nature/Trees");
             GameBoard.Resource_Trees.Add(new Tree(
-                VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_1"), "Trees_1", assetGO)
+                null
+                , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_1"), "Trees_1", assetGO)
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
                 ));
             GameBoard.Resource_Trees.Add(new Tree(
-                VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_2"), "Trees_2", assetGO)
+                null
+                , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_2"), "Trees_2", assetGO)
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
                 ));
             GameBoard.Resource_Trees.Add(new Tree(
-                VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_3"), "Trees_3", assetGO)
+                null
+                , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_3"), "Trees_3", assetGO)
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
                 ));
             //稻谷
@@ -404,35 +530,117 @@ namespace VL.UnityStarter.GamingStudy0316
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Keep_10"), "Keep_10", assetGO)
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Keep_11"), "Keep_11", assetGO)
                 ));
+            //生物
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ArcherGoblin");
+            GameBoard.Resource_ArcherGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ArcherGoblin_0"), "ArcherGoblin", assetGO));
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ClubGoblin");
+            GameBoard.Resource_ClubGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ClubGoblin_0"), "ClubGoblin", assetGO));
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/FarmerGoblin");
+            GameBoard.Resource_FarmerGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "FarmerGoblin_0"), "FarmerGoblin", assetGO));
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/KamikazeGoblin");
+            GameBoard.Resource_KamikazeGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "KamikazeGoblin_0"), "KamikazeGoblin", assetGO));
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/SpearGoblin");
+            GameBoard.Resource_SpearGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "SpearGoblin_0"), "SpearGoblin", assetGO));
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Minotaur");
+            GameBoard.Resource_Minotaur = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "Minotaur_0"), "Minotaur", assetGO));
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Orc");
+            GameBoard.Resource_Orc = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "Orc_0"), "Orc", assetGO));
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcMage");
+            GameBoard.Resource_OrcMage = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "OrcMage_0"), "OrcMage", assetGO));
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcShaman");
+            GameBoard.Resource_OrcShaman = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "OrcShaman_0"), "OrcShaman", assetGO));
+            //BOSS
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/ArmouredRedDemon");
+            GameBoard.Resource_ArmouredRedDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ArmouredRedDemon_0"), "ArmouredRedDemon", assetGO));
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/PurpleDemon");
+            GameBoard.Resource_PurpleDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "PurpleDemon_0"), "PurpleDemon", assetGO));
+            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/RedDemon");
+            GameBoard.Resource_RedDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "RedDemon_0"), "RedDemon", assetGO));
             //兽人巢穴(小)
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Enemy/Orc/AllBuildings-Preview");
             GameBoard.Resource_Orc_Towns = new List<EnermyTown>();
             GameBoard.Resource_Orc_Towns.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_68"), "AllBuildings-Preview_68", assetGO)
-                , EnermyTownType.GoblinTownlv1));
+                , EnermyTownType.GoblinTownlv1, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_FarmerGoblin,new SeedRandom(50, 1),6),
+                }));
             GameBoard.Resource_Orc_Towns.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_84"), "AllBuildings-Preview_84", assetGO)
-                , EnermyTownType.GoblinTownlv2));
+                , EnermyTownType.GoblinTownlv2, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_FarmerGoblin,new SeedRandom(50, 1),2),
+                    new CreatureSeed(GameBoard.Resource_ArcherGoblin,new SeedRandom(100, 1),2),
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(150, 1),2),
+                }));
             GameBoard.Resource_Orc_Towns.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_100"), "AllBuildings-Preview_100", assetGO)
-                , EnermyTownType.GoblinTownlv3));
+                , EnermyTownType.GoblinTownlv3, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_ArcherGoblin,new SeedRandom(50, 1),2),
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(100, 1),2),
+                    new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(150, 1),1),
+                    new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(150, 1),1),
+                }));
             GameBoard.Resource_Orc_Towns2 = new List<EnermyTown>();
             GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_115"), "AllBuildings-Preview_115", assetGO)
-                , EnermyTownType.GoblinTownOrc));
+                , EnermyTownType.GoblinTownOrc, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
+                    new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_Orc,new SeedRandom(150, 1),1),
+                }));
             GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_116"), "AllBuildings-Preview_116", assetGO)
-                , EnermyTownType.GoblinTownOrc));
+                , EnermyTownType.GoblinTownOrc, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
+                    new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_Orc,new SeedRandom(150, 1),1),
+                }));
             GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_87"), "AllBuildings-Preview_87", assetGO)
-                , EnermyTownType.GoblinTownMaga));
+                , EnermyTownType.GoblinTownMaga, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
+                    new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_OrcMage,new SeedRandom(150, 1),1),
+                }));
             GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_145"), "AllBuildings-Preview_145", assetGO)
-                , EnermyTownType.GoblinTownMaga));
+                , EnermyTownType.GoblinTownMaga, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
+                    new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_OrcMage,new SeedRandom(150, 1),1),
+                }));
             GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_161"), "AllBuildings-Preview_161", assetGO)
-                , EnermyTownType.GoblinTownShaman));
+                , EnermyTownType.GoblinTownShaman, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
+                    new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_OrcShaman,new SeedRandom(150, 1),1),
+                }));
             GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_177"), "AllBuildings-Preview_177", assetGO)
-                , EnermyTownType.GoblinTownShaman));
+                , EnermyTownType.GoblinTownShaman, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
+                    new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_OrcShaman,new SeedRandom(150, 1),1),
+                }));
             GameBoard.Resource_Orc_Towns3 = new List<EnermyTown>();
             GameBoard.Resource_Orc_Towns3.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_165"), "AllBuildings-Preview_165", assetGO)
-                , EnermyTownType.GoblinTownMinotaur));
+                , EnermyTownType.GoblinTownMinotaur, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
+                    new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_Minotaur,new SeedRandom(150, 1),1),
+                }));
             GameBoard.Resource_Orc_Towns3.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_166"), "AllBuildings-Preview_166", assetGO)
-                , EnermyTownType.GoblinTownMinotaur));
+                , EnermyTownType.GoblinTownMinotaur, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
+                    new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_Minotaur,new SeedRandom(150, 1),1),
+                }));
             GameBoard.Resource_Orc_Towns3.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_167"), "AllBuildings-Preview_167", assetGO)
-                , EnermyTownType.GoblinTownMinotaur));
+                , EnermyTownType.GoblinTownMinotaur, new List<CreatureSeed>() {
+                    new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
+                    new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
+                    new CreatureSeed(GameBoard.Resource_Minotaur,new SeedRandom(150, 1),1),
+                }));
             //兽人巢穴(大)
             GameBoard.Resource_Orc_BigTowns = new List<BigEnermyTown>();
             GameBoard.Resource_Orc_BigTowns.Add(
@@ -464,11 +672,10 @@ namespace VL.UnityStarter.GamingStudy0316
             //玩家
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Champions/Gangblanc");
             GameBoard.Resource_Player = new Creature(VLCreator.CreateSprite(sprite[0], "Player"));
-            //生物
             GameBoard.IsResourceReady = true;
         }
     }
-    class Movement
+    public class Movement
     {
         public int X, Y;
         public float XLength { get { return X * GameBoard.StepX; } }
@@ -484,8 +691,16 @@ namespace VL.UnityStarter.GamingStudy0316
             this.X = x;
             this.Y = y;
         }
+
+        public void CalculateMovement(Vector3 startPosition)
+        {
+            var targetPosition = new Vector2(startPosition.x + this.XLength, startPosition.y + this.YLength);
+            this.startPosition = startPosition;
+            this.targetPosition = targetPosition;
+            this.moveStartTime = Time.time;
+        }
     }
-    class GameBoard
+    public class GameBoard
     {
         public static float Width = 2560;
         public static float Height = 1440;
@@ -498,11 +713,17 @@ namespace VL.UnityStarter.GamingStudy0316
         internal float floorHeight;
         internal Player Player;
         internal Movement movement;
-
+        public bool IsResourceReady { get; internal set; }
+        public GameObject CameraGO { get; internal set; }
+        public Camera Camera { get; internal set; }
+        private Gaming0316 Mono;
+        public GameObject GamingGO { get; internal set; }
         public GameObject CanvasGO { get; private set; }
         public GameObject ScrollViewGO { get; set; }
         public GameObject ScrollTextGO { get; set; }
         public Text ScrollText { get; set; }
+
+        #region Resources
         public List<Floor> Resource_Grounds { get; internal set; }
         public List<Floor> Resource_Waters { get; internal set; }
         public List<Floor> Resource_Roads { get; internal set; }
@@ -514,11 +735,7 @@ namespace VL.UnityStarter.GamingStudy0316
         public Entrance Resource_Mountains_CopperMine { get; internal set; }
         public List<Floor> Resource_Mountains_Copper { get; internal set; }
         public List<BlockItem> Resource_Mountains_BigOre { get; internal set; }
-        public bool IsResourceReady { get; internal set; }
         public Creature Resource_Player { get; internal set; }
-        public GameObject CameraGO { get; internal set; }
-        public Camera Camera { get; internal set; }
-        public GameObject GamingGO { get; internal set; }
         public List<Tree> Resource_Trees { get; internal set; }
         public Wheatfield Resource_Wheatfield { get; internal set; }
         public List<Town> Resource_Towns { get; internal set; }
@@ -528,8 +745,19 @@ namespace VL.UnityStarter.GamingStudy0316
         public List<EnermyTown> Resource_Orc_Towns3 { get; internal set; }
         public List<BigEnermyTown> Resource_Orc_BigTowns { get; internal set; }
         public List<Cave> Resource_Caves { get; internal set; }
-
-        private Gaming0316 Mono;
+        public Creature Resource_ArcherGoblin { get; internal set; }
+        public Creature Resource_ClubGoblin { get; internal set; }
+        public Creature Resource_FarmerGoblin { get; internal set; }
+        public Creature Resource_KamikazeGoblin { get; internal set; }
+        public Creature Resource_Minotaur { get; internal set; }
+        public Creature Resource_Orc { get; internal set; }
+        public Creature Resource_OrcMage { get; internal set; }
+        public Creature Resource_OrcShaman { get; internal set; }
+        public Creature Resource_SpearGoblin { get; internal set; }
+        public Creature Resource_ArmouredRedDemon { get; internal set; }
+        public Creature Resource_PurpleDemon { get; internal set; }
+        public Creature Resource_RedDemon { get; internal set; }
+        #endregion
 
         public GameBoard(Gaming0316 gaming0316)
         {
@@ -610,7 +838,7 @@ namespace VL.UnityStarter.GamingStudy0316
             {
                 Player.OperationData.IsMoving = true;
                 Player.OperationData.IsMovingSetup = false;
-                movement = CalculateMovement();
+                movement.CalculateMovement(Player.PlayerGO.transform.position);
                 Player.Move(movement);
                 Player.UpdateBuffs();
             }
@@ -628,10 +856,11 @@ namespace VL.UnityStarter.GamingStudy0316
                 Player.OperationData.IsAttackingSetup = false;
                 Player.Attack(Floors);
                 Player.UpdateBuffs();
+                Player.OperationData.IsEnermyTurn = true;
             }
         }
 
-        public Movement CalculateMovement()
+        public Movement CalculateMovement(Creature cure)
         {
             var startPosition = Player.PlayerGO.transform.position;
             var targetPosition = new Vector2(startPosition.x + movement.XLength, startPosition.y + movement.YLength);
@@ -643,6 +872,29 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public void EnermyOperation()
         {
+            if (Player.OperationData.IsEnermyTurn)
+            {
+                Player.OperationData.IsEnermyTurn = false;
+
+                //行动
+                foreach (var item in Enermies)
+                {
+                    item.DoOneTurn();
+                }
+                //创造
+                GenerateEnermyBuidings();
+                foreach (var item in EnemyTowns)
+                {
+                    item.GenerateEnermy(this);
+                }
+            }
+        }
+
+        private void GenerateEnermyBuidings()
+        {
+            if (EnemyTowns.Count > 30)
+                return;
+            //TODO
         }
 
         internal Object PreInit()
@@ -662,7 +914,7 @@ namespace VL.UnityStarter.GamingStudy0316
             rect.anchorMax = new Vector2(0, 1);
             rect.pivot = new Vector2(0, 1);
             rect.anchoredPosition = new Vector2(0, 0);
-            rect.sizeDelta = new Vector2(600, 800);
+            rect.sizeDelta = new Vector2(800, 800);
             var canvasGroup = ScrollViewGO.AddComponent<CanvasGroup>();
             canvasGroup.alpha = 0.6f;
             ScrollTextGO = VLCreator.CreateText("ScrollText", CanvasGO);
@@ -671,7 +923,7 @@ namespace VL.UnityStarter.GamingStudy0316
             rect.anchorMax = new Vector2(0, 1);
             rect.pivot = new Vector2(0, 1);
             rect.anchoredPosition = new Vector2(20, -20);
-            rect.sizeDelta = new Vector2(600, 800);
+            rect.sizeDelta = new Vector2(800, 800);
             ScrollText = ScrollTextGO.GetComponent<Text>();
             ScrollText.fontSize = 32;
             ScrollText.color = Color.black;
@@ -686,6 +938,11 @@ namespace VL.UnityStarter.GamingStudy0316
         public GameObject BuildingsGO;
         public GameObject EnermyBuidingsGO;
         public GameObject CreaturesGO;
+
+        public List<Town> Towns;
+        public List<EnermyTown> EnemyTowns;
+        public List<Cave> Caves;
+        public List<Creature> Enermies { set; get; } = new List<Creature>();
 
         public Object InitFloors()
         {
@@ -880,16 +1137,16 @@ namespace VL.UnityStarter.GamingStudy0316
             SeedRandom sr = new SeedRandom(500, 1);
             var resources = Resource_Towns;
             var target = BuildingsGO;
-            Init1StepItem(sr, resources.ToArray(), target, (f) => { return f.Items.Count > 0; });
+            Towns = Init1StepItem(sr, resources, target, (f) => { return f.Items.Count > 0; });
             return null;
         }
 
-        internal object InitEnemyTowns()
+        internal object InitEnermyTowns()
         {
             SeedRandom sr = new SeedRandom(500, 1);
             var resources = Resource_Orc_Towns;
             var target = EnermyBuidingsGO;
-            Init1StepItem(sr, resources.ToArray(), target, (f) => { return f.Items.Count > 0; });
+            EnemyTowns = Init1StepItem(sr, resources, target, (f) => { return f.Items.Count > 0; });
             return null;
         }
 
@@ -898,7 +1155,7 @@ namespace VL.UnityStarter.GamingStudy0316
             SeedRandom sr = new SeedRandom(1000, 1);
             var resources = Resource_Caves;
             var target = CavesGO;
-            Init1StepItem(sr, resources.ToArray(), target, (f) => { return f.Items.Count > 0; });
+            Caves = Init1StepItem(sr, resources, target, (f) => { return f.Items.Count > 0; });
             return null;
         }
 
@@ -917,7 +1174,7 @@ namespace VL.UnityStarter.GamingStudy0316
             SeedRandom sr = new SeedRandom(100, 40);
             var resources = Resource_Trees;
             var target = ItemsGO;
-            Init1StepItem(sr, resources.ToArray(), target, (f) => { return f.Items.Count > 0; });
+            Init1StepItem(sr, resources, target, (f) => { return f.Items.Count > 0; }, (t) => { return Object.Instantiate(t.OrientSpriteGO); });
             return null;
         }
 
@@ -925,9 +1182,16 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             Player = new Player(Resource_Player.SpriteGO);
             Player.GameBoard = this;
-            Player.PlayerGO.transform.position = new Vector2(Player.X * StepX, Player.X * StepY);
+            Player.X = 20;
+            Player.Y = 20;
+            Player.PlayerGO.transform.position = GetPosition(Player.X, Player.Y);
             Player.SpriteGO.SetParent(GamingGO);
             return null;
+        }
+
+        internal Vector2 GetPosition(int x, int y)
+        {
+            return new Vector2(x * StepX, y * StepY);
         }
 
         internal object InitCamera()
@@ -943,8 +1207,10 @@ namespace VL.UnityStarter.GamingStudy0316
             return null;
         }
 
-        private void Init1StepItem(SeedRandom sr, Item[] resources, GameObject target, System.Predicate<Floor> skipLogic = null)
+        private List<T> Init1StepItem<T>(SeedRandom sr, List<T> resources, GameObject target, System.Predicate<Floor> skipLogic = null, System.Func<T, GameObject> setSprite = null)
+            where T : Item, ICloneableObject<T>
         {
+            List<T> initItems = new List<T>();
             for (int i = 0; i < XSteps; i++)
             {
                 for (int j = 0; j < YSteps; j++)
@@ -955,16 +1221,24 @@ namespace VL.UnityStarter.GamingStudy0316
                     if (skipLogic != null && skipLogic(Floors[i, j]))
                         continue;
 
-                    var town = resources[Random.Range(0, resources.Length)].Clone();
-                    var sprite = town.SpriteGO.GetComponent<SpriteRenderer>();
-                    sprite.transform.position = new Vector2(i * StepX, j * StepY);
-                    town.SpriteGO.SetParent(target);
-                    Floors[i, j].Items.Add(town);
+                    T resource = resources[Random.Range(0, resources.Count())];
+                    T t = resource.Clone();
+                    if (setSprite != null)
+                        t.SpriteGO = setSprite(t);
+                    var sprite = t.SpriteGO.GetComponent<SpriteRenderer>();
+                    sprite.transform.position = GetPosition(i, j);
+                    t.SpriteGO.SetParent(target);
+                    t.X = i;
+                    t.Y = j;
+                    Floors[i, j].Items.Add(t);
+                    initItems.Add(t);
                 }
             }
+            return initItems;
         }
-        private void Init4StepItem(SeedRandom sr, Item[] resources, GameObject[] targets, System.Predicate<Floor> skipLogic = null)
+        private List<Item> Init4StepItem(SeedRandom sr, Item[] resources, GameObject[] targets, System.Predicate<Floor> skipLogic = null)
         {
+            List<Item> initItems = new List<Item>();
             for (int i = 0; i < XSteps; i++)
             {
                 for (int j = 0; j < YSteps; j++)
@@ -978,9 +1252,10 @@ namespace VL.UnityStarter.GamingStudy0316
 
                 }
             }
+            return initItems;
         }
     }
-    class FastItem
+    public class FastItem
     {
         public GameObject Parent;
         public GameObject FastItemBlock;
@@ -988,9 +1263,9 @@ namespace VL.UnityStarter.GamingStudy0316
         public string Name;
         public string Key;
 
-        public FastItem(GameObject imageGO)
+        public FastItem(GameObject spriteGO)
         {
-            this.FastItemBlock = imageGO;
+            this.FastItemBlock = spriteGO;
         }
 
         public float FastItemBlockX { get; internal set; }
@@ -1018,7 +1293,7 @@ namespace VL.UnityStarter.GamingStudy0316
         }
     }
 
-    enum EntranceType
+    public enum EntranceType
     {
         None = 0,
         StoneMine,
@@ -1030,7 +1305,7 @@ namespace VL.UnityStarter.GamingStudy0316
         Cave,
     }
 
-    class Entrance : Item
+    public class Entrance : Item
     {
         public EntranceType EntranceType;
 
@@ -1050,15 +1325,68 @@ namespace VL.UnityStarter.GamingStudy0316
         GoblinTownMinotaur,//牛头人
         GoblinTownBoss,//+Demon
     }
-    class EnermyTown : Entrance
+    public class EnermyTown : Entrance, ICloneableObject<EnermyTown>
     {
         public EnermyTownType EnermyTownType;
-        public EnermyTown(GameObject imageGO, EnermyTownType enermyTownType) : base(imageGO, EntranceType.Town)
+        public EnermyTown(GameObject imageGO, EnermyTownType enermyTownType, List<CreatureSeed> creatureSeeds) : base(imageGO, EntranceType.Town)
         {
             EnermyTownType = enermyTownType;
+            CreatureSeeds = creatureSeeds;
+        }
+
+        public List<CreatureSeed> CreatureSeeds = new List<CreatureSeed>();
+        public List<Creature> Armies = new List<Creature>();
+
+        internal void GenerateEnermy(GameBoard gameBoard)
+        {
+            if (Armies.Count >= 3)
+                return;
+
+            foreach (var creatureSeeds in CreatureSeeds)
+            {
+                if (creatureSeeds.SeedRandom.GetNext() == 1)
+                {
+                    var creature = new Creature(Object.Instantiate(creatureSeeds.Creature.SpriteGO, gameBoard.CreaturesGO.transform));
+                    creature.Name = creatureSeeds.Creature.Name;
+                    var creatureModel = Dictionaries.CodeCreatureMathModel[creature.Name];
+                    creatureModel.Decorate(creature);
+                    creature.X = this.X;
+                    creature.Y = this.Y;
+                    creature.SpriteGO.transform.position = gameBoard.GetPosition(creature.X, creature.Y);
+                    Armies.Add(creature);
+                    gameBoard.Enermies.Add(creature);
+                    gameBoard.DisplayText($"{creature.Name}出现了");
+                    return;
+                }
+            }
+        }
+
+        public EnermyTown Clone()
+        {
+            return new EnermyTown(Object.Instantiate(SpriteGO), EnermyTownType, CreatureSeeds);
         }
     }
-    class BigEnermyTown : Entrance
+    public class CreatureSeed : ICloneableObject<CreatureSeed>
+    {
+        public CreatureSeed(Creature creature, SeedRandom seedRandom, int maxCount)
+        {
+            Creature = creature;
+            SeedRandom = seedRandom;
+            MaxCount = maxCount;
+        }
+
+        public string Name { set; get; }
+        public Creature Creature { set; get; }
+        public SeedRandom SeedRandom { set; get; }
+        public int MaxCount { get; internal set; }
+
+        public CreatureSeed Clone()
+        {
+            return new CreatureSeed(Creature, SeedRandom.Clone(), MaxCount);
+        }
+    }
+
+    public class BigEnermyTown : Entrance
     {
         GameObject ImageGO_LT;
         GameObject ImageGO_RT;
@@ -1079,19 +1407,29 @@ namespace VL.UnityStarter.GamingStudy0316
             EnermyTownType = enermyTownType;
         }
     }
-    class Town : Entrance
+    public class Town : Entrance, ICloneableObject<Town>
     {
-        public Town(GameObject imageGO) : base(imageGO, EntranceType.Town)
+        public Town(GameObject spriteGO) : base(spriteGO, EntranceType.Town)
         {
         }
-    }
-    class Cave : Entrance
-    {
-        public Cave(GameObject imageGO) : base(imageGO, EntranceType.Town)
+
+        public Town Clone()
         {
+            return new Town(Object.Instantiate(SpriteGO));
         }
     }
-    class BigTown : Entrance
+    public class Cave : Entrance, ICloneableObject<Cave>
+    {
+        public Cave(GameObject spriteGO) : base(spriteGO, EntranceType.Town)
+        {
+        }
+
+        public Cave Clone()
+        {
+            return new Cave(Object.Instantiate(SpriteGO));
+        }
+    }
+    public class BigTown : Entrance
     {
         GameObject imageGO_LT;
         GameObject imageGO_RT;
@@ -1109,7 +1447,7 @@ namespace VL.UnityStarter.GamingStudy0316
             imageGO_RB.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
         }
     }
-    class Floor : UnityObject
+    public class Floor : UnityObject
     {
         public int X;
         public int Y;
@@ -1129,11 +1467,10 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public Floor Clone()
         {
-            Floor clone = new Floor(CloneHelper.Clone(SpriteGO));
-            return clone;
+            return new Floor(Object.Instantiate(SpriteGO));
         }
     }
-    enum FloorType
+    public enum FloorType
     {
         None = 0,
         Plain,
@@ -1159,7 +1496,7 @@ namespace VL.UnityStarter.GamingStudy0316
         Tree = 2,
         Creature = 3,
     }
-    class BlockItem : Item
+    public class BlockItem : Item
     {
         public bool IsBlock = true;
         public BlockType BlockType;
@@ -1170,7 +1507,7 @@ namespace VL.UnityStarter.GamingStudy0316
             BlockType = blockType;
         }
     }
-    class Wheatfield : Item
+    public class Wheatfield : Item
     {
         public GameObject CutDownSpriteGO;
         public GameObject PlantSpriteGO;
@@ -1189,19 +1526,28 @@ namespace VL.UnityStarter.GamingStudy0316
             HarvestSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
         }
     }
-    class Tree : BlockItem
+    public class Tree : BlockItem, ICloneableObject<Tree>
     {
+        public GameObject OrientSpriteGO;
         public GameObject CutDownSpriteGO;
 
-        public Tree(GameObject spriteGO, GameObject cutDownSpriteGO) : base(spriteGO, BlockType.Tree)
+        public Tree(GameObject spriteGO, GameObject orientSpriteGO, GameObject cutDownSpriteGO) : base(spriteGO, BlockType.Tree)
         {
+            OrientSpriteGO = orientSpriteGO;
             CutDownSpriteGO = cutDownSpriteGO;
         }
+
+        public Tree Clone()
+        {
+            return new Tree(SpriteGO != null ? Object.Instantiate(SpriteGO) : null, OrientSpriteGO, CutDownSpriteGO);
+        }
     }
-    class UnityObject
+    public class UnityObject : IUnityObject
     {
         public string Name;
-        public GameObject SpriteGO;
+        public int X;
+        public int Y;
+        public GameObject SpriteGO { set; get; }
 
         public UnityObject(GameObject spriteGO)
         {
@@ -1210,7 +1556,7 @@ namespace VL.UnityStarter.GamingStudy0316
                 Name = SpriteGO.name;
         }
     }
-    class Item : UnityObject
+    public class Item : UnityObject //,ICloneableObject<Item> 会导致泛型混淆
     {
         public ItemType ItemType;
 
@@ -1221,27 +1567,45 @@ namespace VL.UnityStarter.GamingStudy0316
             spriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
         }
 
-        internal Item Clone()
-        {
-            Item clone = new Item(CloneHelper.Clone(SpriteGO));
-            clone.Name = Name;
-            return clone;
-        }
+        //public Item Clone()
+        //{
+        //    Item clone = new Item(CloneHelper.Clone(SpriteGO));
+        //    clone.Name = Name;
+        //    return clone;
+        //}
 
         internal void Display(GameBoard gameBoard)
         {
             gameBoard.DisplayText(Dictionaries.CodeDescription[Name]);
         }
     }
-    class Creature : UnityObject, AttackableCreature
-    {
-        public string Name;
 
+    public interface IUnityObject
+    {
+        GameObject SpriteGO { set; get; }
+    }
+    public interface ICloneableObject<T>
+    {
+        T Clone();
+    }
+
+    public enum CreatureType
+    {
+        None,
+        Friendly,
+        Medium,
+        Enermy
+    }
+
+    public class Creature : UnityObject, AttackableCreature
+    {
         public Creature(GameObject spriteGO) : base(spriteGO)
         {
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
             sprite.sortingOrder = (int)SpriteType.Creature;
         }
+
+        public CreatureType CreatureType { set; get; }
 
         #region AttackableCreature
         public int Attr_HP { set; get; }
@@ -1272,12 +1636,18 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             gameBoard.DisplayText(Dictionaries.CodeDescription[Name]);
         }
+
+        internal void DoOneTurn()
+        {
+            //TODO
+        }
         #endregion
     }
-    class OperationData
+    public class OperationData
     {
         public bool IsOperating { get { return IsMovingSetup | IsMoving | IsCollecttingSetup | IsAttackingSetup; } }
 
+        public bool IsEnermyTurn { get; internal set; }
 
         public bool IsAttackingSetup = false;
         public bool IsMovingSetup = false;
@@ -1291,15 +1661,13 @@ namespace VL.UnityStarter.GamingStudy0316
         DoubleDefend = 2,
         DoubleSpeed = 3,
     }
-    class Player : Creature
+    public class Player : Creature
     {
         public GameBoard GameBoard { get; internal set; }
         public Vector3 CameraOffSet { get; internal set; }
 
         public GameObject PlayerGO;
         public OperationData OperationData = new OperationData();
-        public int X;
-        public int Y;
         public List<Item> Items = new List<Item>();
         public List<FastItem> FastItems = new List<FastItem>();
 
@@ -1324,6 +1692,7 @@ namespace VL.UnityStarter.GamingStudy0316
             {
                 OperationData.IsMoving = false;
                 OperationData.IsMovingSetup = false;
+                OperationData.IsEnermyTurn = true;
             }
         }
 
@@ -1441,7 +1810,7 @@ namespace VL.UnityStarter.GamingStudy0316
             fastItem.Item = null;//快捷栏
         }
     }
-    interface AttackableCreature
+    public interface AttackableCreature
     {
         int Attr_HP { set; get; }
         int Attr_AttackMax { set; get; }
@@ -1451,19 +1820,24 @@ namespace VL.UnityStarter.GamingStudy0316
         AttackResult Attack(AttackableCreature creature, Dictionary<Buff, int> buffs);
         string GetAttackableCreatureDiscription();
     }
-    class AttackResult
+    public class AttackResult
     {
         public int ChangedHP;
         public bool IsDead;
     }
 
-    public class SeedRandom
+    public class SeedRandom : ICloneableObject<SeedRandom>
     {
         private int[] numbers;
         private int currentIndex;
 
+        public int Total { get; }
+        public int Seed { get; }
+
         public SeedRandom(int total, int seed)
         {
+            Total = total;
+            Seed = seed;
             numbers = new int[total];
             for (int i = 0; i < seed; i++)
             {
@@ -1495,6 +1869,11 @@ namespace VL.UnityStarter.GamingStudy0316
                 Shuffle();
             }
             return numbers[currentIndex++];
+        }
+
+        public SeedRandom Clone()
+        {
+            return new SeedRandom(Total, Seed);
         }
     }
 
