@@ -684,7 +684,6 @@ namespace VL.UnityStarter.GamingStudy0316
         public Vector2 startPosition;
         public Vector2 targetPosition;
         public float moveStartTime = 0f;
-        public float moveDuration = 0.2f;
 
         public Movement(int x, int y)
         {
@@ -695,6 +694,13 @@ namespace VL.UnityStarter.GamingStudy0316
         public void CalculateMovement(Vector3 startPosition)
         {
             var targetPosition = new Vector2(startPosition.x + this.XLength, startPosition.y + this.YLength);
+            this.startPosition = startPosition;
+            this.targetPosition = targetPosition;
+            this.moveStartTime = Time.time;
+        }
+        public void CalculateColliderMovement(Vector3 startPosition)
+        {
+            var targetPosition = new Vector2(startPosition.x + this.XLength / 3, startPosition.y + this.YLength / 3);
             this.startPosition = startPosition;
             this.targetPosition = targetPosition;
             this.moveStartTime = Time.time;
@@ -839,16 +845,51 @@ namespace VL.UnityStarter.GamingStudy0316
                 {
                     Player.OperationData.IsMovingSetup = false;
 
-                    Player.Movement.CalculateMovement(Player.PlayerGO.transform.position);
-                    Player.Move();
-                    Player.GameBoard.DisplayText($"Move X:{Player.X},Y:{Player.Y}");
-                    Player.UpdateBuffs(Player.GameBoard);
+                    var result = Player.CheckMovement(Floors);
+                    if (result.IsOverEdge)
+                    {
+                        Player.Movement.CalculateColliderMovement(Player.PlayerGO.transform.position);
+                        Player.GameBoard.DisplayText($"前方无路可走");
 
-                    Player.OperationData.IsMoving = true;
+                        Player.OperationData.IsAttempMoving = true;
+                    }
+                    else
+                    {
+                        Player.Movement.CalculateMovement(Player.PlayerGO.transform.position);
+                        Player.Move();
+                        Player.GameBoard.DisplayText($"Move X:{Player.X},Y:{Player.Y}");
+                        Player.UpdateBuffs(Player.GameBoard);
+
+                        Player.OperationData.IsMoving = true;
+                    }
+                }
+                if (Player.OperationData.IsAttempMoving)
+                {
+                    var clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement, 0.05f);
+                    if (clampTime >= 1.0f)
+                    {
+                        Player.Movement.moveStartTime = Time.time;
+                        var orient = Player.Movement.startPosition;
+                        Player.Movement.startPosition = Player.Movement.targetPosition;
+                        Player.Movement.targetPosition = orient;
+                        Player.OperationData.IsAttempMoving = false;
+                        Player.OperationData.IsAttempMovingBack = true;
+                    }
+                }
+                if (Player.OperationData.IsAttempMovingBack)
+                {
+                    var clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement, 0.15f);
+                    if (clampTime >= 1.0f)
+                    {
+                        Player.OperationData.IsMoving = false;
+                        Player.OperationData.IsMyTurn = false;
+                        Player.OperationData.IsOperated = false;
+                        Enermies.ForEach(c => c.OperationData.IsMyTurn = true);
+                    }
                 }
                 if (Player.OperationData.IsMoving)
                 {
-                    var clampTime = Player.DisplaySmoothMove(Player.PlayerGO);
+                    var clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement);
                     if (clampTime >= 1.0f)
                     {
                         Player.OperationData.IsMoving = false;
@@ -942,7 +983,7 @@ namespace VL.UnityStarter.GamingStudy0316
                             }
                             if (enermy.OperationData.IsMoving)
                             {
-                                var clampTime = enermy.DisplaySmoothMove(enermy.SpriteGO);
+                                var clampTime = enermy.DisplaySmoothMove(enermy.SpriteGO, enermy.Movement);
                                 if (clampTime >= 1.0f)
                                 {
                                     enermy.OperationData.IsMoving = false;
@@ -1746,11 +1787,11 @@ namespace VL.UnityStarter.GamingStudy0316
         }
 
         public OperationData OperationData = new OperationData();
-        public float DisplaySmoothMove(GameObject go)
+        public float DisplaySmoothMove(GameObject go, Movement movement, float moveDuration = 0.2f)
         {
-            float elapsedTime = Time.time - Movement.moveStartTime;
-            float clampTime = Mathf.Clamp01(elapsedTime / Movement.moveDuration);
-            Vector2 newPosition = Vector2.Lerp(Movement.startPosition, Movement.targetPosition, clampTime);
+            float elapsedTime = Time.time - movement.moveStartTime;
+            float clampTime = Mathf.Clamp01(elapsedTime / moveDuration);
+            Vector2 newPosition = Vector2.Lerp(movement.startPosition, movement.targetPosition, clampTime);
             go.transform.position = newPosition;
             return clampTime;
         }
@@ -1811,6 +1852,9 @@ namespace VL.UnityStarter.GamingStudy0316
                 isCollecttingSetup = value;
             }
         }
+
+        public bool IsAttempMoving { get; internal set; }
+        public bool IsAttempMovingBack { get; internal set; }
     }
     public enum Buff
     {
@@ -1834,7 +1878,6 @@ namespace VL.UnityStarter.GamingStudy0316
             PlayerGO = imageGO;
             CameraOffSet = new Vector3(0, 0, -2);
         }
-
 
         internal void Collect(Floor[,] floors)
         {
@@ -1921,6 +1964,23 @@ namespace VL.UnityStarter.GamingStudy0316
             Items.Remove(fastItem.Item);//包裹
             fastItem.Item = null;//快捷栏
         }
+
+        internal CheckMovementResult CheckMovement(Floor[,] floors)
+        {
+            CheckMovementResult result = new CheckMovementResult();
+            //边界检测
+            result.IsOverEdge = X + Movement.X < 0 || X + Movement.X > GameBoard.XSteps
+                || Y + Movement.Y < 0 || Y + Movement.Y > GameBoard.YSteps;
+            if (result.IsOverEdge)
+                return result;
+            //碰撞检测
+            //战斗检测
+            return result;
+        }
+    }
+    public class CheckMovementResult
+    {
+        public bool IsOverEdge { set; get; }
     }
     public interface AttackableCreature
     {
