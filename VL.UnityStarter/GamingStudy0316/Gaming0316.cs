@@ -470,22 +470,26 @@ namespace VL.UnityStarter.GamingStudy0316
                 null
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "PineTrees_1"), "PineTrees_1", assetGO)
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "PineTrees_0"), "PineTrees_0", assetGO)
+                , "PineTrees_1"
                 ));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Nature/Trees");
             GameBoard.Resource_Trees.Add(new Tree(
                 null
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_1"), "Trees_1", assetGO)
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
+                , "Trees_1"
                 ));
             GameBoard.Resource_Trees.Add(new Tree(
                 null
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_2"), "Trees_2", assetGO)
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
+                , "Trees_1"
                 ));
             GameBoard.Resource_Trees.Add(new Tree(
                 null
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_3"), "Trees_3", assetGO)
                 , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
+                , "Trees_1"
                 ));
             //µ¾¹È
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Nature/Wheatfield");
@@ -849,7 +853,7 @@ namespace VL.UnityStarter.GamingStudy0316
                     else
                     {
                         Player.Movement.CalculateMovement(Player.PlayerGO.transform.position);
-                        Player.Move();
+                        Player.Move(Floors);
                         Player.GameBoard.DisplayText($"ÒÆ¶¯ X:{Player.X},Y:{Player.Y}");
                         Player.UpdateBuffs(Player.GameBoard);
 
@@ -944,7 +948,7 @@ namespace VL.UnityStarter.GamingStudy0316
                                 enermy.OperationData.IsMovingSetup = false;
 
                                 enermy.Movement.CalculateMovement(enermy.SpriteGO.transform.position);
-                                enermy.Move();
+                                enermy.Move(Floors);
                                 enermy.UpdateBuffs(this);
 
                                 enermy.OperationData.IsMoving = true;
@@ -1275,12 +1279,13 @@ namespace VL.UnityStarter.GamingStudy0316
         internal object InitPlayer()
         {
             Player = new Player(Resource_Player.SpriteGO);
-            Player.GameBoard = this;
             Player.X = 20;
             Player.Y = 20;
             Player.PlayerGO.transform.position = GetPosition(Player.X, Player.Y);
             Player.SpriteGO.SetParent(GamingGO);
             Player.OperationStatus = OperationStatus.TurnOn;
+            Player.GameBoard = this;
+            Player.GameBoard.Floors[Player.X, Player.Y].Creatures.Add(Player);
             return null;
         }
 
@@ -1402,7 +1407,7 @@ namespace VL.UnityStarter.GamingStudy0316
     {
         public EntranceType EntranceType;
 
-        public Entrance(GameObject spriteGO, EntranceType entranceType) : base(spriteGO)
+        public Entrance(GameObject spriteGO, EntranceType entranceType, string name = "") : base(spriteGO, name)
         {
             EntranceType = entranceType;
         }
@@ -1501,24 +1506,24 @@ namespace VL.UnityStarter.GamingStudy0316
     }
     public class Town : Entrance, ICloneableObject<Town>
     {
-        public Town(GameObject spriteGO) : base(spriteGO, EntranceType.Town)
+        public Town(GameObject spriteGO, string name = "") : base(spriteGO, EntranceType.Town, name)
         {
         }
 
         public Town Clone()
         {
-            return new Town(Object.Instantiate(SpriteGO));
+            return new Town(Object.Instantiate(SpriteGO), Name);
         }
     }
     public class Cave : Entrance, ICloneableObject<Cave>
     {
-        public Cave(GameObject spriteGO) : base(spriteGO, EntranceType.Town)
+        public Cave(GameObject spriteGO, string name = "") : base(spriteGO, EntranceType.Town, name)
         {
         }
 
         public Cave Clone()
         {
-            return new Cave(Object.Instantiate(SpriteGO));
+            return new Cave(Object.Instantiate(SpriteGO), Name);
         }
     }
     public class BigTown : Entrance
@@ -1547,10 +1552,10 @@ namespace VL.UnityStarter.GamingStudy0316
         public List<Creature> Creatures = new List<Creature>();
         public FloorType FloorType;
 
-        public Floor(GameObject spriteGO) : base(spriteGO)
+        public Floor(GameObject spriteGO, string name = "") : base(spriteGO, name)
         {
         }
-        public Floor(GameObject spriteGO, FloorType floorType) : base(spriteGO)
+        public Floor(GameObject spriteGO, FloorType floorType, string name = "") : base(spriteGO, name)
         {
             FloorType = floorType;
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
@@ -1559,7 +1564,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public Floor Clone()
         {
-            return new Floor(Object.Instantiate(SpriteGO));
+            return new Floor(Object.Instantiate(SpriteGO), Name);
         }
     }
     public enum FloorType
@@ -1594,7 +1599,7 @@ namespace VL.UnityStarter.GamingStudy0316
         public BlockType BlockType;
 
 
-        public BlockItem(GameObject spriteGO, BlockType blockType) : base(spriteGO)
+        public BlockItem(GameObject spriteGO, BlockType blockType, string name = "") : base(spriteGO, name)
         {
             BlockType = blockType;
         }
@@ -1606,7 +1611,7 @@ namespace VL.UnityStarter.GamingStudy0316
         public GameObject GrowSpriteGO;
         public GameObject HarvestSpriteGO;
 
-        public Wheatfield(GameObject cutDownSpriteGO, GameObject plantSpriteGO, GameObject growSpriteGO, GameObject harvestSpriteGO) : base(null)
+        public Wheatfield(GameObject cutDownSpriteGO, GameObject plantSpriteGO, GameObject growSpriteGO, GameObject harvestSpriteGO, string name = "") : base(null, name)
         {
             CutDownSpriteGO = cutDownSpriteGO;
             CutDownSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
@@ -1623,7 +1628,7 @@ namespace VL.UnityStarter.GamingStudy0316
         public GameObject OrientSpriteGO;
         public GameObject CutDownSpriteGO;
 
-        public Tree(GameObject spriteGO, GameObject orientSpriteGO, GameObject cutDownSpriteGO) : base(spriteGO, BlockType.Tree)
+        public Tree(GameObject spriteGO, GameObject orientSpriteGO, GameObject cutDownSpriteGO, string name = "") : base(spriteGO, BlockType.Tree, name)
         {
             OrientSpriteGO = orientSpriteGO;
             CutDownSpriteGO = cutDownSpriteGO;
@@ -1631,7 +1636,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public Tree Clone()
         {
-            return new Tree(SpriteGO != null ? Object.Instantiate(SpriteGO) : null, OrientSpriteGO, CutDownSpriteGO);
+            return new Tree(SpriteGO != null ? Object.Instantiate(SpriteGO) : null, OrientSpriteGO, CutDownSpriteGO, Name);
         }
     }
     public class UnityObject : IUnityObject
@@ -1641,10 +1646,14 @@ namespace VL.UnityStarter.GamingStudy0316
         public int Y;
         public GameObject SpriteGO { set; get; }
 
-        public UnityObject(GameObject spriteGO)
+        public UnityObject(GameObject spriteGO, string name)
         {
             SpriteGO = spriteGO;
-            if (SpriteGO != null)
+            if (!string.IsNullOrEmpty(name))
+            {
+                Name = name;
+            }
+            else if (SpriteGO != null)
                 Name = SpriteGO.name;
         }
     }
@@ -1652,7 +1661,7 @@ namespace VL.UnityStarter.GamingStudy0316
     {
         public ItemType ItemType;
 
-        public Item(GameObject spriteGO) : base(spriteGO)
+        public Item(GameObject spriteGO, string name) : base(spriteGO, name)
         {
             if (spriteGO == null)
                 return;
@@ -1690,7 +1699,7 @@ namespace VL.UnityStarter.GamingStudy0316
     {
         public bool IsPlayer = false;
         public OperationStatus OperationStatus { get; internal set; }
-        public Creature(GameObject spriteGO) : base(spriteGO)
+        public Creature(GameObject spriteGO, string name = "") : base(spriteGO, name)
         {
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
             sprite.sortingOrder = (int)SpriteType.Creature;
@@ -1766,10 +1775,12 @@ namespace VL.UnityStarter.GamingStudy0316
             return clampTime;
         }
 
-        internal void Move()
+        internal void Move(Floor[,] floors)
         {
+            floors[X, Y].Creatures.Remove(this);
             X += Movement.X;
             Y += Movement.Y;
+            floors[X, Y].Creatures.Add(this);
             VLDebug.DelegateDebug(() =>
             {
                 Debug.Log($"{Name}Move X:{X},Y:{Y}");
@@ -1856,12 +1867,12 @@ namespace VL.UnityStarter.GamingStudy0316
         public List<Item> Items = new List<Item>();
         public List<FastItem> FastItems = new List<FastItem>();
 
-        public Player(GameObject imageGO) : base(imageGO)
+        public Player(GameObject imageGO) : base(imageGO, "Player")
         {
-            Name = "Player";
             PlayerGO = imageGO;
             CameraOffSet = new Vector3(0, 0, -2);
             OperationStatus = OperationStatus.TurnOn;
+            IsPlayer = true;
         }
 
         internal void Collect(Floor[,] floors)
@@ -1925,6 +1936,8 @@ namespace VL.UnityStarter.GamingStudy0316
             }
             foreach (var creature in floors[X, Y].Creatures)
             {
+                if (creature.IsPlayer)
+                    continue;
                 creature.Display(GameBoard);
             }
         }
