@@ -233,7 +233,6 @@ namespace VL.UnityStarter.GamingStudy0316
                 Attr_Defend_to=82,} },
         };
     }
-
     public class CreatureMathModel
     {
         public int Attr_HP_from { set; get; }
@@ -253,14 +252,12 @@ namespace VL.UnityStarter.GamingStudy0316
             creature.Attr_Defend = Random.Range(this.Attr_Defend_from, this.Attr_Defend_to);
         }
     }
-
     public class ResourceObject
     {
         public string Code;
         public string ImageName;
         public string CheckDescription;
     }
-
     public enum SpriteType
     {
         None = 0,
@@ -268,7 +265,6 @@ namespace VL.UnityStarter.GamingStudy0316
         Item = 5,
         Creature = 9,
     }
-
     public static partial class ValueEx
     {
         public static Color ToColor(this string s)
@@ -281,7 +277,6 @@ namespace VL.UnityStarter.GamingStudy0316
             go.transform.parent = parent.transform;
         }
     }
-
     public class Gaming0316 : MonoBehaviour
     {
         internal GameObject startGO { set; get; }
@@ -290,7 +285,6 @@ namespace VL.UnityStarter.GamingStudy0316
         internal GameObject settingGO { set; get; }
 
         GameBoard GameBoard;
-
 
         void Start()
         {
@@ -325,8 +319,14 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             if (GameBoard == null || GameBoard.Player == null)
                 return;
-            GameBoard.PlayerOperation();
-            GameBoard.EnermyOperation();
+            if (GameBoard.Player.OperationData.IsMyTurn)
+            {
+                GameBoard.PlayerOperation();
+            }
+            else
+            {
+                GameBoard.EnermyOperation();
+            }
         }
 
         private void LateUpdate()
@@ -712,7 +712,6 @@ namespace VL.UnityStarter.GamingStudy0316
         internal float floorWidth;
         internal float floorHeight;
         internal Player Player;
-        internal Movement movement;
         public bool IsResourceReady { get; internal set; }
         public GameObject CameraGO { get; internal set; }
         public Camera Camera { get; internal set; }
@@ -767,27 +766,27 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public void PlayerOperation()
         {
-            if (!Player.OperationData.IsOperating)
+            if (!Player.OperationData.IsOperated)
             {
                 if (Input.GetKey(KeyCode.W))
                 {
                     Player.OperationData.IsMovingSetup = true;
-                    movement = new Movement(0, 1);
+                    Player.Movement = new Movement(0, 1);
                 }
                 else if (Input.GetKey(KeyCode.S))
                 {
                     Player.OperationData.IsMovingSetup = true;
-                    movement = new Movement(0, -1);
+                    Player.Movement = new Movement(0, -1);
                 }
                 else if (Input.GetKey(KeyCode.A))
                 {
                     Player.OperationData.IsMovingSetup = true;
-                    movement = new Movement(-1, 0);
+                    Player.Movement = new Movement(-1, 0);
                 }
                 else if (Input.GetKey(KeyCode.D))
                 {
                     Player.OperationData.IsMovingSetup = true;
-                    movement = new Movement(1, 0);
+                    Player.Movement = new Movement(1, 0);
                 }
                 else if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -834,59 +833,145 @@ namespace VL.UnityStarter.GamingStudy0316
                     }
                 }
             }
-            if (Player.OperationData.IsMovingSetup)
+            else
             {
-                Player.OperationData.IsMoving = true;
-                Player.OperationData.IsMovingSetup = false;
-                movement.CalculateMovement(Player.PlayerGO.transform.position);
-                Player.Move(movement);
-                Player.UpdateBuffs();
-            }
-            if (Player.OperationData.IsMoving)
-            {
-                Player.DisplaySmoothMove(Player.PlayerGO, movement);
-            }
-            if (Player.OperationData.IsCollecttingSetup)
-            {
-                Player.OperationData.IsCollecttingSetup = false;
-                Player.Collect(Floors);
-            }
-            if (Player.OperationData.IsAttackingSetup)
-            {
-                Player.OperationData.IsAttackingSetup = false;
-                Player.Attack(Floors);
-                Player.UpdateBuffs();
-                Player.OperationData.IsEnermyTurn = true;
+                if (Player.OperationData.IsMovingSetup)
+                {
+                    Player.OperationData.IsMovingSetup = false;
+
+                    Player.Movement.CalculateMovement(Player.PlayerGO.transform.position);
+                    Player.Move();
+                    Player.GameBoard.DisplayText($"Move X:{Player.X},Y:{Player.Y}");
+                    Player.UpdateBuffs(Player.GameBoard);
+
+                    Player.OperationData.IsMoving = true;
+                }
+                if (Player.OperationData.IsMoving)
+                {
+                    var clampTime = Player.DisplaySmoothMove(Player.PlayerGO);
+                    if (clampTime >= 1.0f)
+                    {
+                        Player.OperationData.IsMoving = false;
+                        Player.OperationData.IsMyTurn = false;
+                        Player.OperationData.IsOperated = false;
+                        Enermies.ForEach(c => c.OperationData.IsMyTurn = true);
+                    }
+                }
+                if (Player.OperationData.IsCollecttingSetup)
+                {
+                    Player.OperationData.IsCollecttingSetup = false;
+
+                    Player.Collect(Floors);
+
+                    Player.OperationData.IsOperated = false;
+                }
+                if (Player.OperationData.IsAttackingSetup)
+                {
+                    Player.OperationData.IsAttackingSetup = false;
+
+                    Player.Attack(Floors);
+                    Player.UpdateBuffs(this);
+
+                    Player.OperationData.IsMyTurn = false;
+                    Player.OperationData.IsOperated = false;
+                    Enermies.ForEach(c => c.OperationData.IsMyTurn = true);
+                }
             }
         }
 
-        public Movement CalculateMovement(Creature cure)
-        {
-            var startPosition = Player.PlayerGO.transform.position;
-            var targetPosition = new Vector2(startPosition.x + movement.XLength, startPosition.y + movement.YLength);
-            movement.startPosition = startPosition;
-            movement.targetPosition = targetPosition;
-            movement.moveStartTime = Time.time;
-            return movement;
-        }
+        //public void CalculateMovement(Creature cure)
+        //{
+        //    var startPosition = Player.PlayerGO.transform.position;
+        //    var targetPosition = new Vector2(startPosition.x + cure.Movement.XLength, startPosition.y + cure.Movement.YLength);
+        //    cure.Movement.startPosition = startPosition;
+        //    cure.Movement.targetPosition = targetPosition;
+        //    cure.Movement.moveStartTime = Time.time;
+        //}
 
         public void EnermyOperation()
         {
-            if (Player.OperationData.IsEnermyTurn)
+            //创造
+            if (Enermies.Any(c => c.OperationData.IsMyTurn))
             {
-                Player.OperationData.IsEnermyTurn = false;
-
                 //行动
-                foreach (var item in Enermies)
+                foreach (var enermy in Enermies)
                 {
-                    item.DoOneTurn();
+                    if (enermy.OperationData.IsMyTurn)
+                    {
+                        if (!enermy.OperationData.IsOperated)
+                        {
+                            if (Mathf.Abs(Player.X + Player.Y - enermy.X - enermy.Y) > 100)
+                            {
+                                enermy.OperationData.IsMyTurn = false;
+                                continue;
+                            }
+
+                            if (enermy.CanAttack(Player))
+                            {
+                                enermy.OperationData.IsAttackingSetup = true;
+
+                            }
+                            else if (Mathf.Abs(Player.X + Player.Y - enermy.X - enermy.Y) < 10)
+                            {
+                                var x = enermy.X == Player.X ? 0 : enermy.X > Player.X ? -1 : 1;
+                                var y = enermy.Y == Player.Y ? 0 : enermy.Y > Player.Y ? -1 : 1;
+                                enermy.Movement = new Movement(x, y);
+                                enermy.OperationData.IsMovingSetup = true;
+                                enermy.OperationData.IsOperated = true;
+                            }
+                            else
+                            {
+                                var x = Random.Range(-1, 2);
+                                var y = x != 0 ? 0 : Random.Range(-1, 2);
+                                enermy.Movement = new Movement(x, y);
+                                enermy.OperationData.IsMovingSetup = true;
+                                enermy.OperationData.IsOperated = true;
+                            }
+                        }
+                        else
+                        {
+                            if (enermy.OperationData.IsMovingSetup)
+                            {
+                                enermy.OperationData.IsMovingSetup = false;
+
+                                enermy.Movement.CalculateMovement(enermy.SpriteGO.transform.position);
+                                enermy.Move();
+                                enermy.UpdateBuffs(this);
+
+                                enermy.OperationData.IsMoving = true;
+                            }
+                            if (enermy.OperationData.IsMoving)
+                            {
+                                var clampTime = enermy.DisplaySmoothMove(enermy.SpriteGO);
+                                if (clampTime >= 1.0f)
+                                {
+                                    enermy.OperationData.IsMoving = false;
+                                    enermy.OperationData.IsOperated = false;
+                                    enermy.OperationData.IsMyTurn = false;
+                                }
+                            }
+                            if (enermy.OperationData.IsAttackingSetup)
+                            {
+                                enermy.OperationData.IsAttackingSetup = false;
+
+                                //enermy.Attack(Floors);
+                                //enermy.UpdateBuffs(enermy.GameBoard);
+
+                                enermy.OperationData.IsOperated = false;
+                                enermy.OperationData.IsMyTurn = false;
+                            }
+                        }
+                    }
                 }
-                //创造
+            }
+            else
+            {
                 GenerateEnermyBuidings();
                 foreach (var item in EnemyTowns)
                 {
                     item.GenerateEnermy(this);
                 }
+                Player.OperationData.IsMyTurn = true;
             }
         }
 
@@ -1292,7 +1377,6 @@ namespace VL.UnityStarter.GamingStudy0316
             Item = null;
         }
     }
-
     public enum EntranceType
     {
         None = 0,
@@ -1304,7 +1388,6 @@ namespace VL.UnityStarter.GamingStudy0316
         BigTown,
         Cave,
     }
-
     public class Entrance : Item
     {
         public EntranceType EntranceType;
@@ -1385,7 +1468,6 @@ namespace VL.UnityStarter.GamingStudy0316
             return new CreatureSeed(Creature, SeedRandom.Clone(), MaxCount);
         }
     }
-
     public class BigEnermyTown : Entrance
     {
         GameObject ImageGO_LT;
@@ -1579,7 +1661,6 @@ namespace VL.UnityStarter.GamingStudy0316
             gameBoard.DisplayText(Dictionaries.CodeDescription[Name]);
         }
     }
-
     public interface IUnityObject
     {
         GameObject SpriteGO { set; get; }
@@ -1588,7 +1669,6 @@ namespace VL.UnityStarter.GamingStudy0316
     {
         T Clone();
     }
-
     public enum CreatureType
     {
         None,
@@ -1596,9 +1676,9 @@ namespace VL.UnityStarter.GamingStudy0316
         Medium,
         Enermy
     }
-
     public class Creature : UnityObject, AttackableCreature
     {
+        public bool IsPlayer = false;
         public Creature(GameObject spriteGO) : base(spriteGO)
         {
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
@@ -1637,22 +1717,100 @@ namespace VL.UnityStarter.GamingStudy0316
             gameBoard.DisplayText(Dictionaries.CodeDescription[Name]);
         }
 
-        internal void DoOneTurn()
+        internal Movement Movement;
+
+        internal void UpdateBuffs(GameBoard GameBoard)
+        {
+            foreach (var key in Buffs.Keys)
+            {
+                Buffs[key]--;
+                if (Buffs[key] == 0)
+                {
+                    Buffs.Remove(key);
+                    if (IsPlayer)
+                        GameBoard.DisplayText($"{key.ToString()},不再生效");
+                }
+                else
+                {
+                    if (IsPlayer)
+                        GameBoard.DisplayText($"{key.ToString()},剩余({ Buffs[key]})回合");
+                }
+            }
+        }
+
+        public bool CanAttack(Player player)
         {
             //TODO
+            //远程战斗单位增加远程攻击
+            return Mathf.Abs(player.X + player.Y - X - Y) == 1;
+        }
+
+        public OperationData OperationData = new OperationData();
+        public float DisplaySmoothMove(GameObject go)
+        {
+            float elapsedTime = Time.time - Movement.moveStartTime;
+            float clampTime = Mathf.Clamp01(elapsedTime / Movement.moveDuration);
+            Vector2 newPosition = Vector2.Lerp(Movement.startPosition, Movement.targetPosition, clampTime);
+            go.transform.position = newPosition;
+            return clampTime;
+        }
+
+        internal void Move()
+        {
+            X += Movement.X;
+            Y += Movement.Y;
+            VLDebug.DelegateDebug(() =>
+            {
+                Debug.Log($"{Name}Move X:{X},Y:{Y}");
+            });
         }
         #endregion
     }
     public class OperationData
     {
-        public bool IsOperating { get { return IsMovingSetup | IsMoving | IsCollecttingSetup | IsAttackingSetup; } }
+        public bool IsMyTurn { get; internal set; }
+        public bool IsOperated = false;
 
-        public bool IsEnermyTurn { get; internal set; }
+        private bool isAttackingSetup;
+        private bool isMovingSetup;
+        private bool isMoving;
+        private bool isCollecttingSetup;
 
-        public bool IsAttackingSetup = false;
-        public bool IsMovingSetup = false;
-        public bool IsMoving = false;
-        public bool IsCollecttingSetup = false;
+        public bool IsAttackingSetup
+        {
+            get => isAttackingSetup; set
+            {
+                if (value) IsOperated = true;
+                isAttackingSetup = value;
+            }
+        }
+        public bool IsMovingSetup
+        {
+            get => isMovingSetup;
+            set
+            {
+                if (value) IsOperated = true;
+                isMovingSetup = value;
+            }
+        }
+        public bool IsMoving
+        {
+            get => isMoving;
+            set
+            {
+                if (value) IsOperated = true;
+                isMoving = value;
+            }
+        }
+        public bool IsCollecttingSetup
+        {
+            get => isCollecttingSetup;
+            set
+            {
+                if (value) IsOperated = true;
+                isCollecttingSetup = value;
+            }
+        }
     }
     public enum Buff
     {
@@ -1667,7 +1825,6 @@ namespace VL.UnityStarter.GamingStudy0316
         public Vector3 CameraOffSet { get; internal set; }
 
         public GameObject PlayerGO;
-        public OperationData OperationData = new OperationData();
         public List<Item> Items = new List<Item>();
         public List<FastItem> FastItems = new List<FastItem>();
 
@@ -1678,51 +1835,6 @@ namespace VL.UnityStarter.GamingStudy0316
             CameraOffSet = new Vector3(0, 0, -2);
         }
 
-        public void DisplaySmoothMove(GameObject go, Movement m)
-        {
-            float elapsedTime = Time.time - m.moveStartTime;
-            float clampTime = Mathf.Clamp01(elapsedTime / m.moveDuration);
-            Vector2 newPosition = Vector2.Lerp(m.startPosition, m.targetPosition, clampTime);
-            go.transform.position = newPosition;
-            VLDebug.DelegateDebug(() =>
-            {
-                Debug.Log($"DisplaySmoothMove X:{newPosition.x},Y:{newPosition.y}");
-            });
-            if (clampTime >= 1.0f)
-            {
-                OperationData.IsMoving = false;
-                OperationData.IsMovingSetup = false;
-                OperationData.IsEnermyTurn = true;
-            }
-        }
-
-        internal void Move(Movement movement)
-        {
-            X += movement.X;
-            Y += movement.Y;
-            VLDebug.DelegateDebug(() =>
-            {
-                Debug.Log($"Move X:{X},Y:{Y}");
-            });
-            GameBoard.DisplayText($"Move X:{X},Y:{Y}");
-        }
-
-        internal void UpdateBuffs()
-        {
-            foreach (var key in Buffs.Keys)
-            {
-                Buffs[key]--;
-                if (Buffs[key] == 0)
-                {
-                    Buffs.Remove(key);
-                    GameBoard.DisplayText($"{key.ToString()},不再生效");
-                }
-                else
-                {
-                    GameBoard.DisplayText($"{key.ToString()},剩余({ Buffs[key]})回合");
-                }
-            }
-        }
 
         internal void Collect(Floor[,] floors)
         {
@@ -1825,7 +1937,6 @@ namespace VL.UnityStarter.GamingStudy0316
         public int ChangedHP;
         public bool IsDead;
     }
-
     public class SeedRandom : ICloneableObject<SeedRandom>
     {
         private int[] numbers;
@@ -1876,7 +1987,6 @@ namespace VL.UnityStarter.GamingStudy0316
             return new SeedRandom(Total, Seed);
         }
     }
-
     public static partial class ValueEx
     {
         public static void ToStartMenuButtonStyle(this GameObject startGameBtn)
