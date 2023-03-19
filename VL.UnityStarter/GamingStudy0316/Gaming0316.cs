@@ -120,6 +120,11 @@ namespace VL.UnityStarter.GamingStudy0316
             {"AllBuildings-Preview_54","AllBuildings-Preview_54"},
             {"AllBuildings-Preview_55","AllBuildings-Preview_55"},
         };
+        public static string GetDescriptionByName(string name)
+        {
+            return !string.IsNullOrEmpty(name) && Dictionaries.CodeDescription.ContainsKey(name) ? Dictionaries.CodeDescription[name] : "???";
+        }
+
         public static Dictionary<string, CreatureMathModel> CodeCreatureMathModel = new Dictionary<string, CreatureMathModel>()
         {
             {"ArcherGoblin",new CreatureMathModel(){
@@ -812,7 +817,7 @@ namespace VL.UnityStarter.GamingStudy0316
                     }
                     else if (Input.GetKey(KeyCode.Space))
                     {
-                        Player.OperationStatus = OperationStatus.Input_Collect;
+                        Player.OperationStatus = OperationStatus.Do_Collect;
                     }
                     else if (Input.GetKey(KeyCode.C))
                     {
@@ -842,8 +847,7 @@ namespace VL.UnityStarter.GamingStudy0316
                     }
                     break;
                 case OperationStatus.Input_Move:
-                    var result = Player.CheckMovement(Floors);
-                    if (result.IsOverEdge)
+                    if (Player.CheckOverEdge(Floors))
                     {
                         Player.Movement.CalculateColliderMovement(Player.PlayerGO.transform.position);
                         Player.GameBoard.DisplayText($"前方无路可走");
@@ -881,20 +885,20 @@ namespace VL.UnityStarter.GamingStudy0316
                     if (clampTime >= 1.0f)
                     {
                         Player.OperationStatus = OperationStatus.TurnOff;
-                        Enermies.ForEach(c => c.OperationData.IsMyTurn = true);
+                        Enermies.ForEach(c => c.OperationStatus = OperationStatus.TurnOn);
                     }
                     break;
                 case OperationStatus.Do_Collect:
                     Player.Collect(Floors);
                     Player.UpdateBuffs(this);
                     Player.OperationStatus = OperationStatus.TurnOff;
-                    Enermies.ForEach(c => c.OperationData.IsMyTurn = true);
+                    Enermies.ForEach(c => c.OperationStatus = OperationStatus.TurnOn);
                     break;
                 case OperationStatus.Do_Attack:
                     Player.Attack(Floors);
                     Player.UpdateBuffs(this);
                     Player.OperationStatus = OperationStatus.TurnOff;
-                    Enermies.ForEach(c => c.OperationData.IsMyTurn = true);
+                    Enermies.ForEach(c => c.OperationStatus = OperationStatus.TurnOn);
                     break;
                 default:
                     break;
@@ -904,76 +908,69 @@ namespace VL.UnityStarter.GamingStudy0316
         public void EnermyOperation()
         {
             //创造
-            if (Enermies.Any(c => c.OperationData.IsMyTurn))
+            if (Enermies.Any(c => c.OperationStatus != OperationStatus.TurnOff))
             {
                 //行动
                 foreach (var enermy in Enermies)
                 {
-                    if (enermy.OperationData.IsMyTurn)
+                    switch (enermy.OperationStatus)
                     {
-                        if (!enermy.OperationData.IsOperated)
-                        {
-                            if (Mathf.Abs(Player.X + Player.Y - enermy.X - enermy.Y) > 100)
+                        case OperationStatus.TurnOn:
+                            if (Mathf.Abs(Player.X + Player.Y - enermy.X - enermy.Y) > 30)
                             {
-                                enermy.OperationData.IsMyTurn = false;
+                                enermy.OperationStatus = OperationStatus.TurnOff;
                                 continue;
                             }
 
                             if (enermy.CanAttack(Player))
                             {
-                                enermy.OperationData.IsAttackingSetup = true;
-
+                                enermy.OperationStatus = OperationStatus.Do_Attack;
                             }
                             else if (Mathf.Abs(Player.X + Player.Y - enermy.X - enermy.Y) < 10)
                             {
+                                //跟踪
                                 var x = enermy.X == Player.X ? 0 : enermy.X > Player.X ? -1 : 1;
                                 var y = enermy.Y == Player.Y ? 0 : enermy.Y > Player.Y ? -1 : 1;
                                 enermy.Movement = new Movement(x, y);
-                                enermy.OperationData.IsMovingSetup = true;
-                                enermy.OperationData.IsOperated = true;
+                                enermy.Movement.CalculateMovement(enermy.SpriteGO.transform.position);
+                                //TODO 需要进行跨地形检测
+                                enermy.OperationStatus = OperationStatus.Input_Move;
                             }
                             else
                             {
+                                //漫步
                                 var x = Random.Range(-1, 2);
-                                var y = x != 0 ? 0 : Random.Range(-1, 2);
+                                var y = Random.Range(-1, 2);
                                 enermy.Movement = new Movement(x, y);
-                                enermy.OperationData.IsMovingSetup = true;
-                                enermy.OperationData.IsOperated = true;
-                            }
-                        }
-                        else
-                        {
-                            if (enermy.OperationData.IsMovingSetup)
-                            {
-                                enermy.OperationData.IsMovingSetup = false;
-
                                 enermy.Movement.CalculateMovement(enermy.SpriteGO.transform.position);
+                                enermy.OperationStatus = OperationStatus.Input_Move;
+                            }
+                            break;
+                        case OperationStatus.Input_Move:
+                            if (enermy.CheckOverEdge(Floors))
+                            {
+                                enermy.OperationStatus = OperationStatus.TurnOff;
+                            }
+                            else
+                            {
                                 enermy.Move(Floors);
-                                enermy.UpdateBuffs(this);
-
-                                enermy.OperationData.IsMoving = true;
+                                enermy.OperationStatus = OperationStatus.Do_Move;
                             }
-                            if (enermy.OperationData.IsMoving)
+                            break;
+                        case OperationStatus.Do_Move:
+                            var clampTime = enermy.DisplaySmoothMove(enermy.SpriteGO, enermy.Movement);
+                            if (clampTime >= 1.0f)
                             {
-                                var clampTime = enermy.DisplaySmoothMove(enermy.SpriteGO, enermy.Movement);
-                                if (clampTime >= 1.0f)
-                                {
-                                    enermy.OperationData.IsMoving = false;
-                                    enermy.OperationData.IsOperated = false;
-                                    enermy.OperationData.IsMyTurn = false;
-                                }
+                                enermy.OperationStatus = OperationStatus.TurnOff;
                             }
-                            if (enermy.OperationData.IsAttackingSetup)
-                            {
-                                enermy.OperationData.IsAttackingSetup = false;
-
-                                //enermy.Attack(Floors);
-                                //enermy.UpdateBuffs(enermy.GameBoard);
-
-                                enermy.OperationData.IsOperated = false;
-                                enermy.OperationData.IsMyTurn = false;
-                            }
-                        }
+                            break;
+                        case OperationStatus.Do_AttempMove:
+                        case OperationStatus.Do_AttempMoveBack:
+                        case OperationStatus.Do_Collect:
+                        case OperationStatus.Do_Attack:
+                        default:
+                            enermy.OperationStatus = OperationStatus.TurnOff;
+                            break;
                     }
                 }
             }
@@ -1059,167 +1056,6 @@ namespace VL.UnityStarter.GamingStudy0316
             }
             return null;
         }
-
-        //internal void Init()
-        //{
-        //    //创建地面
-        //    floorPaddingX = StepX / 10;
-        //    floorPaddingY = StepY / 10;
-        //    floorWidth = StepX - floorPaddingX * 2;
-        //    floorHeight = StepY - floorPaddingY * 2;
-        //    for (int i = 0; i < XSteps; i++)
-        //    {
-        //        for (int j = 0; j < YSteps; j++)
-        //        {
-        //            var image = VLCreator.CreateImage("floor" + i + j, CanvasGO).GetComponent<Image>();
-        //            image.color = Dictionaries.ColorDic[nameof(Floor)];
-        //            image.rectTransform.anchorMin = new Vector2(0f, 0f);
-        //            image.rectTransform.anchorMax = new Vector2(0f, 0f);
-        //            image.rectTransform.pivot = new Vector2(0f, 0f);
-        //            image.rectTransform.sizeDelta = new Vector2(floorWidth, floorHeight);
-        //            image.rectTransform.anchoredPosition = new Vector2(i * StepX + floorPaddingX, j * StepY + floorPaddingY);
-        //            Floors[i, j] = new Floor(image);
-        //        }
-        //    }
-        //    //生成道具
-        //    itemWidth = Mathf.Max(StepX / 4, 30);
-        //    itemHeight = Mathf.Max(StepY / 4, 30);
-        //    ItemType[] itemTypes = { ItemType.DoubleAttack, ItemType.DoubleDefend, ItemType.DoubleSpeed };
-        //    for (int i = 0; i < XSteps; i++)
-        //    {
-        //        for (int j = 0; j < YSteps; j++)
-        //        {
-        //            if (Random.Range(0, 100) < 90)
-        //                continue;
-        //            var imageGO = VLCreator.CreateImage("item" + i + j, CanvasGO);
-        //            var image= imageGO.GetComponent<Image>();
-        //            var itemType = itemTypes[Random.Range(0, 3)];
-        //            switch (itemType)
-        //            {
-        //                case ItemType.None:
-        //                    break;
-        //                case ItemType.DoubleAttack:
-        //                    image.color = Dictionaries.ColorDic[nameof(ItemType.DoubleAttack)];
-        //                    break;
-        //                case ItemType.DoubleDefend:
-        //                    image.color = Dictionaries.ColorDic[nameof(ItemType.DoubleDefend)];
-        //                    break;
-        //                case ItemType.DoubleSpeed:
-        //                    image.color = Dictionaries.ColorDic[nameof(ItemType.DoubleSpeed)];
-        //                    break;
-        //                default:
-        //                    break;
-        //            }
-        //            image.rectTransform.anchorMin = new Vector2(0f, 0f);
-        //            image.rectTransform.anchorMax = new Vector2(0f, 0f);
-        //            image.rectTransform.pivot = new Vector2(0f, 0f);
-        //            image.rectTransform.sizeDelta = new Vector2(itemWidth, itemHeight);
-        //            image.rectTransform.anchoredPosition = new Vector2(i * StepX + floorPaddingX, j * StepY + floorPaddingY);
-        //            Floors[i, j].Items.Add(new Item(imageGO)
-        //            {
-        //                Name = image.name,
-        //                ItemType = itemType,
-        //            });
-        //        }
-        //    }
-        //    //生成敌人
-        //    enemyWidth = Mathf.Max(StepX / 4, 50);
-        //    enemyHeight = Mathf.Max(StepY / 4, 50);
-        //    for (int i = 0; i < XSteps; i++)
-        //    {
-        //        for (int j = 0; j < YSteps; j++)
-        //        {
-        //            if (Random.Range(0, 100) < 95)
-        //                continue;
-        //            var image = VLCreator.CreateImage("Creature" + i + j, CanvasGO).GetComponent<Image>();
-        //            image.color = Dictionaries.ColorDic[nameof(Creature)];
-        //            image.rectTransform.anchorMin = new Vector2(0f, 0f);
-        //            image.rectTransform.anchorMax = new Vector2(0f, 0f);
-        //            image.rectTransform.pivot = new Vector2(0f, 0f);
-        //            image.rectTransform.sizeDelta = new Vector2(enemyWidth, enemyHeight);
-        //            image.rectTransform.anchoredPosition = new Vector2(i * StepX + floorPaddingX + floorWidth - enemyWidth
-        //                , j * StepY + floorPaddingY + floorHeight - enemyHeight);
-        //            Floors[i, j].Creatures.Add(new Creature(image)
-        //            {
-        //                Name = image.name,
-        //                Attr_HP = Random.Range(15, 50),
-        //                Attr_AttackMax = Random.Range(7, 10),
-        //                Attr_AttackMin = Random.Range(4, 7),
-        //                Attr_Defend = Random.Range(3, 6),
-        //            }); ;
-        //        }
-        //    }
-        //    //创建Player
-        //    Player.PlayerGO.transform.parent = CanvasGO.transform;
-        //    Player.PlayerGO.SetActive(true);
-        //    RectTransform rect = Player.PlayerGO.GetComponent<RectTransform>();
-        //    rect.anchorMin = new Vector2(0f, 0f);
-        //    rect.anchorMax = new Vector2(0f, 0f); 
-        //    rect.pivot = new Vector2(0f, 0f);
-        //    rect.anchoredPosition = new Vector2(floorPaddingX, floorPaddingY + floorHeight / 2 - 20);
-        //    Player.Name = Player.PlayerGO.GetComponentInChildren<Text>().text;
-        //    //创建文本输出框
-        //    ScrollViewGO = VLCreator.CreateScrollView("TextDisplay", CanvasGO);
-        //    ScrollRect = ScrollViewGO.GetComponent<ScrollRect>();
-        //    rect = ScrollViewGO.GetComponent<RectTransform>();
-        //    rect.anchorMin = new Vector2(0, 0);
-        //    rect.anchorMax = new Vector2(0, 0);
-        //    rect.pivot = new Vector2(0, 0);
-        //    rect.sizeDelta = new Vector2(800, 800);
-        //    rect.anchoredPosition = new Vector2(0, 0);
-        //    var canvasGroup = ScrollViewGO.AddComponent<CanvasGroup>();
-        //    canvasGroup.alpha = 0.6f;
-        //    ScrollTextGO = VLCreator.CreateText("ScrollText", ScrollViewGO);
-        //    rect = ScrollTextGO.GetComponent<RectTransform>();
-        //    rect.anchorMin = new Vector2(0, 0);
-        //    rect.anchorMax = new Vector2(1, 1);
-        //    rect.offsetMin = new Vector2(0f, 0f);
-        //    rect.offsetMax = new Vector2(0f, 0f);
-        //    rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0f, rect.rect.width);
-        //    rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0f, rect.rect.width);
-        //    rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0f, rect.rect.height);
-        //    rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, rect.rect.height);
-        //    ScrollText = ScrollTextGO.GetComponent<Text>();
-        //    ScrollText.fontSize = 32;
-        //    ScrollText.color = Color.black;
-        //    ScrollText.alignment = TextAnchor.UpperLeft;
-        //    //生成道具栏
-        //    for (int i = 1; i <= 5; i++)
-        //    {
-        //        var fastItemBlockGO = new GameObject("FastItemBlock" + i);
-        //        fastItemBlockGO.transform.parent = CanvasGO.transform;
-
-        //        var imageGO = VLCreator.CreateImage("FastItemBlockImage" + i, fastItemBlockGO);
-        //        var image = imageGO.GetComponent<Image>();
-        //        image.color = Dictionaries.ColorDic[nameof(FastItem.FastItemBlock)];
-        //        image.rectTransform.anchorMin = new Vector2(0f, 0f);
-        //        image.rectTransform.anchorMax = new Vector2(0f, 0f);
-        //        image.rectTransform.pivot = new Vector2(0f, 0f);
-        //        image.rectTransform.sizeDelta = new Vector2(100, 100);
-
-        //        var x = rect.sizeDelta.x + i * 240;
-        //        var y = 120;
-        //        image.rectTransform.anchoredPosition = new Vector2(x, y);
-        //        canvasGroup = imageGO.AddComponent<CanvasGroup>();
-        //        canvasGroup.alpha = 0.8f;
-        //        Player.FastItems.Add(new FastItem(imageGO)
-        //        {
-        //            Name = image.name,
-        //            Key = i.ToString(),
-        //            FastItemBlockX = x,
-        //            FastItemBlockY = y,
-        //            Parent = fastItemBlockGO,
-        //        }); ;
-        //    }
-        //    //调整对象位置
-        //    Player.X = 0;
-        //    Player.Y = 0;
-        //    movement = new Movement(12, 6);
-        //    movement = CalculateMovement();
-        //    Player.Move(movement);
-        //    Player.OperationData.IsMoving = true;
-        //    Player.OperationData.IsMovingSetup = false;
-        //}
 
         public void DisplayText(string message)
         {
@@ -1448,11 +1284,12 @@ namespace VL.UnityStarter.GamingStudy0316
                     creature.Name = creatureSeeds.Creature.Name;
                     var creatureModel = Dictionaries.CodeCreatureMathModel[creature.Name];
                     creatureModel.Decorate(creature);
-                    creature.X = this.X;
-                    creature.Y = this.Y;
+                    creature.X = X;
+                    creature.Y = Y;
                     creature.SpriteGO.transform.position = gameBoard.GetPosition(creature.X, creature.Y);
                     Armies.Add(creature);
                     gameBoard.Enermies.Add(creature);
+                    gameBoard.Floors[X, Y].Creatures.Add(creature);
                     gameBoard.DisplayText($"{creature.Name}出现了");
                     return;
                 }
@@ -1677,7 +1514,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal void Display(GameBoard gameBoard)
         {
-            gameBoard.DisplayText(Name != null && Dictionaries.CodeDescription.ContainsKey(Name) ? Dictionaries.CodeDescription[Name] : "???");
+            gameBoard.DisplayText(Dictionaries.GetDescriptionByName(Name));
         }
     }
     public interface IUnityObject
@@ -1734,7 +1571,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal void Display(GameBoard gameBoard)
         {
-            gameBoard.DisplayText(Dictionaries.CodeDescription[Name]);
+            gameBoard.DisplayText(Dictionaries.GetDescriptionByName(Name));
         }
 
         internal Movement Movement;
@@ -1766,13 +1603,27 @@ namespace VL.UnityStarter.GamingStudy0316
         }
 
         public OperationData OperationData = new OperationData();
-        public float DisplaySmoothMove(GameObject go, Movement movement, float moveDuration = 0.2f)
+
+        #endregion
+
+        // 边界检测
+        public bool CheckOverEdge(Floor[,] floors)
         {
-            float elapsedTime = Time.time - movement.moveStartTime;
-            float clampTime = Mathf.Clamp01(elapsedTime / moveDuration);
-            Vector2 newPosition = Vector2.Lerp(movement.startPosition, movement.targetPosition, clampTime);
-            go.transform.position = newPosition;
-            return clampTime;
+            return X + Movement.X < 0 || X + Movement.X > GameBoard.XSteps
+                || Y + Movement.Y < 0 || Y + Movement.Y > GameBoard.YSteps;
+        }
+
+        // 碰撞检测
+        public bool CheckCollider(Floor[,] floors)
+        {
+            return X + Movement.X < 0 || X + Movement.X > GameBoard.XSteps
+                || Y + Movement.Y < 0 || Y + Movement.Y > GameBoard.YSteps;
+        }
+        // 战斗检测
+        public bool CheckFight(Floor[,] floors)
+        {
+            return X + Movement.X < 0 || X + Movement.X > GameBoard.XSteps
+                || Y + Movement.Y < 0 || Y + Movement.Y > GameBoard.YSteps;
         }
 
         internal void Move(Floor[,] floors)
@@ -1786,7 +1637,14 @@ namespace VL.UnityStarter.GamingStudy0316
                 Debug.Log($"{Name}Move X:{X},Y:{Y}");
             });
         }
-        #endregion
+        public float DisplaySmoothMove(GameObject go, Movement movement, float moveDuration = 0.2f)
+        {
+            float elapsedTime = Time.time - movement.moveStartTime;
+            float clampTime = Mathf.Clamp01(elapsedTime / moveDuration);
+            Vector2 newPosition = Vector2.Lerp(movement.startPosition, movement.targetPosition, clampTime);
+            go.transform.position = newPosition;
+            return clampTime;
+        }
     }
     public class OperationData
     {
@@ -1856,7 +1714,6 @@ namespace VL.UnityStarter.GamingStudy0316
         Do_AttempMoveBack,
         Do_Collect,
         Do_Attack,
-        Input_Collect,
     }
     public class Player : Creature
     {
@@ -1961,19 +1818,6 @@ namespace VL.UnityStarter.GamingStudy0316
             Gaming0316.Destroy(fastItem.Item.SpriteGO);//界面
             Items.Remove(fastItem.Item);//包裹
             fastItem.Item = null;//快捷栏
-        }
-
-        internal CheckMovementResult CheckMovement(Floor[,] floors)
-        {
-            CheckMovementResult result = new CheckMovementResult();
-            //边界检测
-            result.IsOverEdge = X + Movement.X < 0 || X + Movement.X > GameBoard.XSteps
-                || Y + Movement.Y < 0 || Y + Movement.Y > GameBoard.YSteps;
-            if (result.IsOverEdge)
-                return result;
-            //碰撞检测
-            //战斗检测
-            return result;
         }
     }
     public class CheckMovementResult
