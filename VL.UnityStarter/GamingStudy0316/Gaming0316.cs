@@ -319,7 +319,7 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             if (GameBoard == null || GameBoard.Player == null)
                 return;
-            if (GameBoard.Player.OperationData.IsMyTurn)
+            if (GameBoard.Player.OperationStatus != OperationStatus.TurnOff)
             {
                 GameBoard.PlayerOperation();
             }
@@ -770,101 +770,93 @@ namespace VL.UnityStarter.GamingStudy0316
             Floors = new Floor[XSteps, YSteps];
         }
 
+        private bool canInput = true;
+        private IEnumerator ResetInput(float interval = 0.5f)
+        {
+            yield return new WaitForSeconds(interval);
+            canInput = true;
+        }
+
         public void PlayerOperation()
         {
-            if (!Player.OperationData.IsOperated)
+            switch (Player.OperationStatus)
             {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    Player.OperationData.IsMovingSetup = true;
-                    Player.Movement = new Movement(0, 1);
-                }
-                else if (Input.GetKey(KeyCode.S))
-                {
-                    Player.OperationData.IsMovingSetup = true;
-                    Player.Movement = new Movement(0, -1);
-                }
-                else if (Input.GetKey(KeyCode.A))
-                {
-                    Player.OperationData.IsMovingSetup = true;
-                    Player.Movement = new Movement(-1, 0);
-                }
-                else if (Input.GetKey(KeyCode.D))
-                {
-                    Player.OperationData.IsMovingSetup = true;
-                    Player.Movement = new Movement(1, 0);
-                }
-                else if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    Player.OperationData.IsCollecttingSetup = true;
-                }
-                else if (Input.GetKeyDown(KeyCode.F))
-                {
-                    Player.OperationData.IsAttackingSetup = true;
-                }
-                else if (Input.GetKeyDown(KeyCode.C))
-                {
-                    Player.Check(Floors);
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                    Player.UseFastItem("1");
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha2))
-                {
-                    Player.UseFastItem("2");
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha3))
-                {
-                    Player.UseFastItem("3");
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha4))
-                {
-                    Player.UseFastItem("4");
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha5))
-                {
-                    Player.UseFastItem("5");
-                }
-                else if (Input.GetAxis("Mouse ScrollWheel") != 0)
-                {
-                    var value = Input.GetAxis("Mouse ScrollWheel");
-                    if (value > 0 && Player.CameraOffSet.z <= -1)
+                case OperationStatus.None:
+                    break;
+                case OperationStatus.TurnOn:
+                    if (!canInput)
+                        return;
+                    if (Input.GetKey(KeyCode.W))
                     {
-                        Player.CameraOffSet += new Vector3(0, 0, 0.5f);
+                        Player.OperationStatus = OperationStatus.Input_Move;
+                        Player.Movement = new Movement(0, 1);
                     }
-                    else if (value < 0 && Player.CameraOffSet.z >= -3)
+                    else if (Input.GetKey(KeyCode.S))
                     {
-                        Player.CameraOffSet -= new Vector3(0, 0, 0.5f);
+                        Player.OperationStatus = OperationStatus.Input_Move;
+                        Player.Movement = new Movement(0, -1);
                     }
-                }
-            }
-            else
-            {
-                if (Player.OperationData.IsMovingSetup)
-                {
-                    Player.OperationData.IsMovingSetup = false;
-
+                    else if (Input.GetKey(KeyCode.A))
+                    {
+                        Player.OperationStatus = OperationStatus.Input_Move;
+                        Player.Movement = new Movement(-1, 0);
+                    }
+                    else if (Input.GetKey(KeyCode.D))
+                    {
+                        Player.OperationStatus = OperationStatus.Input_Move;
+                        Player.Movement = new Movement(1, 0);
+                    }
+                    else if (Input.GetKey(KeyCode.Space))
+                    {
+                        Player.OperationStatus = OperationStatus.Input_Collect;
+                    }
+                    else if (Input.GetKey(KeyCode.C))
+                    {
+                        canInput = false;
+                        Player.Check(Floors);
+                        Mono.StartCoroutine(ResetInput(0.5f));
+                    }
+                    else if (Input.GetKey(KeyCode.Alpha1))
+                    {
+                        Player.UseFastItem("1");
+                    }
+                    else if (Input.GetKey(KeyCode.Alpha2))
+                    {
+                        Player.UseFastItem("2");
+                    }
+                    else if (Input.GetAxis("Mouse ScrollWheel") != 0)
+                    {
+                        var value = Input.GetAxis("Mouse ScrollWheel");
+                        if (value > 0 && Player.CameraOffSet.z <= -1)
+                        {
+                            Player.CameraOffSet += new Vector3(0, 0, 0.5f);
+                        }
+                        else if (value < 0 && Player.CameraOffSet.z >= -3)
+                        {
+                            Player.CameraOffSet -= new Vector3(0, 0, 0.5f);
+                        }
+                    }
+                    break;
+                case OperationStatus.Input_Move:
                     var result = Player.CheckMovement(Floors);
                     if (result.IsOverEdge)
                     {
                         Player.Movement.CalculateColliderMovement(Player.PlayerGO.transform.position);
                         Player.GameBoard.DisplayText($"前方无路可走");
 
-                        Player.OperationData.IsAttempMoving = true;
+                        Player.OperationStatus = OperationStatus.Do_AttempMove;
                     }
                     else
                     {
                         Player.Movement.CalculateMovement(Player.PlayerGO.transform.position);
                         Player.Move();
-                        Player.GameBoard.DisplayText($"Move X:{Player.X},Y:{Player.Y}");
+                        Player.GameBoard.DisplayText($"移动 X:{Player.X},Y:{Player.Y}");
                         Player.UpdateBuffs(Player.GameBoard);
 
-                        Player.OperationData.IsMoving = true;
+                        Player.OperationStatus = OperationStatus.Do_Move;
                     }
-                }
-                if (Player.OperationData.IsAttempMoving)
-                {
+                    break;
+                case OperationStatus.Do_AttempMove:
                     var clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement, 0.05f);
                     if (clampTime >= 1.0f)
                     {
@@ -872,62 +864,38 @@ namespace VL.UnityStarter.GamingStudy0316
                         var orient = Player.Movement.startPosition;
                         Player.Movement.startPosition = Player.Movement.targetPosition;
                         Player.Movement.targetPosition = orient;
-                        Player.OperationData.IsAttempMoving = false;
-                        Player.OperationData.IsAttempMovingBack = true;
+                        Player.OperationStatus = OperationStatus.Do_AttempMoveBack;
                     }
-                }
-                if (Player.OperationData.IsAttempMovingBack)
-                {
-                    var clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement, 0.15f);
+                    break;
+                case OperationStatus.Do_AttempMoveBack:
+                    clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement, 0.15f);
+                    if (clampTime >= 1.0f)
+                        Player.OperationStatus = OperationStatus.TurnOn;
+                    break;
+                case OperationStatus.Do_Move:
+                    clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement);
                     if (clampTime >= 1.0f)
                     {
-                        Player.OperationData.IsMoving = false;
-                        Player.OperationData.IsMyTurn = false;
-                        Player.OperationData.IsOperated = false;
+                        Player.OperationStatus = OperationStatus.TurnOff;
                         Enermies.ForEach(c => c.OperationData.IsMyTurn = true);
                     }
-                }
-                if (Player.OperationData.IsMoving)
-                {
-                    var clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement);
-                    if (clampTime >= 1.0f)
-                    {
-                        Player.OperationData.IsMoving = false;
-                        Player.OperationData.IsMyTurn = false;
-                        Player.OperationData.IsOperated = false;
-                        Enermies.ForEach(c => c.OperationData.IsMyTurn = true);
-                    }
-                }
-                if (Player.OperationData.IsCollecttingSetup)
-                {
-                    Player.OperationData.IsCollecttingSetup = false;
-
+                    break;
+                case OperationStatus.Do_Collect:
                     Player.Collect(Floors);
-
-                    Player.OperationData.IsOperated = false;
-                }
-                if (Player.OperationData.IsAttackingSetup)
-                {
-                    Player.OperationData.IsAttackingSetup = false;
-
+                    Player.UpdateBuffs(this);
+                    Player.OperationStatus = OperationStatus.TurnOff;
+                    Enermies.ForEach(c => c.OperationData.IsMyTurn = true);
+                    break;
+                case OperationStatus.Do_Attack:
                     Player.Attack(Floors);
                     Player.UpdateBuffs(this);
-
-                    Player.OperationData.IsMyTurn = false;
-                    Player.OperationData.IsOperated = false;
+                    Player.OperationStatus = OperationStatus.TurnOff;
                     Enermies.ForEach(c => c.OperationData.IsMyTurn = true);
-                }
+                    break;
+                default:
+                    break;
             }
         }
-
-        //public void CalculateMovement(Creature cure)
-        //{
-        //    var startPosition = Player.PlayerGO.transform.position;
-        //    var targetPosition = new Vector2(startPosition.x + cure.Movement.XLength, startPosition.y + cure.Movement.YLength);
-        //    cure.Movement.startPosition = startPosition;
-        //    cure.Movement.targetPosition = targetPosition;
-        //    cure.Movement.moveStartTime = Time.time;
-        //}
 
         public void EnermyOperation()
         {
@@ -1012,7 +980,7 @@ namespace VL.UnityStarter.GamingStudy0316
                 {
                     item.GenerateEnermy(this);
                 }
-                Player.OperationData.IsMyTurn = true;
+                Player.OperationStatus = OperationStatus.TurnOn;
             }
         }
 
@@ -1312,6 +1280,7 @@ namespace VL.UnityStarter.GamingStudy0316
             Player.Y = 20;
             Player.PlayerGO.transform.position = GetPosition(Player.X, Player.Y);
             Player.SpriteGO.SetParent(GamingGO);
+            Player.OperationStatus = OperationStatus.TurnOn;
             return null;
         }
 
@@ -1699,7 +1668,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal void Display(GameBoard gameBoard)
         {
-            gameBoard.DisplayText(Dictionaries.CodeDescription[Name]);
+            gameBoard.DisplayText(Name != null && Dictionaries.CodeDescription.ContainsKey(Name) ? Dictionaries.CodeDescription[Name] : "???");
         }
     }
     public interface IUnityObject
@@ -1720,6 +1689,7 @@ namespace VL.UnityStarter.GamingStudy0316
     public class Creature : UnityObject, AttackableCreature
     {
         public bool IsPlayer = false;
+        public OperationStatus OperationStatus { get; internal set; }
         public Creature(GameObject spriteGO) : base(spriteGO)
         {
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
@@ -1863,6 +1833,20 @@ namespace VL.UnityStarter.GamingStudy0316
         DoubleDefend = 2,
         DoubleSpeed = 3,
     }
+
+    public enum OperationStatus
+    {
+        None,
+        TurnOn,
+        TurnOff,
+        Input_Move,
+        Do_Move,
+        Do_AttempMove,
+        Do_AttempMoveBack,
+        Do_Collect,
+        Do_Attack,
+        Input_Collect,
+    }
     public class Player : Creature
     {
         public GameBoard GameBoard { get; internal set; }
@@ -1877,6 +1861,7 @@ namespace VL.UnityStarter.GamingStudy0316
             Name = "Player";
             PlayerGO = imageGO;
             CameraOffSet = new Vector3(0, 0, -2);
+            OperationStatus = OperationStatus.TurnOn;
         }
 
         internal void Collect(Floor[,] floors)
