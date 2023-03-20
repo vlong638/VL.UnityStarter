@@ -127,6 +127,17 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public static Dictionary<string, CreatureMathModel> CodeCreatureMathModel = new Dictionary<string, CreatureMathModel>()
         {
+
+            {nameof(Player),new CreatureMathModel(){
+                Attr_AttackMax_from = 17,
+                Attr_AttackMax_to = 20,
+                Attr_AttackMin_from=4,
+                Attr_AttackMin_to = 6,
+                Attr_HP_from=100,
+                Attr_HP_to = 100,
+                Attr_Defend_from=3,
+                Attr_Defend_to=6,
+            } },
             {"ArcherGoblin",new CreatureMathModel(){
                 Attr_AttackMax_from = 17,
                 Attr_AttackMax_to = 20,
@@ -336,7 +347,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         private void LateUpdate()
         {
-            if (GameBoard == null || GameBoard.CameraGO == null)
+            if (GameBoard == null || GameBoard.CameraGO == null || GameBoard.Player.PlayerGO == null)
                 return;
             GameBoard.CameraGO.transform.position = GameBoard.Player.PlayerGO.transform.position + GameBoard.Player.CameraOffSet;
             //GameBoard.CameraGO.transform.rotation = GameBoard.Player.PlayerGO.transform.rotation;
@@ -366,9 +377,7 @@ namespace VL.UnityStarter.GamingStudy0316
             while (!GameBoard.IsResourceReady)
             {
                 Debug.Log("资源尚未加载");
-                //Invoke(nameof(StartingGame), 0.5f);
-                //yield return null;
-                yield return new WaitForSeconds(1f); // 模拟长时间运行
+                yield return null;
             }
 
             Debug.Log($"StartingGame");
@@ -388,6 +397,8 @@ namespace VL.UnityStarter.GamingStudy0316
             yield return GameBoard.InitCaves();
             GameBoard.DisplayText("开始生成道路");
             yield return GameBoard.InitRoads();
+            GameBoard.DisplayText("开始生成岩石");
+            yield return GameBoard.InitStones();
             GameBoard.DisplayText("开始生成树木");
             yield return GameBoard.InitTrees();
             GameBoard.DisplayText("开始生成河流");
@@ -541,30 +552,30 @@ namespace VL.UnityStarter.GamingStudy0316
                 ));
             //生物
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ArcherGoblin");
-            GameBoard.Resource_ArcherGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ArcherGoblin_0"), "ArcherGoblin", assetGO));
+            GameBoard.Resource_ArcherGoblin = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "ArcherGoblin_0"), "ArcherGoblin", assetGO));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ClubGoblin");
-            GameBoard.Resource_ClubGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ClubGoblin_0"), "ClubGoblin", assetGO));
+            GameBoard.Resource_ClubGoblin = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "ClubGoblin_0"), "ClubGoblin", assetGO));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/FarmerGoblin");
-            GameBoard.Resource_FarmerGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "FarmerGoblin_0"), "FarmerGoblin", assetGO));
+            GameBoard.Resource_FarmerGoblin = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "FarmerGoblin_0"), "FarmerGoblin", assetGO));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/KamikazeGoblin");
-            GameBoard.Resource_KamikazeGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "KamikazeGoblin_0"), "KamikazeGoblin", assetGO));
+            GameBoard.Resource_KamikazeGoblin = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "KamikazeGoblin_0"), "KamikazeGoblin", assetGO));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/SpearGoblin");
-            GameBoard.Resource_SpearGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "SpearGoblin_0"), "SpearGoblin", assetGO));
+            GameBoard.Resource_SpearGoblin = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "SpearGoblin_0"), "SpearGoblin", assetGO));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Minotaur");
-            GameBoard.Resource_Minotaur = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "Minotaur_0"), "Minotaur", assetGO));
+            GameBoard.Resource_Minotaur = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "Minotaur_0"), "Minotaur", assetGO));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Orc");
-            GameBoard.Resource_Orc = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "Orc_0"), "Orc", assetGO));
+            GameBoard.Resource_Orc = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "Orc_0"), "Orc", assetGO));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcMage");
-            GameBoard.Resource_OrcMage = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "OrcMage_0"), "OrcMage", assetGO));
+            GameBoard.Resource_OrcMage = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "OrcMage_0"), "OrcMage", assetGO));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcShaman");
-            GameBoard.Resource_OrcShaman = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "OrcShaman_0"), "OrcShaman", assetGO));
+            GameBoard.Resource_OrcShaman = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "OrcShaman_0"), "OrcShaman", assetGO));
             //BOSS
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/ArmouredRedDemon");
-            GameBoard.Resource_ArmouredRedDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ArmouredRedDemon_0"), "ArmouredRedDemon", assetGO));
+            GameBoard.Resource_ArmouredRedDemon = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "ArmouredRedDemon_0"), "ArmouredRedDemon", assetGO));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/PurpleDemon");
-            GameBoard.Resource_PurpleDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "PurpleDemon_0"), "PurpleDemon", assetGO));
+            GameBoard.Resource_PurpleDemon = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "PurpleDemon_0"), "PurpleDemon", assetGO));
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/RedDemon");
-            GameBoard.Resource_RedDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "RedDemon_0"), "RedDemon", assetGO));
+            GameBoard.Resource_RedDemon = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "RedDemon_0"), "RedDemon", assetGO));
             //兽人巢穴(小)
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Enemy/Orc/AllBuildings-Preview");
             GameBoard.Resource_Orc_Towns = new List<EnermyTown>();
@@ -680,7 +691,7 @@ namespace VL.UnityStarter.GamingStudy0316
             //物品
             //玩家
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Champions/Gangblanc");
-            GameBoard.Resource_Player = new Creature(VLCreator.CreateSprite(sprite[0], "Player"));
+            GameBoard.Resource_Player = new Creature(GameBoard, VLCreator.CreateSprite(sprite[0], "Player"));
             GameBoard.IsResourceReady = true;
         }
     }
@@ -713,6 +724,12 @@ namespace VL.UnityStarter.GamingStudy0316
             this.startPosition = startPosition;
             this.targetPosition = targetPosition;
             this.moveStartTime = Time.time;
+        }
+
+        internal void CalculateAttectMovement(Vector3 position)
+        {
+            //TODO 暂时使用碰撞移动表示攻击
+            CalculateColliderMovement(position);
         }
     }
     public class GameBoard
@@ -788,6 +805,8 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public void PlayerOperation()
         {
+            if (Player == null || Player.SpriteGO == null)
+                return;
             switch (Player.OperationStatus)
             {
                 case OperationStatus.None:
@@ -817,7 +836,9 @@ namespace VL.UnityStarter.GamingStudy0316
                     }
                     else if (Input.GetKey(KeyCode.Space))
                     {
+                        canInput = false;
                         Player.OperationStatus = OperationStatus.Do_Collect;
+                        Mono.StartCoroutine(ResetInput(0.5f));
                     }
                     else if (Input.GetKey(KeyCode.C))
                     {
@@ -852,7 +873,19 @@ namespace VL.UnityStarter.GamingStudy0316
                         Player.Movement.CalculateColliderMovement(Player.PlayerGO.transform.position);
                         Player.GameBoard.DisplayText($"前方无路可走");
 
-                        Player.OperationStatus = OperationStatus.Do_AttempMove;
+                        Player.OperationStatus = OperationStatus.Do_AttemptMove;
+                    }
+                    else if (Player.CheckCollider(Floors))
+                    {
+                        Player.Movement.CalculateColliderMovement(Player.PlayerGO.transform.position);
+                        Player.GameBoard.DisplayText($"前方无法通行");
+
+                        Player.OperationStatus = OperationStatus.Do_AttemptMove;
+                    }
+                    else if (Player.CheckCloseAttack(Floors))
+                    {
+                        Player.Movement.CalculateAttectMovement(Player.PlayerGO.transform.position);
+                        Player.OperationStatus = OperationStatus.Do_CloseAttackMove;
                     }
                     else
                     {
@@ -864,7 +897,7 @@ namespace VL.UnityStarter.GamingStudy0316
                         Player.OperationStatus = OperationStatus.Do_Move;
                     }
                     break;
-                case OperationStatus.Do_AttempMove:
+                case OperationStatus.Do_AttemptMove:
                     var clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement, 0.05f);
                     if (clampTime >= 1.0f)
                     {
@@ -872,10 +905,10 @@ namespace VL.UnityStarter.GamingStudy0316
                         var orient = Player.Movement.startPosition;
                         Player.Movement.startPosition = Player.Movement.targetPosition;
                         Player.Movement.targetPosition = orient;
-                        Player.OperationStatus = OperationStatus.Do_AttempMoveBack;
+                        Player.OperationStatus = OperationStatus.Do_AttemptMoveBack;
                     }
                     break;
-                case OperationStatus.Do_AttempMoveBack:
+                case OperationStatus.Do_AttemptMoveBack:
                     clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement, 0.15f);
                     if (clampTime >= 1.0f)
                         Player.OperationStatus = OperationStatus.TurnOn;
@@ -894,8 +927,24 @@ namespace VL.UnityStarter.GamingStudy0316
                     Player.OperationStatus = OperationStatus.TurnOff;
                     Enermies.ForEach(c => c.OperationStatus = OperationStatus.TurnOn);
                     break;
+                case OperationStatus.Do_CloseAttackMove:
+                    clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement, 0.05f);
+                    if (clampTime >= 1.0f)
+                    {
+                        Player.Movement.moveStartTime = Time.time;
+                        var orient = Player.Movement.startPosition;
+                        Player.Movement.startPosition = Player.Movement.targetPosition;
+                        Player.Movement.targetPosition = orient;
+                        Player.OperationStatus = OperationStatus.Do_CloseAttackMoveBack;
+                    }
+                    break;
+                case OperationStatus.Do_CloseAttackMoveBack:
+                    clampTime = Player.DisplaySmoothMove(Player.PlayerGO, Player.Movement, 0.15f);
+                    if (clampTime >= 1.0f)
+                        Player.OperationStatus = OperationStatus.Do_Attack;
+                    break;
                 case OperationStatus.Do_Attack:
-                    Player.Attack(Floors);
+                    Player.Attack();
                     Player.UpdateBuffs(this);
                     Player.OperationStatus = OperationStatus.TurnOff;
                     Enermies.ForEach(c => c.OperationStatus = OperationStatus.TurnOn);
@@ -924,7 +973,11 @@ namespace VL.UnityStarter.GamingStudy0316
 
                             if (enermy.CanAttack(Player))
                             {
-                                enermy.OperationStatus = OperationStatus.Do_Attack;
+                                var x = enermy.X == Player.X ? 0 : enermy.X > Player.X ? -1 : 1;
+                                var y = enermy.Y == Player.Y ? 0 : enermy.Y > Player.Y ? -1 : 1;
+                                enermy.Movement = new Movement(x, y);
+                                enermy.Movement.CalculateAttectMovement(enermy.SpriteGO.transform.position);
+                                enermy.OperationStatus = OperationStatus.Do_CloseAttackMove;
                             }
                             else if (Mathf.Abs(Player.X + Player.Y - enermy.X - enermy.Y) < 10)
                             {
@@ -964,10 +1017,29 @@ namespace VL.UnityStarter.GamingStudy0316
                                 enermy.OperationStatus = OperationStatus.TurnOff;
                             }
                             break;
-                        case OperationStatus.Do_AttempMove:
-                        case OperationStatus.Do_AttempMoveBack:
-                        case OperationStatus.Do_Collect:
+                        case OperationStatus.Do_CloseAttackMove:
+                            clampTime = enermy.DisplaySmoothMove(enermy.SpriteGO, enermy.Movement, 0.05f);
+                            if (clampTime >= 1.0f)
+                            {
+                                enermy.Movement.moveStartTime = Time.time;
+                                var orient = enermy.Movement.startPosition;
+                                enermy.Movement.startPosition = enermy.Movement.targetPosition;
+                                enermy.Movement.targetPosition = orient;
+                                enermy.OperationStatus = OperationStatus.Do_CloseAttackMoveBack;
+                            }
+                            break;
+                        case OperationStatus.Do_CloseAttackMoveBack:
+                            clampTime = enermy.DisplaySmoothMove(enermy.SpriteGO, enermy.Movement, 0.15f);
+                            if (clampTime >= 1.0f)
+                                enermy.OperationStatus = OperationStatus.Do_Attack;
+                            break;
                         case OperationStatus.Do_Attack:
+                            var result = enermy.Attack();
+                            enermy.OperationStatus = OperationStatus.TurnOff;
+                            break;
+                        case OperationStatus.Do_AttemptMove:
+                        case OperationStatus.Do_AttemptMoveBack:
+                        case OperationStatus.Do_Collect:
                         default:
                             enermy.OperationStatus = OperationStatus.TurnOff;
                             break;
@@ -1061,7 +1133,7 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             var texts = ScrollText.text.Split('\n').ToList();
             texts.Add(message);
-            if (texts.Count > 20)
+            while (texts.Count > 20)
                 texts.RemoveAt(0);
             ScrollText.text = string.Join("\n", texts);
         }
@@ -1103,6 +1175,15 @@ namespace VL.UnityStarter.GamingStudy0316
             return null;
         }
 
+        internal object InitStones()
+        {
+            SeedRandom sr = new SeedRandom(100, 1);
+            var resources = new List<BlockItem>() { Resource_Mountains_StoneOre, Resource_Mountains_CutterOre };
+            var target = ItemsGO;
+            Init1StepItem(sr, resources, target, (f) => { return f.Items.Count > 0; });
+            return null;
+        }
+
         internal object InitTrees()
         {
             SeedRandom sr = new SeedRandom(100, 40);
@@ -1112,9 +1193,10 @@ namespace VL.UnityStarter.GamingStudy0316
             return null;
         }
 
+
         internal object InitPlayer()
         {
-            Player = new Player(Resource_Player.SpriteGO);
+            Player = new Player(this, Resource_Player.SpriteGO);
             Player.X = 20;
             Player.Y = 20;
             Player.PlayerGO.transform.position = GetPosition(Player.X, Player.Y);
@@ -1122,6 +1204,8 @@ namespace VL.UnityStarter.GamingStudy0316
             Player.OperationStatus = OperationStatus.TurnOn;
             Player.GameBoard = this;
             Player.GameBoard.Floors[Player.X, Player.Y].Creatures.Add(Player);
+            var creatureModel = Dictionaries.CodeCreatureMathModel[nameof(Player)];
+            creatureModel.Decorate(Player);
             return null;
         }
 
@@ -1143,7 +1227,7 @@ namespace VL.UnityStarter.GamingStudy0316
             return null;
         }
 
-        private List<T> Init1StepItem<T>(SeedRandom sr, List<T> resources, GameObject target, System.Predicate<Floor> skipLogic = null, System.Func<T, GameObject> setSprite = null)
+        private List<T> Init1StepItem<T>(SeedRandom sr, List<T> resources, GameObject target, System.Predicate<Floor> skipLogic = null, System.Func<T, GameObject> setSpriteForMultipleSpriteObject = null)
             where T : Item, ICloneableObject<T>
         {
             List<T> initItems = new List<T>();
@@ -1159,8 +1243,8 @@ namespace VL.UnityStarter.GamingStudy0316
 
                     T resource = resources[Random.Range(0, resources.Count())];
                     T t = resource.Clone();
-                    if (setSprite != null)
-                        t.SpriteGO = setSprite(t);
+                    if (setSpriteForMultipleSpriteObject != null)
+                        t.SpriteGO = setSpriteForMultipleSpriteObject(t);
                     var sprite = t.SpriteGO.GetComponent<SpriteRenderer>();
                     sprite.transform.position = GetPosition(i, j);
                     t.SpriteGO.SetParent(target);
@@ -1280,7 +1364,7 @@ namespace VL.UnityStarter.GamingStudy0316
             {
                 if (creatureSeeds.SeedRandom.GetNext() == 1)
                 {
-                    var creature = new Creature(Object.Instantiate(creatureSeeds.Creature.SpriteGO, gameBoard.CreaturesGO.transform));
+                    var creature = new Creature(gameBoard, Object.Instantiate(creatureSeeds.Creature.SpriteGO, gameBoard.CreaturesGO.transform)) { CreatureType = CreatureType.Enermy };
                     creature.Name = creatureSeeds.Creature.Name;
                     var creatureModel = Dictionaries.CodeCreatureMathModel[creature.Name];
                     creatureModel.Decorate(creature);
@@ -1427,18 +1511,21 @@ namespace VL.UnityStarter.GamingStudy0316
     {
         None = 0,
         Stone = 1,
-        Tree = 2,
-        Creature = 3,
+        //Tree = 2,
+        //Creature = 3,
     }
-    public class BlockItem : Item
+    public class BlockItem : Item, ICloneableObject<BlockItem>
     {
-        public bool IsBlock = true;
         public BlockType BlockType;
-
 
         public BlockItem(GameObject spriteGO, BlockType blockType, string name = "") : base(spriteGO, name)
         {
             BlockType = blockType;
+        }
+
+        public BlockItem Clone()
+        {
+            return new BlockItem(Object.Instantiate(SpriteGO), BlockType, Name);
         }
     }
     public class Wheatfield : Item
@@ -1460,12 +1547,12 @@ namespace VL.UnityStarter.GamingStudy0316
             HarvestSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
         }
     }
-    public class Tree : BlockItem, ICloneableObject<Tree>
+    public class Tree : Item, ICloneableObject<Tree>
     {
         public GameObject OrientSpriteGO;
         public GameObject CutDownSpriteGO;
 
-        public Tree(GameObject spriteGO, GameObject orientSpriteGO, GameObject cutDownSpriteGO, string name = "") : base(spriteGO, BlockType.Tree, name)
+        public Tree(GameObject spriteGO, GameObject orientSpriteGO, GameObject cutDownSpriteGO, string name = "") : base(spriteGO, name)
         {
             OrientSpriteGO = orientSpriteGO;
             CutDownSpriteGO = cutDownSpriteGO;
@@ -1536,10 +1623,11 @@ namespace VL.UnityStarter.GamingStudy0316
     {
         public bool IsPlayer = false;
         public OperationStatus OperationStatus { get; internal set; }
-        public Creature(GameObject spriteGO, string name = "") : base(spriteGO, name)
+        public Creature(GameBoard gameBoard, GameObject spriteGO, string name = "") : base(spriteGO, name)
         {
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
             sprite.sortingOrder = (int)SpriteType.Creature;
+            this.GameBoard = gameBoard;
         }
 
         public CreatureType CreatureType { set; get; }
@@ -1550,7 +1638,48 @@ namespace VL.UnityStarter.GamingStudy0316
         public int Attr_AttackMin { set; get; }
         public int Attr_Defend { set; get; }
         public Dictionary<Buff, int> Buffs { set; get; } = new Dictionary<Buff, int>();
-        public AttackResult Attack(AttackableCreature creature, Dictionary<Buff, int> buffs)
+
+
+
+        public AttackResult Attack()
+        {
+            var movement = Movement;
+            AttackResult result = new AttackResult();
+            var creature = GameBoard.Floors[X + movement.X, Y + movement.Y].Creatures.FirstOrDefault(c => c is AttackableCreature);
+            if (creature == null)
+                return result;
+
+            return Attack(creature);
+        }
+        AttackResult Attack(Creature creature)
+        {
+            var floors = GameBoard.Floors;
+            if (IsPlayer) GameBoard.DisplayText($"---当前状态---");
+            GameBoard.DisplayText($"{Name}:{GetAttackableCreatureDiscription()}");
+            GameBoard.DisplayText($"{creature.Name}:{creature.GetAttackableCreatureDiscription()}");
+            GameBoard.DisplayText($"---攻击---");
+            AttackResult result = AttackCore(creature, Buffs);
+            GameBoard.DisplayText($"{Name}攻击了{creature.Name},造成了{result.ChangedHP}点伤害");
+            if (result.IsDead)
+            {
+                creature.Defeated();
+                GameBoard.DisplayText($"{creature.Name}被打倒了");
+            }
+            else
+            {
+                //TODO 具备反击特性才会反击
+                //result = creature.Attack(this, Buffs);
+                //GameBoard.DisplayText($"{creature.Name}攻击了{Name},造成了{result.ChangedHP}点伤害");
+                //if (result.IsDead)
+                //{
+                //    PlayerGO.SetActive(false);
+                //    GameBoard.DisplayText($"{Name}被打倒了");
+                //}
+            }
+            return result;
+        }
+
+        AttackResult AttackCore(AttackableCreature creature, Dictionary<Buff, int> buffs)
         {
             AttackResult result = new AttackResult();
             var real_AttackMin = buffs.Keys.Any(c => c == Buff.DoubleAttack) ? Attr_AttackMin * 2 : Attr_AttackMin;
@@ -1599,7 +1728,7 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             //TODO
             //远程战斗单位增加远程攻击
-            return Mathf.Abs(player.X + player.Y - X - Y) == 1;
+            return Mathf.Abs(player.X - X) <= 1 && Mathf.Abs(player.Y - Y) <= 1;
         }
 
         public OperationData OperationData = new OperationData();
@@ -1616,14 +1745,14 @@ namespace VL.UnityStarter.GamingStudy0316
         // 碰撞检测
         public bool CheckCollider(Floor[,] floors)
         {
-            return X + Movement.X < 0 || X + Movement.X > GameBoard.XSteps
-                || Y + Movement.Y < 0 || Y + Movement.Y > GameBoard.YSteps;
+            var floor = floors[X + Movement.X, Y + Movement.Y];
+            return floor.FloorType == FloorType.River || floor.FloorType == FloorType.Mountain || floor.Items.Any(c => c is BlockItem);
         }
         // 战斗检测
-        public bool CheckFight(Floor[,] floors)
+        public bool CheckCloseAttack(Floor[,] floors)
         {
-            return X + Movement.X < 0 || X + Movement.X > GameBoard.XSteps
-                || Y + Movement.Y < 0 || Y + Movement.Y > GameBoard.YSteps;
+            var floor = floors[X + Movement.X, Y + Movement.Y];
+            return floor.Creatures.Any(c => c.CreatureType == CreatureType.Enermy);
         }
 
         internal void Move(Floor[,] floors)
@@ -1644,6 +1773,14 @@ namespace VL.UnityStarter.GamingStudy0316
             Vector2 newPosition = Vector2.Lerp(movement.startPosition, movement.targetPosition, clampTime);
             go.transform.position = newPosition;
             return clampTime;
+        }
+
+        public GameBoard GameBoard;
+        internal void Defeated()
+        {
+            GameBoard.Enermies.Remove(this);
+            GameBoard.Floors[X, Y].Creatures.Remove(this);
+            Object.Destroy(this.SpriteGO);
         }
     }
     public class OperationData
@@ -1710,21 +1847,22 @@ namespace VL.UnityStarter.GamingStudy0316
         TurnOff,
         Input_Move,
         Do_Move,
-        Do_AttempMove,
-        Do_AttempMoveBack,
+        Do_AttemptMove,
+        Do_AttemptMoveBack,
         Do_Collect,
         Do_Attack,
+        Do_CloseAttackMove,
+        Do_CloseAttackMoveBack,
     }
     public class Player : Creature
     {
-        public GameBoard GameBoard { get; internal set; }
         public Vector3 CameraOffSet { get; internal set; }
 
         public GameObject PlayerGO;
         public List<Item> Items = new List<Item>();
         public List<FastItem> FastItems = new List<FastItem>();
 
-        public Player(GameObject imageGO) : base(imageGO, "Player")
+        public Player(GameBoard gameBoard, GameObject imageGO) : base(gameBoard, imageGO, "Player")
         {
             PlayerGO = imageGO;
             CameraOffSet = new Vector3(0, 0, -2);
@@ -1750,37 +1888,6 @@ namespace VL.UnityStarter.GamingStudy0316
 
                 var fastItem = FastItems.FirstOrDefault(c => c.Item == null);
                 fastItem.AddItem(item);
-            }
-        }
-
-        internal void Attack(Floor[,] floors)
-        {
-            GameBoard.DisplayText($"---攻击---");
-            var creature = floors[X, Y].Creatures.FirstOrDefault();
-            if (creature == null)
-            {
-                GameBoard.DisplayText($"{Name}打在了空气中");
-                return;
-            }
-            GameBoard.DisplayText($"{Name}:{GetAttackableCreatureDiscription()}");
-            GameBoard.DisplayText($"{creature.Name}:{creature.GetAttackableCreatureDiscription()}");
-            var result = Attack(creature, Buffs);
-            GameBoard.DisplayText($"{Name}攻击了{creature.Name},造成了{result.ChangedHP}点伤害");
-            if (result.IsDead)
-            {
-                floors[X, Y].Creatures.Remove(creature);
-                Object.Destroy(creature.SpriteGO);
-                GameBoard.DisplayText($"{creature.Name}被打倒了");
-            }
-            else
-            {
-                result = creature.Attack(this, Buffs);
-                GameBoard.DisplayText($"{creature.Name}攻击了{Name},造成了{result.ChangedHP}点伤害");
-                if (result.IsDead)
-                {
-                    PlayerGO.SetActive(false);
-                    GameBoard.DisplayText($"{Name}被打倒了");
-                }
             }
         }
 
@@ -1831,7 +1938,7 @@ namespace VL.UnityStarter.GamingStudy0316
         int Attr_AttackMin { set; get; }
         int Attr_Defend { set; get; }
         Dictionary<Buff, int> Buffs { set; get; }
-        AttackResult Attack(AttackableCreature creature, Dictionary<Buff, int> buffs);
+        //AttackResult Attack(AttackableCreature creature, Dictionary<Buff, int> buffs);
         string GetAttackableCreatureDiscription();
     }
     public class AttackResult
