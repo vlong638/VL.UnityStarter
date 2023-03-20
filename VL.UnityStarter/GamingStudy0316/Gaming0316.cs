@@ -311,6 +311,7 @@ namespace VL.UnityStarter.GamingStudy0316
         internal GameObject settingGO { set; get; }
 
         GameBoard GameBoard;
+        SoundManager SoundManager;
 
         void Start()
         {
@@ -337,6 +338,18 @@ namespace VL.UnityStarter.GamingStudy0316
             GameBoard = new GameBoard();
             GameBoard.GamingGO = gamingGO;
             StartCoroutine(nameof(PrepareAsset), GameBoard);
+
+            //±≥æ∞“Ù¿÷
+            var audioSourceGO = VLCreator.CreateAudioSource();
+            audioSourceGO.SetParent(instance.gameObject);
+            var audioSource = audioSourceGO.GetComponent<AudioSource>();
+            SoundManager = new SoundManager();
+            SoundManager.MusicSource = audioSource;
+            SoundManager.MusicSource.name = nameof(SoundManager.MusicSource);
+            SoundManager.SoundSource = GameObject.Instantiate(audioSource, instance.gameObject.transform);
+            SoundManager.SoundSource.name = nameof(SoundManager.SoundSource);
+            AudioClip clip = Resources.Load<AudioClip>("Audio/Background");
+            SoundManager.PlayMusic(clip);
 
             Debug.Log($"Started");
         }
