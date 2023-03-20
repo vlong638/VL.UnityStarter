@@ -295,6 +295,16 @@ namespace VL.UnityStarter.GamingStudy0316
     }
     public class Gaming0316 : MonoBehaviour
     {
+        public static Gaming0316 instance = null;
+        void Awake()
+        {
+            if (instance == null)
+                instance = this;
+            else if (instance != this)
+                Destroy(gameObject);
+            DontDestroyOnLoad(gameObject);
+        }
+
         internal GameObject startGO { set; get; }
         internal GameObject assetGO { set; get; }
         internal GameObject gamingGO { set; get; }
@@ -324,7 +334,7 @@ namespace VL.UnityStarter.GamingStudy0316
             button.onClick.AddListener(EndGame);
 
             //预处理
-            GameBoard = new GameBoard(this);
+            GameBoard = new GameBoard();
             GameBoard.GamingGO = gamingGO;
             StartCoroutine(nameof(PrepareAsset), GameBoard);
 
@@ -747,7 +757,6 @@ namespace VL.UnityStarter.GamingStudy0316
         public bool IsResourceReady { get; internal set; }
         public GameObject CameraGO { get; internal set; }
         public Camera Camera { get; internal set; }
-        private Gaming0316 Mono;
         public GameObject GamingGO { get; internal set; }
         public GameObject CanvasGO { get; private set; }
         public GameObject ScrollViewGO { get; set; }
@@ -790,9 +799,8 @@ namespace VL.UnityStarter.GamingStudy0316
         public Creature Resource_RedDemon { get; internal set; }
         #endregion
 
-        public GameBoard(Gaming0316 gaming0316)
+        public GameBoard()
         {
-            this.Mono = gaming0316;
             Floors = new Floor[XSteps, YSteps];
         }
 
@@ -838,13 +846,13 @@ namespace VL.UnityStarter.GamingStudy0316
                     {
                         canInput = false;
                         Player.OperationStatus = OperationStatus.Do_Collect;
-                        Mono.StartCoroutine(ResetInput(0.5f));
+                        Gaming0316.instance.StartCoroutine(ResetInput(0.5f));
                     }
                     else if (Input.GetKey(KeyCode.C))
                     {
                         canInput = false;
                         Player.Check(Floors);
-                        Mono.StartCoroutine(ResetInput(0.5f));
+                        Gaming0316.instance.StartCoroutine(ResetInput(0.5f));
                     }
                     else if (Input.GetKey(KeyCode.Alpha1))
                     {
@@ -1067,14 +1075,14 @@ namespace VL.UnityStarter.GamingStudy0316
         internal Object PreInit()
         {
             //分层管理
-            FloorsGO = new GameObject("Floors"); FloorsGO.SetParent(Mono.gamingGO);
-            ItemsGO = new GameObject("Items"); ItemsGO.SetParent(Mono.gamingGO);
-            CavesGO = new GameObject("Caves"); CavesGO.SetParent(Mono.gamingGO);
-            BuildingsGO = new GameObject("Buildings"); BuildingsGO.SetParent(Mono.gamingGO);
-            EnermyBuidingsGO = new GameObject("EnermyBuidings"); EnermyBuidingsGO.SetParent(Mono.gamingGO);
-            CreaturesGO = new GameObject("Creatures"); CreaturesGO.SetParent(Mono.gamingGO);
+            FloorsGO = new GameObject("Floors"); FloorsGO.SetParent(Gaming0316.instance.gamingGO);
+            ItemsGO = new GameObject("Items"); ItemsGO.SetParent(Gaming0316.instance.gamingGO);
+            CavesGO = new GameObject("Caves"); CavesGO.SetParent(Gaming0316.instance.gamingGO);
+            BuildingsGO = new GameObject("Buildings"); BuildingsGO.SetParent(Gaming0316.instance.gamingGO);
+            EnermyBuidingsGO = new GameObject("EnermyBuidings"); EnermyBuidingsGO.SetParent(Gaming0316.instance.gamingGO);
+            CreaturesGO = new GameObject("Creatures"); CreaturesGO.SetParent(Gaming0316.instance.gamingGO);
             //创建文本输出框
-            CanvasGO = VLCreator.CreateCanvas("Canvas", Mono.gamingGO);
+            CanvasGO = VLCreator.CreateCanvas("Canvas", Gaming0316.instance.gamingGO);
             ScrollViewGO = VLCreator.CreateScrollView("TextDisplay", CanvasGO);
             var rect = ScrollViewGO.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0, 1);
@@ -1449,26 +1457,24 @@ namespace VL.UnityStarter.GamingStudy0316
     }
     public class BigTown : Entrance
     {
-        GameObject imageGO_LT;
-        GameObject imageGO_RT;
-        GameObject imageGO_LB;
-        GameObject imageGO_RB;
+        GameObject ImageGO_LT;
+        GameObject ImageGO_RT;
+        GameObject ImageGO_LB;
+        GameObject ImageGO_RB;
         public BigTown(GameObject imageGO_LT, GameObject imageGO_RT, GameObject imageGO_LB, GameObject imageGO_RB) : base(null, EntranceType.BigTown)
         {
-            imageGO_LT = imageGO_LT;
-            imageGO_LT.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
-            imageGO_RT = imageGO_RT;
-            imageGO_RT.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
-            imageGO_LB = imageGO_LB;
-            imageGO_LB.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
-            imageGO_RB = imageGO_RB;
-            imageGO_RB.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_LT = imageGO_LT;
+            ImageGO_LT.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_RT = imageGO_RT;
+            ImageGO_RT.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_LB = imageGO_LB;
+            ImageGO_LB.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_RB = imageGO_RB;
+            ImageGO_RB.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
         }
     }
     public class Floor : UnityObject
     {
-        public int X;
-        public int Y;
         public List<Item> Items = new List<Item>();
         public List<Creature> Creatures = new List<Creature>();
         public FloorType FloorType;
