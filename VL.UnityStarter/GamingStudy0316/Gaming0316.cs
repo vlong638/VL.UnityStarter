@@ -259,7 +259,11 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             #region Audioes
 
-            CodeAudios.Add(SoundAudioType.Move, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Move") });
+            CodeAudios.Add(SoundAudioType.Move_Grass, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Move1")
+            ,Resources.Load<AudioClip>("Audio/Move2")});
+            CodeAudios.Add(SoundAudioType.Move_Stone, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Move_Stone")
+            ,Resources.Load<AudioClip>("Audio/Move_Stone2")});
+            CodeAudios.Add(SoundAudioType.Collider, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Collider") });
             CodeAudios.Add(SoundAudioType.CutTree, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/CutTree") });
             CodeAudios.Add(SoundAudioType.Human_DeepHurt, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Human_DeepHurt")
                 , Resources.Load<AudioClip>("Audio/Human_DeepHurt2") });
@@ -282,7 +286,8 @@ namespace VL.UnityStarter.GamingStudy0316
     public enum SoundAudioType
     {
         None,
-        Move,
+        Move_Grass,
+        Move_Stone,
         CutTree,
         Human_DeepHurt,
         Human_Hurt,
@@ -292,7 +297,7 @@ namespace VL.UnityStarter.GamingStudy0316
         Orc_Die,
         Orc_Hurt,
         Sword_Cut,
-
+        Collider,
     }
 
     public class CreatureMathModel
@@ -965,7 +970,7 @@ namespace VL.UnityStarter.GamingStudy0316
                         Player.Move(Floors);
                         Player.GameBoard.DisplayText($"ÒÆ¶¯ X:{Player.X},Y:{Player.Y}");
                         Player.UpdateBuffs(Player.GameBoard);
-                        SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Move));
+                        SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Move_Grass));
 
                         Player.OperationStatus = OperationStatus.Do_Move;
                     }
@@ -979,6 +984,7 @@ namespace VL.UnityStarter.GamingStudy0316
                         Player.Movement.startPosition = Player.Movement.targetPosition;
                         Player.Movement.targetPosition = orient;
                         Player.OperationStatus = OperationStatus.Do_AttemptMoveBack;
+                        SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Collider));
                     }
                     break;
                 case OperationStatus.Do_AttemptMoveBack:
@@ -1009,6 +1015,7 @@ namespace VL.UnityStarter.GamingStudy0316
                         Player.Movement.startPosition = Player.Movement.targetPosition;
                         Player.Movement.targetPosition = orient;
                         Player.OperationStatus = OperationStatus.Do_CloseAttackMoveBack;
+                        SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Sword_Cut));
                     }
                     break;
                 case OperationStatus.Do_CloseAttackMoveBack:
