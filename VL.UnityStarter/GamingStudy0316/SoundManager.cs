@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public AudioSource MusicSource;
-    public AudioSource SoundSource;
+    public AudioSource MusicSource { get; set; }
+    public AudioSource MainSoundSource { get; set; }
+    public AudioSource SecondSoundSource { get; set; }
     public float lowPitchRange = .95f;
     public float highPitchRange = 1.05f;
 
     public static SoundManager instance = null;
+
 
     void Awake()
     {
@@ -23,7 +25,7 @@ public class SoundManager : MonoBehaviour
     public void PlayMusic(AudioClip clip)
     {
         MusicSource.clip = clip;
-        SoundSource.pitch = 0.5f;
+        MainSoundSource.pitch = 0.5f;
         MusicSource.loop = true;
         MusicSource.Play();
     }
@@ -36,9 +38,9 @@ public class SoundManager : MonoBehaviour
     public void PlaySound(AudioClip clip)
     {
         float randomPitch = Random.Range(lowPitchRange, highPitchRange);
-        SoundSource.pitch = randomPitch;
-        SoundSource.clip = clip;
-        SoundSource.Play();
+        MainSoundSource.pitch = randomPitch;
+        MainSoundSource.clip = clip;
+        MainSoundSource.Play();
     }
 
     public void PlaySound(List<AudioClip> clips)
@@ -46,5 +48,19 @@ public class SoundManager : MonoBehaviour
         int randomIndex = Random.Range(0, clips.Count);
         var clip = clips[randomIndex];
         PlaySound(clip);
+    }
+    public void PlaySecondSound(AudioClip clip)
+    {
+        float randomPitch = Random.Range(lowPitchRange, highPitchRange);
+        SecondSoundSource.pitch = randomPitch;
+        SecondSoundSource.clip = clip;
+        SecondSoundSource.Play();
+    }
+
+    public void PlaySecondSound(List<AudioClip> clips)
+    {
+        int randomIndex = Random.Range(0, clips.Count);
+        var clip = clips[randomIndex];
+        PlaySecondSound(clip);
     }
 }

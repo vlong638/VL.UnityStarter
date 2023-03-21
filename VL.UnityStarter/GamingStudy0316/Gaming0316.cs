@@ -361,7 +361,7 @@ namespace VL.UnityStarter.GamingStudy0316
         internal GameObject gamingGO { set; get; }
         internal GameObject settingGO { set; get; }
 
-        GameBoard GameBoard;
+        public GameBoard GameBoard { set; get; }
 
         void Start()
         {
@@ -395,8 +395,11 @@ namespace VL.UnityStarter.GamingStudy0316
             var audioSource = audioSourceGO.GetComponent<AudioSource>();
             SoundManager.instance.MusicSource = audioSource;
             SoundManager.instance.MusicSource.name = nameof(SoundManager.MusicSource);
-            SoundManager.instance.SoundSource = GameObject.Instantiate(audioSource, instance.gameObject.transform);
-            SoundManager.instance.SoundSource.name = nameof(SoundManager.SoundSource);
+            SoundManager.instance.MainSoundSource = GameObject.Instantiate(audioSource, instance.gameObject.transform);
+            SoundManager.instance.MainSoundSource.name = nameof(SoundManager.MainSoundSource);
+            SoundManager.instance.SecondSoundSource = GameObject.Instantiate(audioSource, instance.gameObject.transform);
+            SoundManager.instance.SecondSoundSource.name = nameof(SoundManager.MainSoundSource);
+
             AudioClip clip = Resources.Load<AudioClip>("Audio/Background");
             SoundManager.instance.PlayMusic(clip);
 
@@ -629,30 +632,42 @@ namespace VL.UnityStarter.GamingStudy0316
                 ));
             //生物
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ArcherGoblin");
-            GameBoard.Resource_ArcherGoblin = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "ArcherGoblin_0"), "ArcherGoblin", assetGO));
+            GameBoard.Resource_ArcherGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ArcherGoblin_0"), "ArcherGoblin", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ClubGoblin");
-            GameBoard.Resource_ClubGoblin = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "ClubGoblin_0"), "ClubGoblin", assetGO));
+            GameBoard.Resource_ClubGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ClubGoblin_0"), "ClubGoblin", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/FarmerGoblin");
-            GameBoard.Resource_FarmerGoblin = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "FarmerGoblin_0"), "FarmerGoblin", assetGO));
+            GameBoard.Resource_FarmerGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "FarmerGoblin_0"), "FarmerGoblin", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/KamikazeGoblin");
-            GameBoard.Resource_KamikazeGoblin = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "KamikazeGoblin_0"), "KamikazeGoblin", assetGO));
+            GameBoard.Resource_KamikazeGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "KamikazeGoblin_0"), "KamikazeGoblin", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/SpearGoblin");
-            GameBoard.Resource_SpearGoblin = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "SpearGoblin_0"), "SpearGoblin", assetGO));
+            GameBoard.Resource_SpearGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "SpearGoblin_0"), "SpearGoblin", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Minotaur");
-            GameBoard.Resource_Minotaur = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "Minotaur_0"), "Minotaur", assetGO));
+            GameBoard.Resource_Minotaur = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "Minotaur_0"), "Minotaur", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Orc");
-            GameBoard.Resource_Orc = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "Orc_0"), "Orc", assetGO));
+            GameBoard.Resource_Orc = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "Orc_0"), "Orc", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcMage");
-            GameBoard.Resource_OrcMage = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "OrcMage_0"), "OrcMage", assetGO));
+            GameBoard.Resource_OrcMage = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "OrcMage_0"), "OrcMage", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcShaman");
-            GameBoard.Resource_OrcShaman = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "OrcShaman_0"), "OrcShaman", assetGO));
+            GameBoard.Resource_OrcShaman = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "OrcShaman_0"), "OrcShaman", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             //BOSS
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/ArmouredRedDemon");
-            GameBoard.Resource_ArmouredRedDemon = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "ArmouredRedDemon_0"), "ArmouredRedDemon", assetGO));
+            GameBoard.Resource_ArmouredRedDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ArmouredRedDemon_0"), "ArmouredRedDemon", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/PurpleDemon");
-            GameBoard.Resource_PurpleDemon = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "PurpleDemon_0"), "PurpleDemon", assetGO));
+            GameBoard.Resource_PurpleDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "PurpleDemon_0"), "PurpleDemon", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/RedDemon");
-            GameBoard.Resource_RedDemon = new Creature(GameBoard, VLCreator.CreateSprite(sprite.First(c => c.name == "RedDemon_0"), "RedDemon", assetGO));
+            GameBoard.Resource_RedDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "RedDemon_0"), "RedDemon", assetGO))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             //兽人巢穴(小)
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Enemy/Orc/AllBuildings-Preview");
             GameBoard.Resource_Orc_Towns = new List<EnermyTown>();
@@ -768,7 +783,7 @@ namespace VL.UnityStarter.GamingStudy0316
             //物品
             //玩家
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Champions/Gangblanc");
-            GameBoard.Resource_Player = new Creature(GameBoard, VLCreator.CreateSprite(sprite[0], "Player"));
+            GameBoard.Resource_Player = new Creature(VLCreator.CreateSprite(sprite[0], "Player"));
             #endregion
 
             GameBoard.IsResourceReady = true;
@@ -804,7 +819,6 @@ namespace VL.UnityStarter.GamingStudy0316
             this.targetPosition = targetPosition;
             this.moveStartTime = Time.time;
         }
-
         internal void CalculateAttectMovement(Vector3 position)
         {
             //TODO 暂时使用碰撞移动表示攻击
@@ -948,14 +962,14 @@ namespace VL.UnityStarter.GamingStudy0316
                     if (Player.CheckOverEdge(Floors))
                     {
                         Player.Movement.CalculateColliderMovement(Player.PlayerGO.transform.position);
-                        Player.GameBoard.DisplayText($"前方无路可走");
+                        Gaming0316.instance.GameBoard.DisplayText($"前方无路可走");
 
                         Player.OperationStatus = OperationStatus.Do_AttemptMove;
                     }
                     else if (Player.CheckCollider(Floors))
                     {
                         Player.Movement.CalculateColliderMovement(Player.PlayerGO.transform.position);
-                        Player.GameBoard.DisplayText($"前方无法通行");
+                        Gaming0316.instance.GameBoard.DisplayText($"前方无法通行");
 
                         Player.OperationStatus = OperationStatus.Do_AttemptMove;
                     }
@@ -968,8 +982,8 @@ namespace VL.UnityStarter.GamingStudy0316
                     {
                         Player.Movement.CalculateMovement(Player.PlayerGO.transform.position);
                         Player.Move(Floors);
-                        Player.GameBoard.DisplayText($"移动 X:{Player.X},Y:{Player.Y}");
-                        Player.UpdateBuffs(Player.GameBoard);
+                        Gaming0316.instance.GameBoard.DisplayText($"移动 X:{Player.X},Y:{Player.Y}");
+                        Player.UpdateBuffs(Gaming0316.instance.GameBoard);
                         SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Move_Grass));
 
                         Player.OperationStatus = OperationStatus.Do_Move;
@@ -1003,6 +1017,7 @@ namespace VL.UnityStarter.GamingStudy0316
                 case OperationStatus.Do_Collect:
                     Player.Collect(Floors);
                     Player.UpdateBuffs(this);
+
                     Player.OperationStatus = OperationStatus.TurnOff;
                     Enermies.ForEach(c => c.OperationStatus = OperationStatus.TurnOn);
                     break;
@@ -1014,8 +1029,9 @@ namespace VL.UnityStarter.GamingStudy0316
                         var orient = Player.Movement.startPosition;
                         Player.Movement.startPosition = Player.Movement.targetPosition;
                         Player.Movement.targetPosition = orient;
-                        Player.OperationStatus = OperationStatus.Do_CloseAttackMoveBack;
                         SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Sword_Cut));
+
+                        Player.OperationStatus = OperationStatus.Do_CloseAttackMoveBack;
                     }
                     break;
                 case OperationStatus.Do_CloseAttackMoveBack:
@@ -1024,8 +1040,14 @@ namespace VL.UnityStarter.GamingStudy0316
                         Player.OperationStatus = OperationStatus.Do_Attack;
                     break;
                 case OperationStatus.Do_Attack:
-                    Player.Attack();
+                    var result = Player.Attack();
                     Player.UpdateBuffs(this);
+                    if (result.IsDead)
+                    {
+                        SoundManager.instance.PlaySecondSound(result.Creature.DiedSounds);
+                        result.Creature.Defeated();
+                    }
+
                     Player.OperationStatus = OperationStatus.TurnOff;
                     Enermies.ForEach(c => c.OperationStatus = OperationStatus.TurnOn);
                     break;
@@ -1276,14 +1298,14 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal object InitPlayer()
         {
-            Player = new Player(this, Resource_Player.SpriteGO);
+            Player = new Player(Resource_Player.SpriteGO);
             Player.X = 20;
             Player.Y = 20;
             Player.PlayerGO.transform.position = GetPosition(Player.X, Player.Y);
             Player.SpriteGO.SetParent(GamingGO);
             Player.OperationStatus = OperationStatus.TurnOn;
-            Player.GameBoard = this;
-            Player.GameBoard.Floors[Player.X, Player.Y].Creatures.Add(Player);
+            Gaming0316.instance.GameBoard = this;
+            Gaming0316.instance.GameBoard.Floors[Player.X, Player.Y].Creatures.Add(Player);
             var creatureModel = Dictionaries.CodeCreatureMathModels[nameof(Player)];
             creatureModel.Decorate(Player);
             return null;
@@ -1444,12 +1466,13 @@ namespace VL.UnityStarter.GamingStudy0316
             {
                 if (creatureSeeds.SeedRandom.GetNext() == 1)
                 {
-                    var creature = new Creature(gameBoard, Object.Instantiate(creatureSeeds.Creature.SpriteGO, gameBoard.CreaturesGO.transform)) { CreatureType = CreatureType.Enermy };
-                    creature.Name = creatureSeeds.Creature.Name;
+                    var creature = creatureSeeds.Creature.Clone();
+                    creature.CreatureType = CreatureType.Enermy;
                     var creatureModel = Dictionaries.CodeCreatureMathModels[creature.Name];
                     creatureModel.Decorate(creature);
                     creature.X = X;
                     creature.Y = Y;
+                    creature.SpriteGO.transform.parent = gameBoard.CreaturesGO.transform;
                     creature.SpriteGO.transform.position = gameBoard.GetPosition(creature.X, creature.Y);
                     Armies.Add(creature);
                     gameBoard.Enermies.Add(creature);
@@ -1697,15 +1720,14 @@ namespace VL.UnityStarter.GamingStudy0316
         Medium,
         Enermy
     }
-    public class Creature : UnityObject, AttackableCreature
+    public class Creature : UnityObject, AttackableCreature, ICloneableObject<Creature>
     {
         public bool IsPlayer = false;
         public OperationStatus OperationStatus { get; internal set; }
-        public Creature(GameBoard gameBoard, GameObject spriteGO, string name = "") : base(spriteGO, name)
+        public Creature(GameObject spriteGO, string name = "") : base(spriteGO, name)
         {
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
             sprite.sortingOrder = (int)SpriteType.Creature;
-            this.GameBoard = gameBoard;
         }
 
         public CreatureType CreatureType { set; get; }
@@ -1716,32 +1738,31 @@ namespace VL.UnityStarter.GamingStudy0316
         public int Attr_AttackMin { set; get; }
         public int Attr_Defend { set; get; }
         public Dictionary<Buff, int> Buffs { set; get; } = new Dictionary<Buff, int>();
-
-
+        public List<AudioClip> DiedSounds { get; internal set; }
 
         public AttackResult Attack()
         {
             var movement = Movement;
             AttackResult result = new AttackResult();
-            var creature = GameBoard.Floors[X + movement.X, Y + movement.Y].Creatures.FirstOrDefault(c => c is AttackableCreature);
+            var creature = Gaming0316.instance.GameBoard.Floors[X + movement.X, Y + movement.Y].Creatures.FirstOrDefault(c => c is AttackableCreature);
             if (creature == null)
                 return result;
-
+            result.Creature = creature;
             return Attack(creature);
         }
         AttackResult Attack(Creature creature)
         {
-            var floors = GameBoard.Floors;
-            if (IsPlayer) GameBoard.DisplayText($"---当前状态---");
-            GameBoard.DisplayText($"{Name}:{GetAttackableCreatureDiscription()}");
-            GameBoard.DisplayText($"{creature.Name}:{creature.GetAttackableCreatureDiscription()}");
-            GameBoard.DisplayText($"---攻击---");
+            var floors = Gaming0316.instance.GameBoard.Floors;
+            if (IsPlayer) Gaming0316.instance.GameBoard.DisplayText($"---当前状态---");
+            Gaming0316.instance.GameBoard.DisplayText($"{Name}:{GetAttackableCreatureDiscription()}");
+            Gaming0316.instance.GameBoard.DisplayText($"{creature.Name}:{creature.GetAttackableCreatureDiscription()}");
+            Gaming0316.instance.GameBoard.DisplayText($"---攻击---");
             AttackResult result = AttackCore(creature, Buffs);
-            GameBoard.DisplayText($"{Name}攻击了{creature.Name},造成了{result.ChangedHP}点伤害");
+            result.Creature = creature;
+            Gaming0316.instance.GameBoard.DisplayText($"{Name}攻击了{creature.Name},造成了{result.ChangedHP}点伤害");
             if (result.IsDead)
             {
-                creature.Defeated();
-                GameBoard.DisplayText($"{creature.Name}被打倒了");
+                Gaming0316.instance.GameBoard.DisplayText($"{creature.Name}被打倒了");
             }
             else
             {
@@ -1826,6 +1847,7 @@ namespace VL.UnityStarter.GamingStudy0316
             var floor = floors[X + Movement.X, Y + Movement.Y];
             return floor.FloorType == FloorType.River || floor.FloorType == FloorType.Mountain || floor.Items.Any(c => c is BlockItem);
         }
+
         // 战斗检测
         public bool CheckCloseAttack(Floor[,] floors)
         {
@@ -1844,6 +1866,7 @@ namespace VL.UnityStarter.GamingStudy0316
                 Debug.Log($"{Name}Move X:{X},Y:{Y}");
             });
         }
+
         public float DisplaySmoothMove(GameObject go, Movement movement, float moveDuration = 0.2f)
         {
             float elapsedTime = Time.time - movement.moveStartTime;
@@ -1853,12 +1876,20 @@ namespace VL.UnityStarter.GamingStudy0316
             return clampTime;
         }
 
-        public GameBoard GameBoard;
         internal void Defeated()
         {
-            GameBoard.Enermies.Remove(this);
-            GameBoard.Floors[X, Y].Creatures.Remove(this);
+            Gaming0316.instance.GameBoard.Enermies.Remove(this);
+            Gaming0316.instance.GameBoard.Floors[X, Y].Creatures.Remove(this);
             Object.Destroy(this.SpriteGO);
+        }
+
+        public Creature Clone()
+        {
+            return new Creature(Object.Instantiate(SpriteGO), Name)
+            {
+                CreatureType = CreatureType,
+                DiedSounds = DiedSounds,
+            };
         }
     }
     public class OperationData
@@ -1940,7 +1971,7 @@ namespace VL.UnityStarter.GamingStudy0316
         public List<Item> Items = new List<Item>();
         public List<FastItem> FastItems = new List<FastItem>();
 
-        public Player(GameBoard gameBoard, GameObject imageGO) : base(gameBoard, imageGO, "Player")
+        public Player(GameObject imageGO) : base(imageGO, "Player")
         {
             PlayerGO = imageGO;
             CameraOffSet = new Vector3(0, 0, -2);
@@ -1950,10 +1981,10 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal void Collect(Floor[,] floors)
         {
-            GameBoard.DisplayText($"---拾取---");
+            Gaming0316.instance.GameBoard.DisplayText($"---拾取---");
             if (floors[X, Y].Items.Count == 0)
             {
-                GameBoard.DisplayText($"{Name}捡了一把空气");
+                Gaming0316.instance.GameBoard.DisplayText($"{Name}捡了一把空气");
                 return;
             }
             for (int i = floors[X, Y].Items.Count - 1; i >= 0; i--)
@@ -1962,7 +1993,7 @@ namespace VL.UnityStarter.GamingStudy0316
                 Items.Add(item);
                 floors[X, Y].Items.Remove(item);
                 Object.Destroy(item.SpriteGO);
-                GameBoard.DisplayText($"{Name}拾取了{item.Name},{item.ItemType}");
+                Gaming0316.instance.GameBoard.DisplayText($"{Name}拾取了{item.Name},{item.ItemType}");
 
                 var fastItem = FastItems.FirstOrDefault(c => c.Item == null);
                 fastItem.AddItem(item);
@@ -1971,31 +2002,31 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal void Check(Floor[,] floors)
         {
-            GameBoard.DisplayText($"---查看---");
+            Gaming0316.instance.GameBoard.DisplayText($"---查看---");
             foreach (var item in floors[X, Y].Items)
             {
-                item.Display(GameBoard);
+                item.Display(Gaming0316.instance.GameBoard);
             }
             foreach (var creature in floors[X, Y].Creatures)
             {
                 if (creature.IsPlayer)
                     continue;
-                creature.Display(GameBoard);
+                creature.Display(Gaming0316.instance.GameBoard);
             }
         }
 
         internal void UseFastItem(string v)
         {
-            GameBoard.DisplayText($"---使用道具---");
+            Gaming0316.instance.GameBoard.DisplayText($"---使用道具---");
             var fastItem = FastItems.FirstOrDefault(c => c.Key == v);
             if (fastItem == null)
             {
-                GameBoard.DisplayText($"{Name}喝了口空气");
+                Gaming0316.instance.GameBoard.DisplayText($"{Name}喝了口空气");
                 return;
             }
             var buff = Dictionaries.BuffDic[fastItem.Item.ItemType];
             Buffs.Add(buff.Key, buff.Value);
-            GameBoard.DisplayText($"{Name}使用了{buff.Key},持续({ buff.Value})回合");
+            Gaming0316.instance.GameBoard.DisplayText($"{Name}使用了{buff.Key},持续({ buff.Value})回合");
 
             //二步走
             //操作 界面对象
@@ -2023,6 +2054,8 @@ namespace VL.UnityStarter.GamingStudy0316
     {
         public int ChangedHP;
         public bool IsDead;
+
+        public Creature Creature { get; internal set; }
     }
     public class SeedRandom : ICloneableObject<SeedRandom>
     {
