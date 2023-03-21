@@ -63,6 +63,7 @@
     <Compile Include="GamingStudy0311\Gaming0311.cs" />
     <Compile Include="GamingStudy0316\Gaming0316.cs" />
     <Compile Include="GamingStudy0316\InitSceneGaming2D.cs" />
+    <Compile Include="GamingStudy0316\SoundManager.cs" />
     <Compile Include="PlayerControl\PlanePlayerController.cs" />
     <Compile Include="PlayerControl\PlayerController.cs" />
     <Compile Include="Program.cs" />

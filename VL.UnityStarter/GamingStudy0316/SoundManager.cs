@@ -1,26 +1,39 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager
+public class SoundManager : MonoBehaviour
 {
     public AudioSource MusicSource;
     public AudioSource SoundSource;
-    public float lowPitchRange = .95f;              
-    public float highPitchRange = 1.05f;            
+    public float lowPitchRange = .95f;
+    public float highPitchRange = 1.05f;
+
+    public static SoundManager instance = null;
+
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void PlayMusic(AudioClip clip)
     {
         MusicSource.clip = clip;
+        SoundSource.pitch = 0.5f;
         MusicSource.loop = true;
         MusicSource.Play();
     }
 
-    public void StopMusic(AudioClip clip)
+    public void StopMusic()
     {
-        MusicSource.clip = clip;
         MusicSource.Stop();
     }
 
-    public void PlaySingle(AudioClip clip)
+    public void PlaySound(AudioClip clip)
     {
         float randomPitch = Random.Range(lowPitchRange, highPitchRange);
         SoundSource.pitch = randomPitch;
@@ -28,10 +41,10 @@ public class SoundManager
         SoundSource.Play();
     }
 
-    public void RandomizeSfx(params AudioClip[] clips)
+    public void PlaySound(List<AudioClip> clips)
     {
-        int randomIndex = Random.Range(0, clips.Length);
+        int randomIndex = Random.Range(0, clips.Count);
         var clip = clips[randomIndex];
-        PlaySingle(clip);
+        PlaySound(clip);
     }
 }

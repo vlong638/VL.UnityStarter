@@ -97,4 +97,11 @@ public static class VLCreator
         gameObject.AddComponent<ScrollRect>();
         return gameObject;
     }
+    public static GameObject CreateAudioSource(string name = "", GameObject parent = null)
+    {
+        GameObject gameObject = new GameObject(name);
+        if (parent) gameObject.transform.SetParent(parent.transform);
+        gameObject.AddComponent<AudioSource>();
+        return gameObject;
+    }
 }

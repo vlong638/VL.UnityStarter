@@ -24,7 +24,7 @@ namespace VL.UnityStarter.GamingStudy0316
             { ItemType.DoubleSpeed, new KeyValuePair<Buff, int>(Buff.DoubleSpeed,8) },
         };
 
-        public static Dictionary<string, string> CodeDescription = new Dictionary<string, string>()
+        public static Dictionary<string, string> CodeDescriptions = new Dictionary<string, string>()
         {
             {"Grass_1","Grass_1"},
             {"Grass_2","Grass_2"},
@@ -120,12 +120,12 @@ namespace VL.UnityStarter.GamingStudy0316
             {"AllBuildings-Preview_54","AllBuildings-Preview_54"},
             {"AllBuildings-Preview_55","AllBuildings-Preview_55"},
         };
-        public static string GetDescriptionByName(string name)
+        public static string GetDescriptionByCode(string name)
         {
-            return !string.IsNullOrEmpty(name) && Dictionaries.CodeDescription.ContainsKey(name) ? Dictionaries.CodeDescription[name] : "???";
+            return !string.IsNullOrEmpty(name) && Dictionaries.CodeDescriptions.ContainsKey(name) ? Dictionaries.CodeDescriptions[name] : "???";
         }
 
-        public static Dictionary<string, CreatureMathModel> CodeCreatureMathModel = new Dictionary<string, CreatureMathModel>()
+        public static Dictionary<string, CreatureMathModel> CodeCreatureMathModels = new Dictionary<string, CreatureMathModel>()
         {
 
             {nameof(Player),new CreatureMathModel(){
@@ -248,7 +248,53 @@ namespace VL.UnityStarter.GamingStudy0316
                 Attr_Defend_from=61,
                 Attr_Defend_to=82,} },
         };
+
+        public static Dictionary<SoundAudioType, List<AudioClip>> CodeAudios = new Dictionary<SoundAudioType, List<AudioClip>>();
+        public static List<AudioClip> GetCodeAudioByCode(SoundAudioType type)
+        {
+            return type != SoundAudioType.None && CodeAudios.ContainsKey(type) ? Dictionaries.CodeAudios[type] : null;
+        }
+
+        static Dictionaries()
+        {
+            #region Audioes
+
+            CodeAudios.Add(SoundAudioType.Move, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Move") });
+            CodeAudios.Add(SoundAudioType.CutTree, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/CutTree") });
+            CodeAudios.Add(SoundAudioType.Human_DeepHurt, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Human_DeepHurt")
+                , Resources.Load<AudioClip>("Audio/Human_DeepHurt2") });
+            CodeAudios.Add(SoundAudioType.Human_Hurt, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Human_Hurt")
+                , Resources.Load<AudioClip>("Audio/Human_Hurt2") });
+            CodeAudios.Add(SoundAudioType.Mining, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Mining") });
+            CodeAudios.Add(SoundAudioType.Mining_Grass, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Mining_Grass") });
+            CodeAudios.Add(SoundAudioType.Orc_Attack, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Orc_Attack1")
+                , Resources.Load<AudioClip>("Audio/Orc_Attack2") });
+            CodeAudios.Add(SoundAudioType.Orc_Die, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Orc_Die") });
+            CodeAudios.Add(SoundAudioType.Orc_Hurt, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Orc_Hurt1")
+                , Resources.Load<AudioClip>("Audio/Orc_Hurt2") });
+            CodeAudios.Add(SoundAudioType.Sword_Cut, new List<AudioClip>() { Resources.Load<AudioClip>("Audio/Sword_Cut")
+                , Resources.Load<AudioClip>("Audio/Sword_Cut2") });
+
+            #endregion
+
+        }
     }
+    public enum SoundAudioType
+    {
+        None,
+        Move,
+        CutTree,
+        Human_DeepHurt,
+        Human_Hurt,
+        Mining,
+        Mining_Grass,
+        Orc_Attack,
+        Orc_Die,
+        Orc_Hurt,
+        Sword_Cut,
+
+    }
+
     public class CreatureMathModel
     {
         public int Attr_HP_from { set; get; }
@@ -311,7 +357,6 @@ namespace VL.UnityStarter.GamingStudy0316
         internal GameObject settingGO { set; get; }
 
         GameBoard GameBoard;
-        SoundManager SoundManager;
 
         void Start()
         {
@@ -343,13 +388,12 @@ namespace VL.UnityStarter.GamingStudy0316
             var audioSourceGO = VLCreator.CreateAudioSource();
             audioSourceGO.SetParent(instance.gameObject);
             var audioSource = audioSourceGO.GetComponent<AudioSource>();
-            SoundManager = new SoundManager();
-            SoundManager.MusicSource = audioSource;
-            SoundManager.MusicSource.name = nameof(SoundManager.MusicSource);
-            SoundManager.SoundSource = GameObject.Instantiate(audioSource, instance.gameObject.transform);
-            SoundManager.SoundSource.name = nameof(SoundManager.SoundSource);
+            SoundManager.instance.MusicSource = audioSource;
+            SoundManager.instance.MusicSource.name = nameof(SoundManager.MusicSource);
+            SoundManager.instance.SoundSource = GameObject.Instantiate(audioSource, instance.gameObject.transform);
+            SoundManager.instance.SoundSource.name = nameof(SoundManager.SoundSource);
             AudioClip clip = Resources.Load<AudioClip>("Audio/Background");
-            SoundManager.PlayMusic(clip);
+            SoundManager.instance.PlayMusic(clip);
 
             Debug.Log($"Started");
         }
@@ -388,6 +432,7 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             if (!isStarting)
             {
+                SoundManager.instance.StopMusic();
                 StartCoroutine(StartingGame());
             }
         }
@@ -399,9 +444,11 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             while (!GameBoard.IsResourceReady)
             {
-                Debug.Log("资源尚未加载");
-                yield return null;
+                Debug.Log("正在加载资源");
+                yield return new WaitForSeconds(1f);
             }
+
+            SoundManager.instance.StopMusic();
 
             Debug.Log($"StartingGame");
             isStarting = true;
@@ -440,6 +487,8 @@ namespace VL.UnityStarter.GamingStudy0316
         private void PrepareAsset(GameBoard gameBoard)
         {
             GameBoard.IsResourceReady = false;
+
+            #region Images
             //草地
             var sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Grass");
             GameBoard.Resource_Grounds = new List<Floor>();
@@ -715,6 +764,8 @@ namespace VL.UnityStarter.GamingStudy0316
             //玩家
             sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Champions/Gangblanc");
             GameBoard.Resource_Player = new Creature(GameBoard, VLCreator.CreateSprite(sprite[0], "Player"));
+            #endregion
+
             GameBoard.IsResourceReady = true;
         }
     }
@@ -914,6 +965,7 @@ namespace VL.UnityStarter.GamingStudy0316
                         Player.Move(Floors);
                         Player.GameBoard.DisplayText($"移动 X:{Player.X},Y:{Player.Y}");
                         Player.UpdateBuffs(Player.GameBoard);
+                        SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Move));
 
                         Player.OperationStatus = OperationStatus.Do_Move;
                     }
@@ -1225,7 +1277,7 @@ namespace VL.UnityStarter.GamingStudy0316
             Player.OperationStatus = OperationStatus.TurnOn;
             Player.GameBoard = this;
             Player.GameBoard.Floors[Player.X, Player.Y].Creatures.Add(Player);
-            var creatureModel = Dictionaries.CodeCreatureMathModel[nameof(Player)];
+            var creatureModel = Dictionaries.CodeCreatureMathModels[nameof(Player)];
             creatureModel.Decorate(Player);
             return null;
         }
@@ -1387,7 +1439,7 @@ namespace VL.UnityStarter.GamingStudy0316
                 {
                     var creature = new Creature(gameBoard, Object.Instantiate(creatureSeeds.Creature.SpriteGO, gameBoard.CreaturesGO.transform)) { CreatureType = CreatureType.Enermy };
                     creature.Name = creatureSeeds.Creature.Name;
-                    var creatureModel = Dictionaries.CodeCreatureMathModel[creature.Name];
+                    var creatureModel = Dictionaries.CodeCreatureMathModels[creature.Name];
                     creatureModel.Decorate(creature);
                     creature.X = X;
                     creature.Y = Y;
@@ -1620,7 +1672,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal void Display(GameBoard gameBoard)
         {
-            gameBoard.DisplayText(Dictionaries.GetDescriptionByName(Name));
+            gameBoard.DisplayText(Dictionaries.GetDescriptionByCode(Name));
         }
     }
     public interface IUnityObject
@@ -1719,7 +1771,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal void Display(GameBoard gameBoard)
         {
-            gameBoard.DisplayText(Dictionaries.GetDescriptionByName(Name));
+            gameBoard.DisplayText(Dictionaries.GetDescriptionByCode(Name));
         }
 
         internal Movement Movement;

@@ -14,6 +14,7 @@ namespace VL.UnityStarter.GamingStudy0316
         GameObject assetGO;
         GameObject gamingGO;
         GameObject settingGO;
+        GameObject soundManagerGO;
 
         GameObject startCameraGO;
         GameObject startCanvasGO;
@@ -94,6 +95,7 @@ namespace VL.UnityStarter.GamingStudy0316
             assetGO = new GameObject("assetGO");
             gamingGO = new GameObject("gamingGO");
             settingGO = new GameObject("settingGO");
+            soundManagerGO = new GameObject("soundManagerGO");
 
             #region init gamingGO
 
@@ -122,9 +124,11 @@ namespace VL.UnityStarter.GamingStudy0316
             assetGO.SetParent(game0316);
             gamingGO.SetParent(game0316);
             settingGO.SetParent(game0316);
+            soundManagerGO.SetParent(game0316);
 
             //Ìí¼Ó½Å±¾
-            var gamingScripts = game0316.AddComponent<Gaming0316>();
+            game0316.AddComponent<Gaming0316>();
+            soundManagerGO.AddComponent<SoundManager>();
 
             ////Ìí¼ÓPlayer from Prefab
             //GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Scripts/0316/Player.prefab"); 
