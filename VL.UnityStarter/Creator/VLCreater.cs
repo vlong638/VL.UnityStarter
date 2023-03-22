@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public static class VLCreator
+public static class VLCreater
 {
     public static GameObject CreateCanvas(string name = "", GameObject parent = null)
     {

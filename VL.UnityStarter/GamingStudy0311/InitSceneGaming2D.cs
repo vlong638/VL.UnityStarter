@@ -19,13 +19,13 @@ namespace VL.UnityStarter.GamingStudy0311
             //添加游戏对象收纳
             gamingGO = new GameObject("2DGaming");
             //添加摄像机
-            cameraGO = VLCreator.CreateCamera("Camera2D", gamingGO);
+            cameraGO = VLCreater.CreateCamera("Camera2D", gamingGO);
             var camera2D = cameraGO.GetComponent<Camera>();
             camera2D.orthographic = true;
             //添加画布Canvas
-            canvasGO = VLCreator.CreateCanvas("BackgroundCanvas", gamingGO);
+            canvasGO = VLCreater.CreateCanvas("BackgroundCanvas", gamingGO);
             //添加背景Image
-            var backgroundImageGO = VLCreator.CreateImage("BackgroundImage", canvasGO);
+            var backgroundImageGO = VLCreater.CreateImage("BackgroundImage", canvasGO);
             var image = backgroundImageGO.GetComponent<Image>();
             if (ColorUtility.TryParseHtmlString("#095B00", out Color c))
             {

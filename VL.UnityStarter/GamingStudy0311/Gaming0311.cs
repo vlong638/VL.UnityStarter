@@ -68,7 +68,7 @@ namespace VL.UnityStarter.GamingStudy0311
         void DisplayLevel(int displayTime)
         {
             //添加关卡文本
-            var textLevelGO = VLCreator.CreateText("Lv", canvasGO);
+            var textLevelGO = VLCreater.CreateText("Lv", canvasGO);
             var textLevel = textLevelGO.GetComponent<Text>();
             textLevel.text = "Day1";
             textLevel.horizontalOverflow = HorizontalWrapMode.Overflow;
@@ -237,7 +237,7 @@ namespace VL.UnityStarter.GamingStudy0311
             {
                 for (int j = 0; j < YSteps; j++)
                 {
-                    var image = VLCreator.CreateImage("floor" + i + j, CanvasGO).GetComponent<Image>();
+                    var image = VLCreater.CreateImage("floor" + i + j, CanvasGO).GetComponent<Image>();
                     image.color = Dictionaries.ColorDic[nameof(Floor)];
                     image.rectTransform.anchorMin = new Vector2(0f, 0f);
                     image.rectTransform.anchorMax = new Vector2(0f, 0f);
@@ -257,7 +257,7 @@ namespace VL.UnityStarter.GamingStudy0311
                 {
                     if (Random.Range(0, 100) < 90)
                         continue;
-                    var imageGO = VLCreator.CreateImage("item" + i + j, CanvasGO);
+                    var imageGO = VLCreater.CreateImage("item" + i + j, CanvasGO);
                     var image = imageGO.GetComponent<Image>();
                     var itemType = itemTypes[Random.Range(0, 3)];
                     switch (itemType)
@@ -297,7 +297,7 @@ namespace VL.UnityStarter.GamingStudy0311
                 {
                     if (Random.Range(0, 100) < 95)
                         continue;
-                    var image = VLCreator.CreateImage("Creature" + i + j, CanvasGO).GetComponent<Image>();
+                    var image = VLCreater.CreateImage("Creature" + i + j, CanvasGO).GetComponent<Image>();
                     image.color = Dictionaries.ColorDic[nameof(Creature)];
                     image.rectTransform.anchorMin = new Vector2(0f, 0f);
                     image.rectTransform.anchorMax = new Vector2(0f, 0f);
@@ -325,7 +325,7 @@ namespace VL.UnityStarter.GamingStudy0311
             rect.anchoredPosition = new Vector2(floorPaddingX, floorPaddingY + floorHeight / 2 - 20);
             Player.Name = Player.PlayerGO.GetComponentInChildren<Text>().text;
             //创建文本输出框
-            ScrollViewGO = VLCreator.CreateScrollView("TextDisplay", CanvasGO);
+            ScrollViewGO = VLCreater.CreateScrollView("TextDisplay", CanvasGO);
             ScrollRect = ScrollViewGO.GetComponent<ScrollRect>();
             rect = ScrollViewGO.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0, 0);
@@ -335,7 +335,7 @@ namespace VL.UnityStarter.GamingStudy0311
             rect.anchoredPosition = new Vector2(0, 0);
             var canvasGroup = ScrollViewGO.AddComponent<CanvasGroup>();
             canvasGroup.alpha = 0.6f;
-            ScrollTextGO = VLCreator.CreateText("ScrollText", ScrollViewGO);
+            ScrollTextGO = VLCreater.CreateText("ScrollText", ScrollViewGO);
             rect = ScrollTextGO.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0, 0);
             rect.anchorMax = new Vector2(1, 1);
@@ -355,7 +355,7 @@ namespace VL.UnityStarter.GamingStudy0311
                 var fastItemBlockGO = new GameObject("FastItemBlock" + i);
                 fastItemBlockGO.transform.parent = CanvasGO.transform;
 
-                var imageGO = VLCreator.CreateImage("FastItemBlockImage" + i, fastItemBlockGO);
+                var imageGO = VLCreater.CreateImage("FastItemBlockImage" + i, fastItemBlockGO);
                 var image = imageGO.GetComponent<Image>();
                 image.color = Dictionaries.ColorDic[nameof(FastItem.FastItemBlock)];
                 image.rectTransform.anchorMin = new Vector2(0f, 0f);
@@ -414,7 +414,7 @@ namespace VL.UnityStarter.GamingStudy0311
 
         internal void AddItem(Item item)
         {
-            var imageGO = VLCreator.CreateImage("FastItemImage", Parent);
+            var imageGO = VLCreater.CreateImage("FastItemImage", Parent);
             var image = imageGO.GetComponent<Image>();
             image.color = Dictionaries.ColorDic[item.ItemType.ToString()];
             image.rectTransform.anchorMin = new Vector2(0f, 0f);

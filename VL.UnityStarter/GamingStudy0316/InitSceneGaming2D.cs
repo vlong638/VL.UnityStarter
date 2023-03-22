@@ -40,11 +40,11 @@ namespace VL.UnityStarter.GamingStudy0316
             //添加游戏对象收纳
             startGO = new GameObject("startGO");
             //添加摄像机
-            startCameraGO = VLCreator.CreateCamera("startCameraGO", startGO);
+            startCameraGO = VLCreater.CreateCamera("startCameraGO", startGO);
             camera2D = startCameraGO.GetComponent<Camera>();
             camera2D.orthographic = true;
             //添加画布
-            startCanvasGO = VLCreator.CreateCanvas("start_BackgroundCanvas", startGO);
+            startCanvasGO = VLCreater.CreateCanvas("start_BackgroundCanvas", startGO);
             //添加背景
             var backgroundGO = new GameObject("backgroundGO");
             backgroundGO.SetParent(startCanvasGO);
@@ -58,7 +58,7 @@ namespace VL.UnityStarter.GamingStudy0316
             rectTransform.localPosition = new Vector3(0f, 0f, 0f);
             //添加按钮
             //Start
-            var gameObject = VLCreator.CreateButton("start", startCanvasGO);
+            var gameObject = VLCreater.CreateButton("start", startCanvasGO);
             gameObject.ToStartMenuButtonStyle();
             text = gameObject.GetComponentInChildren<Text>();
             text.text = "开始游戏";
@@ -66,7 +66,7 @@ namespace VL.UnityStarter.GamingStudy0316
             rectTransform.localPosition = new Vector3(0f, 200f, 0f);
             button = gameObject.GetComponent<Button>();
             //Load
-            gameObject = VLCreator.CreateButton("load", startCanvasGO);
+            gameObject = VLCreater.CreateButton("load", startCanvasGO);
             gameObject.ToStartMenuButtonStyle();
             text = gameObject.GetComponentInChildren<Text>();
             text.text = "加载游戏";
@@ -74,7 +74,7 @@ namespace VL.UnityStarter.GamingStudy0316
             rectTransform.localPosition = new Vector3(0f, 100f, 0f);
             button = gameObject.GetComponent<Button>();
             //Config
-            gameObject = VLCreator.CreateButton("config", startCanvasGO);
+            gameObject = VLCreater.CreateButton("config", startCanvasGO);
             gameObject.ToStartMenuButtonStyle();
             text = gameObject.GetComponentInChildren<Text>();
             text.text = "游戏设置";
@@ -82,7 +82,7 @@ namespace VL.UnityStarter.GamingStudy0316
             rectTransform.localPosition = new Vector3(0f, 0f, 0f);
             button = gameObject.GetComponent<Button>();
             //Quit
-            gameObject = VLCreator.CreateButton("end", startCanvasGO);
+            gameObject = VLCreater.CreateButton("end", startCanvasGO);
             gameObject.ToStartMenuButtonStyle();
             text = gameObject.GetComponentInChildren<Text>();
             text.text = "退出";

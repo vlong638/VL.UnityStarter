@@ -313,7 +313,8 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal void Decorate(Creature creature)
         {
-            creature.Attr_HP = Random.Range(this.Attr_HP_from, this.Attr_HP_to);
+            creature.Attr_MaxHP = Random.Range(this.Attr_HP_from, this.Attr_HP_to);
+            creature.Attr_HP = creature.Attr_MaxHP;
             creature.Attr_AttackMax = Random.Range(this.Attr_AttackMax_from, this.Attr_AttackMax_to);
             creature.Attr_AttackMin = Random.Range(this.Attr_AttackMin_from, this.Attr_AttackMin_to);
             creature.Attr_Defend = Random.Range(this.Attr_Defend_from, this.Attr_Defend_to);
@@ -331,6 +332,7 @@ namespace VL.UnityStarter.GamingStudy0316
         Floor = 3,
         Item = 5,
         Creature = 9,
+        HPMP_Bar = 10,
     }
     public static partial class ValueEx
     {
@@ -390,7 +392,7 @@ namespace VL.UnityStarter.GamingStudy0316
             StartCoroutine(nameof(PrepareAsset), GameBoard);
 
             //背景音乐
-            var audioSourceGO = VLCreator.CreateAudioSource();
+            var audioSourceGO = VLCreater.CreateAudioSource();
             audioSourceGO.SetParent(instance.gameObject);
             var audioSource = audioSourceGO.GetComponent<AudioSource>();
             SoundManager.instance.MusicSource = audioSource;
@@ -497,191 +499,208 @@ namespace VL.UnityStarter.GamingStudy0316
             GameBoard.IsResourceReady = false;
 
             #region Images
+            //血条
+            var sprite = Resources.Load<Sprite>("vl/white");
+            var spriteGO = VLCreater.CreateSprite(sprite, "BloodBar");
+            spriteGO.transform.localScale = new Vector3(12, 1, 1);
+            spriteGO.transform.localPosition = new Vector3(0, 0.09f, 0);
+            var spriteRender = spriteGO.GetComponent<SpriteRenderer>();
+            spriteRender.color = "#FF0000".ToColor();
+            spriteRender.sortingOrder = (int)SpriteType.HPMP_Bar;
+            GameBoard.Resource_BloodBar = spriteGO;
+            sprite = Resources.Load<Sprite>("vl/white");
+            spriteGO = VLCreater.CreateSprite(sprite, "MagicBar");
+            spriteGO.transform.localScale = new Vector3(12, 1, 1);
+            spriteGO.transform.localPosition = new Vector3(0, 0.08f, 0);
+            spriteRender = spriteGO.GetComponent<SpriteRenderer>();
+            spriteRender.color = "#0077F8".ToColor();
+            spriteRender.sortingOrder = (int)SpriteType.HPMP_Bar;
+            GameBoard.Resource_MagicBar = spriteGO;
             //草地
-            var sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Grass");
+            var sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Grass");
             GameBoard.Resource_Grounds = new List<Floor>();
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Grass_1"), "Grass_1", assetGO), FloorType.Grassland));
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Grass_2"), "Grass_2", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Grass_1"), "Grass_1", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Grass_2"), "Grass_2", assetGO), FloorType.Grassland));
             //道路
             GameBoard.Resource_Roads = new List<Floor>();
-            GameBoard.Resource_Roads.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Grass_3"), "Grass_3", assetGO), FloorType.Grassland));
-            GameBoard.Resource_Roads.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Grass_4"), "Grass_4", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Roads.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Grass_3"), "Grass_3", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Roads.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Grass_4"), "Grass_4", assetGO), FloorType.Grassland));
             //草地
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/TexturedGrass");
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "TexturedGrass_1"), "TexuredGrass_1", assetGO), FloorType.Grassland));
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "TexturedGrass_2"), "TexuredGrass_2", assetGO), FloorType.Grassland));
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "TexturedGrass_4"), "TexuredGrass_4", assetGO), FloorType.Grassland));
-            GameBoard.Resource_Grounds.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "TexturedGrass_5"), "TexuredGrass_5", assetGO), FloorType.Grassland));
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/TexturedGrass");
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "TexturedGrass_1"), "TexuredGrass_1", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "TexturedGrass_2"), "TexuredGrass_2", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "TexturedGrass_4"), "TexuredGrass_4", assetGO), FloorType.Grassland));
+            GameBoard.Resource_Grounds.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "TexturedGrass_5"), "TexuredGrass_5", assetGO), FloorType.Grassland));
             //深水
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Shore");
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Shore");
             GameBoard.Resource_Waters = new List<Floor>();
-            GameBoard.Resource_Waters.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Shore_4"), "Shore_4", assetGO), FloorType.River));
+            GameBoard.Resource_Waters.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Shore_4"), "Shore_4", assetGO), FloorType.River));
             //海滩
             GameBoard.Resource_GradientWaters = new List<Floor>();
-            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Shore_0"), "Shore_0", assetGO), FloorType.Shore));
-            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Shore_1"), "Shore_1", assetGO), FloorType.Shore));
-            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Shore_2"), "Shore_2", assetGO), FloorType.Shore));
-            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Shore_3"), "Shore_3", assetGO), FloorType.Shore));
+            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Shore_0"), "Shore_0", assetGO), FloorType.Shore));
+            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Shore_1"), "Shore_1", assetGO), FloorType.Shore));
+            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Shore_2"), "Shore_2", assetGO), FloorType.Shore));
+            GameBoard.Resource_GradientWaters.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Shore_3"), "Shore_3", assetGO), FloorType.Shore));
             //石矿坑
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Cliff");
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Cliff");
             GameBoard.Resource_Mountains_Stone = new List<Floor>();
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_0"), "Cliff_0", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_1"), "Cliff_1", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_2"), "Cliff_2", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_5"), "Cliff_5", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_6"), "Cliff_6", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_7"), "Cliff_7", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_10"), "Cliff_10", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_11"), "Cliff_11", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_12"), "Cliff_12", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_0"), "Cliff_0", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_1"), "Cliff_1", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_2"), "Cliff_2", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_5"), "Cliff_5", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_6"), "Cliff_6", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_7"), "Cliff_7", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_10"), "Cliff_10", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_11"), "Cliff_11", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Stone.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_12"), "Cliff_12", assetGO), FloorType.Mountain));
             //石矿坑入口
-            GameBoard.Resource_Mountains_StoneMine = new Entrance(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_9"), "Cliff_9", assetGO), EntranceType.StoneMine);
+            GameBoard.Resource_Mountains_StoneMine = new Entrance(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_9"), "Cliff_9", assetGO), EntranceType.StoneMine);
             //铜矿坑
             GameBoard.Resource_Mountains_Copper = new List<Floor>();
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_38"), "Cliff_38", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_39"), "Cliff_39", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_40"), "Cliff_40", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_41"), "Cliff_41", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_42"), "Cliff_42", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_43"), "Cliff_43", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_48"), "Cliff_48", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_49"), "Cliff_49", assetGO), FloorType.Mountain));
-            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_50"), "Cliff_50", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_38"), "Cliff_38", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_39"), "Cliff_39", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_40"), "Cliff_40", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_41"), "Cliff_41", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_42"), "Cliff_42", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_43"), "Cliff_43", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_48"), "Cliff_48", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_49"), "Cliff_49", assetGO), FloorType.Mountain));
+            GameBoard.Resource_Mountains_Copper.Add(new Floor(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_50"), "Cliff_50", assetGO), FloorType.Mountain));
             //铜矿坑入口
-            GameBoard.Resource_Mountains_CopperMine = new Entrance(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_8"), "Cliff_8", assetGO), EntranceType.CopperMine);
+            GameBoard.Resource_Mountains_CopperMine = new Entrance(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_8"), "Cliff_8", assetGO), EntranceType.CopperMine);
             //矿石
-            GameBoard.Resource_Mountains_StoneOre = new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_4"), "Cliff_4", assetGO), BlockType.Stone);
+            GameBoard.Resource_Mountains_StoneOre = new BlockItem(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_4"), "Cliff_4", assetGO), BlockType.Stone);
             //矿石(草)
-            GameBoard.Resource_Mountains_CutterOre = new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_3"), "Cliff_3", assetGO), BlockType.Stone);
+            GameBoard.Resource_Mountains_CutterOre = new BlockItem(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_3"), "Cliff_3", assetGO), BlockType.Stone);
             //矿石(巨型)
             GameBoard.Resource_Mountains_BigOre = new List<BlockItem>();
-            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_15"), "Cliff_15", assetGO), BlockType.Stone));
-            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_16"), "Cliff_16", assetGO), BlockType.Stone));
-            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_22"), "Cliff_22", assetGO), BlockType.Stone));
-            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreator.CreateSprite(sprite.First(c => c.name == "Cliff_23"), "Cliff_23", assetGO), BlockType.Stone));
+            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_15"), "Cliff_15", assetGO), BlockType.Stone));
+            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_16"), "Cliff_16", assetGO), BlockType.Stone));
+            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_22"), "Cliff_22", assetGO), BlockType.Stone));
+            GameBoard.Resource_Mountains_BigOre.Add(new BlockItem(VLCreater.CreateSprite(sprites.First(c => c.name == "Cliff_23"), "Cliff_23", assetGO), BlockType.Stone));
             //树木
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Nature/PineTrees");
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Nature/PineTrees");
             GameBoard.Resource_Trees = new List<Tree>();
             GameBoard.Resource_Trees.Add(new Tree(
                 null
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "PineTrees_1"), "PineTrees_1", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "PineTrees_0"), "PineTrees_0", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "PineTrees_1"), "PineTrees_1", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "PineTrees_0"), "PineTrees_0", assetGO)
                 , "PineTrees_1"
                 ));
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Nature/Trees");
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Nature/Trees");
             GameBoard.Resource_Trees.Add(new Tree(
                 null
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_1"), "Trees_1", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Trees_1"), "Trees_1", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
                 , "Trees_1"
                 ));
             GameBoard.Resource_Trees.Add(new Tree(
                 null
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_2"), "Trees_2", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Trees_2"), "Trees_2", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
                 , "Trees_1"
                 ));
             GameBoard.Resource_Trees.Add(new Tree(
                 null
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_3"), "Trees_3", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Trees_3"), "Trees_3", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Trees_0"), "Trees_0", assetGO)
                 , "Trees_1"
                 ));
             //稻谷
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Nature/Wheatfield");
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Nature/Wheatfield");
             GameBoard.Resource_Wheatfield = new Wheatfield(
-                VLCreator.CreateSprite(sprite.First(c => c.name == "Wheatfield_0"), "Wheatfield_0", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Wheatfield_1"), "Wheatfield_1", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Wheatfield_2"), "Wheatfield_2", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Wheatfield_3"), "Wheatfield_3", assetGO)
+                VLCreater.CreateSprite(sprites.First(c => c.name == "Wheatfield_0"), "Wheatfield_0", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Wheatfield_1"), "Wheatfield_1", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Wheatfield_2"), "Wheatfield_2", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Wheatfield_3"), "Wheatfield_3", assetGO)
                 );
             //冒险洞穴
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Wood/CaveV2");
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Wood/CaveV2");
             GameBoard.Resource_Caves = new List<Cave>();
-            GameBoard.Resource_Caves.Add(new Cave(VLCreator.CreateSprite(sprite.First(c => c.name == "CaveV2_0"), "CaveV2_0", assetGO)));
-            GameBoard.Resource_Caves.Add(new Cave(VLCreator.CreateSprite(sprite.First(c => c.name == "CaveV2_1"), "CaveV2_1", assetGO)));
-            GameBoard.Resource_Caves.Add(new Cave(VLCreator.CreateSprite(sprite.First(c => c.name == "CaveV2_2"), "CaveV2_2", assetGO)));
-            GameBoard.Resource_Caves.Add(new Cave(VLCreator.CreateSprite(sprite.First(c => c.name == "CaveV2_3"), "CaveV2_3", assetGO)));
-            GameBoard.Resource_Caves.Add(new Cave(VLCreator.CreateSprite(sprite.First(c => c.name == "CaveV2_4"), "CaveV2_4", assetGO)));
-            GameBoard.Resource_Caves.Add(new Cave(VLCreator.CreateSprite(sprite.First(c => c.name == "CaveV2_5"), "CaveV2_5", assetGO)));
+            GameBoard.Resource_Caves.Add(new Cave(VLCreater.CreateSprite(sprites.First(c => c.name == "CaveV2_0"), "CaveV2_0", assetGO)));
+            GameBoard.Resource_Caves.Add(new Cave(VLCreater.CreateSprite(sprites.First(c => c.name == "CaveV2_1"), "CaveV2_1", assetGO)));
+            GameBoard.Resource_Caves.Add(new Cave(VLCreater.CreateSprite(sprites.First(c => c.name == "CaveV2_2"), "CaveV2_2", assetGO)));
+            GameBoard.Resource_Caves.Add(new Cave(VLCreater.CreateSprite(sprites.First(c => c.name == "CaveV2_3"), "CaveV2_3", assetGO)));
+            GameBoard.Resource_Caves.Add(new Cave(VLCreater.CreateSprite(sprites.First(c => c.name == "CaveV2_4"), "CaveV2_4", assetGO)));
+            GameBoard.Resource_Caves.Add(new Cave(VLCreater.CreateSprite(sprites.First(c => c.name == "CaveV2_5"), "CaveV2_5", assetGO)));
             //城镇(小)
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Wood/Chapels");
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Wood/Chapels");
             GameBoard.Resource_Towns = new List<Town>();
-            GameBoard.Resource_Towns.Add(new Town(VLCreator.CreateSprite(sprite.First(c => c.name == "Chapels_0"), "Chapels_0", assetGO)));
-            GameBoard.Resource_Towns.Add(new Town(VLCreator.CreateSprite(sprite.First(c => c.name == "Chapels_1"), "Chapels_1", assetGO)));
-            GameBoard.Resource_Towns.Add(new Town(VLCreator.CreateSprite(sprite.First(c => c.name == "Chapels_2"), "Chapels_2", assetGO)));
-            GameBoard.Resource_Towns.Add(new Town(VLCreator.CreateSprite(sprite.First(c => c.name == "Chapels_3"), "Chapels_3", assetGO)));
-            GameBoard.Resource_Towns.Add(new Town(VLCreator.CreateSprite(sprite.First(c => c.name == "Chapels_4"), "Chapels_4", assetGO)));
-            GameBoard.Resource_Towns.Add(new Town(VLCreator.CreateSprite(sprite.First(c => c.name == "Chapels_5"), "Chapels_5", assetGO)));
+            GameBoard.Resource_Towns.Add(new Town(VLCreater.CreateSprite(sprites.First(c => c.name == "Chapels_0"), "Chapels_0", assetGO)));
+            GameBoard.Resource_Towns.Add(new Town(VLCreater.CreateSprite(sprites.First(c => c.name == "Chapels_1"), "Chapels_1", assetGO)));
+            GameBoard.Resource_Towns.Add(new Town(VLCreater.CreateSprite(sprites.First(c => c.name == "Chapels_2"), "Chapels_2", assetGO)));
+            GameBoard.Resource_Towns.Add(new Town(VLCreater.CreateSprite(sprites.First(c => c.name == "Chapels_3"), "Chapels_3", assetGO)));
+            GameBoard.Resource_Towns.Add(new Town(VLCreater.CreateSprite(sprites.First(c => c.name == "Chapels_4"), "Chapels_4", assetGO)));
+            GameBoard.Resource_Towns.Add(new Town(VLCreater.CreateSprite(sprites.First(c => c.name == "Chapels_5"), "Chapels_5", assetGO)));
             //城镇(大)
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Wood/Keep");
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Wood/Keep");
             GameBoard.Resource_BigTowns = new List<BigTown>();
             GameBoard.Resource_BigTowns.Add(
                 new BigTown(
-                VLCreator.CreateSprite(sprite.First(c => c.name == "Keep_0"), "Keep_0", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Keep_1"), "Keep_1", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Keep_6"), "Keep_6", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Keep_7"), "Keep_7", assetGO)
+                VLCreater.CreateSprite(sprites.First(c => c.name == "Keep_0"), "Keep_0", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Keep_1"), "Keep_1", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Keep_6"), "Keep_6", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Keep_7"), "Keep_7", assetGO)
                 ));
             GameBoard.Resource_BigTowns.Add(
                 new BigTown(
-                VLCreator.CreateSprite(sprite.First(c => c.name == "Keep_4"), "Keep_4", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Keep_5"), "Keep_5", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Keep_10"), "Keep_10", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "Keep_11"), "Keep_11", assetGO)
+                VLCreater.CreateSprite(sprites.First(c => c.name == "Keep_4"), "Keep_4", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Keep_5"), "Keep_5", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Keep_10"), "Keep_10", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "Keep_11"), "Keep_11", assetGO)
                 ));
             //生物
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ArcherGoblin");
-            GameBoard.Resource_ArcherGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ArcherGoblin_0"), "ArcherGoblin", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ArcherGoblin");
+            GameBoard.Resource_ArcherGoblin = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "ArcherGoblin_0"), "ArcherGoblin", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ClubGoblin");
-            GameBoard.Resource_ClubGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ClubGoblin_0"), "ClubGoblin", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ClubGoblin");
+            GameBoard.Resource_ClubGoblin = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "ClubGoblin_0"), "ClubGoblin", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/FarmerGoblin");
-            GameBoard.Resource_FarmerGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "FarmerGoblin_0"), "FarmerGoblin", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/FarmerGoblin");
+            GameBoard.Resource_FarmerGoblin = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "FarmerGoblin_0"), "FarmerGoblin", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/KamikazeGoblin");
-            GameBoard.Resource_KamikazeGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "KamikazeGoblin_0"), "KamikazeGoblin", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/KamikazeGoblin");
+            GameBoard.Resource_KamikazeGoblin = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "KamikazeGoblin_0"), "KamikazeGoblin", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/SpearGoblin");
-            GameBoard.Resource_SpearGoblin = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "SpearGoblin_0"), "SpearGoblin", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/SpearGoblin");
+            GameBoard.Resource_SpearGoblin = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "SpearGoblin_0"), "SpearGoblin", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Minotaur");
-            GameBoard.Resource_Minotaur = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "Minotaur_0"), "Minotaur", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Minotaur");
+            GameBoard.Resource_Minotaur = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "Minotaur_0"), "Minotaur", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Orc");
-            GameBoard.Resource_Orc = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "Orc_0"), "Orc", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Orc");
+            GameBoard.Resource_Orc = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "Orc_0"), "Orc", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcMage");
-            GameBoard.Resource_OrcMage = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "OrcMage_0"), "OrcMage", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcMage");
+            GameBoard.Resource_OrcMage = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "OrcMage_0"), "OrcMage", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcShaman");
-            GameBoard.Resource_OrcShaman = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "OrcShaman_0"), "OrcShaman", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcShaman");
+            GameBoard.Resource_OrcShaman = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "OrcShaman_0"), "OrcShaman", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             //BOSS
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/ArmouredRedDemon");
-            GameBoard.Resource_ArmouredRedDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "ArmouredRedDemon_0"), "ArmouredRedDemon", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/ArmouredRedDemon");
+            GameBoard.Resource_ArmouredRedDemon = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "ArmouredRedDemon_0"), "ArmouredRedDemon", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/PurpleDemon");
-            GameBoard.Resource_PurpleDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "PurpleDemon_0"), "PurpleDemon", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/PurpleDemon");
+            GameBoard.Resource_PurpleDemon = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "PurpleDemon_0"), "PurpleDemon", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/RedDemon");
-            GameBoard.Resource_RedDemon = new Creature(VLCreator.CreateSprite(sprite.First(c => c.name == "RedDemon_0"), "RedDemon", assetGO))
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/RedDemon");
+            GameBoard.Resource_RedDemon = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "RedDemon_0"), "RedDemon", assetGO))
             { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             //兽人巢穴(小)
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Enemy/Orc/AllBuildings-Preview");
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Enemy/Orc/AllBuildings-Preview");
             GameBoard.Resource_Orc_Towns = new List<EnermyTown>();
-            GameBoard.Resource_Orc_Towns.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_68"), "AllBuildings-Preview_68", assetGO)
+            GameBoard.Resource_Orc_Towns.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_68"), "AllBuildings-Preview_68", assetGO)
                 , EnermyTownType.GoblinTownlv1, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_FarmerGoblin,new SeedRandom(50, 1),6),
                 }));
-            GameBoard.Resource_Orc_Towns.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_84"), "AllBuildings-Preview_84", assetGO)
+            GameBoard.Resource_Orc_Towns.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_84"), "AllBuildings-Preview_84", assetGO)
                 , EnermyTownType.GoblinTownlv2, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_FarmerGoblin,new SeedRandom(50, 1),2),
                     new CreatureSeed(GameBoard.Resource_ArcherGoblin,new SeedRandom(100, 1),2),
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(150, 1),2),
                 }));
-            GameBoard.Resource_Orc_Towns.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_100"), "AllBuildings-Preview_100", assetGO)
+            GameBoard.Resource_Orc_Towns.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_100"), "AllBuildings-Preview_100", assetGO)
                 , EnermyTownType.GoblinTownlv3, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_ArcherGoblin,new SeedRandom(50, 1),2),
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(100, 1),2),
@@ -689,42 +708,42 @@ namespace VL.UnityStarter.GamingStudy0316
                     new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(150, 1),1),
                 }));
             GameBoard.Resource_Orc_Towns2 = new List<EnermyTown>();
-            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_115"), "AllBuildings-Preview_115", assetGO)
+            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_115"), "AllBuildings-Preview_115", assetGO)
                 , EnermyTownType.GoblinTownOrc, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
                     new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_Orc,new SeedRandom(150, 1),1),
                 }));
-            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_116"), "AllBuildings-Preview_116", assetGO)
+            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_116"), "AllBuildings-Preview_116", assetGO)
                 , EnermyTownType.GoblinTownOrc, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
                     new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_Orc,new SeedRandom(150, 1),1),
                 }));
-            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_87"), "AllBuildings-Preview_87", assetGO)
+            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_87"), "AllBuildings-Preview_87", assetGO)
                 , EnermyTownType.GoblinTownMaga, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
                     new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_OrcMage,new SeedRandom(150, 1),1),
                 }));
-            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_145"), "AllBuildings-Preview_145", assetGO)
+            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_145"), "AllBuildings-Preview_145", assetGO)
                 , EnermyTownType.GoblinTownMaga, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
                     new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_OrcMage,new SeedRandom(150, 1),1),
                 }));
-            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_161"), "AllBuildings-Preview_161", assetGO)
+            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_161"), "AllBuildings-Preview_161", assetGO)
                 , EnermyTownType.GoblinTownShaman, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
                     new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_OrcShaman,new SeedRandom(150, 1),1),
                 }));
-            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_177"), "AllBuildings-Preview_177", assetGO)
+            GameBoard.Resource_Orc_Towns2.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_177"), "AllBuildings-Preview_177", assetGO)
                 , EnermyTownType.GoblinTownShaman, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
                     new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
@@ -732,21 +751,21 @@ namespace VL.UnityStarter.GamingStudy0316
                     new CreatureSeed(GameBoard.Resource_OrcShaman,new SeedRandom(150, 1),1),
                 }));
             GameBoard.Resource_Orc_Towns3 = new List<EnermyTown>();
-            GameBoard.Resource_Orc_Towns3.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_165"), "AllBuildings-Preview_165", assetGO)
+            GameBoard.Resource_Orc_Towns3.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_165"), "AllBuildings-Preview_165", assetGO)
                 , EnermyTownType.GoblinTownMinotaur, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
                     new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_Minotaur,new SeedRandom(150, 1),1),
                 }));
-            GameBoard.Resource_Orc_Towns3.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_166"), "AllBuildings-Preview_166", assetGO)
+            GameBoard.Resource_Orc_Towns3.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_166"), "AllBuildings-Preview_166", assetGO)
                 , EnermyTownType.GoblinTownMinotaur, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
                     new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_SpearGoblin,new SeedRandom(75, 1),2),
                     new CreatureSeed(GameBoard.Resource_Minotaur,new SeedRandom(150, 1),1),
                 }));
-            GameBoard.Resource_Orc_Towns3.Add(new EnermyTown(VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_167"), "AllBuildings-Preview_167", assetGO)
+            GameBoard.Resource_Orc_Towns3.Add(new EnermyTown(VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_167"), "AllBuildings-Preview_167", assetGO)
                 , EnermyTownType.GoblinTownMinotaur, new List<CreatureSeed>() {
                     new CreatureSeed(GameBoard.Resource_ClubGoblin,new SeedRandom(50, 1),3),
                     new CreatureSeed(GameBoard.Resource_KamikazeGoblin,new SeedRandom(75, 1),2),
@@ -757,33 +776,34 @@ namespace VL.UnityStarter.GamingStudy0316
             GameBoard.Resource_Orc_BigTowns = new List<BigEnermyTown>();
             GameBoard.Resource_Orc_BigTowns.Add(
                 new BigEnermyTown(
-                VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_34"), "AllBuildings-Preview_34", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_35"), "AllBuildings-Preview_35", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_50"), "AllBuildings-Preview_50", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_51"), "AllBuildings-Preview_51", assetGO)
+                VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_34"), "AllBuildings-Preview_34", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_35"), "AllBuildings-Preview_35", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_50"), "AllBuildings-Preview_50", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_51"), "AllBuildings-Preview_51", assetGO)
                 , EnermyTownType.GoblinTownBoss
                 ));
             GameBoard.Resource_Orc_BigTowns.Add(
                 new BigEnermyTown(
-                VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_36"), "AllBuildings-Preview_36", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_37"), "AllBuildings-Preview_37", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_52"), "AllBuildings-Preview_52", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_53"), "AllBuildings-Preview_53", assetGO)
+                VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_36"), "AllBuildings-Preview_36", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_37"), "AllBuildings-Preview_37", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_52"), "AllBuildings-Preview_52", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_53"), "AllBuildings-Preview_53", assetGO)
                 , EnermyTownType.GoblinTownBoss
                 ));
             GameBoard.Resource_Orc_BigTowns.Add(
                 new BigEnermyTown(
-                VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_38"), "AllBuildings-Preview_38", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_39"), "AllBuildings-Preview_39", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_54"), "AllBuildings-Preview_54", assetGO)
-                , VLCreator.CreateSprite(sprite.First(c => c.name == "AllBuildings-Preview_55"), "AllBuildings-Preview_55", assetGO)
+                VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_38"), "AllBuildings-Preview_38", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_39"), "AllBuildings-Preview_39", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_54"), "AllBuildings-Preview_54", assetGO)
+                , VLCreater.CreateSprite(sprites.First(c => c.name == "AllBuildings-Preview_55"), "AllBuildings-Preview_55", assetGO)
                 , EnermyTownType.GoblinTownBoss
                 ));
             //地点
             //物品
             //玩家
-            sprite = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Champions/Gangblanc");
-            GameBoard.Resource_Player = new Creature(VLCreator.CreateSprite(sprite[0], "Player"));
+            sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Champions/Gangblanc");
+            GameBoard.Resource_Player = new Creature(VLCreater.CreateSprite(sprites[0], "Player"))
+            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Human_DeepHurt) };
             #endregion
 
             GameBoard.IsResourceReady = true;
@@ -1017,7 +1037,6 @@ namespace VL.UnityStarter.GamingStudy0316
                 case OperationStatus.Do_Collect:
                     Player.Collect(Floors);
                     Player.UpdateBuffs(this);
-
                     Player.OperationStatus = OperationStatus.TurnOff;
                     Enermies.ForEach(c => c.OperationStatus = OperationStatus.TurnOn);
                     break;
@@ -1030,7 +1049,6 @@ namespace VL.UnityStarter.GamingStudy0316
                         Player.Movement.startPosition = Player.Movement.targetPosition;
                         Player.Movement.targetPosition = orient;
                         SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Sword_Cut));
-
                         Player.OperationStatus = OperationStatus.Do_CloseAttackMoveBack;
                     }
                     break;
@@ -1047,7 +1065,10 @@ namespace VL.UnityStarter.GamingStudy0316
                         SoundManager.instance.PlaySecondSound(result.Creature.DiedSounds);
                         result.Creature.Defeated();
                     }
-
+                    else
+                    {
+                        result.Creature.UpdateBloodBar();
+                    }
                     Player.OperationStatus = OperationStatus.TurnOff;
                     Enermies.ForEach(c => c.OperationStatus = OperationStatus.TurnOn);
                     break;
@@ -1137,6 +1158,15 @@ namespace VL.UnityStarter.GamingStudy0316
                             break;
                         case OperationStatus.Do_Attack:
                             var result = enermy.Attack();
+                            if (result.IsDead)
+                            {
+                                SoundManager.instance.PlaySound(result.Creature.DiedSounds);
+                                result.Creature.Defeated();
+                            }
+                            else
+                            {
+                                result.Creature.UpdateBloodBar();
+                            }
                             enermy.OperationStatus = OperationStatus.TurnOff;
                             break;
                         case OperationStatus.Do_AttemptMove:
@@ -1176,8 +1206,8 @@ namespace VL.UnityStarter.GamingStudy0316
             EnermyBuidingsGO = new GameObject("EnermyBuidings"); EnermyBuidingsGO.SetParent(Gaming0316.instance.gamingGO);
             CreaturesGO = new GameObject("Creatures"); CreaturesGO.SetParent(Gaming0316.instance.gamingGO);
             //创建文本输出框
-            CanvasGO = VLCreator.CreateCanvas("Canvas", Gaming0316.instance.gamingGO);
-            ScrollViewGO = VLCreator.CreateScrollView("TextDisplay", CanvasGO);
+            CanvasGO = VLCreater.CreateCanvas("Canvas", Gaming0316.instance.gamingGO);
+            ScrollViewGO = VLCreater.CreateScrollView("TextDisplay", CanvasGO);
             var rect = ScrollViewGO.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0, 1);
             rect.anchorMax = new Vector2(0, 1);
@@ -1186,7 +1216,7 @@ namespace VL.UnityStarter.GamingStudy0316
             rect.sizeDelta = new Vector2(800, 800);
             var canvasGroup = ScrollViewGO.AddComponent<CanvasGroup>();
             canvasGroup.alpha = 0.6f;
-            ScrollTextGO = VLCreator.CreateText("ScrollText", CanvasGO);
+            ScrollTextGO = VLCreater.CreateText("ScrollText", CanvasGO);
             rect = ScrollTextGO.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0, 1);
             rect.anchorMax = new Vector2(0, 1);
@@ -1212,6 +1242,8 @@ namespace VL.UnityStarter.GamingStudy0316
         public List<EnermyTown> EnemyTowns;
         public List<Cave> Caves;
         public List<Creature> Enermies { set; get; } = new List<Creature>();
+        public GameObject Resource_BloodBar { get; internal set; }
+        public GameObject Resource_MagicBar { get; internal set; }
 
         public Object InitFloors()
         {
@@ -1299,6 +1331,7 @@ namespace VL.UnityStarter.GamingStudy0316
         internal object InitPlayer()
         {
             Player = new Player(Resource_Player.SpriteGO);
+            Player.DiedSounds = Resource_Player.DiedSounds;
             Player.X = 20;
             Player.Y = 20;
             Player.PlayerGO.transform.position = GetPosition(Player.X, Player.Y);
@@ -1318,7 +1351,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal object InitCamera()
         {
-            var cameraGO = VLCreator.CreateCamera("Camera_Player", GamingGO);
+            var cameraGO = VLCreater.CreateCamera("Camera_Player", GamingGO);
             var camera2D = cameraGO.GetComponent<Camera>();
             var transform = camera2D.transform;
             transform.position = Player.PlayerGO.transform.position + Player.CameraOffSet;
@@ -1395,7 +1428,7 @@ namespace VL.UnityStarter.GamingStudy0316
 
         internal void AddItem(Item item)
         {
-            var imageGO = VLCreator.CreateImage("FastItemImage", Parent);
+            var imageGO = VLCreater.CreateImage("FastItemImage", Parent);
             var image = imageGO.GetComponent<Image>();
             image.color = Dictionaries.ColorDic[item.ItemType.ToString()];
             image.rectTransform.anchorMin = new Vector2(0f, 0f);
@@ -1724,15 +1757,20 @@ namespace VL.UnityStarter.GamingStudy0316
     {
         public bool IsPlayer = false;
         public OperationStatus OperationStatus { get; internal set; }
+        public GameObject BloodBarGO { set; get; }
+
         public Creature(GameObject spriteGO, string name = "") : base(spriteGO, name)
         {
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
             sprite.sortingOrder = (int)SpriteType.Creature;
+
+            BloodBarGO = Gaming0316.instance.GameBoard.Resource_BloodBar;
         }
 
         public CreatureType CreatureType { set; get; }
 
         #region AttackableCreature
+        public int Attr_MaxHP { set; get; }
         public int Attr_HP { set; get; }
         public int Attr_AttackMax { set; get; }
         public int Attr_AttackMin { set; get; }
@@ -1777,7 +1815,6 @@ namespace VL.UnityStarter.GamingStudy0316
             }
             return result;
         }
-
         AttackResult AttackCore(AttackableCreature creature, Dictionary<Buff, int> buffs)
         {
             AttackResult result = new AttackResult();
@@ -1885,11 +1922,19 @@ namespace VL.UnityStarter.GamingStudy0316
 
         public Creature Clone()
         {
-            return new Creature(Object.Instantiate(SpriteGO), Name)
+            var spriteGO = Object.Instantiate(SpriteGO);
+            return new Creature(spriteGO, Name)
             {
                 CreatureType = CreatureType,
                 DiedSounds = DiedSounds,
+                BloodBarGO = Object.Instantiate(BloodBarGO, spriteGO.transform),
             };
+        }
+
+        static float BloodBarScaleX = Gaming0316.instance.GameBoard.Resource_BloodBar.GetComponent<SpriteRenderer>().transform.localScale.x;
+        internal void UpdateBloodBar()
+        {
+            BloodBarGO.transform.localScale = new Vector3(BloodBarScaleX * Attr_HP / Attr_MaxHP, 1, 1);
         }
     }
     public class OperationData
@@ -1970,6 +2015,7 @@ namespace VL.UnityStarter.GamingStudy0316
         public GameObject PlayerGO;
         public List<Item> Items = new List<Item>();
         public List<FastItem> FastItems = new List<FastItem>();
+        public GameObject MagicBarGO { set; get; }
 
         public Player(GameObject imageGO) : base(imageGO, "Player")
         {
@@ -1977,6 +2023,9 @@ namespace VL.UnityStarter.GamingStudy0316
             CameraOffSet = new Vector3(0, 0, -2);
             OperationStatus = OperationStatus.TurnOn;
             IsPlayer = true;
+
+            MagicBarGO = Object.Instantiate(Gaming0316.instance.GameBoard.Resource_MagicBar, SpriteGO.transform);
+            BloodBarGO = Object.Instantiate(Gaming0316.instance.GameBoard.Resource_BloodBar, SpriteGO.transform);
         }
 
         internal void Collect(Floor[,] floors)
