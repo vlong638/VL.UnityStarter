@@ -326,14 +326,6 @@ namespace VL.UnityStarter.GamingStudy0316
         public string ImageName;
         public string CheckDescription;
     }
-    public enum SpriteType
-    {
-        None = 0,
-        Floor = 3,
-        Item = 5,
-        Creature = 9,
-        HPMP_Bar = 10,
-    }
     public static partial class ValueEx
     {
         public static Color ToColor(this string s)
@@ -506,7 +498,7 @@ namespace VL.UnityStarter.GamingStudy0316
             spriteGO.transform.localPosition = new Vector3(0, 0.09f, 0);
             var spriteRender = spriteGO.GetComponent<SpriteRenderer>();
             spriteRender.color = "#FF0000".ToColor();
-            spriteRender.sortingOrder = (int)SpriteType.HPMP_Bar;
+            spriteRender.sortingOrder = (int)SortingOrder.AboveAll;
             GameBoard.Resource_BloodBar = spriteGO;
             sprite = Resources.Load<Sprite>("vl/white");
             spriteGO = VLCreater.CreateSprite(sprite, "MagicBar");
@@ -514,7 +506,7 @@ namespace VL.UnityStarter.GamingStudy0316
             spriteGO.transform.localPosition = new Vector3(0, 0.08f, 0);
             spriteRender = spriteGO.GetComponent<SpriteRenderer>();
             spriteRender.color = "#0077F8".ToColor();
-            spriteRender.sortingOrder = (int)SpriteType.HPMP_Bar;
+            spriteRender.sortingOrder = (int)SortingOrder.AboveAll;
             GameBoard.Resource_MagicBar = spriteGO;
             //草地
             var sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Ground/Grass");
@@ -1339,8 +1331,11 @@ namespace VL.UnityStarter.GamingStudy0316
             Player.OperationStatus = OperationStatus.TurnOn;
             Gaming0316.instance.GameBoard = this;
             Gaming0316.instance.GameBoard.Floors[Player.X, Player.Y].Creatures.Add(Player);
+            //数值系统
             var creatureModel = Dictionaries.CodeCreatureMathModels[nameof(Player)];
             creatureModel.Decorate(Player);
+            //对话系统
+            Player.DialogueGO = VLCreaterPlus.CreateDialogue("dialogue", Player.PlayerGO);
             return null;
         }
 
@@ -1551,13 +1546,13 @@ namespace VL.UnityStarter.GamingStudy0316
         public BigEnermyTown(GameObject imageGO_LT, GameObject imageGO_RT, GameObject imageGO_LB, GameObject imageGO_RB, EnermyTownType enermyTownType) : base(null, EntranceType.BigTown)
         {
             ImageGO_LT = imageGO_LT;
-            ImageGO_LT.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_LT.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
             ImageGO_RT = imageGO_RT;
-            ImageGO_RT.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_RT.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
             ImageGO_LB = imageGO_LB;
-            ImageGO_LB.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_LB.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
             ImageGO_RB = imageGO_RB;
-            ImageGO_RB.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_RB.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
             EnermyTownType = enermyTownType;
         }
     }
@@ -1592,13 +1587,13 @@ namespace VL.UnityStarter.GamingStudy0316
         public BigTown(GameObject imageGO_LT, GameObject imageGO_RT, GameObject imageGO_LB, GameObject imageGO_RB) : base(null, EntranceType.BigTown)
         {
             ImageGO_LT = imageGO_LT;
-            ImageGO_LT.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_LT.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
             ImageGO_RT = imageGO_RT;
-            ImageGO_RT.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_RT.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
             ImageGO_LB = imageGO_LB;
-            ImageGO_LB.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_LB.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
             ImageGO_RB = imageGO_RB;
-            ImageGO_RB.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            ImageGO_RB.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
         }
     }
     public class Floor : UnityObject
@@ -1614,7 +1609,7 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             FloorType = floorType;
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
-            sprite.sortingOrder = (int)SpriteType.Floor;
+            sprite.sortingOrder = (int)SortingOrder.Floor;
         }
 
         public Floor Clone()
@@ -1672,13 +1667,13 @@ namespace VL.UnityStarter.GamingStudy0316
         public Wheatfield(GameObject cutDownSpriteGO, GameObject plantSpriteGO, GameObject growSpriteGO, GameObject harvestSpriteGO, string name = "") : base(null, name)
         {
             CutDownSpriteGO = cutDownSpriteGO;
-            CutDownSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            CutDownSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
             PlantSpriteGO = plantSpriteGO;
-            PlantSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            PlantSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
             GrowSpriteGO = growSpriteGO;
-            GrowSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            GrowSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
             HarvestSpriteGO = harvestSpriteGO;
-            HarvestSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            HarvestSpriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
         }
     }
     public class Tree : Item, ICloneableObject<Tree>
@@ -1723,7 +1718,7 @@ namespace VL.UnityStarter.GamingStudy0316
         {
             if (spriteGO == null)
                 return;
-            spriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SpriteType.Item;
+            spriteGO.GetComponent<SpriteRenderer>().sortingOrder = (int)SortingOrder.Item;
         }
 
         //public Item Clone()
@@ -1762,7 +1757,7 @@ namespace VL.UnityStarter.GamingStudy0316
         public Creature(GameObject spriteGO, string name = "") : base(spriteGO, name)
         {
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
-            sprite.sortingOrder = (int)SpriteType.Creature;
+            sprite.sortingOrder = (int)SortingOrder.Creature;
 
             BloodBarGO = Gaming0316.instance.GameBoard.Resource_BloodBar;
         }
@@ -2013,6 +2008,7 @@ namespace VL.UnityStarter.GamingStudy0316
         public Vector3 CameraOffSet { get; internal set; }
 
         public GameObject PlayerGO;
+        public GameObject DialogueGO;
         public List<Item> Items = new List<Item>();
         public List<FastItem> FastItems = new List<FastItem>();
         public GameObject MagicBarGO { set; get; }
