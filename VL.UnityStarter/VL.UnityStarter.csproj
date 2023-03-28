@@ -58,6 +58,7 @@
     <Compile Include="CameraControl\CameraManager.cs" />
     <Compile Include="CameraControl\FollowPlanePlayer.cs" />
     <Compile Include="CameraControl\FollowPlayer.cs" />
+    <Compile Include="Common\SpriteEditorScript.cs" />
     <Compile Include="Creator\VLCreater.cs" />
     <Compile Include="Debug\VLDebug.cs" />
     <Compile Include="GamingStudy0311\Gaming0311.cs" />
