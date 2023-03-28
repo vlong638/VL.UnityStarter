@@ -166,7 +166,7 @@ namespace Assets.Scenes.GamingStudy0328
                         Player.Move(Floors);
                         Gaming0328.instance.GameBoard.DisplayText($"移动 X:{Player.X},Y:{Player.Y}");
                         Player.UpdateBuffs(Gaming0328.instance.GameBoard);
-                        SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Move_Grass));
+                        SoundManager.instance.PlaySound(VLDictionaries.GetCodeAudioByCode(SoundAudioType.Move_Grass));
 
                         Player.OperationStatus = OperationStatus.Do_Move;
                     }
@@ -180,7 +180,7 @@ namespace Assets.Scenes.GamingStudy0328
                         Player.Movement.startPosition = Player.Movement.targetPosition;
                         Player.Movement.targetPosition = orient;
                         Player.OperationStatus = OperationStatus.Do_AttemptMoveBack;
-                        SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Collider));
+                        SoundManager.instance.PlaySound(VLDictionaries.GetCodeAudioByCode(SoundAudioType.Collider));
                     }
                     break;
                 case OperationStatus.Do_AttemptMoveBack:
@@ -210,7 +210,7 @@ namespace Assets.Scenes.GamingStudy0328
                         var orient = Player.Movement.startPosition;
                         Player.Movement.startPosition = Player.Movement.targetPosition;
                         Player.Movement.targetPosition = orient;
-                        SoundManager.instance.PlaySound(Dictionaries.GetCodeAudioByCode(SoundAudioType.Sword_Cut));
+                        SoundManager.instance.PlaySound(VLDictionaries.GetCodeAudioByCode(SoundAudioType.Sword_Cut));
                         Player.OperationStatus = OperationStatus.Do_CloseAttackMoveBack;
                     }
                     break;
@@ -502,7 +502,7 @@ namespace Assets.Scenes.GamingStudy0328
             Gaming0328.instance.GameBoard = this;
             Gaming0328.instance.GameBoard.Floors[Player.X, Player.Y].Creatures.Add(Player);
             //数值系统
-            var creatureModel = Dictionaries.CodeCreatureMathModels[nameof(Player)];
+            var creatureModel = VLDictionaries.CodeCreatureMathModels[nameof(Player)];
             creatureModel.Decorate(Player);
             //对话系统
             Player.DialogueGO = VLCreaterPlus.CreateDialogue("dialogue", Player.PlayerGO);

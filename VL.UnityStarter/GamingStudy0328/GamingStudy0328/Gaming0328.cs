@@ -312,41 +312,41 @@ namespace Assets.Scenes.GamingStudy0328
             //生物
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ArcherGoblin");
             GameBoard.Resource_ArcherGoblin = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "ArcherGoblin_0"), "ArcherGoblin", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/ClubGoblin");
             GameBoard.Resource_ClubGoblin = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "ClubGoblin_0"), "ClubGoblin", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/FarmerGoblin");
             GameBoard.Resource_FarmerGoblin = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "FarmerGoblin_0"), "FarmerGoblin", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/KamikazeGoblin");
             GameBoard.Resource_KamikazeGoblin = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "KamikazeGoblin_0"), "KamikazeGoblin", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/SpearGoblin");
             GameBoard.Resource_SpearGoblin = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "SpearGoblin_0"), "SpearGoblin", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Minotaur");
             GameBoard.Resource_Minotaur = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "Minotaur_0"), "Minotaur", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/Orc");
             GameBoard.Resource_Orc = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "Orc_0"), "Orc", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcMage");
             GameBoard.Resource_OrcMage = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "OrcMage_0"), "OrcMage", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Orcs/OrcShaman");
             GameBoard.Resource_OrcShaman = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "OrcShaman_0"), "OrcShaman", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             //BOSS
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/ArmouredRedDemon");
             GameBoard.Resource_ArmouredRedDemon = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "ArmouredRedDemon_0"), "ArmouredRedDemon", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/PurpleDemon");
             GameBoard.Resource_PurpleDemon = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "PurpleDemon_0"), "PurpleDemon", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Monsters/Demons/RedDemon");
             GameBoard.Resource_RedDemon = new Creature(VLCreater.CreateSprite(sprites.First(c => c.name == "RedDemon_0"), "RedDemon", assetGO))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Orc_Die) };
             //兽人巢穴(小)
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Buildings/Enemy/Orc/AllBuildings-Preview");
             GameBoard.Resource_Orc_Towns = new List<EnermyTown>();
@@ -463,7 +463,7 @@ namespace Assets.Scenes.GamingStudy0328
             //玩家
             sprites = Resources.LoadAll<Sprite>("16x16-mini-world-sprites/Characters/Champions/Gangblanc");
             GameBoard.Resource_Player = new Creature(VLCreater.CreateSprite(sprites[0], "Player"))
-            { DiedSounds = Dictionaries.GetCodeAudioByCode(SoundAudioType.Human_DeepHurt) };
+            { DiedSounds = VLDictionaries.GetCodeAudioByCode(SoundAudioType.Human_DeepHurt) };
             #endregion
 
             GameBoard.IsResourceReady = true;

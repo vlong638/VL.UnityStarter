@@ -23,7 +23,7 @@ namespace Assets.Scenes.GamingStudy0328
         {
             var imageGO = VLCreater.CreateImage("FastItemImage", Parent);
             var image = imageGO.GetComponent<Image>();
-            image.color = Dictionaries.ColorDic[item.ItemType.ToString()];
+            image.color = VLDictionaries.ColorDic[item.ItemType.ToString()];
             image.rectTransform.anchorMin = new Vector2(0f, 0f);
             image.rectTransform.anchorMax = new Vector2(0f, 0f);
             image.rectTransform.pivot = new Vector2(0f, 0f);

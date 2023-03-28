@@ -26,7 +26,7 @@ namespace Assets.Scenes.GamingStudy0328
                 {
                     var creature = creatureSeeds.Creature.Clone();
                     creature.CreatureType = CreatureType.Enermy;
-                    var creatureModel = Dictionaries.CodeCreatureMathModels[creature.Name];
+                    var creatureModel = VLDictionaries.CodeCreatureMathModels[creature.Name];
                     creatureModel.Decorate(creature);
                     creature.X = X;
                     creature.Y = Y;

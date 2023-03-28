@@ -4,7 +4,7 @@ using Assets.Scenes.GamingStudy0328;
 
 namespace Assets.Scenes.GamingStudy0328
 {
-    public static class Dictionaries
+    public static class VLDictionaries
     {
         public static Dictionary<string, Color> ColorDic = new Dictionary<string, Color>()
         {
@@ -21,7 +21,6 @@ namespace Assets.Scenes.GamingStudy0328
             { ItemType.DoubleDefend, new KeyValuePair<Buff, int>(Buff.DoubleDefend,8) },
             { ItemType.DoubleSpeed, new KeyValuePair<Buff, int>(Buff.DoubleSpeed,8) },
         };
-
         public static Dictionary<string, string> CodeDescriptions = new Dictionary<string, string>()
         {
             {"Grass_1","Grass_1"},
@@ -120,13 +119,12 @@ namespace Assets.Scenes.GamingStudy0328
         };
         public static string GetDescriptionByCode(string name)
         {
-            return !string.IsNullOrEmpty(name) && Dictionaries.CodeDescriptions.ContainsKey(name) ? Dictionaries.CodeDescriptions[name] : "???";
+            return !string.IsNullOrEmpty(name) && VLDictionaries.CodeDescriptions.ContainsKey(name) ? VLDictionaries.CodeDescriptions[name] : "???";
         }
-
-        public static Dictionary<string, CreatureFight> CodeCreatureMathModels = new Dictionary<string, CreatureFight>()
+        public static Dictionary<string, CreatureFightDecorator> CodeCreatureMathModels = new Dictionary<string, CreatureFightDecorator>()
         {
 
-            {nameof(Player),new CreatureFight(){
+            {nameof(Player),new CreatureFightDecorator(){
                 Attr_AttackMax_from = 17,
                 Attr_AttackMax_to = 20,
                 Attr_AttackMin_from=4,
@@ -136,7 +134,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_Defend_from=3,
                 Attr_Defend_to=6,
             } },
-            {"ArcherGoblin",new CreatureFight(){
+            {"ArcherGoblin",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 17,
                 Attr_AttackMax_to = 20,
                 Attr_AttackMin_from=4,
@@ -146,7 +144,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_Defend_from=3,
                 Attr_Defend_to=6,
             } },
-            {"ClubGoblin",new CreatureFight(){
+            {"ClubGoblin",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 17,
                 Attr_AttackMax_to = 20,
                 Attr_AttackMin_from=14,
@@ -155,7 +153,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_HP_to = 75,
                 Attr_Defend_from=6,
                 Attr_Defend_to=7,} },
-            {"FarmerGoblin",new CreatureFight(){
+            {"FarmerGoblin",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 7,
                 Attr_AttackMax_to = 10,
                 Attr_AttackMin_from=4,
@@ -164,7 +162,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_HP_to = 65,
                 Attr_Defend_from=1,
                 Attr_Defend_to=2,} },
-            {"KamikazeGoblin",new CreatureFight(){
+            {"KamikazeGoblin",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 7,
                 Attr_AttackMax_to = 10,
                 Attr_AttackMin_from=4,
@@ -173,7 +171,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_HP_to = 45,
                 Attr_Defend_from=3,
                 Attr_Defend_to=6,} },
-            {"SpearGoblin",new CreatureFight(){
+            {"SpearGoblin",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 27,
                 Attr_AttackMax_to = 20,
                 Attr_AttackMin_from=14,
@@ -182,7 +180,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_HP_to = 75,
                 Attr_Defend_from=11,
                 Attr_Defend_to=12,} },
-            {"Minotaur",new CreatureFight(){
+            {"Minotaur",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 47,
                 Attr_AttackMax_to = 40,
                 Attr_AttackMin_from=34,
@@ -191,7 +189,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_HP_to = 245,
                 Attr_Defend_from=31,
                 Attr_Defend_to=42,} },
-            {"Orc",new CreatureFight(){
+            {"Orc",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 57,
                 Attr_AttackMax_to = 60,
                 Attr_AttackMin_from=44,
@@ -200,7 +198,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_HP_to = 145,
                 Attr_Defend_from=21,
                 Attr_Defend_to=22,} },
-            {"OrcMage",new CreatureFight(){
+            {"OrcMage",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 7,
                 Attr_AttackMax_to = 10,
                 Attr_AttackMin_from=4,
@@ -209,7 +207,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_HP_to = 85,
                 Attr_Defend_from=11,
                 Attr_Defend_to=12, } },
-            {"OrcShaman",new CreatureFight(){
+            {"OrcShaman",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 7,
                 Attr_AttackMax_to = 10,
                 Attr_AttackMin_from=4,
@@ -218,7 +216,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_HP_to = 75,
                 Attr_Defend_from=1,
                 Attr_Defend_to=2,} },
-            {"ArmouredRedDemon",new CreatureFight(){
+            {"ArmouredRedDemon",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 71,
                 Attr_AttackMax_to = 102,
                 Attr_AttackMin_from=41,
@@ -227,7 +225,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_HP_to = 245,
                 Attr_Defend_from=61,
                 Attr_Defend_to=82,} },
-            {"PurpleDemon",new CreatureFight(){
+            {"PurpleDemon",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 71,
                 Attr_AttackMax_to = 102,
                 Attr_AttackMin_from=41,
@@ -236,7 +234,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_HP_to = 245,
                 Attr_Defend_from=61,
                 Attr_Defend_to=82,} },
-            {"RedDemon",new CreatureFight(){
+            {"RedDemon",new CreatureFightDecorator(){
                 Attr_AttackMax_from = 71,
                 Attr_AttackMax_to = 102,
                 Attr_AttackMin_from=41,
@@ -246,14 +244,12 @@ namespace Assets.Scenes.GamingStudy0328
                 Attr_Defend_from=61,
                 Attr_Defend_to=82,} },
         };
-
         public static Dictionary<SoundAudioType, List<AudioClip>> CodeAudios = new Dictionary<SoundAudioType, List<AudioClip>>();
         public static List<AudioClip> GetCodeAudioByCode(SoundAudioType type)
         {
-            return type != SoundAudioType.None && CodeAudios.ContainsKey(type) ? Dictionaries.CodeAudios[type] : null;
+            return type != SoundAudioType.None && CodeAudios.ContainsKey(type) ? VLDictionaries.CodeAudios[type] : null;
         }
-
-        static Dictionaries()
+        static VLDictionaries()
         {
             #region Audioes
 

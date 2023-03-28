@@ -6,7 +6,24 @@ using UnityEngine;
 
 namespace Assets.Scenes.GamingStudy0328
 {
-    public class CreatureFight
+    public class AttackResult
+    {
+        public int ChangedHP;
+        public bool IsDead;
+
+        public Creature Creature { get; internal set; }
+    }
+    public interface IAttackableCreature
+    {
+        int Attr_HP { set; get; }
+        int Attr_AttackMax { set; get; }
+        int Attr_AttackMin { set; get; }
+        int Attr_Defend { set; get; }
+        Dictionary<Buff, int> Buffs { set; get; }
+        //AttackResult Attack(AttackableCreature creature, Dictionary<Buff, int> buffs);
+        string GetAttackableCreatureDiscription();
+    }
+    public class CreatureFightDecorator
     {
         public int Attr_HP_from { set; get; }
         public int Attr_HP_to { set; get; }

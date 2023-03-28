@@ -71,7 +71,7 @@ namespace Assets.Scenes.GamingStudy0328
                 Gaming0328.instance.GameBoard.DisplayText($"{Name}喝了口空气");
                 return;
             }
-            var buff = Dictionaries.BuffDic[fastItem.Item.ItemType];
+            var buff = VLDictionaries.BuffDic[fastItem.Item.ItemType];
             Buffs.Add(buff.Key, buff.Value);
             Gaming0328.instance.GameBoard.DisplayText($"{Name}使用了{buff.Key},持续({ buff.Value})回合");
 

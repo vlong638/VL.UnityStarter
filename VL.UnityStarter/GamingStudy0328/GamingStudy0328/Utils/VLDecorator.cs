@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scenes.GamingStudy0328
 {
-    public static partial class ValueEx
+    public static partial class VLDecorator
     {
         public static void ToStartMenuButtonStyle(this GameObject startGameBtn)
         {

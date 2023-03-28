@@ -23,7 +23,7 @@ namespace Assets.Scenes.GamingStudy0328
 
         internal void Display(GameBoard gameBoard)
         {
-            gameBoard.DisplayText(Dictionaries.GetDescriptionByCode(Name));
+            gameBoard.DisplayText(VLDictionaries.GetDescriptionByCode(Name));
         }
     }
 }
