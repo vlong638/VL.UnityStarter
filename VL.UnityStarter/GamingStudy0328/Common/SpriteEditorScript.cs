@@ -1,9 +1,8 @@
-using UnityEngine;
-using UnityEditor;
-using System.Linq;
 using System.Collections.Generic;
-using UnityEditor.Sprites;
 using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
 
 public class SpriteEditorScript : EditorWindow
 {
