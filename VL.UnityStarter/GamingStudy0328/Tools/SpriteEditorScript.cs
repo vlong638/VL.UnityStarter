@@ -9,7 +9,6 @@ public class SpriteEditorScript : EditorWindow
     [MenuItem("Tools/SliceSprites")]
     static void SliceSprites()
     {
-
         string folderPath = AssetDatabase.GetAssetPath(Selection.activeObject);
         if (!AssetDatabase.IsValidFolder(folderPath))
         {
