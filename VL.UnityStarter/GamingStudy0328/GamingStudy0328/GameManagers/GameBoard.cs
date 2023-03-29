@@ -111,13 +111,13 @@ namespace Assets.Scenes.GamingStudy0328
                     {
                         canInput = false;
                         Player.OperationStatus = OperationStatus.Do_Collect;
-                        Gaming0328.instance.StartCoroutine(ResetInput(0.5f));
+                        GameManager.instance.StartCoroutine(ResetInput(0.5f));
                     }
                     else if (Input.GetKey(KeyCode.C))
                     {
                         canInput = false;
                         Player.Check(Floors);
-                        Gaming0328.instance.StartCoroutine(ResetInput(0.5f));
+                        GameManager.instance.StartCoroutine(ResetInput(0.5f));
                     }
                     else if (Input.GetKey(KeyCode.Alpha1))
                     {
@@ -144,14 +144,14 @@ namespace Assets.Scenes.GamingStudy0328
                     if (Player.CheckOverEdge(Floors))
                     {
                         Player.Movement.CalculateColliderMovement(Player.PlayerGO.transform.position);
-                        Gaming0328.instance.GameBoard.DisplayText($"前方无路可走");
+                        GameManager.instance.GameBoard.DisplayText($"前方无路可走");
 
                         Player.OperationStatus = OperationStatus.Do_AttemptMove;
                     }
                     else if (Player.CheckCollider(Floors))
                     {
                         Player.Movement.CalculateColliderMovement(Player.PlayerGO.transform.position);
-                        Gaming0328.instance.GameBoard.DisplayText($"前方无法通行");
+                        GameManager.instance.GameBoard.DisplayText($"前方无法通行");
 
                         Player.OperationStatus = OperationStatus.Do_AttemptMove;
                     }
@@ -164,8 +164,8 @@ namespace Assets.Scenes.GamingStudy0328
                     {
                         Player.Movement.CalculateMovement(Player.PlayerGO.transform.position);
                         Player.Move(Floors);
-                        Gaming0328.instance.GameBoard.DisplayText($"移动 X:{Player.X},Y:{Player.Y}");
-                        Player.UpdateBuffs(Gaming0328.instance.GameBoard);
+                        GameManager.instance.GameBoard.DisplayText($"移动 X:{Player.X},Y:{Player.Y}");
+                        Player.UpdateBuffs(GameManager.instance.GameBoard);
                         SoundManager.instance.PlaySound(VLDictionaries.GetCodeAudioByCode(SoundAudioType.Move_Grass));
 
                         Player.OperationStatus = OperationStatus.Do_Move;
@@ -361,14 +361,14 @@ namespace Assets.Scenes.GamingStudy0328
         internal Object PreInit()
         {
             //分层管理
-            FloorsGO = new GameObject("Floors"); FloorsGO.SetParent(Gaming0328.instance.gamingGO);
-            ItemsGO = new GameObject("Items"); ItemsGO.SetParent(Gaming0328.instance.gamingGO);
-            CavesGO = new GameObject("Caves"); CavesGO.SetParent(Gaming0328.instance.gamingGO);
-            BuildingsGO = new GameObject("Buildings"); BuildingsGO.SetParent(Gaming0328.instance.gamingGO);
-            EnermyBuidingsGO = new GameObject("EnermyBuidings"); EnermyBuidingsGO.SetParent(Gaming0328.instance.gamingGO);
-            CreaturesGO = new GameObject("Creatures"); CreaturesGO.SetParent(Gaming0328.instance.gamingGO);
+            FloorsGO = new GameObject("Floors"); FloorsGO.SetParent(GameManager.instance.gameboardGO);
+            ItemsGO = new GameObject("Items"); ItemsGO.SetParent(GameManager.instance.gameboardGO);
+            CavesGO = new GameObject("Caves"); CavesGO.SetParent(GameManager.instance.gameboardGO);
+            BuildingsGO = new GameObject("Buildings"); BuildingsGO.SetParent(GameManager.instance.gameboardGO);
+            EnermyBuidingsGO = new GameObject("EnermyBuidings"); EnermyBuidingsGO.SetParent(GameManager.instance.gameboardGO);
+            CreaturesGO = new GameObject("Creatures"); CreaturesGO.SetParent(GameManager.instance.gameboardGO);
             //创建文本输出框
-            CanvasGO = VLCreater.CreateCanvas("Canvas", Gaming0328.instance.gamingGO);
+            CanvasGO = VLCreater.CreateCanvas("Canvas", GameManager.instance.gameboardGO);
             ScrollViewGO = VLCreater.CreateScrollView("TextDisplay", CanvasGO);
             var rect = ScrollViewGO.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0, 1);
@@ -499,8 +499,8 @@ namespace Assets.Scenes.GamingStudy0328
             Player.PlayerGO.transform.position = GetPosition(Player.X, Player.Y);
             Player.SpriteGO.SetParent(GamingGO);
             Player.OperationStatus = OperationStatus.TurnOn;
-            Gaming0328.instance.GameBoard = this;
-            Gaming0328.instance.GameBoard.Floors[Player.X, Player.Y].Creatures.Add(Player);
+            GameManager.instance.GameBoard = this;
+            GameManager.instance.GameBoard.Floors[Player.X, Player.Y].Creatures.Add(Player);
             //数值系统
             var creatureModel = VLDictionaries.CodeCreatureMathModels[nameof(Player)];
             creatureModel.Decorate(Player);

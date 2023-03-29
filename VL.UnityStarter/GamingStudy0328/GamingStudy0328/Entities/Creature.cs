@@ -16,7 +16,7 @@ namespace Assets.Scenes.GamingStudy0328
             var sprite = spriteGO.GetComponent<SpriteRenderer>();
             sprite.sortingOrder = (int)SortingOrder.Creature;
 
-            BloodBarGO = Gaming0328.instance.GameBoard.Resource_BloodBar;
+            BloodBarGO = GameManager.instance.GameBoard.Resource_BloodBar;
         }
 
         public CreatureType CreatureType { set; get; }
@@ -34,7 +34,7 @@ namespace Assets.Scenes.GamingStudy0328
         {
             var movement = Movement;
             AttackResult result = new AttackResult();
-            var creature = Gaming0328.instance.GameBoard.Floors[X + movement.X, Y + movement.Y].Creatures.FirstOrDefault(c => c is IAttackableCreature);
+            var creature = GameManager.instance.GameBoard.Floors[X + movement.X, Y + movement.Y].Creatures.FirstOrDefault(c => c is IAttackableCreature);
             if (creature == null)
                 return result;
             result.Creature = creature;
@@ -42,17 +42,17 @@ namespace Assets.Scenes.GamingStudy0328
         }
         AttackResult Attack(Creature creature)
         {
-            var floors = Gaming0328.instance.GameBoard.Floors;
-            if (IsPlayer) Gaming0328.instance.GameBoard.DisplayText($"---当前状态---");
-            Gaming0328.instance.GameBoard.DisplayText($"{Name}:{GetAttackableCreatureDiscription()}");
-            Gaming0328.instance.GameBoard.DisplayText($"{creature.Name}:{creature.GetAttackableCreatureDiscription()}");
-            Gaming0328.instance.GameBoard.DisplayText($"---攻击---");
+            var floors = GameManager.instance.GameBoard.Floors;
+            if (IsPlayer) GameManager.instance.GameBoard.DisplayText($"---当前状态---");
+            GameManager.instance.GameBoard.DisplayText($"{Name}:{GetAttackableCreatureDiscription()}");
+            GameManager.instance.GameBoard.DisplayText($"{creature.Name}:{creature.GetAttackableCreatureDiscription()}");
+            GameManager.instance.GameBoard.DisplayText($"---攻击---");
             AttackResult result = AttackCore(creature, Buffs);
             result.Creature = creature;
-            Gaming0328.instance.GameBoard.DisplayText($"{Name}攻击了{creature.Name},造成了{result.ChangedHP}点伤害");
+            GameManager.instance.GameBoard.DisplayText($"{Name}攻击了{creature.Name},造成了{result.ChangedHP}点伤害");
             if (result.IsDead)
             {
-                Gaming0328.instance.GameBoard.DisplayText($"{creature.Name}被打倒了");
+                GameManager.instance.GameBoard.DisplayText($"{creature.Name}被打倒了");
             }
             else
             {
@@ -167,8 +167,8 @@ namespace Assets.Scenes.GamingStudy0328
 
         internal void Defeated()
         {
-            Gaming0328.instance.GameBoard.Enermies.Remove(this);
-            Gaming0328.instance.GameBoard.Floors[X, Y].Creatures.Remove(this);
+            GameManager.instance.GameBoard.Enermies.Remove(this);
+            GameManager.instance.GameBoard.Floors[X, Y].Creatures.Remove(this);
             Object.Destroy(this.SpriteGO);
         }
 
@@ -183,7 +183,7 @@ namespace Assets.Scenes.GamingStudy0328
             };
         }
 
-        static float BloodBarScaleX = Gaming0328.instance.GameBoard.Resource_BloodBar.GetComponent<SpriteRenderer>().transform.localScale.x;
+        static float BloodBarScaleX = GameManager.instance.GameBoard.Resource_BloodBar.GetComponent<SpriteRenderer>().transform.localScale.x;
         internal void UpdateBloodBar()
         {
             BloodBarGO.transform.localScale = new Vector3(BloodBarScaleX * Attr_HP / Attr_MaxHP, 1, 1);

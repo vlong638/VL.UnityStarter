@@ -36,7 +36,7 @@ namespace Assets.Scenes.GamingStudy0328
 
         internal void UseItem()
         {
-            Gaming0328.Destroy(Item.SpriteGO);
+            GameManager.Destroy(Item.SpriteGO);
             Item = null;
         }
     }

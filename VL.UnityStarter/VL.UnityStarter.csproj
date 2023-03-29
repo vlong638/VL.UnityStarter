@@ -64,7 +64,9 @@
     <Compile Include="GamingStudy0316\Gaming0316.cs" />
     <Compile Include="GamingStudy0316\InitSceneGaming2D.cs" />
     <Compile Include="GamingStudy0316\SoundManager.cs" />
-    <Compile Include="GamingStudy0328\Tools\SpriteEditorScript.cs" />
+    <Compile Include="GamingStudy0328\EditTools\LookAtPoint.cs" />
+    <Compile Include="GamingStudy0328\Tools\LookAtPointEditor.cs" />
+    <Compile Include="GamingStudy0328\Tools\SliceSpritesEditor.cs" />
     <Compile Include="GamingStudy0328\Common\ValueEx.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Utils\VLDictionaries.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Entities\BigEnermyTown.cs" />
@@ -91,8 +93,8 @@
     <Compile Include="GamingStudy0328\GamingStudy0328\Enums\OperationStatus.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Enums\SoundAudioType.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Entities\FastItem.cs" />
-    <Compile Include="GamingStudy0328\GamingStudy0328\GameBoard.cs" />
-    <Compile Include="GamingStudy0328\GamingStudy0328\Gaming0328.cs" />
+    <Compile Include="GamingStudy0328\GamingStudy0328\GameManagers\GameBoard.cs" />
+    <Compile Include="GamingStudy0328\GamingStudy0328\GameManagers\GameManager.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Tools\InitSceneGaming2D.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Interfaces\ICloneableObject.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Interfaces\IUnityObject.cs" />
@@ -103,7 +105,7 @@
     <Compile Include="GamingStudy0328\GamingStudy0328\Merchanisms\PlayerOperation.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Merchanisms\SeedRandom.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Entities\ResourceObject.cs" />
-    <Compile Include="GamingStudy0328\GamingStudy0328\SoundManager.cs" />
+    <Compile Include="GamingStudy0328\GamingStudy0328\GameManagers\SoundManager.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Utils\VLDecorator.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Utils\VLCreater.cs" />
     <Compile Include="GamingStudy0328\GamingStudy0328\Utils\VLDebug.cs" />

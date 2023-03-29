@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class SpriteEditorScript : EditorWindow
+public class SliceSpritesEditor : EditorWindow
 {
     [MenuItem("Tools/SliceSprites")]
     static void SliceSprites()

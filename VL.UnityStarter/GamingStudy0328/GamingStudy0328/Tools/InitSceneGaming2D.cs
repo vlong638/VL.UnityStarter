@@ -94,7 +94,7 @@ namespace Assets.Scenes.GamingStudy0328
             soundManagerGO.SetParent(game0328);
 
             //添加脚本
-            game0328.AddComponent<Gaming0328>();
+            game0328.AddComponent<GameManager>();
             soundManagerGO.AddComponent<SoundManager>();
 
             ////添加Player from Prefab

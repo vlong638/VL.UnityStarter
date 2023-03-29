@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scenes.GamingStudy0328
 {
-    public class Gaming0328 : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
-        public static Gaming0328 instance = null;
+        public static GameManager instance = null;
         void Awake()
         {
             if (instance == null)
@@ -20,7 +20,7 @@ namespace Assets.Scenes.GamingStudy0328
 
         internal GameObject startGO { set; get; }
         internal GameObject assetGO { set; get; }
-        internal GameObject gamingGO { set; get; }
+        internal GameObject gameboardGO { set; get; }
         internal GameObject settingGO { set; get; }
 
         public GameBoard GameBoard { set; get; }
@@ -31,7 +31,7 @@ namespace Assets.Scenes.GamingStudy0328
 
             startGO = GameObject.Find("startGO");
             assetGO = GameObject.Find("assetGO");
-            gamingGO = GameObject.Find("gamingGO");
+            gameboardGO = GameObject.Find("gamingGO");
             settingGO = GameObject.Find("settingGO");
             //start
             var gameObject = GameObject.Find("start");
@@ -48,7 +48,7 @@ namespace Assets.Scenes.GamingStudy0328
 
             //‘§¥¶¿Ì
             GameBoard = new GameBoard();
-            GameBoard.GamingGO = gamingGO;
+            GameBoard.GamingGO = gameboardGO;
             StartCoroutine(nameof(PrepareAsset), GameBoard);
 
             //±≥æ∞“Ù¿÷
@@ -123,7 +123,7 @@ namespace Assets.Scenes.GamingStudy0328
             Debug.Log($"StartingGame");
             isStarting = true;
             startGO.SetActive(false);
-            gamingGO.SetActive(true);
+            gameboardGO.SetActive(true);
             assetGO.SetActive(false);
             settingGO.SetActive(false);
             GameBoard.PreInit();
