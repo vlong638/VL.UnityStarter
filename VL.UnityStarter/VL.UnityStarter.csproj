@@ -64,7 +64,8 @@
     <Compile Include="GamingStudy0316\Gaming0316.cs" />
     <Compile Include="GamingStudy0316\InitSceneGaming2D.cs" />
     <Compile Include="GamingStudy0316\SoundManager.cs" />
-    <Compile Include="GamingStudy0328\EditTools\LookAtPoint.cs" />
+    <Compile Include="GamingStudy0328\Asset\MyScriptableObject.cs" />
+    <Compile Include="GamingStudy0328\Tools\LookAtPoint.cs" />
     <Compile Include="GamingStudy0328\Tools\LookAtPointEditor.cs" />
     <Compile Include="GamingStudy0328\Tools\SliceSpritesEditor.cs" />
     <Compile Include="GamingStudy0328\Common\ValueEx.cs" />
