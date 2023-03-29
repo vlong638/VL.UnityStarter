@@ -22,7 +22,7 @@ namespace Assets.Scenes.GamingStudy0328
         public bool IsResourceReady { get; internal set; }
         public GameObject CameraGO { get; internal set; }
         public Camera Camera { get; internal set; }
-        public GameObject GamingGO { get; internal set; }
+        public GameObject GameboardGO { get; internal set; }
         public GameObject CanvasGO { get; private set; }
         public GameObject ScrollViewGO { get; set; }
         public GameObject ScrollTextGO { get; set; }
@@ -497,7 +497,7 @@ namespace Assets.Scenes.GamingStudy0328
             Player.X = 20;
             Player.Y = 20;
             Player.PlayerGO.transform.position = GetPosition(Player.X, Player.Y);
-            Player.SpriteGO.SetParent(GamingGO);
+            Player.SpriteGO.SetParent(GameboardGO);
             Player.OperationStatus = OperationStatus.TurnOn;
             GameManager.instance.GameBoard = this;
             GameManager.instance.GameBoard.Floors[Player.X, Player.Y].Creatures.Add(Player);
@@ -516,7 +516,7 @@ namespace Assets.Scenes.GamingStudy0328
 
         internal object InitCamera()
         {
-            var cameraGO = VLCreater.CreateCamera("Camera_Player", GamingGO);
+            var cameraGO = VLCreater.CreateCamera("Camera_Player", GameboardGO);
             var camera2D = cameraGO.GetComponent<Camera>();
             var transform = camera2D.transform;
             transform.position = Player.PlayerGO.transform.position + Player.CameraOffSet;

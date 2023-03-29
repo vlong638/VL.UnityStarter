@@ -31,7 +31,7 @@ namespace Assets.Scenes.GamingStudy0328
 
             startGO = GameObject.Find("startGO");
             assetGO = GameObject.Find("assetGO");
-            gameboardGO = GameObject.Find("gamingGO");
+            gameboardGO = GameObject.Find("gameboardGO");
             settingGO = GameObject.Find("settingGO");
             //start
             var gameObject = GameObject.Find("start");
@@ -41,6 +41,10 @@ namespace Assets.Scenes.GamingStudy0328
             gameObject = GameObject.Find("load");
             button = gameObject.GetComponent<Button>();
             button.onClick.AddListener(Load);
+            //config
+            gameObject = GameObject.Find("config");
+            button = gameObject.GetComponent<Button>();
+            button.onClick.AddListener(Config);
             //end
             gameObject = GameObject.Find("end");
             button = gameObject.GetComponent<Button>();
@@ -48,7 +52,7 @@ namespace Assets.Scenes.GamingStudy0328
 
             //‘§¥¶¿Ì
             GameBoard = new GameBoard();
-            GameBoard.GamingGO = gameboardGO;
+            GameBoard.GameboardGO = gameboardGO;
             StartCoroutine(nameof(PrepareAsset), GameBoard);
 
             //±≥æ∞“Ù¿÷
@@ -93,6 +97,10 @@ namespace Assets.Scenes.GamingStudy0328
         private void Load()
         {
             Debug.Log($"Load Ended");
+        }
+        private void Config()
+        {
+            Debug.Log($"Config Ended");
         }
         private void EndGame()
         {

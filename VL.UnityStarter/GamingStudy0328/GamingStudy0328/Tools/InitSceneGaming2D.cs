@@ -14,7 +14,7 @@ namespace Assets.Scenes.GamingStudy0328
 
             GameObject startGO;
             GameObject assetGO;
-            GameObject gamingGO;
+            GameObject gameboardGO;
             GameObject settingGO;
             GameObject soundManagerGO;
             GameObject startCameraGO;
@@ -24,7 +24,7 @@ namespace Assets.Scenes.GamingStudy0328
             Button button;
             Image image;
             Text text;
-            GameObject game0328 = new GameObject("game0328");
+            GameObject gameManager = new GameObject("gameManager");
 
             #region init startGO
             //添加游戏对象收纳
@@ -54,7 +54,6 @@ namespace Assets.Scenes.GamingStudy0328
             text.text = "开始游戏";
             rectTransform = gameObject.GetComponent<RectTransform>();
             rectTransform.localPosition = new Vector3(0f, 200f, 0f);
-            button = gameObject.GetComponent<Button>();
             //Load
             gameObject = VLCreater.CreateButton("load", startCanvasGO);
             gameObject.ToStartMenuButtonStyle();
@@ -62,7 +61,6 @@ namespace Assets.Scenes.GamingStudy0328
             text.text = "加载游戏";
             rectTransform = gameObject.GetComponent<RectTransform>();
             rectTransform.localPosition = new Vector3(0f, 100f, 0f);
-            button = gameObject.GetComponent<Button>();
             //Config
             gameObject = VLCreater.CreateButton("config", startCanvasGO);
             gameObject.ToStartMenuButtonStyle();
@@ -70,7 +68,6 @@ namespace Assets.Scenes.GamingStudy0328
             text.text = "游戏设置";
             rectTransform = gameObject.GetComponent<RectTransform>();
             rectTransform.localPosition = new Vector3(0f, 0f, 0f);
-            button = gameObject.GetComponent<Button>();
             //Quit
             gameObject = VLCreater.CreateButton("end", startCanvasGO);
             gameObject.ToStartMenuButtonStyle();
@@ -78,23 +75,22 @@ namespace Assets.Scenes.GamingStudy0328
             text.text = "退出";
             rectTransform = gameObject.GetComponent<RectTransform>();
             rectTransform.localPosition = new Vector3(0f, -100f, 0f);
-            button = gameObject.GetComponent<Button>();
 
             #endregion
 
             assetGO = new GameObject("assetGO");
-            gamingGO = new GameObject("gamingGO");
+            gameboardGO = new GameObject("gameboardGO");
             settingGO = new GameObject("settingGO");
             soundManagerGO = new GameObject("soundManagerGO");
 
-            startGO.SetParent(game0328);
-            assetGO.SetParent(game0328);
-            gamingGO.SetParent(game0328);
-            settingGO.SetParent(game0328);
-            soundManagerGO.SetParent(game0328);
+            startGO.SetParent(gameManager);
+            assetGO.SetParent(gameManager);
+            gameboardGO.SetParent(gameManager);
+            settingGO.SetParent(gameManager);
+            soundManagerGO.SetParent(gameManager);
 
             //添加脚本
-            game0328.AddComponent<GameManager>();
+            gameManager.AddComponent<GameManager>();
             soundManagerGO.AddComponent<SoundManager>();
 
             ////添加Player from Prefab
