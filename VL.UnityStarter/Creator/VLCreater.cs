@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using VL.UnityStarter.GamingStudy0316;
+using VL.UnityStarter.VLGamingStudy0316;
 
 public enum SortingOrder
 {
