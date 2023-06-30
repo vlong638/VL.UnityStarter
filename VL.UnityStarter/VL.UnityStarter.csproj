@@ -60,6 +60,8 @@
     <Compile Include="CameraControl\FollowPlayer.cs" />
     <Compile Include="Creator\VLCreater.cs" />
     <Compile Include="Debug\VLDebug.cs" />
+    <Compile Include="VLGaming2D\Tools\InitSceneGaming2D.cs" />
+    <Compile Include="VLGaming2D\Tools\VLCreater2D.cs" />
     <Compile Include="VLGamingStudy0311\Gaming0311.cs" />
     <Compile Include="VLGamingStudy0316\Gaming0316.cs" />
     <Compile Include="VLGamingStudy0316\InitSceneGaming2D.cs" />
@@ -110,7 +112,12 @@
     <Compile Include="VLGamingStudy0328\GamingStudy0328\Utils\VLDecorator.cs" />
     <Compile Include="VLGamingStudy0328\GamingStudy0328\Utils\VLCreater.cs" />
     <Compile Include="VLGamingStudy0328\GamingStudy0328\Utils\VLDebug.cs" />
+    <Compile Include="VLGaming25D\Tools\InitSceneGaming25D.cs" />
+    <Compile Include="VLGaming25D\Tools\VLCreater25D.cs" />
+    <Compile Include="VLGaming3D\Tools\InitSceneGaming3D.cs" />
+    <Compile Include="VLGaming3D\Tools\VLCreater3D.cs" />
     <Compile Include="VLGaming\Asset\MyScriptableObject.cs" />
+    <Compile Include="VLGaming\Common\ObjectPool.cs" />
     <Compile Include="VLGaming\Common\ValueEx.cs" />
     <Compile Include="VLGaming\Tools\LookAtPoint.cs" />
     <Compile Include="VLGaming\Tools\LookAtPointEditor.cs" />
@@ -130,8 +137,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="VLGamingStudy0629\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
