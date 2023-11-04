@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming25D", "..\VL.Gamin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming3D", "..\VL.Gaming3D\VL.Gaming3D.csproj", "{DEEE0B83-BAAA-45C4-9BBB-FD59F809576A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming.Common", "..\VL.Gaming.Common\VL.Gaming.Common.csproj", "{A75242F8-A43F-412D-ACE8-BBBA5A074D4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming", "..\VL.Gaming.Common\VL.Gaming.csproj", "{A75242F8-A43F-412D-ACE8-BBBA5A074D4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "..\UnitTestProject1\UnitTestProject1.csproj", "{154A98E3-37A2-4281-A174-BDD9C72B3423}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{A75242F8-A43F-412D-ACE8-BBBA5A074D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A75242F8-A43F-412D-ACE8-BBBA5A074D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A75242F8-A43F-412D-ACE8-BBBA5A074D4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{154A98E3-37A2-4281-A174-BDD9C72B3423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{154A98E3-37A2-4281-A174-BDD9C72B3423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{154A98E3-37A2-4281-A174-BDD9C72B3423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{154A98E3-37A2-4281-A174-BDD9C72B3423}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

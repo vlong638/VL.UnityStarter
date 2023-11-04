@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A75242F8-A43F-412D-ACE8-BBBA5A074D4D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>VL.Gaming.Common</RootNamespace>
-    <AssemblyName>VL.Gaming.Common</AssemblyName>
+    <RootNamespace>VL.Gaming</RootNamespace>
+    <AssemblyName>VL.Gaming</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -41,13 +41,46 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="UnityEditor, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\VL.UnityStarter\packages\Unity3D.SDK.2021.1.14.1\lib\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\VL.UnityStarter\packages\Unity3D.SDK.2021.1.14.1\lib\UnityEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\ObjectPool.cs" />
+    <Compile Include="Common\MyScriptableObject.cs" />
+    <Compile Include="Common\ValueEx.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Study\Patterns\Behavioral\ChainOfResponsibility.cs" />
+    <Compile Include="Study\Patterns\Behavioral\State.cs" />
+    <Compile Include="Study\Patterns\Behavioral\Strategy.cs" />
+    <Compile Include="Study\Patterns\Behavioral\TemplateMethod.cs" />
+    <Compile Include="Study\Patterns\Behavioral\Observe.cs" />
+    <Compile Include="Study\Patterns\Behavioral\Memento.cs" />
+    <Compile Include="Study\Patterns\Behavioral\Mediator.cs" />
+    <Compile Include="Study\Patterns\Behavioral\Iterator.cs" />
+    <Compile Include="Study\Patterns\Behavioral\Interpreter.cs" />
+    <Compile Include="Study\Patterns\Behavioral\Command.cs" />
+    <Compile Include="Study\Patterns\Creational\Singleton.cs" />
+    <Compile Include="Study\Patterns\Creational\Prototyp.cs" />
+    <Compile Include="Study\Patterns\Creational\Builder.cs" />
+    <Compile Include="Study\Patterns\Creational\AbstractFactory.cs" />
+    <Compile Include="Study\Patterns\Creational\FactoryMethod.cs" />
+    <Compile Include="Study\Patterns\Structural\Bridge.cs" />
+    <Compile Include="Study\Patterns\Structural\Composite.cs" />
+    <Compile Include="Study\Patterns\Structural\Facade.cs" />
+    <Compile Include="Study\Patterns\Structural\Proxy.cs" />
+    <Compile Include="Study\Patterns\Structural\Flyweight.cs" />
+    <Compile Include="Study\Patterns\Structural\Adapte.cs" />
+    <Compile Include="Tools\SliceSpritesTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
