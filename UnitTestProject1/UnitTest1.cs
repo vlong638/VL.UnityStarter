@@ -35,5 +35,13 @@ namespace UnitTestProject1
             Singleton.Instance.Sample();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Builder()
+        {
+            var result = new SampleBuilder().Test().DoSomething();
+            Console.WriteLine(result);
+            Assert.IsTrue(true);
+        }
     }
 }
