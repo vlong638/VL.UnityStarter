@@ -57,5 +57,12 @@ namespace UnitTestProject1
             new SampleAdapter().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Bridge()
+        {
+            new SampleBridge().Test();
+            Assert.IsTrue(true);
+        }
     }
 }

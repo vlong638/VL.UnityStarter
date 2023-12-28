@@ -2,6 +2,10 @@
 
 namespace VL.Gaming.Study.Patterns
 {
+    /// <summary>
+    /// Adapter, it allows classes with incompatible interfaces to work together
+    /// wrap its interface around that of an already existing class
+    /// </summary>
     public class SampleAdapter
     {
         public void Test()
