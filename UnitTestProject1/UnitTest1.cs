@@ -85,5 +85,12 @@ namespace UnitTestProject1
             new SampleFlyWeight().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Facade()
+        {
+            new SampleFacade().Test();
+            Assert.IsTrue(true);
+        }
     }
 }
