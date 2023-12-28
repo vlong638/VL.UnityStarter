@@ -64,5 +64,12 @@ namespace UnitTestProject1
             new SampleBridge().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Composite()
+        {
+            new SampleComposite().Test();
+            Assert.IsTrue(true);
+        }
     }
 }

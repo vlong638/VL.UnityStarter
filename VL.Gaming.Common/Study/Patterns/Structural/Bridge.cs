@@ -34,6 +34,9 @@ namespace VL.Gaming.Study.Patterns
 
     /// <summary>
     /// IWindowImpl指的是与Window相关的实现部分
+    /// 决定桥接器模式有效应用的根本要素是
+    /// 隔离分界的有效性，比如提炼了操作系统相关部分的窗口绘制
+    /// 那么这部分就认为不再会在抽象的Draw（）中继续耦合。
     /// </summary>
     interface IWindowImpl
     {
