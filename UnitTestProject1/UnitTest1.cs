@@ -78,5 +78,12 @@ namespace UnitTestProject1
             new SampleProxy().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_FlyWeight()
+        {
+            new SampleFlyWeight().Test();
+            Assert.IsTrue(true);
+        }
     }
 }

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace VL.Gaming.Study.Patterns
 {
+    /// <summary>
+    /// 代理的要义在于构建代理层
+    /// 代理层进行代理的核心业务处理
+    /// </summary>
     public  class SampleProxy
     {
         public void Test()
