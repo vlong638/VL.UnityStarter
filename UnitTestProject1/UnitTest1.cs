@@ -50,5 +50,12 @@ namespace UnitTestProject1
             new SamplePrototype().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Adapter()
+        {
+            new SampleAdapter().Test();
+            Assert.IsTrue(true);
+        }
     }
 }

@@ -74,7 +74,7 @@
     <Compile Include="Study\Patterns\Structural\Facade.cs" />
     <Compile Include="Study\Patterns\Structural\Proxy.cs" />
     <Compile Include="Study\Patterns\Structural\Flyweight.cs" />
-    <Compile Include="Study\Patterns\Structural\Adapte.cs" />
+    <Compile Include="Study\Patterns\Structural\Adapter.cs" />
     <Compile Include="Tools\SliceSpritesTool.cs" />
   </ItemGroup>
   <ItemGroup>
