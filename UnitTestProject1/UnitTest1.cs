@@ -71,5 +71,12 @@ namespace UnitTestProject1
             new SampleComposite().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Proxy()
+        {
+            new SampleProxy().Test();
+            Assert.IsTrue(true);
+        }
     }
 }
