@@ -43,5 +43,12 @@ namespace UnitTestProject1
             Console.WriteLine(result);
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Prototype()
+        {
+            new SamplePrototype().Test();
+            Assert.IsTrue(true);
+        }
     }
 }

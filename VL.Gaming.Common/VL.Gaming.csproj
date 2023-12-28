@@ -65,7 +65,7 @@
     <Compile Include="Study\Patterns\Behavioral\Interpreter.cs" />
     <Compile Include="Study\Patterns\Behavioral\Command.cs" />
     <Compile Include="Study\Patterns\Creational\Singleton.cs" />
-    <Compile Include="Study\Patterns\Creational\Prototyp.cs" />
+    <Compile Include="Study\Patterns\Creational\Prototype.cs" />
     <Compile Include="Study\Patterns\Creational\Builder.cs" />
     <Compile Include="Study\Patterns\Creational\AbstractFactory.cs" />
     <Compile Include="Study\Patterns\Creational\FactoryMethod.cs" />
