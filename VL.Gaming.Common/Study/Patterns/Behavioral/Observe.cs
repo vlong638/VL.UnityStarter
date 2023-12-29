@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace VL.Gaming.Study.Patterns
 {
-    //internal class FactoryMethod
-    //{
-    //}
+    /// <summary>
+    /// 
+    /// </summary>
+    public class SampleObserve
+    {
+        public void Test()
+        {
+        }
+    }
 }
