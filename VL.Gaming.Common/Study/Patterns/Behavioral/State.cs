@@ -9,6 +9,9 @@ namespace VL.Gaming.Study.Patterns
     /// <summary>
     /// 状态模式支持在不同的状态下改变行为
     /// 将与状态相关的行为进行封装
+    /// 状态模式与策略模式类似 但关注点不同
+    /// 比如 文档编辑器，有预览状态，编辑状态，锁定状态
+    /// 比如 排序算法，有快速排序策略，冒泡排序策略，插入排序策略
     /// </summary>
     public class SampleState
     {
@@ -38,28 +41,50 @@ namespace VL.Gaming.Study.Patterns
 
         public void Request()
         {
-            _state.Handle(this);
+            _state.Handle1(this);
         }
     }
 
     public interface State
     {
-        void Handle(StateContext context);
+        void Handle1(StateContext context);
+        void Handle2(StateContext context);
+        void Handle3(StateContext context);
     }
 
     public class ConcreteStateA : State
     {
-        public void Handle(StateContext context)
+        public void Handle1(StateContext context)
         {
-            Console.WriteLine("ConcreteStateA handles Request.");
+            Console.WriteLine("ConcreteStateA handles Request 1.");
+        }
+
+        public void Handle2(StateContext context)
+        {
+            Console.WriteLine("ConcreteStateA handles Request 2.");
+        }
+
+        public void Handle3(StateContext context)
+        {
+            Console.WriteLine("ConcreteStateA handles Request 3.");
         }
     }
 
     public class ConcreteStateB : State
     {
-        public void Handle(StateContext context)
+        public void Handle1(StateContext context)
         {
-            Console.WriteLine("ConcreteStateB handles Request.");
+            Console.WriteLine("ConcreteStateB handles Request 1.");
+        }
+
+        public void Handle2(StateContext context)
+        {
+            Console.WriteLine("ConcreteStateB handles Request 2.");
+        }
+
+        public void Handle3(StateContext context)
+        {
+            Console.WriteLine("ConcreteStateB handles Request 3.");
         }
     }
 }

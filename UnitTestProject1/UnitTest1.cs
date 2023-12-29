@@ -148,5 +148,12 @@ namespace UnitTestProject1
             new SampleState().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Strategy()
+        {
+            new SampleStrategy().Test();
+            Assert.IsTrue(true);
+        }
     }
 }
