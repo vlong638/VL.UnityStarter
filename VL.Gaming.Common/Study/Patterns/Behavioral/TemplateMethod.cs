@@ -7,72 +7,53 @@ using System.Threading.Tasks;
 namespace VL.Gaming.Study.Patterns
 {
     /// <summary>
-    /// 
+    /// 模版方法模式基于虚方法或抽象方法，预定义了算法的流程骨架
+    /// 具体的实现由子类定义实现
     /// </summary>
     public class SampleTemplateMethod
     {
         public void Test()
         {
+            var implA = new ConcreteTemplateImplementationA();
+            implA.TemplateMethod();
+            var implB = new ConcreteTemplateImplementationB();
+            implB.TemplateMethod();
+        }
+    }
+
+    public abstract class AbstractTemplate
+    {
+        public void TemplateMethod()
+        {
+            Operation1();
+            Operation2();
+        }
+        public abstract void Operation1();
+        public abstract void Operation2();
+    }
+
+    public class ConcreteTemplateImplementationA : AbstractTemplate
+    {
+        public override void Operation1()
+        {
+            Console.WriteLine($"{nameof(Operation1)} from {nameof(ConcreteTemplateImplementationA)}");
+        }
+
+        public override void Operation2()
+        {
+            Console.WriteLine($"{nameof(Operation2)} from {nameof(ConcreteTemplateImplementationA)}");
+        }
+    }
+    public class ConcreteTemplateImplementationB : AbstractTemplate
+    {
+        public override void Operation1()
+        {
+            Console.WriteLine($"{nameof(Operation1)} from {nameof(ConcreteTemplateImplementationB)}");
+        }
+
+        public override void Operation2()
+        {
+            Console.WriteLine($"{nameof(Operation2)} from {nameof(ConcreteTemplateImplementationB)}");
         }
     }
 }
-
-//using System;
-
-//// Abstract Class
-//public abstract class AbstractClass
-//{
-//    public void TemplateMethod()
-//    {
-//        PrimitiveOperation1();
-//        PrimitiveOperation2();
-//    }
-
-//    protected abstract void PrimitiveOperation1();
-//    protected abstract void PrimitiveOperation2();
-//}
-
-//// Concrete Class A
-//public class ConcreteClassA : AbstractClass
-//{
-//    protected override void PrimitiveOperation1()
-//    {
-//        Console.WriteLine("ConcreteClassA: Primitive Operation 1");
-//    }
-
-//    protected override void PrimitiveOperation2()
-//    {
-//        Console.WriteLine("ConcreteClassA: Primitive Operation 2");
-//    }
-//}
-
-//// Concrete Class B
-//public class ConcreteClassB : AbstractClass
-//{
-//    protected override void PrimitiveOperation1()
-//    {
-//        Console.WriteLine("ConcreteClassB: Primitive Operation 1");
-//    }
-
-//    protected override void PrimitiveOperation2()
-//    {
-//        Console.WriteLine("ConcreteClassB: Primitive Operation 2");
-//    }
-//}
-
-//// Client
-//public class Client
-//{
-//    public void Main()
-//    {
-//        AbstractClass classA = new ConcreteClassA();
-//        classA.TemplateMethod();
-
-//        AbstractClass classB = new ConcreteClassB();
-//        classB.TemplateMethod();
-//    }
-//}
-
-//AbstractClass: 定义了一个模板方法，其中包含了算法的骨架，具体步骤由子类实现。
-//ConcreteClassA和ConcreteClassB: 实现了AbstractClass中的抽象方法，以定义算法的具体步骤。
-//Client: 创建具体子类对象，并调用模板方法，展示了如何使用模板方法模式。
