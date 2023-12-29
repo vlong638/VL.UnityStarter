@@ -92,5 +92,19 @@ namespace UnitTestProject1
             new SampleFacade().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_ChainOfResponsibility()
+        {
+            new SampleChainOfResponsibility().Test();
+            Assert.IsTrue(true);
+        }
+
+        [TestMethod]
+        public void TestMethod_Command()
+        {
+            new SampleCommand().Test();
+            Assert.IsTrue(true);
+        }
     }
 }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace VL.Gaming.Study.Patterns
 {
+    /// <summary>
+    /// Facade 门户模式要点即将内容整合成门面
+    /// </summary>
     public class SampleFacade
     {
         public void Test()
