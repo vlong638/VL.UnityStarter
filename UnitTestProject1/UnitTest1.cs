@@ -141,5 +141,12 @@ namespace UnitTestProject1
             new SampleObserver().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_State()
+        {
+            new SampleState().Test();
+            Assert.IsTrue(true);
+        }
     }
 }

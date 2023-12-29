@@ -7,112 +7,59 @@ using System.Threading.Tasks;
 namespace VL.Gaming.Study.Patterns
 {
     /// <summary>
-    /// 
+    /// 状态模式支持在不同的状态下改变行为
+    /// 将与状态相关的行为进行封装
     /// </summary>
     public class SampleState
     {
         public void Test()
         {
+            var context = new StateContext(new ConcreteStateA());
+            context.Request();
+            context.TransitionTo(new ConcreteStateB());
+            context.Request();
+        }
+    }
+
+    public class StateContext
+    {
+        State _state;
+
+        public StateContext(State state)
+        {
+            _state = state;
+        }
+
+        public void TransitionTo(State state)
+        {
+            Console.WriteLine($"Context: Transition to {state.GetType().Name}.");
+            _state = state;
+        }
+
+        public void Request()
+        {
+            _state.Handle(this);
+        }
+    }
+
+    public interface State
+    {
+        void Handle(StateContext context);
+    }
+
+    public class ConcreteStateA : State
+    {
+        public void Handle(StateContext context)
+        {
+            Console.WriteLine("ConcreteStateA handles Request.");
+        }
+    }
+
+    public class ConcreteStateB : State
+    {
+        public void Handle(StateContext context)
+        {
+            Console.WriteLine("ConcreteStateB handles Request.");
         }
     }
 }
-
-//Copy
-//using System;
-
-//// Context
-//public class Context
-//{
-//    private IState _state;
-
-//    public Context(IState state)
-//    {
-//        TransitionTo(state);
-//    }
-
-//    public void TransitionTo(IState state)
-//    {
-//        Console.WriteLine($"Context: Transition to {state.GetType().Name}.");
-//        _state = state;
-//        _state.SetContext(this);
-//    }
-
-//    public void Request1()
-//    {
-//        _state.Handle1();
-//    }
-
-//    public void Request2()
-//    {
-//        _state.Handle2();
-//    }
-//}
-
-//// State
-//public interface IState
-//{
-//    void SetContext(Context context);
-//    void Handle1();
-//    void Handle2();
-//}
-
-//// Concrete State
-//public class ConcreteStateA : IState
-//{
-//    private Context _context;
-
-//    public void SetContext(Context context)
-//    {
-//        _context = context;
-//    }
-
-//    public void Handle1()
-//    {
-//        Console.WriteLine("ConcreteStateA handles Request1.");
-//        Console.WriteLine("ConcreteStateA wants to change the state of the context.");
-//        _context.TransitionTo(new ConcreteStateB());
-//    }
-
-//    public void Handle2()
-//    {
-//        Console.WriteLine("ConcreteStateA handles Request2.");
-//    }
-//}
-
-//public class ConcreteStateB : IState
-//{
-//    private Context _context;
-
-//    public void SetContext(Context context)
-//    {
-//        _context = context;
-//    }
-
-//    public void Handle1()
-//    {
-//        Console.WriteLine("ConcreteStateB handles Request1.");
-//    }
-
-//    public void Handle2()
-//    {
-//        Console.WriteLine("ConcreteStateB handles Request2.");
-//        Console.WriteLine("ConcreteStateB wants to change the state of the context.");
-//        _context.TransitionTo(new ConcreteStateA());
-//    }
-//}
-
-//// Client
-//public class Client
-//{
-//    public void Main()
-//    {
-//        var context = new Context(new ConcreteStateA());
-//        context.Request1();
-//        context.Request2();
-//    }
-//}
-//详细讲解
-//Context: 定义了客户感兴趣的接口，维护一个ConcreteState子类的实例，该实例定义当前状态。
-//IState: 定义了一个接口以封装与Context的一个特定状态相关的行为。
-//ConcreteStateA和ConcreteStateB: 实现了IState接口，每个类处理一个特定的状态，并在必要时进行状态转移。
-//Client: 创建Context并触发其请求，演示状态模式如何在不同的状态下改变对象的行为。
