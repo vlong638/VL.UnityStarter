@@ -10,6 +10,10 @@ namespace VL.Gaming.Study.Patterns
     /// 职责链旨在构建一个职责分拣传递的递归处理模式
     /// 分拣 
     /// 传递 base.Handle()
+    /// 它的适用领域是：
+    /// 当多个对象可以处理同一请求，但具体的处理者在运行时确定时
+    /// 在需要不明确接收者的情况下，将请求发送给多个对象中的一个
+    /// 当需要按顺序执行处理逻辑，直到找到能够处理请求的对象。
     /// </summary>
     public class SampleChainOfResponsibility
     {

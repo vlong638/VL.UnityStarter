@@ -11,6 +11,7 @@ namespace VL.Gaming.Study.Patterns
     /// 4.IProductA.Work()
     /// 5.IProductAPlus = IFactory.CreateProductAPlus()
     /// 6.IProductAPlus.Work() or IProductAPlus.WorkPlus()
+    /// 当一族相关的对象需要被整合起来创建时
     /// </summary>
     public class AbstractFactory
     {

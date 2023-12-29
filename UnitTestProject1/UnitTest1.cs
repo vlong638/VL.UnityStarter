@@ -106,5 +106,12 @@ namespace UnitTestProject1
             new SampleCommand().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Interpreter()
+        {
+            new SampleInterpreter().Test();
+            Assert.IsTrue(true);
+        }
     }
 }

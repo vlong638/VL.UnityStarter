@@ -9,6 +9,7 @@ namespace VL.Gaming.Study.Patterns
     /// 2.Abstract IFactory
     /// 3.IProduct = IFactory.CreateProduct()
     /// 4.IProduct.Work()
+    /// 适用于当子类决定某个具体对象需要创建时
     /// </summary>
     public class FactoryMethod
     {
