@@ -120,5 +120,12 @@ namespace UnitTestProject1
             new SampleIterator().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Mediator()
+        {
+            new SampleMediator().Test();
+            Assert.IsTrue(true);
+        }
     }
 }
