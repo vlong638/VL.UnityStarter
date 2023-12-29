@@ -113,5 +113,12 @@ namespace UnitTestProject1
             new SampleInterpreter().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Iterator()
+        {
+            new SampleIterator().Test();
+            Assert.IsTrue(true);
+        }
     }
 }
