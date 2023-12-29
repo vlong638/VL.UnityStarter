@@ -58,7 +58,7 @@
     <Compile Include="Study\Patterns\Behavioral\State.cs" />
     <Compile Include="Study\Patterns\Behavioral\Strategy.cs" />
     <Compile Include="Study\Patterns\Behavioral\TemplateMethod.cs" />
-    <Compile Include="Study\Patterns\Behavioral\Observe.cs" />
+    <Compile Include="Study\Patterns\Behavioral\Observer.cs" />
     <Compile Include="Study\Patterns\Behavioral\Memento.cs" />
     <Compile Include="Study\Patterns\Behavioral\Mediator.cs" />
     <Compile Include="Study\Patterns\Behavioral\Iterator.cs" />

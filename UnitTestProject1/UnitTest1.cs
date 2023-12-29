@@ -127,5 +127,12 @@ namespace UnitTestProject1
             new SampleMediator().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Memento()
+        {
+            new SampleMemento().Test();
+            Assert.IsTrue(true);
+        }
     }
 }
