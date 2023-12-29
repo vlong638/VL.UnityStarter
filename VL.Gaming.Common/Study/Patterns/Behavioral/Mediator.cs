@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 namespace VL.Gaming.Study.Patterns
 {
     /// <summary>
-    /// 中介者，消息队列的总线
+    /// 中介者
     /// 提供了发送通知和通知触发的机制
+    /// 他以第三方中介形式构建
+    /// 用以抽离多方之间的协调性质的业务
     /// </summary>
     public class SampleMediator
     {

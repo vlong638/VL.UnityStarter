@@ -134,5 +134,12 @@ namespace UnitTestProject1
             new SampleMemento().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Observer()
+        {
+            new SampleObserver().Test();
+            Assert.IsTrue(true);
+        }
     }
 }
