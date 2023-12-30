@@ -10,6 +10,7 @@ namespace VL.Gaming.Study.Patterns
     /// it decouples an abstraction from its implementation so that the two can vary independently
     /// 解耦抽象和实现，下述案例将Implementor与Abstraction解耦
     /// 这样A和B可以采用不同的实现类而不用更改Abstraction
+    /// 要点：将某部分特定业务完整抽离，桥接适配，业务的结构分层
     /// </summary>
     public class SampleBridge
     {

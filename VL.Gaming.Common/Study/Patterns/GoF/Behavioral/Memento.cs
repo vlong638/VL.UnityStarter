@@ -10,6 +10,7 @@ namespace VL.Gaming.Study.Patterns
     ///Caretaker: 看护者，负责保存Memento，但不对其内容进行操作。
     ///Originator: 恢复器，创建并恢复自身状态的类。
     ///Client: 创建Originator、Memento和Caretaker实例，并演示如何使用备忘录模式来保存和恢复对象的状态。
+    ///要点：Obj.Backup=>Memento=>Obj.Rollback
     public class SampleMemento
     {
         public void Test()

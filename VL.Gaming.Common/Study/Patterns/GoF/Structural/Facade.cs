@@ -8,6 +8,7 @@ namespace VL.Gaming.Study.Patterns
 {
     /// <summary>
     /// Facade 门户模式要点即将内容整合成门面
+    /// 要点：排排排，门面构建成层
     /// </summary>
     public class SampleFacade
     {

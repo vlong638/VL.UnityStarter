@@ -9,6 +9,7 @@ namespace VL.Gaming.Study.Patterns
     /// <summary>
     /// 代理的要义在于构建代理层
     /// 代理层进行代理的核心业务处理
+    /// 要点：提炼代理层的业务层
     /// </summary>
     public  class SampleProxy
     {
@@ -108,7 +109,6 @@ namespace VL.Gaming.Study.Patterns
                         default:
                             break;
                     }
-                    break;
                     break;
                 default:
                     break;

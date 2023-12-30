@@ -11,6 +11,7 @@ namespace VL.Gaming.Study.Patterns
     /// 定义了可订阅的主体：支持附加，分离，通知行为
     /// 定义了进行订阅的客体：支持订阅
     /// 当主体变更后通知进行订阅的客体
+    /// 要点：订阅对象+订阅+取消+通知
     /// </summary>
     public class SampleObserver
     {

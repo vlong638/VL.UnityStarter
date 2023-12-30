@@ -8,6 +8,7 @@ namespace VL.Gaming.Study.Patterns
 {
     /// <summary>
     /// Composite 聚合结构，将他们进行抽象化的统一定义，从而使得他们可以以相同的结构进行集合处理
+    /// 要点：提炼抽象，对抽象对象集合聚合处理，集合分层处理
     /// </summary>
     public class SampleComposite
     {

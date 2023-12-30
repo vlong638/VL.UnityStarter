@@ -13,6 +13,7 @@ namespace VL.Gaming.Study.Patterns
     /// 比如 人的工作机能受到身体状态影响，有正常状态，兴奋状态，虚弱状态，生病状态
     /// 比如 排序算法，有快速排序策略，冒泡排序策略，插入排序策略
     /// 比如 销售策略：有折扣策略，有溢价策略，有常规策略
+    /// 要点：策略+策略调参
     /// </summary>
     public class SampleStrategy
     {

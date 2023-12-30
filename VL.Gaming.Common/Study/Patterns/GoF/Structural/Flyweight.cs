@@ -9,6 +9,8 @@ namespace VL.Gaming.Study.Patterns
     /// <summary>
     /// 享元模式旨在构建一个共享的集合
     /// 避免同一对象的重复创建
+    /// 要点：集合字典的单例集合，复用层
+    /// 
     /// </summary>
     public class SampleFlyWeight
     {

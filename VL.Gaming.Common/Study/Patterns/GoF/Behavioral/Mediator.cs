@@ -11,6 +11,7 @@ namespace VL.Gaming.Study.Patterns
     /// 提供了发送通知和通知触发的机制
     /// 他以第三方中介形式构建
     /// 用以抽离多方之间的协调性质的业务
+    /// 要点：中介者对象化+协调性业务独立
     /// </summary>
     public class SampleMediator
     {

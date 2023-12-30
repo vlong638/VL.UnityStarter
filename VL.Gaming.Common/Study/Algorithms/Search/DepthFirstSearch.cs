@@ -4,7 +4,7 @@ namespace VL.Gaming.Study.Algorithms.Search
 {
     /// <summary>
     /// DFS,DepthFirstSearch
-    /// 时间复杂度 ？？？
+    /// 时间复杂度 θ(n)
     /// </summary>
     public class Sample_DepthFirstSearch
     {

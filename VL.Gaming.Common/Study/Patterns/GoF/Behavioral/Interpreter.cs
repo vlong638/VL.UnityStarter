@@ -12,6 +12,7 @@ namespace VL.Gaming.Study.Patterns
     /// IExpression，表达式接口
     /// 终结符表达式，Contain，等等
     /// 非终结符表达式，And，Or
+    /// 要点：表达式对象化=终结符表达式+非终结符表达式
     /// </summary>
     public class SampleInterpreter
     {

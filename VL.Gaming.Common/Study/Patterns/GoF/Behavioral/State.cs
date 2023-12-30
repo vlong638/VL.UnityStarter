@@ -12,6 +12,7 @@ namespace VL.Gaming.Study.Patterns
     /// 状态模式与策略模式类似 但关注点不同
     /// 比如 文档编辑器，有预览状态，编辑状态，锁定状态
     /// 比如 排序算法，有快速排序策略，冒泡排序策略，插入排序策略
+    /// 要点：状态+系列行为
     /// </summary>
     public class SampleState
     {
