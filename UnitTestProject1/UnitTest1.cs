@@ -1,11 +1,16 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using VL.Gaming.Framework.Tools;
+using VL.Gaming.Study.Algorithms;
 using VL.Gaming.Study.Patterns;
 
 namespace UnitTestProject1
 {
+    /// <summary>
+    /// 23种设计模式
+    /// </summary>
     [TestClass]
-    public class UnitTest1
+    public partial class UnitTest1
     {
         [TestMethod]
         public void TestMethod_FactoryMethod()
@@ -162,5 +167,25 @@ namespace UnitTestProject1
             new SampleTemplateMethod().Test();
             Assert.IsTrue(true);
         }
+    }
+
+    /// <summary>
+    /// 算法
+    /// </summary>
+    public partial class UnitTest1
+    {
+        [TestMethod]
+        public void TestMethod_BubbleSort()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                var input = MockHelper.MockInts(20, 1, 100);
+                var output = new Sample_BubbleSort().Sort(input);
+                Console.WriteLine("input:"+String.Join(",", input));
+                Console.WriteLine("output:" + String.Join(",", output));
+                Assert.IsTrue(true);
+            }
+        }
+
     }
 }
