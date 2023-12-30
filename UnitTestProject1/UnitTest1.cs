@@ -2,6 +2,7 @@
 using System;
 using VL.Gaming.Framework.Tools;
 using VL.Gaming.Study.Algorithms;
+using VL.Gaming.Study.Algorithms.Sorting;
 using VL.Gaming.Study.Patterns;
 
 namespace UnitTestProject1

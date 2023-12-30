@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VL.Gaming.Study.Algorithms
+namespace VL.Gaming.Study.Algorithms.Sorting
 {
     /// <summary>
     /// 冒泡排序
