@@ -12,7 +12,7 @@ namespace VL.UnityStarter
     {
         static void Main(string[] args)
         {
-            new MyTester().Test();
+            //new MyTester().Test();
             Console.ReadLine();
         }
     }

@@ -1,3 +1,0 @@
-D:\Dev\Projects\VL.Unity\VL.Gaming.Common\obj\Debug\VL.Gaming.csproj.AssemblyReference.cache
-D:\Dev\Projects\VL.Unity\VL.Gaming.Common\obj\Debug\VL.Gaming.csproj.SuggestedBindingRedirects.cache
-D:\Dev\Projects\VL.Unity\VL.Gaming.Common\obj\Debug\VL.Gaming.csproj.CoreCompileInputs.cache

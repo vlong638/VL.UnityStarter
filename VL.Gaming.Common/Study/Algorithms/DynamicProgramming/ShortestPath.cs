@@ -6,7 +6,7 @@ namespace VL.Gaming.Study.Algorithms.DynamicProgramming
     /// ShortestPath,最短路径
     /// 时间复杂度 ？？？
     /// </summary>
-    public class Sample_KnapsackProblem
+    public class Sample_ShortestPath
     {
         public int[] Process(int[] array)
         {
