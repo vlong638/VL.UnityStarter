@@ -188,6 +188,18 @@ namespace UnitTestProject1
     }
 
     /// <summary>
+    /// 其他设计模式
+    /// </summary>
+    public partial class UnitTest1
+    {
+        [TestMethod]
+        public void TestMethod_DependencyInjection()
+        {
+            new Sample_DependencyInjection().Test();
+            Assert.IsTrue(true);
+        }
+    }
+    /// <summary>
     /// 算法
     /// </summary>
     public partial class UnitTest1
@@ -199,7 +211,7 @@ namespace UnitTestProject1
             {
                 var input = MockHelper.MockInts(20, 1, 100);
                 var output = new Sample_BubbleSort().Sort(input);
-                Console.WriteLine("input:"+String.Join(",", input));
+                Console.WriteLine("input:" + String.Join(",", input));
                 Console.WriteLine("output:" + String.Join(",", output));
                 Assert.IsTrue(true);
             }
