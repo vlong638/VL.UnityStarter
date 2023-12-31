@@ -2,6 +2,8 @@
 using System;
 using VL.Gaming.Framework.Tools;
 using VL.Gaming.Study.Algorithms;
+using VL.Gaming.Study.Algorithms.DynamicProgramming;
+using VL.Gaming.Study.Algorithms.Graph;
 using VL.Gaming.Study.Algorithms.Search;
 using VL.Gaming.Study.Algorithms.Sorting;
 using VL.Gaming.Study.Patterns;
@@ -224,6 +226,12 @@ namespace UnitTestProject1
         public void TestMethod_LinearSearch()
         {
             new Sample_LinearSearch().Search();
+            Assert.IsTrue(true);
+        }
+        [TestMethod]
+        public void TestMethod_ShortestPath()
+        {
+            new VL.Gaming.Study.Algorithms.Graph.Sample_ShortestPath().Process();
             Assert.IsTrue(true);
         }
     }
