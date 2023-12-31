@@ -176,6 +176,13 @@ namespace UnitTestProject1
             new SampleTemplateMethod().Test();
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void TestMethod_Visitor()
+        {
+            new SampleVisitor().Test();
+            Assert.IsTrue(true);
+        }
     }
 
     /// <summary>
