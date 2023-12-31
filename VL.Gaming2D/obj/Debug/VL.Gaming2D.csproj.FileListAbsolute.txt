@@ -1,0 +1,8 @@
+D:\Dev\Projects\VL.Unity\VL.Gaming2D\bin\Debug\VL.Gaming2D.exe.config
+D:\Dev\Projects\VL.Unity\VL.Gaming2D\bin\Debug\VL.Gaming2D.exe
+D:\Dev\Projects\VL.Unity\VL.Gaming2D\bin\Debug\VL.Gaming2D.pdb
+D:\Dev\Projects\VL.Unity\VL.Gaming2D\obj\Debug\VL.Gaming2D.csproj.AssemblyReference.cache
+D:\Dev\Projects\VL.Unity\VL.Gaming2D\obj\Debug\VL.Gaming2D.csproj.SuggestedBindingRedirects.cache
+D:\Dev\Projects\VL.Unity\VL.Gaming2D\obj\Debug\VL.Gaming2D.csproj.CoreCompileInputs.cache
+D:\Dev\Projects\VL.Unity\VL.Gaming2D\obj\Debug\VL.Gaming2D.exe
+D:\Dev\Projects\VL.Unity\VL.Gaming2D\obj\Debug\VL.Gaming2D.pdb
