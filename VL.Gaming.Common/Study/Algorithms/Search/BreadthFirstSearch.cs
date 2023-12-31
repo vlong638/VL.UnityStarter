@@ -24,6 +24,8 @@ namespace VL.Gaming.Study.Algorithms.Search
             g.AddEdge(1, 4);
             g.AddEdge(2, 5);
             ///    0
+            ///    49
+            ///    
             /// 1    2
             ///3 4  5
             var result = g.BFS(0);

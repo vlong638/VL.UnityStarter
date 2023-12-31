@@ -66,6 +66,8 @@
     <Compile Include="Study\Algorithms\Sorting\QuickSork.cs" />
     <Compile Include="Study\Algorithms\StringProcessing\LevenshteinDistance.cs" />
     <Compile Include="Study\Algorithms\StringProcessing\StringMatching.cs" />
+    <Compile Include="Study\Patterns\GoF\Behavioral\Visitor.cs" />
+    <Compile Include="Study\Patterns\GoF\Structural\Decorator.cs" />
     <Compile Include="Study\Patterns\Others\Specification.cs" />
     <Compile Include="Study\Patterns\Others\Repository.cs" />
     <Compile Include="Study\Patterns\Others\ObjectPool.cs" />

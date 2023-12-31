@@ -80,6 +80,13 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
+        public void TestMethod_Decorator()
+        {
+            new SampleDecorator().Test();
+            Assert.IsTrue(true);
+        }
+
+        [TestMethod]
         public void TestMethod_Proxy()
         {
             new SampleProxy().Test();
