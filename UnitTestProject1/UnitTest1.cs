@@ -240,5 +240,11 @@ namespace UnitTestProject1
             new Sample_MinimumSpanningTree().Process();
             Assert.IsTrue(true);
         }
+        [TestMethod]
+        public void TestMethod_LongestCommonSubsequencee()
+        {
+            new Sample_LongestCommonSubsequence().Process();
+            Assert.IsTrue(true);
+        }
     }
 }
