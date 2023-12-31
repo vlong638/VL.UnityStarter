@@ -14,22 +14,45 @@ namespace VL.Gaming.Study.Algorithms.Search
         public void Search()
         {
             
-            Graph g = new Graph(4);
-            g.AddEdge(0, 0);//0和1有连接
-            g.AddEdge(0, 2);//0和2有连接
-            g.AddEdge(1, 2);//1和2有连接
-            g.AddEdge(2, 0);//2和0有连接
-            g.AddEdge(2, 3);//2和3有连接
-            g.AddEdge(3, 3);//3和3有连接，自环
-
-            var result = g.DFS(2);
+            Graph g = new Graph(6);
+            g.AddEdge(0, 1);
+            g.AddEdge(0, 2);
+            g.AddEdge(1, 3);
+            g.AddEdge(1, 4);
+            g.AddEdge(2, 5);
+            ///    0
+            /// 1    2
+            ///3 4  5
+            var result = g.DFS(0);
             var depth = result.ToList().Where(c => c == true).Count();
             Console.WriteLine("DFS starting from vertex 2:");
             Console.WriteLine($"Depth:{depth}");
         }
     }
 
-    public class Graph
+    public partial class Graph
+    {
+        public bool[] DFS(int vertice)
+        {
+            bool[] visited = new bool[VerticeCount];
+            DFSUlti(vertice, visited);
+            return visited;
+        }
+
+        //循环不变式
+        public void DFSUlti(int vertice, bool[] visited)
+        {
+            visited[vertice] = true; Console.WriteLine($"visited {vertice}");
+            foreach (var adjacency in AdjacencyList[vertice])
+            {
+                if (!visited[adjacency])
+                {
+                    DFSUlti(adjacency, visited);
+                }
+            }
+        }
+    }
+    public partial class Graph
     {
         public int VerticeCount;//顶点数量
         public List<int>[] AdjacencyList;//邻接表
@@ -44,29 +67,9 @@ namespace VL.Gaming.Study.Algorithms.Search
             }
         }
 
-        public bool[] DFS(int vertice)
+        public void AddEdge(int startVertice, int endVertice)
         {
-            bool[] visited = new bool[VerticeCount];
-            DFSUlti(vertice, visited);
-            return visited;
-        }
-
-        public void AddEdge(int vertice, int w)
-        {
-            AdjacencyList[vertice].Add(w);
-        }
-
-        //循环不变式
-        public void DFSUlti(int vertice, bool[] visited)
-        {
-            visited[vertice] = true;
-            foreach (var adjacency in AdjacencyList[vertice])
-            {
-                if (!visited[adjacency])
-                {
-                    DFSUlti(adjacency, visited);
-                }
-            }
+            AdjacencyList[startVertice].Add(endVertice);
         }
     }
 }

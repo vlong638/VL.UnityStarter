@@ -194,5 +194,11 @@ namespace UnitTestProject1
             new Sample_DepthFirstSearch().Search();
             Assert.IsTrue(true);
         }
+        [TestMethod]
+        public void TestMethod_BreadthFirstSearch()
+        {
+            new Sample_BreadthFirstSearch().Search();
+            Assert.IsTrue(true);
+        }
     }
 }
