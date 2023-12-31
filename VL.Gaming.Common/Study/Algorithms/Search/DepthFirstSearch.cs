@@ -8,6 +8,8 @@ namespace VL.Gaming.Study.Algorithms.Search
     /// DFS,DepthFirstSearch
     /// 时间复杂度 θ(节点^分支数)
     /// 深度优先搜索基于一个遍历表bool[] Visited节点访问表来设计实现
+    /// 基于对每一个节点的递归处理而实现
+    /// 每一个节点处理自身并递归处理下级节点
     /// </summary>
     public class Sample_DepthFirstSearch
     {

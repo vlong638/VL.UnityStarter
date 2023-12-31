@@ -7,7 +7,10 @@ namespace VL.Gaming.Study.Algorithms.Search
     /// <summary>
     /// BFS,BepthFirstSearch
     /// 时间复杂度 θ(节点^分支数)
-    /// 深度优先搜索基于一个遍历表bool[] Visited节点访问表来设计实现
+    /// 广度优先基于队列实现
+    /// 循环队列总是当前层的链接节点检索，将检索结果丢到Queue队列中
+    /// 由于每一个下层的处理层级更低，处在下一级的处理循环中，所以他们进入队列的顺序也就靠后
+    /// 从而实现了深度优先的搜索，这也说明了深度优先与队列结构的设计上的贴合结构
     /// </summary>
     public class Sample_BreadthFirstSearch
     {
@@ -51,24 +54,6 @@ namespace VL.Gaming.Study.Algorithms.Search
                 }
             }
             return visited;
-        }
-        //循环不变式
-        public void BFSUlti(int vertice, bool[] visited)
-        {
-            List<int> tempAdjcency = new List<int>();
-            foreach (var adjacency in AdjacencyList[vertice])
-            {
-                if (!visited[adjacency])
-                {
-                    tempAdjcency.Add(adjacency);
-                    visited[adjacency] = true;
-                    Console.WriteLine($"visited {adjacency}");
-                }
-            }
-            foreach (var adjcency in tempAdjcency)
-            {
-                BFSUlti(adjcency, visited);
-            }
         }
     }
 }
