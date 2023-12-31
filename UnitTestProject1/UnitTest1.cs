@@ -2,6 +2,7 @@
 using System;
 using VL.Gaming.Framework.Tools;
 using VL.Gaming.Study.Algorithms;
+using VL.Gaming.Study.Algorithms.Search;
 using VL.Gaming.Study.Algorithms.Sorting;
 using VL.Gaming.Study.Patterns;
 
@@ -187,6 +188,11 @@ namespace UnitTestProject1
                 Assert.IsTrue(true);
             }
         }
-
+        [TestMethod]
+        public void TestMethod_DepthFirstSearch()
+        {
+            new Sample_DepthFirstSearch().Search();
+            Assert.IsTrue(true);
+        }
     }
 }
