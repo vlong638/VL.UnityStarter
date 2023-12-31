@@ -234,5 +234,11 @@ namespace UnitTestProject1
             new VL.Gaming.Study.Algorithms.Graph.Sample_ShortestPath().Process();
             Assert.IsTrue(true);
         }
+        [TestMethod]
+        public void TestMethod_MinimumSpanningTree()
+        {
+            new Sample_MinimumSpanningTree().Process();
+            Assert.IsTrue(true);
+        }
     }
 }
