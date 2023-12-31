@@ -7,18 +7,33 @@ namespace VL.Gaming.Study.Algorithms.Search
     /// </summary>
     public class Sample_LinearSearch
     {
-        public int Search(int[] array,int x)
+        public void Search()
         {
-            if (array == null || array.Length == 0)
-                return -1;
-            for (int i = 0; i < array.Length; i++)
+            Console.WriteLine($"arr：{string.Join(",", arr)}");
+            Console.WriteLine($"find：{x}");
+            int[] arr = { 2, 3, 4, 10, 40 };
+            int x = 10;
+            int result = LinearSearch(arr, x);
+            if (result == -1)
             {
-                if (array[i]==x)
+                Console.WriteLine("Element not present");
+            }
+            else
+            {
+                Console.WriteLine("Element found at index " + result);
+            }
+        }
+        public int LinearSearch(int[] arr, int x)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.WriteLine($"Check {arr[i]}");
+                if (arr[i] == x)
                 {
-                    return i;
+                    return i; // 返回元素的索引
                 }
             }
-            return -1;
+            return -1; // 如果未找到则返回-1
         }
     }
 }

@@ -189,6 +189,12 @@ namespace UnitTestProject1
             }
         }
         [TestMethod]
+        public void TestMethod_BinarySearch()
+        {
+            new Sample_BinarySearch().Search();
+            Assert.IsTrue(true);
+        }
+        [TestMethod]
         public void TestMethod_DepthFirstSearch()
         {
             new Sample_DepthFirstSearch().Search();
@@ -198,6 +204,12 @@ namespace UnitTestProject1
         public void TestMethod_BreadthFirstSearch()
         {
             new Sample_BreadthFirstSearch().Search();
+            Assert.IsTrue(true);
+        }
+        [TestMethod]
+        public void TestMethod_LinearSearch()
+        {
+            new Sample_LinearSearch().Search();
             Assert.IsTrue(true);
         }
     }
