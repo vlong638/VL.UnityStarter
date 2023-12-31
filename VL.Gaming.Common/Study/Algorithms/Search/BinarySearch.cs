@@ -10,11 +10,10 @@ namespace VL.Gaming.Study.Algorithms.Search
     {
         public void Search()
         {
-            Console.WriteLine($"arr：{string.Join(",", arr)}");
-            Console.WriteLine($"find：{x}");
-
             int[] arr = { 2, 3, 4, 10, 40 };
             int x = 10;
+            Console.WriteLine($"arr：{string.Join(",", arr)}");
+            Console.WriteLine($"find：{x}");
             int result = BinarySearch(arr, x);
             if (result == -1)
             {
