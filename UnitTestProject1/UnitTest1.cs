@@ -246,5 +246,11 @@ namespace UnitTestProject1
             new Sample_LongestCommonSubsequence().Process();
             Assert.IsTrue(true);
         }
+        [TestMethod]
+        public void TestMethod_KnapsackProblem()
+        {
+            new Sample_KnapsackProblem().Process();
+            Assert.IsTrue(true);
+        }
     }
 }
