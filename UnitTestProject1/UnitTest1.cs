@@ -210,6 +210,12 @@ namespace UnitTestProject1
             new Sample_ObjectPool().Test();
             Assert.IsTrue(true);
         }
+        [TestMethod]
+        public void TestMethod_Repository()
+        {
+            new Sample_Repository().Test();
+            Assert.IsTrue(true);
+        }
     }
     /// <summary>
     /// 算法
