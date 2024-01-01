@@ -9,6 +9,7 @@ namespace VL.Gaming.Study.Patterns
 {
     /// <summary>
     /// 规约模式
+    /// 要点：提炼标准化的筛选行为，ISpecification<T>；将筛选行为提炼为对象，XXXSpecification
     /// </summary>
     public class Sample_Specification
     {
