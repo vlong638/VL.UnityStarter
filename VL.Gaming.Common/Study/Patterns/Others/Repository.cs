@@ -15,8 +15,8 @@ namespace VL.Gaming.Study.Patterns
         public void Test()
         {
             var productRepository = new ProductRepository();
-            productRepository.Add(new Product { Id = 1, Name = "Product 1", Price = 10.0m });
-            productRepository.Add(new Product { Id = 2, Name = "Product 2", Price = 12.0m });
+            productRepository.Add(new ProductA { Id = 1, Name = "Product 1", Price = 10.0m });
+            productRepository.Add(new ProductA { Id = 2, Name = "Product 2", Price = 12.0m });
             var allProducts = productRepository.GetAll();
             foreach (var product in allProducts)
             {
@@ -24,7 +24,7 @@ namespace VL.Gaming.Study.Patterns
             }
         }
     }
-    public class Product
+    public class ProductA
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -40,31 +40,31 @@ namespace VL.Gaming.Study.Patterns
         void Delete(T Entity);
     }
 
-    public class ProductRepository : IRepository<Product>
+    public class ProductRepository : IRepository<ProductA>
     {
-        List<Product> products = new List<Product>();
+        List<ProductA> products = new List<ProductA>();
 
-        public void Add(Product Entity)
+        public void Add(ProductA Entity)
         {
             products.Add(Entity);
         }
 
-        public void Delete(Product Entity)
+        public void Delete(ProductA Entity)
         {
             products.Remove(Entity);
         }
 
-        public IEnumerable<Product> GetAll()
+        public IEnumerable<ProductA> GetAll()
         {
             return products;
         }
 
-        public Product GetById(int id)
+        public ProductA GetById(int id)
         {
             return products.FirstOrDefault(c => c.Id == id);
         }
 
-        public void Update(Product Entity)
+        public void Update(ProductA Entity)
         {
             var existingProduct = GetById(Entity.Id);
             if (existingProduct != null)

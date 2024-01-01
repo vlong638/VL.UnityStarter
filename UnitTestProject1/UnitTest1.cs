@@ -216,6 +216,12 @@ namespace UnitTestProject1
             new Sample_Repository().Test();
             Assert.IsTrue(true);
         }
+        [TestMethod]
+        public void TestMethod_Specification()
+        {
+            new Sample_Specification().Test();
+            Assert.IsTrue(true);
+        }
     }
     /// <summary>
     /// 算法
