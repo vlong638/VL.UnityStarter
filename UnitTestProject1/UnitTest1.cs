@@ -204,6 +204,12 @@ namespace UnitTestProject1
             new Sample_EventDriven().Test();
             Assert.IsTrue(true);
         }
+        [TestMethod]
+        public void TestMethod_ObjectPool()
+        {
+            new Sample_ObjectPool().Test();
+            Assert.IsTrue(true);
+        }
     }
     /// <summary>
     /// 算法
