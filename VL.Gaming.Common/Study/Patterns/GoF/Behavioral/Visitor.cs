@@ -17,7 +17,7 @@ namespace VL.Gaming.Study.Patterns
     {
         public void Test()
         {
-            var elements = new List<IElement>() { new ConcreteElementA("A11"), new ConcreteElementA("B13"), new ConcreteElementB(18) };
+            var elements = new List<IVisitable>() { new ConcreteElementA("A11"), new ConcreteElementA("B13"), new ConcreteElementB(18) };
             var visitor = new ConcreteVisitor();
             foreach (var element in elements)
             {
@@ -26,11 +26,11 @@ namespace VL.Gaming.Study.Patterns
         }
     }
 
-    interface IElement
+    interface IVisitable
     {
         void Accept(IVisitor visitor);
     }
-    class ConcreteElementA : IElement
+    class ConcreteElementA : IVisitable
     {
         public string Name;
 
@@ -49,7 +49,7 @@ namespace VL.Gaming.Study.Patterns
             Console.WriteLine($"ConcreteElementA Operation,My Name is {Name}");
         }
     }
-    class ConcreteElementB : IElement
+    class ConcreteElementB : IVisitable
     {
         public int Age;
 
