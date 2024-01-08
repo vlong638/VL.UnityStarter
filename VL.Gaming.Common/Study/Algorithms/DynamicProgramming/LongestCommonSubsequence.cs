@@ -10,8 +10,8 @@ namespace VL.Gaming.Study.Algorithms.DynamicProgramming
     {
         public void Process()
         {
-            string str1 = "ABCD";
-            string str2 = "BD";
+            string str1 = "LongestCommonSubsequence";
+            string str2 = "Common";
 
             LongestCommonSubsequence lcs = new LongestCommonSubsequence();
             int length = lcs.FindLCSLength(str1, str2);

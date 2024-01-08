@@ -3,9 +3,11 @@
 namespace VL.Gaming.Study.Algorithms.DynamicProgramming
 {
     /// <summary>
-    /// TODO
     /// KnapsackProblem,背包问题
-    /// 时间复杂度 ？？？
+    /// 背包问题有多种类型
+    /// 01背包问题
+    /// 无界限背包问题
+    /// 
     /// </summary>
     public class Sample_KnapsackProblem
     {
@@ -13,14 +15,15 @@ namespace VL.Gaming.Study.Algorithms.DynamicProgramming
         {
             Item[] items = new Item[]
             {
-            new Item { Name = "Item1", Weight = 2, Value = 6 },
-            new Item { Name = "Item2", Weight = 2, Value = 10 },
-            new Item { Name = "Item3", Weight = 3, Value = 12 }
+                new Item { Name = "Item1", Weight = 2, Value = 6 },
+                new Item { Name = "Item2", Weight = 2, Value = 10 },
+                new Item { Name = "Item3", Weight = 3, Value = 12 },
+                new Item { Name = "Item3", Weight = 4, Value = 15 }
             };
 
             int capacity = 5;
 
-            Knapsack knapsack = new Knapsack();
+            KnapsackUnlimited knapsack = new KnapsackUnlimited();
             int maxValue = knapsack.SolveKnapsack(items, capacity);
 
             Console.WriteLine("The maximum value that can be put in a knapsack of capacity " + capacity + " is: " + maxValue);
@@ -32,8 +35,16 @@ namespace VL.Gaming.Study.Algorithms.DynamicProgramming
         public int Weight { get; set; }
         public int Value { get; set; }
     }
-
-    public class Knapsack
+    //01背包问题
+    public class Knapsack01
+    {
+    }
+    //有限背包问题
+    public class KnapsackLimited
+    {
+    }
+    //无限背包问题
+    public class KnapsackUnlimited
     {
         public int SolveKnapsack(Item[] items, int capacity)
         {
