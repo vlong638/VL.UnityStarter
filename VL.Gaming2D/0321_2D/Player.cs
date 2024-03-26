@@ -32,8 +32,8 @@ public class Player : MovingObject
         if (!GameManager.instance.playersTurn)
             return;
 
-        int horizontal = (int)Input.GetAxisRaw("Horizontal") + (Input.GetKey(KeyCode.D) ? 1 : 0) + (Input.GetKey(KeyCode.A) ? -1 : 0);
-        int vertical = (int)Input.GetAxisRaw("Vertical") + (Input.GetKey(KeyCode.W) ? 1 : 0) + (Input.GetKey(KeyCode.S) ? -1 : 0);
+        int horizontal = (int)Input.GetAxisRaw("Horizontal");// + (Input.GetKey(KeyCode.D) ? 1 : 0) + (Input.GetKey(KeyCode.A) ? -1 : 0);
+        int vertical = (int)Input.GetAxisRaw("Vertical");// + (Input.GetKey(KeyCode.W) ? 1 : 0) + (Input.GetKey(KeyCode.S) ? -1 : 0);
 
         if (horizontal != 0)
             vertical = 0;

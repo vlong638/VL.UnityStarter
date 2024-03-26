@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -61,6 +63,16 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    Vector3 GetPosition(int x, int y)
+    {
+        var position = gridPositions.FirstOrDefault(c => c.x == x && c.y == y);
+        gridPositions.Remove(position);
+        if (position == null)
+        {
+            throw new NotImplementedException("无效的位置,位置已被占用或不存在");
+        }
+        return position;
+    }
     Vector3 RandomPosition()
     {
         int randomIndex = Random.Range(0, gridPositions.Count);
@@ -90,17 +102,22 @@ public class BoardManager : MonoBehaviour
             Instantiate(gameObject, position, Quaternion.identity);
         }
     }
+    void LayoutObjectAt(GameObject gameObject, Vector3 position)
+    {
+        if (gameObject == null)
+            return;
+        Instantiate(gameObject, position, Quaternion.identity);
+    }
 
     public void SetupScene(int level)
     {
         InitializeGrid(columns, rows);
         SetupGameBoard(columns, rows);
+        LayoutObjectAt(player, GetPosition(1, 1));
+        LayoutObjectAt(exit, GetPosition(8, 8));
         LayoutObjectAtRandom(wallTiles, Random.Range(wallCount.Minimum, wallCount.Maximum));
         LayoutObjectAtRandom(guns, Random.Range(gunCount.Minimum, gunCount.Maximum));
         LayoutObjectAtRandom(enemies, level);
-        LayoutObjectAtRandom(exit, 1);
-        Debug.Log($"LayoutObjectAtRandom(player, 1);");
-        LayoutObjectAtRandom(player, 1);
     }
 
     void Awake()
