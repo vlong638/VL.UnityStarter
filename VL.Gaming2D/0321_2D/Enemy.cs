@@ -5,6 +5,8 @@ public class Enemy : MovingObject
 {
     public int playerDamage;
 
+    static string trigger_EnemyAttack = "EnemyAttack";
+
     Animator animator;
     Transform target;
     bool skipMove;//用于控制在一回合后,跳过一回合
@@ -22,6 +24,7 @@ public class Enemy : MovingObject
         Debug.Log($"Enemy Start()");
         animator = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        GameManager.instance.AddEnemyToList(this);
     }
 
     // Update is called once per frame
@@ -62,6 +65,8 @@ public class Enemy : MovingObject
         Player p = hitTransform.GetComponent<Player>();
         if (p == null)
             return;
+        animator.SetTrigger(trigger_EnemyAttack);
         p.LoseFood(playerDamage);
+        
     }
 }

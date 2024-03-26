@@ -9,8 +9,8 @@ public class Player : MovingObject
     public float restartLevelDelay = 1f;
 
     Animator animator;
-    public string triggerChop = "PlayerChop";
-    public string triggerHit = "PlayerHit";
+    public string trigger_PlayerChop = "PlayerChop";
+    public string trigger_PlayerHit = "PlayerHit";
     int food;
 
     void Awake()
@@ -72,7 +72,7 @@ public class Player : MovingObject
         if (hitWall != null)
         {
             hitWall.DamageWall(wallDamage);
-            animator.SetTrigger(triggerChop);
+            animator.SetTrigger(trigger_PlayerChop);
         }
         //TODO
         //Enermy
@@ -105,7 +105,7 @@ public class Player : MovingObject
 
     public void LoseFood(int loss)
     {
-        animator.SetTrigger(triggerHit);
+        animator.SetTrigger(trigger_PlayerHit);
         food -= loss;
         CheckIfGameOver();
     }
