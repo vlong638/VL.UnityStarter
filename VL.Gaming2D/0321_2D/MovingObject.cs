@@ -7,6 +7,7 @@ public class MovingObject : MonoBehaviour
 {
     public float moveTime = 0.1f;
     public LayerMask blockingLayer;
+    protected bool isMoving = false;
 
     BoxCollider2D boxCollider;
     Rigidbody2D rigidBody;
@@ -14,18 +15,21 @@ public class MovingObject : MonoBehaviour
 
     protected IEnumerator SmoothMovement(Vector3 end)
     {
+        isMoving = true;
         while (!transform.position.IsZeroDistance(end))
         {
             Vector3 newPosition = Vector3.MoveTowards(transform.position, end, inverseMoveTime * Time.deltaTime);
             rigidBody.MovePosition(newPosition);
             yield return null;
         }
+        isMoving = false;
     }
 
     protected bool Move(int x, int y, out RaycastHit2D hit)
     {
         Vector2 start = transform.position;
         Vector2 end = start + new Vector2(x, y);
+        Debug.Log($"{x},{y},Move from {start.ToString()} to {end.ToString()}");
 
         boxCollider.enabled = false;
         hit = Physics2D.Linecast(start, end, blockingLayer);

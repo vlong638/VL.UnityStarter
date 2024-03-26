@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MovingObject
 {
-    public int wallDamage =1;
+    public int wallDamage = 1;
     public int pointsPerFood = 10;
     public int pointsPerSoda = 20;
     public float restartLevelDelay = 1f;
@@ -29,7 +29,7 @@ public class Player : MovingObject
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.instance.playersTurn)
+        if (!GameManager.instance.playersTurn && this.isMoving)
             return;
 
         int horizontal = (int)Input.GetAxisRaw("Horizontal");// + (Input.GetKey(KeyCode.D) ? 1 : 0) + (Input.GetKey(KeyCode.A) ? -1 : 0);
@@ -49,7 +49,7 @@ public class Player : MovingObject
 
     void CheckIfGameOver()
     {
-        if (food<= 0)
+        if (food <= 0)
         {
             GameManager.instance.GameOver();
         }
@@ -58,7 +58,7 @@ public class Player : MovingObject
     protected override GameObject AttemptMove(int x, int y)
     {
         food--;
-        var t =base.AttemptMove(x, y);
+        var t = base.AttemptMove(x, y);
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
         return t;
