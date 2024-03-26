@@ -16,7 +16,7 @@ public class MovingObject : MonoBehaviour
     protected IEnumerator SmoothMovement(Vector3 end)
     {
         isMoving = true;
-        while (!transform.position.IsZeroDistance(end))
+        while ((transform.position - end).sqrMagnitude > float.Epsilon)
         {
             Vector3 newPosition = Vector3.MoveTowards(transform.position, end, inverseMoveTime * Time.deltaTime);
             rigidBody.MovePosition(newPosition);
@@ -44,7 +44,7 @@ public class MovingObject : MonoBehaviour
         return false;
     }
 
-    protected virtual GameObject AttemptMove(int x, int y)
+    protected virtual Transform AttemptMove(int x, int y)
     {
         RaycastHit2D hit;
         bool canMove = Move(x, y, out hit);
@@ -52,29 +52,24 @@ public class MovingObject : MonoBehaviour
         if (hit.transform == null)
             return null;
 
-        GameObject hitComponent = hit.transform.GetComponent<GameObject>();
-        if (!canMove && hitComponent != null)
-            OnCantMove(hitComponent);
-        return hitComponent;
+        Transform hitTransform = hit.transform;
+        if (!canMove && hitTransform != null)
+            OnCantMove(hitTransform);
+        return hitTransform;
     }
 
-    protected virtual void OnCantMove(GameObject hitComponent)
+    protected virtual void OnCantMove(Transform hitTransform)
     {
         throw new NotImplementedException();
     }
 
-    // Start is called before the first frame update
-    protected void Init()
+    protected virtual void Start()
     {
         Debug.Log($"MovingObject Init()");
         boxCollider = GetComponent<BoxCollider2D>();
         Debug.Log($"boxCollider:" + boxCollider is null ? " null" : boxCollider.ToString());
         rigidBody = GetComponent<Rigidbody2D>();
         inverseMoveTime = 1f / moveTime;
-    }
-
-    void Start()
-    {
     }
 
     // Update is called once per frame

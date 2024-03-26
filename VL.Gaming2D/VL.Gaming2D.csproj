@@ -56,6 +56,7 @@
     <Compile Include="0321_2D\GameManager.cs" />
     <Compile Include="0321_2D\Loader.cs" />
     <Compile Include="0321_2D\MovingObject.cs" />
+    <Compile Include="0321_2D\Enemy.cs" />
     <Compile Include="0321_2D\Player.cs" />
     <Compile Include="0321_2D\Wall.cs" />
     <Compile Include="Program.cs" />

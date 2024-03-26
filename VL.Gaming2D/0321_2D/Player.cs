@@ -18,9 +18,10 @@ public class Player : MovingObject
     }
 
     // Start is called before the first frame update
-    protected void Start()
+    protected override void Start()
     {
-        base.Init();
+        base.Start();
+
         Debug.Log($"Player Start()");
         animator = GetComponent<Animator>();
         food = GameManager.instance.playerFoodPoints;
@@ -55,7 +56,7 @@ public class Player : MovingObject
         }
     }
 
-    protected override GameObject AttemptMove(int x, int y)
+    protected override Transform AttemptMove(int x, int y)
     {
         food--;
         var t = base.AttemptMove(x, y);
@@ -64,10 +65,10 @@ public class Player : MovingObject
         return t;
     }
 
-    protected override void OnCantMove(GameObject hitComponent)
+    protected override void OnCantMove(Transform hitTransform)
     {
         //Wall
-        Wall hitWall = hitComponent.GetComponent<Wall>();
+        Wall hitWall = hitTransform.GetComponent<Wall>();
         if (hitWall != null)
         {
             hitWall.DamageWall(wallDamage);
