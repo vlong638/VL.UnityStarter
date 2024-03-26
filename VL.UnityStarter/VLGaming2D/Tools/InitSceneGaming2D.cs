@@ -13,7 +13,7 @@ namespace VL.UnityStarter.VLGaming2D
             Debug.Log($"Instantiate Start");
 
             GameObject entitiesGO;
-            GameObject assetGO;
+            //GameObject assetGO;
 
             entitiesGO = new GameObject(nameof(entitiesGO));
             //var ground1 = VLCreater063025D.CreateGround("ground1",entitiesGO);
