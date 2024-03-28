@@ -15,6 +15,8 @@ public class Player : MovingObject
     int food;
     Text foodText;
 
+    public AudioClip[] playerChopClips;
+    public AudioClip[] playMoveClips;
 
     void Awake()
     {
@@ -65,6 +67,7 @@ public class Player : MovingObject
     protected override Transform AttemptMove(int x, int y)
     {
         food--;
+        SoundManager.instance.PlaySingle(playMoveClips);
         UpdateFoodText($"Food:{food}");
         var t = base.AttemptMove(x, y);
         CheckIfGameOver();

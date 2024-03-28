@@ -52,6 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0321_2D\SoundManager.cs" />
     <Compile Include="0321_2D\BoardManager.cs" />
     <Compile Include="0321_2D\GameManager.cs" />
     <Compile Include="0321_2D\Loader.cs" />
