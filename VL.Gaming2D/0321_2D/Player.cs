@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MovingObject
 {
@@ -12,6 +13,8 @@ public class Player : MovingObject
     public string trigger_PlayerChop = "PlayerChop";
     public string trigger_PlayerHit = "PlayerHit";
     int food;
+    Text foodText;
+
 
     void Awake()
     {
@@ -20,11 +23,14 @@ public class Player : MovingObject
     // Start is called before the first frame update
     protected override void Start()
     {
-        base.Start();
-
         Debug.Log($"Player Start()");
         animator = GetComponent<Animator>();
         food = GameManager.instance.playerFoodPoints;
+        foodText = GameObject.Find("FoodText").GetComponent<Text>();
+        UpdateFoodText($"Food:{food}");
+        GameManager.instance.SetPlayer(this);
+
+        base.Start();
     }
 
     // Update is called once per frame
@@ -59,10 +65,16 @@ public class Player : MovingObject
     protected override Transform AttemptMove(int x, int y)
     {
         food--;
+        UpdateFoodText($"Food:{food}");
         var t = base.AttemptMove(x, y);
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
         return t;
+    }
+
+    private void UpdateFoodText(string text)
+    {
+        foodText.text = text;
     }
 
     protected override void OnCantMove(Transform hitTransform)
@@ -88,11 +100,14 @@ public class Player : MovingObject
         else if (collision.tag == "Food")
         {
             food += pointsPerFood;
+            UpdateFoodText($"+{pointsPerFood},Food:{food}");
             collision.gameObject.SetActive(false);
+
         }
         else if (collision.tag == "Soda")
         {
             food += pointsPerSoda;
+            UpdateFoodText($"+{pointsPerSoda},Food:{food}");
             collision.gameObject.SetActive(false);
         }
     }
@@ -107,6 +122,7 @@ public class Player : MovingObject
     {
         animator.SetTrigger(trigger_PlayerHit);
         food -= loss;
+        UpdateFoodText($"-{loss} Food:{food}");
         CheckIfGameOver();
     }
 }
