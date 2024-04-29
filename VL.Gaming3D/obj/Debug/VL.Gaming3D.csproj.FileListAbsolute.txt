@@ -1,8 +1,0 @@
-D:\Dev\Projects\VL.Unity\VL.Gaming3D\bin\Debug\VL.Gaming3D.exe.config
-D:\Dev\Projects\VL.Unity\VL.Gaming3D\bin\Debug\VL.Gaming3D.exe
-D:\Dev\Projects\VL.Unity\VL.Gaming3D\bin\Debug\VL.Gaming3D.pdb
-D:\Dev\Projects\VL.Unity\VL.Gaming3D\obj\Debug\VL.Gaming3D.csproj.AssemblyReference.cache
-D:\Dev\Projects\VL.Unity\VL.Gaming3D\obj\Debug\VL.Gaming3D.csproj.SuggestedBindingRedirects.cache
-D:\Dev\Projects\VL.Unity\VL.Gaming3D\obj\Debug\VL.Gaming3D.csproj.CoreCompileInputs.cache
-D:\Dev\Projects\VL.Unity\VL.Gaming3D\obj\Debug\VL.Gaming3D.exe
-D:\Dev\Projects\VL.Unity\VL.Gaming3D\obj\Debug\VL.Gaming3D.pdb
