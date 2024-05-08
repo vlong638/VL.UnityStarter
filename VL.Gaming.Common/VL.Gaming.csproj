@@ -105,6 +105,7 @@
     <Compile Include="Unity\Gaming\Movement\ClickMove.cs" />
     <Compile Include="Unity\Gaming\Movement\WASDMove.cs" />
     <Compile Include="Unity\Gaming\Storage\PlayerData.cs" />
+    <Compile Include="Unity\Gaming\Storage\PlayerDataManager.cs" />
     <Compile Include="Unity\Tools\SliceSpritesTool.cs" />
   </ItemGroup>
   <ItemGroup>
