@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace VL.Gaming.Unity.Gaming.Storage
@@ -14,8 +10,10 @@ namespace VL.Gaming.Unity.Gaming.Storage
 
         public void SavePlayerData(PlayerData playerData)
         {
+            string filePath = Application.persistentDataPath + "/" + dataFilePath;
             string jsonData = JsonUtility.ToJson(playerData);
-            File.WriteAllText(Application.persistentDataPath + "/" + dataFilePath, jsonData);
+            File.WriteAllText(filePath, jsonData);
+            Debug.LogWarning($"Player data saved at {filePath}");
         }
 
         public PlayerData LoadPlayerData()
@@ -23,7 +21,6 @@ namespace VL.Gaming.Unity.Gaming.Storage
             string filePath = Application.persistentDataPath + "/" + dataFilePath;
             if (File.Exists(filePath))
             {
-                Debug.LogWarning($"Player data saved at {filePath}");
                 string jsonData = File.ReadAllText(filePath);
                 return JsonUtility.FromJson<PlayerData>(jsonData);
             }
@@ -32,6 +29,21 @@ namespace VL.Gaming.Unity.Gaming.Storage
                 Debug.LogWarning("Player data file not found.");
                 return null;
             }
+        }
+
+        Queue<int> myQueue = new Queue<int>();
+        void Awake()
+        {
+            Debug.LogWarning("Player Awake");
+
+            myQueue.Enqueue(1);
+            Invoke("Show", 1);
+            myQueue.Enqueue(2);
+            Invoke("Show", 2);
+        }
+        void Show()
+        {
+            Debug.Log($"show message after {myQueue.Dequeue()} milliseconds");
         }
 
         void Update()
