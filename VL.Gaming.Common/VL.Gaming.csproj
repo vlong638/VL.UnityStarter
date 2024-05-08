@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\VL.UnityStarter\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,7 +48,10 @@
       <HintPath>..\VL.UnityStarter\packages\Unity3D.SDK.2021.1.14.1\lib\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\VL.UnityStarter\packages\Unity3D.SDK.2021.1.14.1\lib\UnityEngine.dll</HintPath>
+      <HintPath>..\VL.UnityStarter\packages\Unity3D.UnityEngine.2018.3.5.1\lib\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\VL.UnityStarter\packages\Unity3D.UnityEngine.UI.2018.3.5.1\lib\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +110,7 @@
     <Compile Include="Unity\Gaming\Movement\AutoMoveInDirections.cs" />
     <Compile Include="Unity\Gaming\Movement\ClickMove.cs" />
     <Compile Include="Unity\Gaming\Movement\WASDMove.cs" />
+    <Compile Include="Unity\Gaming\Storage\DialogueManager.cs" />
     <Compile Include="Unity\Gaming\Storage\PlayerData.cs" />
     <Compile Include="Unity\Gaming\Storage\PlayerDataManager.cs" />
     <Compile Include="Unity\Tools\SliceSpritesTool.cs" />

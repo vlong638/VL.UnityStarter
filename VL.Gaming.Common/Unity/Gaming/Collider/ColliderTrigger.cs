@@ -7,31 +7,32 @@ namespace VL.Gaming.Unity.Gaming.Collider
     {
         [SerializeField]
         public GameObject DialogueBox;
-        Queue<int> myQueue = new Queue<int>();
 
         void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
                 Debug.Log("Player entered the trigger area!");
-                DialogueBox.GetComponent<Canvas>().enabled = true;
-
-                myQueue.Enqueue(1);
-                Invoke("Show", 1);
-                myQueue.Enqueue(2);
-                Invoke("Show", 2);
-
-                Invoke("HideCanvas", 3);
+                DialogueBox.transform.Find("Panel").gameObject.SetActive(true);
+                
+                //DialogueBox.GetComponent<Canvas>().enabled = true;
+                //由对话框自行控制关闭
+                //myQueue.Enqueue(1);
+                //Invoke("Show", 1);
+                //myQueue.Enqueue(2);
+                //Invoke("Show", 2);
+                //Invoke("HideCanvas", 3);
             }
         }
 
-        void Show()
-        {
-            Debug.Log($"show message after {myQueue.Dequeue()} seconds");
-        }
-        void HideCanvas()
-        {
-            DialogueBox.GetComponent<Canvas>().enabled = false;
-        }
+        //Queue<int> myQueue = new Queue<int>();
+        //void Show()
+        //{
+        //    Debug.Log($"show message after {myQueue.Dequeue()} seconds");
+        //}
+        //void HideCanvas()
+        //{
+        //    DialogueBox.GetComponent<Canvas>().enabled = false;
+        //}
     }
 }
