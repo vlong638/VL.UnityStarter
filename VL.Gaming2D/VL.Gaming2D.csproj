@@ -61,9 +61,11 @@
     <Compile Include="0321_2D\Player.cs" />
     <Compile Include="0321_2D\Wall.cs" />
     <Compile Include="0429\CreatureMove2D.cs" />
+    <Compile Include="0429\Player\PlayerData.cs" />
     <Compile Include="0429\Study\Collider_Trigger.cs" />
-    <Compile Include="0429\Study\Movement_SimpleAutoMove.cs" />
-    <Compile Include="0429\Study\Movement_SimpleMove.cs" />
+    <Compile Include="0429\Study\Movement_AutoMove.cs" />
+    <Compile Include="0429\Study\Movement_WASDMove.cs" />
+    <Compile Include="0429\Study\Movement_ClickMove.cs" />
     <Compile Include="0429\Managers\PlayerManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,7 +85,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="0429\Entities\" />
     <Folder Include="0429\Enums\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

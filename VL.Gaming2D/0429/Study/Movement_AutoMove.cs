@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace VL.Gaming2D._0429
 {
-    public class Movement_SimpleAutoMove : MonoBehaviour
+    public class Movement_AutoMove : MonoBehaviour
     {
         [SerializeField]
         public float MoveInterval = 3f;
@@ -13,7 +13,20 @@ namespace VL.Gaming2D._0429
         [SerializeField]
         public Vector3 MoveDirection = new Vector3(0, 0, 0);
 
-        private Vector3[] Directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right }; 
+        private Vector3[] Directions = {
+            new Vector2(0.00f, 1.00f),
+            new Vector2(0.50f, 0.87f),
+            new Vector2(0.87f, 0.50f),
+            new Vector2(1.00f, 0.00f),
+            new Vector2(0.87f, -0.50f),
+            new Vector2(0.50f, -0.87f),
+            new Vector2(0.00f, -1.00f),
+            new Vector2(-0.50f, -0.87f),
+            new Vector2(-0.87f, -0.50f),
+            new Vector2(-1.00f, 0.00f),
+            new Vector2(-0.87f, 0.50f),
+            new Vector2(-0.50f, 0.87f)
+        };
         private Rigidbody2D RB;
 
         void Start()

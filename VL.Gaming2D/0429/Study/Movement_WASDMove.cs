@@ -2,7 +2,7 @@
 
 namespace VL.Gaming2D._0429
 {
-    public class Movement_SimpleMove : MonoBehaviour
+    public class Movement_WASDMove : MonoBehaviour
     {
         [SerializeField]
         public float MoveSpeed = 5f;

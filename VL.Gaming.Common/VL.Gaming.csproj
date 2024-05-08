@@ -100,6 +100,11 @@
     <Compile Include="Study\Patterns\GoF\Structural\Proxy.cs" />
     <Compile Include="Study\Patterns\GoF\Structural\Flyweight.cs" />
     <Compile Include="Study\Patterns\GoF\Structural\Adapter.cs" />
+    <Compile Include="Unity\Gaming\Collider\ColliderTrigger.cs" />
+    <Compile Include="Unity\Gaming\Movement\AutoMoveInDirections.cs" />
+    <Compile Include="Unity\Gaming\Movement\ClickMove.cs" />
+    <Compile Include="Unity\Gaming\Movement\WASDMove.cs" />
+    <Compile Include="Unity\Gaming\Storage\PlayerData.cs" />
     <Compile Include="Unity\Tools\SliceSpritesTool.cs" />
   </ItemGroup>
   <ItemGroup>
