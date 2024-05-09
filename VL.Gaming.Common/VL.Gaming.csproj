@@ -112,6 +112,7 @@
     <Compile Include="Unity\Gaming\Movement\AutoMoveInDirections.cs" />
     <Compile Include="Unity\Gaming\Movement\ClickMove.cs" />
     <Compile Include="Unity\Gaming\Movement\WASDMove.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\GameSystemManager.cs" />
     <Compile Include="Unity\Gaming\Storage\DialogueManager.cs" />
     <Compile Include="Unity\Gaming\Storage\PlayerData.cs" />
     <Compile Include="Unity\Gaming\Storage\PlayerDataManager.cs" />
