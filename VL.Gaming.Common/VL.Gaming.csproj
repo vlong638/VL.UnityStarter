@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework\Tools\MockHelper.cs" />
+    <Compile Include="Framework\Tools\PixelConverter.cs" />
     <Compile Include="Framework\Tools\RandomHelper.cs" />
     <Compile Include="Study\Algorithms\DynamicProgramming\ShortestPath.cs" />
     <Compile Include="Study\Algorithms\DynamicProgramming\LongestCommonSubsequence.cs" />

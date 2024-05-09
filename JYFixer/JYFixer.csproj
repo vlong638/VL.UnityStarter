@@ -50,5 +50,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VL.Gaming.Common\VL.Gaming.csproj">
+      <Project>{a75242f8-a43f-412d-ace8-bbba5a074d4d}</Project>
+      <Name>VL.Gaming</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
