@@ -21,6 +21,8 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             }
         }
 
+        #region Gaming
+
         public void TogglePauseMenu()
         {
             if (pauseMenu == null)
@@ -31,19 +33,25 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             Time.timeScale = isPaused ? 0 : 1;
         }
 
+        public void SwitchToStartMenu()
+        {
+            SceneManager.LoadScene("Scene_StartMenu");
+        } 
+
+        #endregion
+
+        #region StartMenu
+
         public void SwitchToGaming()
         {
             SceneManager.LoadScene("Scene_Gaming");
         }
-
-        public void SwitchToStartMenu()
-        {
-            SceneManager.LoadScene("Scene_StartMenu");
-        }
-
         public void QuitGame()
         {
             Application.Quit();
         }
+
+        #endregion
+
     }
 }

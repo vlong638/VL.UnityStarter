@@ -122,10 +122,12 @@
     <Compile Include="Unity\Gaming\Content\Entities\TeamData.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\GameData.cs" />
     <Compile Include="Unity\Gaming\Content\Enums\InstrumentType.cs" />
-    <Compile Include="Unity\Gaming\Content\Enums\Profession.cs" />
+    <Compile Include="Unity\Gaming\Content\Enums\RaceType.cs" />
+    <Compile Include="Unity\Gaming\Content\Enums\ProfessionType.cs" />
     <Compile Include="Unity\Gaming\Content\Enums\MapGenerationSeed.cs" />
     <Compile Include="Unity\Gaming\Content\Enums\EquipmentType.cs" />
     <Compile Include="Unity\Gaming\Content\Enums\UnitType.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\GameInitManager.cs" />
     <Compile Include="Unity\Gaming\Movement\AutoMoveInDirections.cs" />
     <Compile Include="Unity\Gaming\Movement\ClickMove.cs" />
     <Compile Include="Unity\Gaming\Movement\WASDMove.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="Unity\Gaming\Storage\DialogueManager.cs" />
     <Compile Include="Unity\Gaming\Content\GameData.cs" />
     <Compile Include="Unity\Gaming\Storage\GameDataManager.cs" />
+    <Compile Include="Unity\Gaming\Ultis\ResourceHelper.cs" />
     <Compile Include="Unity\Tools\SliceSpritesTool.cs" />
   </ItemGroup>
   <ItemGroup>

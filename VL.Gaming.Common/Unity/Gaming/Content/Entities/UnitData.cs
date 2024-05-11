@@ -8,6 +8,7 @@ namespace VL.Gaming.Unity.Gaming.Content.Entities
     public class UnitData
     {
         public UnitType UnitType;
+        public RaceType RaceType;
         public UnitAttributes UnitAttributes;
         public List<Equipment> Equipments;
         public ProfessionType ProfessionType;
