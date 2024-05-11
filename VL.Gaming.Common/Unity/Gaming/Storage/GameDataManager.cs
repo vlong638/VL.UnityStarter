@@ -1,32 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using VL.Gaming.Unity.Gaming.Content.Entities;
 
 namespace VL.Gaming.Unity.Gaming.Storage
 {
-    public class PlayerDataManager : MonoBehaviour
+    public class GameDataManager : MonoBehaviour
     {
-        private string dataFilePath = "playerData.json";
+        private string dataFilePath = "GameData.json";
 
-        public void SavePlayerData(PlayerData playerData)
+        public void SaveGameData(GameData playerData)
         {
             string filePath = Application.persistentDataPath + "/" + dataFilePath;
             string jsonData = JsonUtility.ToJson(playerData);
             File.WriteAllText(filePath, jsonData);
-            Debug.LogWarning($"Player data saved at {filePath}");
+            Debug.LogWarning($"Game data saved at {filePath}");
         }
 
-        public PlayerData LoadPlayerData()
+        public GameData LoadGameData()
         {
             string filePath = Application.persistentDataPath + "/" + dataFilePath;
             if (File.Exists(filePath))
             {
                 string jsonData = File.ReadAllText(filePath);
-                return JsonUtility.FromJson<PlayerData>(jsonData);
+                return JsonUtility.FromJson<GameData>(jsonData);
             }
             else
             {
-                Debug.LogWarning("Player data file not found.");
+                Debug.LogWarning("Game data file not found.");
                 return null;
             }
         }
@@ -34,7 +35,7 @@ namespace VL.Gaming.Unity.Gaming.Storage
         Queue<int> myQueue = new Queue<int>();
         void Awake()
         {
-            Debug.LogWarning("Player Awake");
+            Debug.LogWarning("Game Awake");
 
             myQueue.Enqueue(1);
             Invoke("Show", 1);
@@ -51,7 +52,7 @@ namespace VL.Gaming.Unity.Gaming.Storage
             // 检测是否按下了 F5 键
             if (Input.GetKeyDown(KeyCode.F5))
             {
-                SavePlayerData(new PlayerData(1, 10, "vl"));
+                SaveGameData(new GameData());
             }
         }
     }
