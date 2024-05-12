@@ -4,8 +4,6 @@ namespace VL.Gaming.Unity.Gaming.CameraManage
 {
     internal class CameraManager : MonoBehaviour
     {
-        Vector3 offsetZ = new Vector3(0, 0, -10);
-
         void Update()
         {
             // 检测F键的按下事件
@@ -15,7 +13,7 @@ namespace VL.Gaming.Unity.Gaming.CameraManage
                 if (player != null)
                 {
                     // 将摄像头位置设置为玩家位置
-                    transform.position = player.transform.position + offsetZ;
+                    transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
                 }
             }
         }
