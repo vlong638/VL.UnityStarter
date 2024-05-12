@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace VL.Gaming.Unity.Gaming.Movement
+namespace VL.Gaming.Unity.Gaming.MovementManage
 {
     public class AutoMoveInDirections : MonoBehaviour
     {

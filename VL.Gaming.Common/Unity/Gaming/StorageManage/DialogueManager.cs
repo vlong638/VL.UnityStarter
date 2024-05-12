@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace VL.Gaming.Unity.Gaming.Storage
+namespace VL.Gaming.Unity.Gaming.StorageManage
 {
     public class DialogueManager : MonoBehaviour
     {

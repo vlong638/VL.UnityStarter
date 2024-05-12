@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 using VL.Gaming.Unity.Gaming.Content.Entities;
 
-namespace VL.Gaming.Unity.Gaming.Storage
+namespace VL.Gaming.Unity.Gaming.StorageManage
 {
     public class GameDataManager : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace VL.Gaming.Unity.Gaming.Collider
+namespace VL.Gaming.Unity.Gaming.ColliderManage
 {
     public class ColliderTrigger : MonoBehaviour
     {

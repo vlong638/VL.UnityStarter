@@ -108,7 +108,8 @@
     <Compile Include="Study\Patterns\GoF\Structural\Proxy.cs" />
     <Compile Include="Study\Patterns\GoF\Structural\Flyweight.cs" />
     <Compile Include="Study\Patterns\GoF\Structural\Adapter.cs" />
-    <Compile Include="Unity\Gaming\Collider\ColliderTrigger.cs" />
+    <Compile Include="Unity\Gaming\CameraManage\CameraHandTool.cs" />
+    <Compile Include="Unity\Gaming\ColliderManage\ColliderTrigger.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\EquipmentAttributes.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\InstrumentData.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\CombatAttributes.cs" />
@@ -129,13 +130,13 @@
     <Compile Include="Unity\Gaming\Content\Enums\UnitType.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameInitManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameLoadingManager.cs" />
-    <Compile Include="Unity\Gaming\Movement\AutoMoveInDirections.cs" />
-    <Compile Include="Unity\Gaming\Movement\ClickMove.cs" />
-    <Compile Include="Unity\Gaming\Movement\WASDMove.cs" />
+    <Compile Include="Unity\Gaming\MovementManage\AutoMoveInDirections.cs" />
+    <Compile Include="Unity\Gaming\MovementManage\ClickMove.cs" />
+    <Compile Include="Unity\Gaming\MovementManage\WASDMove.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameSystemManager.cs" />
-    <Compile Include="Unity\Gaming\Storage\DialogueManager.cs" />
+    <Compile Include="Unity\Gaming\StorageManage\DialogueManager.cs" />
     <Compile Include="Unity\Gaming\Content\GameData.cs" />
-    <Compile Include="Unity\Gaming\Storage\GameDataManager.cs" />
+    <Compile Include="Unity\Gaming\StorageManage\GameDataManager.cs" />
     <Compile Include="Unity\Gaming\Ultis\ResourceHelper.cs" />
     <Compile Include="Unity\Tools\SliceSpritesTool.cs" />
   </ItemGroup>
