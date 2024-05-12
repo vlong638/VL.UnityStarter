@@ -136,9 +136,9 @@
     <Compile Include="Unity\Gaming\MovementManage\ClickMove.cs" />
     <Compile Include="Unity\Gaming\MovementManage\WASDMove.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameSystemManager.cs" />
-    <Compile Include="Unity\Gaming\StorageManage\DialogueManager.cs" />
+    <Compile Include="Unity\Gaming\DisplayManage\DialogueManager.cs" />
     <Compile Include="Unity\Gaming\Content\GameData.cs" />
-    <Compile Include="Unity\Gaming\StorageManage\GameDataManager.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\GameDataManager.cs" />
     <Compile Include="Unity\Gaming\Ultis\ResourceHelper.cs" />
     <Compile Include="Unity\Tools\SliceSpritesTool.cs" />
   </ItemGroup>

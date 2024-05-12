@@ -8,10 +8,10 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 {
     public class GameInitManager : MonoBehaviour
     {
-        private Image image_curtain;
+        Image image_curtain;
         public float changingSpeed; // 控制变化速率
-        public float minAlpha ; // 最小透明度
-        public float maxAlpha; // 最大透明度
+        float minAlpha ; // 最小透明度
+        float maxAlpha; // 最大透明度
         float currentAlpha;
         float direction; // 控制透明度变化方向
         bool isFading;

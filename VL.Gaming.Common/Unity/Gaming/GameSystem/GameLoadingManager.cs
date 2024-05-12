@@ -22,12 +22,15 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
         IEnumerator Wait3()
         {
+            progressBar.value = 0.33f;
             progressText.text = "Loading:33%";
             yield return new WaitForSecondsRealtime(1);
 
+            progressBar.value = 0.66f;
             progressText.text = "Loading:66%";
             yield return new WaitForSecondsRealtime(1);
 
+            progressBar.value = 0.99f;
             progressText.text = "Loading:99";
             yield return new WaitForSecondsRealtime(1);
 
