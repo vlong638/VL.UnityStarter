@@ -108,6 +108,8 @@
     <Compile Include="Study\Patterns\GoF\Structural\Proxy.cs" />
     <Compile Include="Study\Patterns\GoF\Structural\Flyweight.cs" />
     <Compile Include="Study\Patterns\GoF\Structural\Adapter.cs" />
+    <Compile Include="Unity\Gaming\CameraManage\CameraScaleTool.cs" />
+    <Compile Include="Unity\Gaming\CameraManage\CameraManager.cs" />
     <Compile Include="Unity\Gaming\CameraManage\CameraHandTool.cs" />
     <Compile Include="Unity\Gaming\ColliderManage\ColliderTrigger.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\EquipmentAttributes.cs" />

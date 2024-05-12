@@ -5,7 +5,7 @@ namespace VL.Gaming.Unity.Gaming.CameraManage
     internal class CameraHandTool : MonoBehaviour
     {
         [SerializeField]
-        public float moveSpeed = 0.1f;
+        public float moveSpeed = 0.01f;
         Vector3 lastMousePosition;
 
         void Update()
