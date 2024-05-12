@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using VL.Gaming.Unity.Gaming.Ultis;
 
@@ -7,20 +9,17 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
     public class GameInitManager : MonoBehaviour
     {
         private Image image_curtain;
-        [SerializeField]
-        public float changingSpeed = 1.0f; // 控制变化速率
-        public float minAlpha = 0.0f; // 最小透明度
-        public float maxAlpha = 1.0f; // 最大透明度
+        public float changingSpeed; // 控制变化速率
+        public float minAlpha ; // 最小透明度
+        public float maxAlpha; // 最大透明度
         float currentAlpha;
-        float direction = 1.0f; // 控制透明度变化方向
-        bool isFading = false;
-        int lootTimes = 3;
-
-        //float timer = 0.0f;
-        //public float animationDuration = 3.0f; // 动画持续时间
+        float direction; // 控制透明度变化方向
+        bool isFading;
+        int lootTimes;
 
         void Start()
         {
+            GameObject.Find("Image_Curtain")?.SetActive(false);
         }
 
         void Update()
@@ -37,6 +36,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
                 if (lootTimes == 0)
                 {
                     isFading = false;
+                    SceneManager.LoadSceneAsync("Scene_Loading");
                 }
             }
             else if (currentAlpha < minAlpha)
@@ -45,13 +45,9 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
                 direction = 1.0f;
             }
             image_curtain.color = new Color(image_curtain.color.r, image_curtain.color.g, image_curtain.color.b, currentAlpha);
-
-            //timer += Time.deltaTime;
-            //if (timer >= animationDuration)
-            //{
-            //    isFading = false;
-            //}
         }
+
+
 
         public void Continue()
         {
@@ -95,7 +91,6 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             GameObject panel_Settings = ResourceHelper.FindInactiveGameObjectByName("Panel_Settings");
             panel_Settings.SetActive(true);
         }
-
         public void Confirm()
         {
             Debug.Log("Confirm");
@@ -103,7 +98,12 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             go_curtain.SetActive(true);
             image_curtain = go_curtain.GetComponent<Image>();
             isFading = true;
-            changingSpeed = 1;
+            changingSpeed = 1.0f; // 控制变化速率
+            minAlpha = 0.0f; // 最小透明度
+            maxAlpha = 1.0f; // 最大透明度
+            currentAlpha = 0.0f;
+            direction = 1.0f; // 控制透明度变化方向
+            lootTimes = 3;
         }
     }
 }

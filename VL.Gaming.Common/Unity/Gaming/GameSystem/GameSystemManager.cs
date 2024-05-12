@@ -35,6 +35,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
         public void SwitchToStartMenu()
         {
+            Time.timeScale = 1;
             SceneManager.LoadScene("Scene_StartMenu");
         } 
 
@@ -42,9 +43,9 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
         #region StartMenu
 
-        public void SwitchToGaming()
+        public void StartGame()
         {
-            SceneManager.LoadScene("Scene_Gaming");
+            SceneManager.LoadScene("Scene_GameInit");
         }
         public void QuitGame()
         {
