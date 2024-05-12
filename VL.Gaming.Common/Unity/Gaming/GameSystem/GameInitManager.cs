@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using VL.Gaming.Unity.Gaming.Ultis;
@@ -46,8 +45,6 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             }
             image_curtain.color = new Color(image_curtain.color.r, image_curtain.color.g, image_curtain.color.b, currentAlpha);
         }
-
-
 
         public void Continue()
         {

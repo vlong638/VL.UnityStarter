@@ -19,9 +19,35 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             {
                 TogglePauseMenu();
             }
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                SaveGameData();
+            }
+            if (Input.GetKeyDown(KeyCode.F8))
+            {
+                LoadGameData();
+            }
+        }
+
+        public void LoadGameData()
+        {
+            GameDataManager.LoadGameData();
+            ClosePauseMenu();
+        }
+
+        public void SaveGameData()
+        {
+            GameDataManager.SaveGameData();
+            ClosePauseMenu();
         }
 
         #region Gaming
+
+        private void ClosePauseMenu()
+        {
+            if (pauseMenu.activeSelf)
+                TogglePauseMenu();
+        }
 
         public void TogglePauseMenu()
         {
