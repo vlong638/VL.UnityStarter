@@ -11,9 +11,13 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
         public float changingSpeed = 1.0f; // 控制变化速率
         public float minAlpha = 0.0f; // 最小透明度
         public float maxAlpha = 1.0f; // 最大透明度
-        private float currentAlpha;
-        private float direction = 1.0f; // 控制透明度变化方向
+        float currentAlpha;
+        float direction = 1.0f; // 控制透明度变化方向
         bool isFading = false;
+        int lootTimes = 3;
+
+        //float timer = 0.0f;
+        //public float animationDuration = 3.0f; // 动画持续时间
 
         void Start()
         {
@@ -28,6 +32,12 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             {
                 currentAlpha = maxAlpha;
                 direction = -1.0f;
+
+                lootTimes--;
+                if (lootTimes == 0)
+                {
+                    isFading = false;
+                }
             }
             else if (currentAlpha < minAlpha)
             {
@@ -35,6 +45,12 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
                 direction = 1.0f;
             }
             image_curtain.color = new Color(image_curtain.color.r, image_curtain.color.g, image_curtain.color.b, currentAlpha);
+
+            //timer += Time.deltaTime;
+            //if (timer >= animationDuration)
+            //{
+            //    isFading = false;
+            //}
         }
 
         public void Continue()
@@ -89,6 +105,5 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             isFading = true;
             changingSpeed = 1;
         }
-
     }
 }
