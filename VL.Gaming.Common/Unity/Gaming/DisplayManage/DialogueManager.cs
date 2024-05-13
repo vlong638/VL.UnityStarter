@@ -50,7 +50,7 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
         Dialogue lastDialogue;
         void Update()
         {
-            if (!isUpdatingUI && Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetMouseButtonDown(0))
+            if (!isUpdatingUI && (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetMouseButtonDown(0)))
             {
                 if (Time.time - lastClickTime > clickInterval)
                 {
@@ -142,6 +142,7 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
                     break;
             }
             isUpdatingUI = isUpdatingUIImage || isUpdatingUIText;
+            Debug.Log($"isUpdatingUI:{isUpdatingUI}");
         }
 
         public Vector3 moveDirection = new Vector3(100, 0, 0);
