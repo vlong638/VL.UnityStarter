@@ -26,6 +26,9 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
         {
             leftPortrait = GameObject.Find("Image_LeftPortrait").GetComponent<Image>();
             rightPortrait = GameObject.Find("Image_RightPortrait").GetComponent<Image>();
+            textTitle = GameObject.Find("Text_Title").GetComponent<Text>();
+            textContent = GameObject.Find("Text_Content").GetComponent<Text>();
+            dialogueBox = GameObject.Find("Prefab_Canvas_Gaming_DialogBox");
         }
 
         void OnEnable()
