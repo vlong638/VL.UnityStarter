@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using VL.Gaming.Common;
 using VL.Gaming.Unity.Gaming.Content.Entities;
 using VL.Gaming.Unity.Gaming.GameSystem;
 using VL.Gaming.Unity.Gaming.Ultis;
@@ -25,12 +26,27 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
             }
         }
 
+        private static GameObject instance_Button;
+        public static GameObject Instance_ChoiceButton
+        {
+            get
+            {
+                if (instance_Button == null)
+                {
+                    instance_Button = Resources.Load<GameObject>("Prefabs/Prefab_Buttton_Gaming_DialogBox_Choice");
+                    ;
+                }
+                return instance_Button;
+            }
+        }
+
         public GameObject dialogueBox;
         public Image background;
         public Image leftPortrait;
         public Image rightPortrait;
         public Text textTitle;
         public Text textContent;
+        public GameObject panelChoiceButtons;
 
         string lastLeftSource;
         string lastRightSource;
@@ -47,11 +63,12 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
         float displayStartTime = 0f;
         float clickInterval = 1f;
         bool isUpdatingUI = false;
+        bool isChoosing = false;
         Dialogue currentDialogue;
         Dialogue lastDialogue;
         void Update()
         {
-            if (!isUpdatingUI && (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetMouseButtonDown(0)))
+            if (!isUpdatingUI && !isChoosing && (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetMouseButtonDown(0)))
             {
                 if (Time.time - displayStartTime > clickInterval)
                 {
@@ -69,6 +86,7 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
             rightPortrait = ResourceHelper.FindInactiveGameObjectByName("Image_RightPortrait").GetComponent<Image>();
             textTitle = ResourceHelper.FindInactiveGameObjectByName("Text_Title").GetComponent<Text>();
             textContent = ResourceHelper.FindInactiveGameObjectByName("Text_Content").GetComponent<Text>();
+            panelChoiceButtons = ResourceHelper.FindInactiveGameObjectByName("Panel_ChoiceButtons");
             if (currentDialogue != null)
                 dialogueBox.gameObject.SetActive(true);
             displayStartTime = Time.time;
@@ -84,37 +102,79 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
             }
 
             displayStartTime = Time.time;
-            textTitle.text = currentDialogue.Title;
-            textContent.text = "";
-            Texture2D texture;
-            Sprite sprite;
-            switch (currentDialogue.PortraitLocation)
+            switch (currentDialogue.ContentType)
             {
-                case DialoguePortraitLocation.Left:
-                    if (lastLeftSource == currentDialogue.PortraitSource)
-                        break;
-                    texture = Resources.Load<Texture2D>(currentDialogue.PortraitSource);
-                    sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                    leftPortrait.sprite = sprite;
-                    leftPortrait.SetNativeSize();
+                case DialogueContentType.None:
                     break;
-                case DialoguePortraitLocation.Right:
-                    if (lastRightSource == currentDialogue.PortraitSource)
-                        break;
-                    texture = Resources.Load<Texture2D>(currentDialogue.PortraitSource);
-                    sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                    rightPortrait.sprite = sprite;
-                    rightPortrait.SetNativeSize();
+                case DialogueContentType.Dialogue:
+                    textTitle.text = currentDialogue.Title;
+                    textContent.text = "";
+                    Texture2D texture;
+                    Sprite sprite;
+                    switch (currentDialogue.PortraitLocation)
+                    {
+                        case DialoguePortraitLocation.Left:
+                            if (lastLeftSource == currentDialogue.PortraitSource)
+                                break;
+                            texture = Resources.Load<Texture2D>(currentDialogue.PortraitSource);
+                            sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                            leftPortrait.sprite = sprite;
+                            leftPortrait.SetNativeSize();
+                            break;
+                        case DialoguePortraitLocation.Right:
+                            if (lastRightSource == currentDialogue.PortraitSource)
+                                break;
+                            texture = Resources.Load<Texture2D>(currentDialogue.PortraitSource);
+                            sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                            rightPortrait.sprite = sprite;
+                            rightPortrait.SetNativeSize();
+                            break;
+                        default:
+                            break;
+                    }
+                    fullText = currentDialogue.Content;
+                    isUpdatingUI = true; ;
+                    isUpdatingUIText = true;
+                    isUpdatingUIImage = true;
+                    StartCoroutine(UpdatingText());
+                    StartCoroutine(UpdatingImage());
+                    break;
+                case DialogueContentType.Option:
+                    var buttonDatas = lastDialogue.Children;
+                    int index = 0;
+                    foreach (var buttonData in buttonDatas)
+                    {
+                        GameObject instantiatedPrefab = Instantiate(Instance_ChoiceButton, Vector3.zero, Quaternion.identity);
+                        instantiatedPrefab.SetParent(panelChoiceButtons);
+                        instantiatedPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 100 + index * -100);
+                        var button = instantiatedPrefab.GetComponent<Button>();
+                        button.onClick.AddListener(() => OnChoosing(buttonData.Id));
+                        var text = button.GetComponentInChildren<Text>().text = buttonData.Content;
+                        index++;
+                    }
+                    panelChoiceButtons.SetActive(true);
+                    isChoosing = true;
                     break;
                 default:
                     break;
             }
-            fullText = currentDialogue.Content;
-            isUpdatingUI = true; ;
-            isUpdatingUIText = true;
-            isUpdatingUIImage = true;
-            StartCoroutine(UpdatingText());
-            StartCoroutine(UpdatingImage());
+        }
+
+        void OnChoosing(long parameter)
+        {
+            Debug.Log($"OnChoosing:{parameter}");
+            //更新历史记录
+            currentDialogue = lastDialogue.Children.First(c => c.Id == parameter).Children.FirstOrDefault();
+            lastDialogue = currentDialogue == null ? null : lastDialogue.Children.First(c => c.Id == currentDialogue.ParentId);
+            //清理UI
+            foreach (Transform button in panelChoiceButtons.transform)
+            {
+                Destroy(button.gameObject);
+            }
+            panelChoiceButtons.SetActive(false);
+            //下一步
+            isChoosing = false;
+            DisplayDialogue();
         }
 
         bool IsSameSpeaker()

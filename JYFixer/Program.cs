@@ -1,197 +1,273 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using VL.Gaming.Framework.Tools;
+using UnityEngine;
+using UnityEngine.UI;
+using VL.Gaming.Common;
+using VL.Gaming.Unity.Gaming.Content.Entities;
+using VL.Gaming.Unity.Gaming.GameSystem;
+using VL.Gaming.Unity.Gaming.Ultis;
 
-namespace JYFixer
+namespace VL.Gaming.Unity.Gaming.DisplayManage
 {
-    internal class Program
+
+    public class DialogueBoxManager : MonoBehaviour
     {
-        static void Main(string[] args)
+        private static DialogueBoxManager instance;
+        public static DialogueBoxManager Instance
         {
-
-
-
-
-
-            MockData_DialogueData();
-
-
-            // 输入图片路径
-            string inputImagePath = "D:\\input_image.jpg";
-
-            // 输出图片路径
-            string outputImagePath = "D:\\output_pixel_art.png";
-
-            // 指定像素画大小
-            int pixelSize = 32;
-
-            // 调用转换方法
-            PixelConverter.ConvertToPixelArt(inputImagePath, outputImagePath, pixelSize);
-        }
-
-        private static void MockData_DialogueData()
-        {
-            //造数据
-            List<Dialogue> testData = new List<Dialogue>();
-            testData.Add(new Dialogue(1, 0, DialogueContentType.Dialogue, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "终于找到你了"));
-            testData.Add(new Dialogue(2, 1, DialogueContentType.Dialogue, DialoguePortraitLocation.Right, "Sprites\\DialogueTest_大灰狼", "大灰狼", "我只是个普普通通的老婆婆"));
-            testData.Add(new Dialogue(3, 2, DialogueContentType.Dialogue, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "别装了,大灰狼"));
-            testData.Add(new Dialogue(4, 3, DialogueContentType.Dialogue, DialoguePortraitLocation.Right, "Sprites\\DialogueTest_大灰狼", "大灰狼", "什么?什么大灰狼"));
-            testData.Add(new Dialogue(5, 4, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "对不起,认错人了."));
-            testData.Add(new Dialogue(6, 4, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "你这只愚蠢的大灰狼,你的狼尾巴都露出来了(智慧7)", DialogueRequirementType.IntelligenceAttribute, 7));
-            testData.Add(new Dialogue(7, 4, DialogueContentType.Option, DialoguePortraitLocation.Left, "", "猎人", "没有老婆婆会在傍晚在这里出没 (智慧10)", DialogueRequirementType.IntelligenceAttribute, 10));
-            testData.Add(new Dialogue(8, 6, DialogueContentType.Dialogue, DialoguePortraitLocation.Right, "Sprites\\DialogueTest_大灰狼", "大灰狼", "该死的,被发现了!咱老狼要跑了!"));
-            testData.Add(new Dialogue(9, 8, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "受死吧!可恶的大灰狼(敏捷10)", DialogueRequirementType.AgilityAttribute, 10));
-            testData.Add(new Dialogue(10, 8, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "追不上,可恶,继续追,哪怕会被埋伏"));
-            testData.Add(new Dialogue(11, 8, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "追不上,可恶,先回去再说"));
-            testData.Add(new Dialogue(12, 7, DialogueContentType.Dialogue, DialoguePortraitLocation.Right, "Sprites\\DialogueTest_大灰狼", "大灰狼", "我藏了一些好东西,放过我就告诉你它们在哪."));
-            testData.Add(new Dialogue(13, 12, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "我不会放过你的"));
-            testData.Add(new Dialogue(14, 12, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "这次就先放过你"));
-            testData.Add(new Dialogue(101, 0, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "又见到你了,大灰狼"));
-            testData.Add(new Dialogue(102, 101, DialogueContentType.Dialogue, DialoguePortraitLocation.Right, "Sprites\\DialogueTest_大灰狼", "大灰狼", "大哥你,这么强,我给你做小弟吧!"));
-            testData.Add(new Dialogue(103, 102, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "想都别想,受死吧!(开战)"));
-            testData.Add(new Dialogue(104, 102, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "看你还有点用,我正好缺个端茶的(招募)"));
-            testData.Add(new Dialogue(105, 102, DialogueContentType.Option, DialoguePortraitLocation.Left, "Sprites\\DialogueTest_猎人", "猎人", "把你拐走的萝莉交出来,我可以考虑考虑(需要智慧30)", DialogueRequirementType.IntelligenceAttribute, 30));
-            var testFile = @"D:\\游戏开发\\测试数据\\DialogueTest.json";
-            File.WriteAllText(testFile, Newtonsoft.Json.JsonConvert.SerializeObject(testData));
-
-            //数据校验
-            var testDataStr = File.ReadAllText(testFile);
-            testData = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Dialogue>>(testDataStr);
-            var sourceCount = testData.Count();
-            var root = new Dialogue(0, -1);
-            foreach (var dialogue in testData)
+            get
             {
-                root.Insert(dialogue);
-            }
-            var rootCount = root.Count();
-            Console.WriteLine($"part1");
-            var part1 = root.GetNodeById(6);
-            part1.TraverseDelegate(c => { Console.WriteLine($"Id:{c.Id},Content:{c.Content}"); });
-            Console.WriteLine($"part2");
-            var part2 = root.GetNodeById(7);
-            part2.TraverseDelegate(c => { Console.WriteLine($"Id:{c.Id},Content:{c.Content}"); });
-            Console.WriteLine($"part3");
-            var part3 = root.GetNodeById(101);
-            part3.TraverseDelegate(c => { Console.WriteLine($"Id:{c.Id},Content:{c.Content}"); });
-        }
-    }
-    public enum DialogueContentType
-    {
-        None,
-        Dialogue,
-        Option,
-    }
-    public enum DialoguePortraitLocation
-    {
-        None,
-        Left,
-        Right,
-        Option,
-        Main,
-    }
-    public enum DialogueRequirementType
-    {
-        None,
-        StrengthAttribute,
-        AgilityAttribute,
-        ConstitutionAttribute,
-        IntelligenceAttribute,
-        WillpowerAttribute,
-        CharismaAttribute,
-        LeadershipAttribute,
-    }
-    public class Dialogue
-    {
-        public long Id;
-        public long ParentId;
-        public DialogueContentType ContentType;
-        public DialogueRequirementType RequirementType;
-        public double RequirementValue;
-        public DialoguePortraitLocation PortraitLocation;
-        public string PortraitSource;
-        public string Title;
-        public string Content;
-        public string BackgroundSource;
-        public string SoundSource;
-
-        [JsonIgnore]
-        public Dialogue RootNode;
-        [JsonIgnore]
-        public List<Dialogue> Children = new List<Dialogue>();
-        public Dialogue(long id, long parentId)
-        {
-            this.Id = id;
-            this.ParentId = parentId;
-        }
-
-        [JsonConstructor]
-        public Dialogue(long id, long parentId, DialogueContentType contentType, DialoguePortraitLocation portraitLocation, string portraitSource, string title, string content, DialogueRequirementType requirementType = DialogueRequirementType.None, double requirementValue = 0, string backgroundSource = "", string soundSource = "")
-        {
-            this.Id = id;
-            this.ParentId = parentId;
-            this.ContentType = contentType;
-            this.PortraitLocation = portraitLocation;
-            this.PortraitSource = portraitSource;
-            this.Title = title;
-            this.Content = content;
-            this.RequirementType = requirementType;
-            this.RequirementValue = requirementValue;
-            this.BackgroundSource = backgroundSource;
-            this.SoundSource = soundSource;
-        }
-
-
-        public void Insert(Dialogue node)
-        {
-            if (node.ParentId == this.Id)
-            {
-                this.Children.Add(node);
-                return;
-            }
-            foreach (var child in this.Children)
-            {
-                child.Insert(node);
-            }
-        }
-
-        public Dialogue GetNodeById(long id)
-        {
-            if (this.Id == id)
-            {
-                return this;
-            }
-            foreach (Dialogue child in this.Children)
-            {
-                Dialogue result = child.GetNodeById(id);
-                if (result != null)
+                if (instance == null)
                 {
-                    return result;
+                    instance = new GameObject("DialogueBoxManager").AddComponent<DialogueBoxManager>();
+                }
+                return instance;
+            }
+        }
+
+        private static GameObject instance_Button;
+        public static GameObject Instance_ChoiceButton
+        {
+            get
+            {
+                if (instance_Button == null)
+                {
+                    instance_Button = Resources.Load<GameObject>("Prefabs/Prefab_Buttton_Gaming_DialogBox_Choice");
+                    ;
+                }
+                return instance_Button;
+            }
+        }
+
+        public GameObject dialogueBox;
+        public Image background;
+        public Image leftPortrait;
+        public Image rightPortrait;
+        public Text textTitle;
+        public Text textContent;
+        public GameObject panelChoiceButtons;
+
+        string lastLeftSource;
+        string lastRightSource;
+
+        void Awake()
+        {
+        }
+
+        void Start()
+        {
+        }
+
+        //生效间隔
+        float displayStartTime = 0f;
+        float clickInterval = 1f;
+        bool isUpdatingUI = false;
+        bool isChoosing = false;
+        Dialogue currentDialogue;
+        Dialogue lastDialogue;
+        void Update()
+        {
+            if (!isUpdatingUI && !isChoosing && (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetMouseButtonDown(0)))
+            {
+                if (Time.time - displayStartTime > clickInterval)
+                {
+                    DisplayDialogue();
                 }
             }
-            return null;
         }
 
-        public int Count()
+        public void StartDialogue(long id)
         {
-            int count = 1;
-            foreach (var child in Children)
-            {
-                count += child.Count();
-            }
-            return count;
+            currentDialogue = GameDialogueManager.Instance.GetDialogueById(1);
+            dialogueBox = ResourceHelper.FindInactiveGameObjectByName("Prefab_Canvas_Gaming_DialogBox");
+            background = ResourceHelper.FindInactiveGameObjectByName("Image_Background").GetComponent<Image>();
+            leftPortrait = ResourceHelper.FindInactiveGameObjectByName("Image_LeftPortrait").GetComponent<Image>();
+            rightPortrait = ResourceHelper.FindInactiveGameObjectByName("Image_RightPortrait").GetComponent<Image>();
+            textTitle = ResourceHelper.FindInactiveGameObjectByName("Text_Title").GetComponent<Text>();
+            textContent = ResourceHelper.FindInactiveGameObjectByName("Text_Content").GetComponent<Text>();
+            panelChoiceButtons = ResourceHelper.FindInactiveGameObjectByName("Panel_ChoiceButtons");
+            if (currentDialogue != null)
+                dialogueBox.gameObject.SetActive(true);
+            displayStartTime = Time.time;
+            DisplayDialogue();
         }
 
-        public void TraverseDelegate(Action<Dialogue> action)
+        void DisplayDialogue()
         {
-            action(this);
-            foreach (var child in Children)
+            if (currentDialogue == null)
             {
-                child.TraverseDelegate(action); 
+                dialogueBox.gameObject.SetActive(false);
+                return;
             }
+
+            displayStartTime = Time.time;
+            switch (currentDialogue.ContentType)
+            {
+                case DialogueContentType.None:
+                    break;
+                case DialogueContentType.Dialogue:
+                    textTitle.text = currentDialogue.Title;
+                    textContent.text = "";
+                    Texture2D texture;
+                    Sprite sprite;
+                    switch (currentDialogue.PortraitLocation)
+                    {
+                        case DialoguePortraitLocation.Left:
+                            if (lastLeftSource == currentDialogue.PortraitSource)
+                                break;
+                            texture = Resources.Load<Texture2D>(currentDialogue.PortraitSource);
+                            sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                            leftPortrait.sprite = sprite;
+                            leftPortrait.SetNativeSize();
+                            break;
+                        case DialoguePortraitLocation.Right:
+                            if (lastRightSource == currentDialogue.PortraitSource)
+                                break;
+                            texture = Resources.Load<Texture2D>(currentDialogue.PortraitSource);
+                            sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                            rightPortrait.sprite = sprite;
+                            rightPortrait.SetNativeSize();
+                            break;
+                        default:
+                            break;
+                    }
+                    fullText = currentDialogue.Content;
+                    isUpdatingUI = true; ;
+                    isUpdatingUIText = true;
+                    isUpdatingUIImage = true;
+                    StartCoroutine(UpdatingText());
+                    StartCoroutine(UpdatingImage());
+                    break;
+                case DialogueContentType.Option:
+                    var buttonDatas = lastDialogue.Children;
+                    int index = 0;
+                    foreach (var buttonData in buttonDatas)
+                    {
+                        GameObject instantiatedPrefab = Instantiate(Instance_ChoiceButton, Vector3.zero, Quaternion.identity);
+                        instantiatedPrefab.SetParent(panelChoiceButtons);
+                        instantiatedPrefab.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 100 + index * -100);
+                        var button = instantiatedPrefab.GetComponent<Button>();
+                        button.onClick.AddListener(() => OnChoosing(buttonData.Id));
+                        var text = button.GetComponentInChildren<Text>().text = buttonData.Content;
+                        index++;
+                    }
+                    panelChoiceButtons.SetActive(true);
+                    isChoosing = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void OnChoosing(long parameter)
+        {
+            Debug.Log($"OnChoosing:{parameter}");
+            //更新历史记录
+            currentDialogue = lastDialogue.Children.First(c => c.Id == parameter).Children.FirstOrDefault();
+            lastDialogue = currentDialogue == null ? null : lastDialogue.Children.First(c => c.Id == currentDialogue.ParentId);
+            //清理UI
+            foreach (Transform button in panelChoiceButtons.transform)
+            {
+                Destroy(button.gameObject);
+            }
+            panelChoiceButtons.SetActive(false);
+            //下一步
+            isChoosing = false;
+            DisplayDialogue();
+        }
+
+        bool IsSameSpeaker()
+        {
+            bool isSame = currentDialogue != null && lastDialogue != null && currentDialogue.PortraitLocation == lastDialogue.PortraitLocation && currentDialogue.PortraitSource == lastDialogue.PortraitSource;
+            return isSame;
+        }
+
+        bool isUpdatingUIText;
+        bool isUpdatingUIImage;
+
+        //吐字型展示
+        public float updatingTextDelay = 0.1f;
+        string fullText;
+        IEnumerator UpdatingText()
+        {
+            for (int i = 0; i < fullText.Length; i++)
+            {
+                var currentText = fullText.Substring(i, 1);
+                textContent.text += currentText;
+                yield return new WaitForSeconds(updatingTextDelay);
+            }
+            isUpdatingUIText = false;
+            FinishUpdating();
+        }
+
+        public Vector3 moveDirection = new Vector3(100, 0, 0);
+        public float moveTime = 1.0f;
+        public float fadeTime = 1.0f;
+        public float fadeTransparent = 0.5f;
+        public float scaleFactorScaleUp = 1.25f; // 初始缩放比例
+        public float scaleFactorScaleDown = 0.8f; // 初始缩放比例
+        IEnumerator UpdatingImage()
+        {
+            Image imageToShow = null;
+            Image imageToFade = null;
+            switch (currentDialogue.PortraitLocation)
+            {
+                case DialoguePortraitLocation.Left:
+                    imageToShow = leftPortrait;
+                    imageToFade = rightPortrait;
+                    break;
+                case DialoguePortraitLocation.Right:
+                    imageToShow = rightPortrait;
+                    imageToFade = leftPortrait;
+                    break;
+                default:
+                    break;
+            }
+            bool isSame = IsSameSpeaker();
+            float elapsedTime = 0.0f;
+            Color startFadeColor = imageToFade.color;
+            Color endFadeColor = isSame ? startFadeColor : new Color(startFadeColor.r, startFadeColor.g, startFadeColor.b, fadeTransparent);
+            Color startShowColor = imageToShow.color;
+            Color endShowColor = isSame ? startShowColor : new Color(startShowColor.r, startShowColor.g, startShowColor.b, 1);
+            Vector3 startShowScale = imageToShow.transform.localScale;
+            Vector3 endShowScale = isSame ? startShowScale : imageToShow.transform.localScale * scaleFactorScaleUp;
+            Vector3 startFadeScale = imageToFade.transform.localScale;
+            Vector3 endFadeScale = isSame ? startFadeScale : imageToFade.transform.localScale * scaleFactorScaleDown;
+            while (elapsedTime < moveTime)
+            {
+                imageToShow.color = Color.Lerp(startShowColor, endShowColor, elapsedTime / fadeTime);
+                imageToShow.transform.localScale = Vector3.Lerp(startShowScale, endShowScale, elapsedTime / moveTime);
+                imageToFade.color = Color.Lerp(startFadeColor, endFadeColor, elapsedTime / fadeTime);
+                imageToFade.transform.localScale = Vector3.Lerp(startFadeScale, endFadeScale, elapsedTime / moveTime);
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            isUpdatingUIImage = false;
+            FinishUpdating();
+        }
+
+        void FinishUpdating()
+        {
+            isUpdatingUI = isUpdatingUIImage || isUpdatingUIText;
+            if (!isUpdatingUI)
+            {
+                switch (currentDialogue.PortraitLocation)
+                {
+                    case DialoguePortraitLocation.Left:
+                        lastLeftSource = currentDialogue.PortraitSource;
+                        break;
+                    case DialoguePortraitLocation.Right:
+                        lastRightSource = currentDialogue.PortraitSource;
+                        break;
+                    default:
+                        break;
+                }
+                lastDialogue = currentDialogue;
+                currentDialogue = currentDialogue.Children.FirstOrDefault();
+            }
+            //Debug.Log($"isUpdatingUI:{isUpdatingUI}");
         }
     }
 }

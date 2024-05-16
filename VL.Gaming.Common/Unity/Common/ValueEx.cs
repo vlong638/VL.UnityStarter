@@ -11,7 +11,7 @@ namespace VL.Gaming.Common
         }
         public static void SetParent(this GameObject go, GameObject parent)
         {
-            go.transform.parent = parent.transform;
+            go.transform.SetParent(parent.transform);
         }
     }
 }
