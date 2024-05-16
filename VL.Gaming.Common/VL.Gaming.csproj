@@ -145,6 +145,10 @@
     <Compile Include="Unity\Gaming\Samples\JobSystemExample .cs" />
     <Compile Include="Unity\Gaming\Ultis\ResourceHelper.cs" />
     <Compile Include="Unity\Tools\SliceSpritesTool.cs" />
+    <Compile Include="Unity\Tools\VLCreater.cs" />
+    <Compile Include="Unity\Tools\VLDebug.cs" />
+    <Compile Include="Unity\Tools\VLDecorator.cs" />
+    <Compile Include="Unity\Tools\VLDictionaries.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

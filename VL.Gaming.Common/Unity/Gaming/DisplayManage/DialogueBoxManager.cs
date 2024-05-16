@@ -1,12 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using VL.Gaming.Common;
-using VL.Gaming.Unity.Gaming.Content.Entities;
 using VL.Gaming.Unity.Gaming.GameSystem;
 using VL.Gaming.Unity.Gaming.Ultis;
+using VL.Gaming.Unity.Tools;
 
 namespace VL.Gaming.Unity.Gaming.DisplayManage
 {
@@ -162,7 +161,7 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
 
         void OnChoosing(long parameter)
         {
-            Debug.Log($"OnChoosing:{parameter}");
+            VLDebug.DelegateDebug(() => { Debug.Log($"OnChoosing:{parameter}"); });
             //更新历史记录
             currentDialogue = lastDialogue.Children.First(c => c.Id == parameter).Children.FirstOrDefault();
             lastDialogue = currentDialogue == null ? null : lastDialogue.Children.First(c => c.Id == currentDialogue.ParentId);
@@ -267,7 +266,6 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
                 lastDialogue = currentDialogue;
                 currentDialogue = currentDialogue.Children.FirstOrDefault();
             }
-            //Debug.Log($"isUpdatingUI:{isUpdatingUI}");
         }
     }
 }
