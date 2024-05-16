@@ -12,7 +12,7 @@ namespace VL.Gaming.Unity.Tools
         Creature = 9,
         AboveAll = 10,
     }
-    public static class VLCreater
+    public static class VLCreator
     {
         public static GameObject CreateCanvas(string name = "", GameObject parent = null)
         {
@@ -111,7 +111,7 @@ namespace VL.Gaming.Unity.Tools
         public static GameObject CreateDialogue(string name = "dialogue", GameObject parent = null)
         {
             //Canvas
-            var canvasGO = VLCreater.CreateCanvas(name, parent);
+            var canvasGO = VLCreator.CreateCanvas(name, parent);
             var canvas = canvasGO.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.WorldSpace;
             canvas.sortingOrder = (int)SortingOrder.AboveAll;
@@ -122,7 +122,7 @@ namespace VL.Gaming.Unity.Tools
             trans.sizeDelta = new Vector2(1, 0.5f);
             if (parent) canvasGO.transform.SetParent(parent.transform);
             //Image
-            var imageGO = VLCreater.CreateImage("dialogueImage", canvasGO);
+            var imageGO = VLCreator.CreateImage("dialogueImage", canvasGO);
             trans = imageGO.GetComponent<RectTransform>();
             trans.anchorMin = new Vector3(0, 0);
             trans.anchorMax = new Vector3(1, 1);
@@ -134,7 +134,7 @@ namespace VL.Gaming.Unity.Tools
             var canvasGroup = imageGO.AddComponent<CanvasGroup>();
             canvasGroup.alpha = 0.8f;
             //Text
-            var textGO = VLCreater.CreateText("dialogueText", imageGO);
+            var textGO = VLCreator.CreateText("dialogueText", imageGO);
             trans = textGO.GetComponent<RectTransform>();
             trans.anchorMin = new Vector3(0, 1);
             trans.anchorMax = new Vector3(0, 1);
