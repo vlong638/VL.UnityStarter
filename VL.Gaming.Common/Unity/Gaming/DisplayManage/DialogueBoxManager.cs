@@ -1,41 +1,42 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using VL.Gaming.Unity.Gaming.Content.Entities;
+using VL.Gaming.Unity.Gaming.GameSystem;
+using VL.Gaming.Unity.Gaming.Ultis;
 
 namespace VL.Gaming.Unity.Gaming.DisplayManage
 {
-    public class DialogueManager : MonoBehaviour
-    {
-        [SerializeField]
-        public Text textTitle;
-        [SerializeField]
-        public Text textContent;
-        [SerializeField]
-        public GameObject dialogueBox;
-        List<Dialogue> dialogues;
-        int currentDialogueIndex = 0;
 
-        float timer = 0f;
-        public Image leftPortrait;
-        string lastLeftSource;
-        public Image rightPortrait;
-        string lastRightSource;
-        void Awake()
+    public class DialogueBoxManager : MonoBehaviour
+    {
+        private static DialogueBoxManager instance;
+        public static DialogueBoxManager Instance
         {
-            leftPortrait = GameObject.Find("Image_LeftPortrait").GetComponent<Image>();
-            rightPortrait = GameObject.Find("Image_RightPortrait").GetComponent<Image>();
-            textTitle = GameObject.Find("Text_Title").GetComponent<Text>();
-            textContent = GameObject.Find("Text_Content").GetComponent<Text>();
-            dialogueBox = GameObject.Find("Prefab_Canvas_Gaming_DialogBox");
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameObject("DialogueBoxManager").AddComponent<DialogueBoxManager>();
+                }
+                return instance;
+            }
         }
 
-        void OnEnable()
+        public GameObject dialogueBox;
+        public Image background;
+        public Image leftPortrait;
+        public Image rightPortrait;
+        public Text textTitle;
+        public Text textContent;
+
+        string lastLeftSource;
+        string lastRightSource;
+
+        void Awake()
         {
-            Debug.LogWarning("DialogueManager OnEnable");
-            LoadDialogueData();
-            GoNext();
         }
 
         void Start()
@@ -43,7 +44,7 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
         }
 
         //生效间隔
-        float lastClickTime = 0f;
+        float displayStartTime = 0f;
         float clickInterval = 1f;
         bool isUpdatingUI = false;
         Dialogue currentDialogue;
@@ -52,41 +53,55 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
         {
             if (!isUpdatingUI && (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetMouseButtonDown(0)))
             {
-                if (Time.time - lastClickTime > clickInterval)
+                if (Time.time - displayStartTime > clickInterval)
                 {
-                    lastClickTime = Time.time;
-                    GoNext();
+                    DisplayDialogue();
                 }
             }
         }
-        private void GoNext()
+
+        public void StartDialogue(long id)
         {
-            Debug.Log("GoNext");
-            if (dialogues.Count == 0)
+            currentDialogue = GameDialogueManager.Instance.GetDialogueById(1);
+            dialogueBox = ResourceHelper.FindInactiveGameObjectByName("Prefab_Canvas_Gaming_DialogBox");
+            background = ResourceHelper.FindInactiveGameObjectByName("Image_Background").GetComponent<Image>();
+            leftPortrait = ResourceHelper.FindInactiveGameObjectByName("Image_LeftPortrait").GetComponent<Image>();
+            rightPortrait = ResourceHelper.FindInactiveGameObjectByName("Image_RightPortrait").GetComponent<Image>();
+            textTitle = ResourceHelper.FindInactiveGameObjectByName("Text_Title").GetComponent<Text>();
+            textContent = ResourceHelper.FindInactiveGameObjectByName("Text_Content").GetComponent<Text>();
+            if (currentDialogue != null)
+                dialogueBox.gameObject.SetActive(true);
+            displayStartTime = Time.time;
+            DisplayDialogue();
+        }
+
+        void DisplayDialogue()
+        {
+            if (currentDialogue == null)
             {
-                dialogueBox.transform.Find("Panel").gameObject.SetActive(false);
-                currentDialogueIndex = 0;
+                dialogueBox.gameObject.SetActive(false);
                 return;
             }
-            currentDialogue = dialogues[currentDialogueIndex];
-            textTitle.text = currentDialogue.title;
+
+            displayStartTime = Time.time;
+            textTitle.text = currentDialogue.Title;
             textContent.text = "";
             Texture2D texture;
             Sprite sprite;
-            switch (currentDialogue.portraitLocation)
+            switch (currentDialogue.PortraitLocation)
             {
-                case PortraitLocation.Left:
-                    if (lastLeftSource == currentDialogue.portraitSource)
+                case DialoguePortraitLocation.Left:
+                    if (lastLeftSource == currentDialogue.PortraitSource)
                         break;
-                    texture = Resources.Load<Texture2D>(currentDialogue.portraitSource);
+                    texture = Resources.Load<Texture2D>(currentDialogue.PortraitSource);
                     sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                     leftPortrait.sprite = sprite;
                     leftPortrait.SetNativeSize();
                     break;
-                case PortraitLocation.Right:
-                    if (lastRightSource == currentDialogue.portraitSource)
+                case DialoguePortraitLocation.Right:
+                    if (lastRightSource == currentDialogue.PortraitSource)
                         break;
-                    texture = Resources.Load<Texture2D>(currentDialogue.portraitSource);
+                    texture = Resources.Load<Texture2D>(currentDialogue.PortraitSource);
                     sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                     rightPortrait.sprite = sprite;
                     rightPortrait.SetNativeSize();
@@ -94,8 +109,7 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
                 default:
                     break;
             }
-            dialogues.RemoveAt(0);
-            fullText = currentDialogue.content;
+            fullText = currentDialogue.Content;
             isUpdatingUI = true; ;
             isUpdatingUIText = true;
             isUpdatingUIImage = true;
@@ -103,14 +117,14 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
             StartCoroutine(UpdatingImage());
         }
 
-        bool isUpdatingUIText;
-        bool isUpdatingUIImage;
-
-        private bool IsSameSpeaker()
+        bool IsSameSpeaker()
         {
-            bool isSame = currentDialogue != null && lastDialogue != null && currentDialogue.portraitLocation == lastDialogue.portraitLocation && currentDialogue.portraitSource == lastDialogue.portraitSource;
+            bool isSame = currentDialogue != null && lastDialogue != null && currentDialogue.PortraitLocation == lastDialogue.PortraitLocation && currentDialogue.PortraitSource == lastDialogue.PortraitSource;
             return isSame;
         }
+
+        bool isUpdatingUIText;
+        bool isUpdatingUIImage;
 
         //吐字型展示
         public float updatingTextDelay = 0.1f;
@@ -127,24 +141,6 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
             FinishUpdating();
         }
 
-        private void FinishUpdating()
-        {
-            lastDialogue = currentDialogue;
-            switch (currentDialogue.portraitLocation)
-            {
-                case PortraitLocation.Left:
-                    lastLeftSource = currentDialogue.portraitSource;
-                    break;
-                case PortraitLocation.Right:
-                    lastRightSource = currentDialogue.portraitSource;
-                    break;
-                default:
-                    break;
-            }
-            isUpdatingUI = isUpdatingUIImage || isUpdatingUIText;
-            Debug.Log($"isUpdatingUI:{isUpdatingUI}");
-        }
-
         public Vector3 moveDirection = new Vector3(100, 0, 0);
         public float moveTime = 1.0f;
         public float fadeTime = 1.0f;
@@ -155,13 +151,13 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
         {
             Image imageToShow = null;
             Image imageToFade = null;
-            switch (currentDialogue.portraitLocation)
+            switch (currentDialogue.PortraitLocation)
             {
-                case PortraitLocation.Left:
+                case DialoguePortraitLocation.Left:
                     imageToShow = leftPortrait;
                     imageToFade = rightPortrait;
                     break;
-                case PortraitLocation.Right:
+                case DialoguePortraitLocation.Right:
                     imageToShow = rightPortrait;
                     imageToFade = leftPortrait;
                     break;
@@ -192,26 +188,26 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
             FinishUpdating();
         }
 
-        void LoadDialogueData()
+        void FinishUpdating()
         {
-            string json = Resources.Load<TextAsset>("Dialogues/DialogueTest").text;
-            dialogues = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Dialogue>>(json);
+            isUpdatingUI = isUpdatingUIImage || isUpdatingUIText;
+            if (!isUpdatingUI)
+            {
+                switch (currentDialogue.PortraitLocation)
+                {
+                    case DialoguePortraitLocation.Left:
+                        lastLeftSource = currentDialogue.PortraitSource;
+                        break;
+                    case DialoguePortraitLocation.Right:
+                        lastRightSource = currentDialogue.PortraitSource;
+                        break;
+                    default:
+                        break;
+                }
+                lastDialogue = currentDialogue;
+                currentDialogue = currentDialogue.Children.FirstOrDefault();
+            }
+            //Debug.Log($"isUpdatingUI:{isUpdatingUI}");
         }
-    }
-
-    public enum PortraitLocation
-    {
-        None,
-        Left,
-        Right,
-    }
-
-    [Serializable]
-    public class Dialogue
-    {
-        public PortraitLocation portraitLocation;
-        public string portraitSource;
-        public string title;
-        public string content;
     }
 }

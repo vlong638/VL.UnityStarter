@@ -122,8 +122,6 @@ namespace JYFixer
         public Dialogue RootNode;
         [JsonIgnore]
         public List<Dialogue> Children = new List<Dialogue>();
-
-
         public Dialogue(long id, long parentId)
         {
             this.Id = id;
