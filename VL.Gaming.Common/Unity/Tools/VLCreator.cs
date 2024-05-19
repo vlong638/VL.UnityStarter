@@ -240,7 +240,7 @@ namespace VL.Gaming.Unity.Tools
             horizontalScrollbarRect.pivot = new Vector2(0, 0);
             horizontalScrollbarRect.sizeDelta = new Vector2(0, 20);
             scrollRect.horizontalScrollbar = horizontalScrollbar;
-            scrollRect.horizontalScrollbarSpacing = -3;
+            scrollRect.horizontalScrollbarSpacing = 0;// -3
             scrollRect.horizontalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHideAndExpandViewport;
             // 添加 Sliding Area
             var horizontalSlidingArea = new GameObject("Sliding Area");
@@ -252,7 +252,8 @@ namespace VL.Gaming.Unity.Tools
             horizontalHandle.SetParent(horizontalSlidingArea);
             rectTransform = horizontalHandle.AddComponent<RectTransform>();
             //rectTransform.SetTopDown();
-            rectTransform.SetStretch(-10, -10, -10, -10);
+            //rectTransform.SetStretch(-10, -10, -10, -10);
+            rectTransform.SetStretch(-18, -18, -10, -10);
             image = horizontalHandle.AddComponent<Image>();
             image.sprite = spriteUISprite;
             image.type = Image.Type.Sliced;
@@ -275,7 +276,7 @@ namespace VL.Gaming.Unity.Tools
             verticalScrollbarRect.pivot = new Vector2(1, 1);
             verticalScrollbarRect.sizeDelta = new Vector2(20, 0);
             scrollRect.verticalScrollbar = verticalScrollbar;
-            scrollRect.verticalScrollbarSpacing = -3;
+            scrollRect.verticalScrollbarSpacing = 0;// -3
             scrollRect.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHideAndExpandViewport;
             // 添加 Sliding Area
             var verticalSlidingArea = new GameObject("Sliding Area");
@@ -287,7 +288,8 @@ namespace VL.Gaming.Unity.Tools
             verticalHandle.SetParent(verticalSlidingArea);
             rectTransform = verticalHandle.AddComponent<RectTransform>();
             //rectTransform.SetLeftRight();
-            rectTransform.SetStretch(-10, -10, -10, -10);
+            //rectTransform.SetStretch(-10, -10, -10, -10);
+            rectTransform.SetStretch(-10, -10, -18, -18);
             image = verticalHandle.AddComponent<Image>();
             image.sprite = spriteUISprite;
             image.type = Image.Type.Sliced;
@@ -322,6 +324,15 @@ namespace VL.Gaming.Unity.Tools
     }
     public static class VLCreaterPlus
     {
+        public static GameObject ScrollViewGetContent(this GameObject ScrollView)
+        {
+            return ScrollView.transform.Find("Viewport").transform.Find("Content").gameObject;
+        }
+        public static void SetSizeDelta(this GameObject Content, Vector2 sizeDelta)
+        {
+            Content.GetComponent<RectTransform>().sizeDelta = sizeDelta;
+        }
+
         public static GameObject CreateDialogue(string name = "dialogue", GameObject parent = null)
         {
             //Canvas

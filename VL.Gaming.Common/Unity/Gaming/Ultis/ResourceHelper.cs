@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace VL.Gaming.Unity.Gaming.Ultis
 {
     public class ResourceHelper
     {
-        public static GameObject FindGameObjectByName(string name)
+        public static GameObject FindGameObjectByName(string name, bool findPrefabInstance = true)
         {
             var gameobject = GameObject.Find(name);
             if (gameobject != null)
@@ -14,6 +15,12 @@ namespace VL.Gaming.Unity.Gaming.Ultis
             {
                 if (obj.name == name && !obj.activeInHierarchy)
                 {
+                    //过滤预制体(原体)
+                    if (PrefabUtility.IsPartOfPrefabAsset(obj))
+                        continue;
+                    //过滤预制体(实例)
+                    if (!findPrefabInstance && PrefabUtility.IsPartOfPrefabInstance(obj))
+                        continue;
                     return obj;
                 }
             }

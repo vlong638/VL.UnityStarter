@@ -77,10 +77,22 @@ namespace VL.Gaming.Common
             rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, offsetY, y);// SetInsetAndSizeFromParentEdge 根据父对象边缘设置位置和大小
         }
         /// <summary>
+        /// 设置成 左上角对齐
+        /// </summary>
+        /// <param name="rectTransform"></param>
+        public static void SetLeftTop(this RectTransform rectTransform, float offsetX, float offsetY, float x, float y)
+        {
+            rectTransform.anchorMin = new Vector2(0, 1);//设置RectTransform的最小锚点位置为左下角
+            rectTransform.anchorMax = new Vector2(0, 1);//设置RectTransform的最大锚点位置为右上角
+            rectTransform.pivot = new Vector2(0, 1);//设置RectTransform的中心点为中心, 翻转中心
+            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, offsetX, x);// SetInsetAndSizeFromParentEdge 根据父对象边缘设置位置和大小
+            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, offsetY, y);// SetInsetAndSizeFromParentEdge 根据父对象边缘设置位置和大小
+        }
+        /// <summary>
         /// 设置成 上下对齐(右侧)
         /// </summary>
         /// <param name="rectTransform"></param>
-        public static void SetTopDown(this RectTransform rectTransform)
+        public static void SetTopDownOnRight(this RectTransform rectTransform)
         {
             rectTransform.anchorMin = new Vector2(1, 0);//设置RectTransform的最小锚点位置为左下角
             rectTransform.anchorMax = new Vector2(1, 1);//设置RectTransform的最大锚点位置为右上角
@@ -90,7 +102,7 @@ namespace VL.Gaming.Common
         /// 设置成 左右对齐(底部)
         /// </summary>
         /// <param name="rectTransform"></param>
-        public static void SetLeftRight(this RectTransform rectTransform)
+        public static void SetLeftRightOnBottom(this RectTransform rectTransform)
         {
             rectTransform.anchorMin = new Vector2(0, 0);//设置RectTransform的最小锚点位置为左下角
             rectTransform.anchorMax = new Vector2(1, 0);//设置RectTransform的最大锚点位置为右上角

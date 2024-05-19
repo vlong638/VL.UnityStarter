@@ -55,7 +55,7 @@ namespace VL.Gaming.Unity.Tools
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1200);
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
             rectTransform.anchoredPosition = new Vector2(0, 400);
-            ////添加 Panel_Unit
+            //添加 Panel_Unit
             var Panel_Unit = VLCreator.CreatePanel("Panel_Unit");
             Panel_Unit.SetParent(Prefab_Canvas_Gaming_PlayerBox);
             Panel_Unit.SetColor(Color.white, 0.5f);
@@ -105,9 +105,11 @@ namespace VL.Gaming.Unity.Tools
             Image_Right.SetColor(MockHelper.MockColor(), 1f);
             rectTransform = Image_Right.GetComponent<Image>().GetComponent<RectTransform>();
             rectTransform.SetLeftDown(1100, 0, 500, 800);
-
+                                     
             Text text;
+
             #region Image_Left,属性栏
+
             var Image_PlayerName = VLCreator.CreateText("Image_PlayerName");
             Image_PlayerName.SetParent(Image_Left);
             rectTransform = Image_PlayerName.GetComponent<RectTransform>();
@@ -166,15 +168,21 @@ namespace VL.Gaming.Unity.Tools
             rectTransform = Button_AttributeConfirm.GetComponent<RectTransform>();
             rectTransform.SetLeftDown(355, 30, 80, 40);
             Button_AttributeConfirm.SetColor(MockHelper.MockColor2(), 1f);
+
             #endregion
 
             #region Image_Right,装备栏
+
             //上分类 全部,武器,衣服,药水,特殊
             GameObject ScrollView_Items = VLCreator.CreateScrollView("ScrollView_Items");
             ScrollView_Items.SetParent(Image_Right);
             rectTransform = ScrollView_Items.GetComponent<RectTransform>();
             rectTransform.SetLeftDown(0, 0, 500, 700);
-            //rectTransform.SetStretch();
+            var ScrollViewContent = ScrollView_Items.ScrollViewGetContent();
+            ScrollViewContent.SetSizeDelta(new Vector2(500, 700));
+
+
+
 
             #endregion
 
@@ -222,7 +230,6 @@ namespace VL.Gaming.Unity.Tools
             //护腿         鞋子
             //左手持       右手持
             //戒指         戒指
-
             string[] equipmentsRight = new string[] { "Necklace", "Cloak", "Glove", "Boots", "RightHand", "RightRing" };
             for (int i = 0; i < 6; i++)
             {
