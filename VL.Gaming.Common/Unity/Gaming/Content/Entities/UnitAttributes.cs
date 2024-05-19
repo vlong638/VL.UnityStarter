@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using VL.Gaming.Unity.Gaming.Content.Enums;
 
 namespace VL.Gaming.Unity.Gaming.Content.Entities
 {
@@ -35,5 +33,9 @@ namespace VL.Gaming.Unity.Gaming.Content.Entities
         /// 领导力
         /// </summary>
         public int Leadership;
+        /// <summary>
+        /// 幸运
+        /// </summary>
+        public int Luck;
     }
 }

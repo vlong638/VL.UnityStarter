@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using VL.Gaming.Unity.Gaming.DisplayManage;
+using VL.Gaming.Unity.Gaming.Ultis;
 
 namespace VL.Gaming.Unity.Gaming.GameSystem
 {
     public class GameSystemManager : MonoBehaviour
     {
         public GameObject pauseMenu;
+
+        void Awake()
+        {
+            pauseMenu = ResourceHelper.FindGameObjectByName("Canvas_PauseMenu");
+        }
 
         void Start()
         {
@@ -34,6 +40,8 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             }
         }
 
+        #region Gaming
+
         public void LoadGameData()
         {
             GameDataManager.LoadGameData();
@@ -45,8 +53,6 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             GameDataManager.SaveGameData();
             ClosePauseMenu();
         }
-
-        #region Gaming
 
         /// <summary>
         /// 关闭暂停界面

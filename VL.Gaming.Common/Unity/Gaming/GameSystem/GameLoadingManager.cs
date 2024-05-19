@@ -2,15 +2,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using VL.Gaming.Unity.Gaming.Ultis;
 
 namespace VL.Gaming.Unity.Gaming.GameSystem
 {
     internal class GameLoadingManager : MonoBehaviour
     {
         [SerializeField]
-        public string targetSceneName;
+        public string targetSceneName= "Scene_Gaming";
         public Slider progressBar;
         public Text progressText;
+
+        void Awake()
+        {
+            progressBar = ResourceHelper.FindGameObjectByName("Slider_ProgressBar").GetComponent<Slider>();
+            progressText = ResourceHelper.FindGameObjectByName("Text_ProgressBar").GetComponent<Text>();
+        }
 
         void Start()
         {

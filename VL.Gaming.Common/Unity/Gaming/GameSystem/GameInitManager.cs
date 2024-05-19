@@ -73,7 +73,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             {
                 GameObject panel_Settings = GameObject.Find("Panel_Settings");
                 panel_Settings.SetActive(false);
-                GameObject panel_Ready = ResourceHelper.FindInactiveGameObjectByName("Panel_Ready");
+                GameObject panel_Ready = ResourceHelper.FindGameObjectByName("Panel_Ready");
                 panel_Ready.SetActive(true);
                 return;
             }
@@ -85,13 +85,13 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
             GameObject panel_Ready = GameObject.Find("Panel_Ready");
             panel_Ready.SetActive(false);
-            GameObject panel_Settings = ResourceHelper.FindInactiveGameObjectByName("Panel_Settings");
+            GameObject panel_Settings = ResourceHelper.FindGameObjectByName("Panel_Settings");
             panel_Settings.SetActive(true);
         }
         public void Confirm()
         {
             Debug.Log("Confirm");
-            var go_curtain = ResourceHelper.FindInactiveGameObjectByName("Image_Curtain");
+            var go_curtain = ResourceHelper.FindGameObjectByName("Image_Curtain");
             go_curtain.SetActive(true);
             image_curtain = go_curtain.GetComponent<Image>();
             isFading = true;

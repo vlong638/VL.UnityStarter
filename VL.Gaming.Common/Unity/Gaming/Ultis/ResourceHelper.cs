@@ -4,8 +4,11 @@ namespace VL.Gaming.Unity.Gaming.Ultis
 {
     public class ResourceHelper
     {
-        public static GameObject FindInactiveGameObjectByName(string name)
+        public static GameObject FindGameObjectByName(string name)
         {
+            var gameobject = GameObject.Find(name);
+            if (gameobject != null)
+                return gameobject;
             GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
             foreach (GameObject obj in allObjects)
             {

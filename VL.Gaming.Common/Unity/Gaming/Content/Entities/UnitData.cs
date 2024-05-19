@@ -7,6 +7,7 @@ namespace VL.Gaming.Unity.Gaming.Content.Entities
     [Serializable]
     public class UnitData
     {
+        public string Name { get; set; }
         public UnitType UnitType;
         public RaceType RaceType;
         public UnitAttributes UnitAttributes;

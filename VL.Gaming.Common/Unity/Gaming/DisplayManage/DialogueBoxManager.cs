@@ -79,13 +79,13 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
         public void StartDialogue(long id)
         {
             currentDialogue = GameDialogueManager.Instance.GetDialogueById(1);
-            dialogueBox = ResourceHelper.FindInactiveGameObjectByName("Prefab_Canvas_Gaming_DialogBox");
-            background = ResourceHelper.FindInactiveGameObjectByName("Image_Background").GetComponent<Image>();
-            leftPortrait = ResourceHelper.FindInactiveGameObjectByName("Image_LeftPortrait").GetComponent<Image>();
-            rightPortrait = ResourceHelper.FindInactiveGameObjectByName("Image_RightPortrait").GetComponent<Image>();
-            textTitle = ResourceHelper.FindInactiveGameObjectByName("Text_Title").GetComponent<Text>();
-            textContent = ResourceHelper.FindInactiveGameObjectByName("Text_Content").GetComponent<Text>();
-            panelChoiceButtons = ResourceHelper.FindInactiveGameObjectByName("Panel_ChoiceButtons");
+            dialogueBox = ResourceHelper.FindGameObjectByName("Prefab_Canvas_Gaming_DialogBox");
+            background = ResourceHelper.FindGameObjectByName("Image_Background").GetComponent<Image>();
+            leftPortrait = ResourceHelper.FindGameObjectByName("Image_LeftPortrait").GetComponent<Image>();
+            rightPortrait = ResourceHelper.FindGameObjectByName("Image_RightPortrait").GetComponent<Image>();
+            textTitle = ResourceHelper.FindGameObjectByName("Text_Title").GetComponent<Text>();
+            textContent = ResourceHelper.FindGameObjectByName("Text_Content").GetComponent<Text>();
+            panelChoiceButtons = ResourceHelper.FindGameObjectByName("Panel_ChoiceButtons");
             if (currentDialogue != null)
                 dialogueBox.gameObject.SetActive(true);
             displayStartTime = Time.time;

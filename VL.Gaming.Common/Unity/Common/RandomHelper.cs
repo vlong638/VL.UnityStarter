@@ -1,7 +1,6 @@
-﻿
-using System;
+﻿using System;
 
-namespace VL.Gaming.Framework.Tools
+namespace VL.Gaming.Unity.Common
 {
     public class RandomHelper
     {
