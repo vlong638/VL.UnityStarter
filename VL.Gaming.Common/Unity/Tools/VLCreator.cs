@@ -121,20 +121,20 @@ namespace VL.Gaming.Unity.Tools
     }
     public static class VLCreator
     {
-        public static GameObject CreateAudioSource(string name = "", GameObject parent = null)
+        public static GameObject CreateAudioSource(string name = "AudioSource", GameObject parent = null)
         {
             GameObject gameObject = new GameObject(name);
             if (parent) gameObject.transform.SetParent(parent.transform);
             gameObject.AddComponent<AudioSource>();
             return gameObject;
         }
-        public static GameObject CreateButton(string name = "", GameObject parent = null)
+        public static GameObject CreateButton(string name = "Button", GameObject parent = null)
         {
             GameObject gameObject = new GameObject(name);
             if (parent) gameObject.transform.SetParent(parent.transform);
             gameObject.AddComponent<Image>();
             gameObject.AddComponent<Button>();
-            var text = CreateText("", gameObject);
+            var text = CreateText("Text", gameObject);
             var rectTransform = text.GetComponent<RectTransform>();
             rectTransform.anchorMin = new Vector2(0f, 0f);
             rectTransform.anchorMax = new Vector2(1f, 1f);
@@ -142,14 +142,14 @@ namespace VL.Gaming.Unity.Tools
             rectTransform.offsetMax = new Vector2(0f, 0f);
             return gameObject;
         }
-        public static GameObject CreateCamera(string name = "", GameObject parent = null)
+        public static GameObject CreateCamera(string name = "Camera", GameObject parent = null)
         {
             GameObject gameObject = new GameObject(name);
             if (parent) gameObject.transform.SetParent(parent.transform);
             var camera = gameObject.AddComponent<Camera>();
             return gameObject;
         }
-        public static GameObject CreateCanvas(string name = "", GameObject parent = null)
+        public static GameObject CreateCanvas(string name = "Canvas", GameObject parent = null)
         {
             GameObject gameObject = new GameObject(name);
             if (parent) gameObject.transform.SetParent(parent.transform);
@@ -159,21 +159,21 @@ namespace VL.Gaming.Unity.Tools
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;// 设置Canvas的渲染模式为屏幕空间覆盖
             return gameObject;
         }
-        public static GameObject CreateImage(Sprite sprite, string name = "", GameObject parent = null)
+        public static GameObject CreateImage(Sprite sprite, string name = "Image", GameObject parent = null)
         {
             GameObject gameObject = CreateImage(name, parent);
             var image = gameObject.GetComponent<Image>();
             image.sprite = sprite;
             return gameObject;
         }
-        public static GameObject CreateImage(string name = "", GameObject parent = null)
+        public static GameObject CreateImage(string name = "Image", GameObject parent = null)
         {
             GameObject gameObject = new GameObject(name);
             if (parent) gameObject.transform.SetParent(parent.transform);
             gameObject.AddComponent<Image>();
             return gameObject;
         }
-        public static GameObject CreatePanel(string name = "", GameObject parent = null)
+        public static GameObject CreatePanel(string name = "Panel", GameObject parent = null)
         {
             GameObject gameObject = new GameObject(name);
             if (parent) gameObject.transform.SetParent(parent.transform);
@@ -181,7 +181,7 @@ namespace VL.Gaming.Unity.Tools
             Image image = gameObject.AddComponent<Image>();//添加Image组件
             return gameObject;
         }
-        public static GameObject CreateScrollView(string name = "", GameObject parent = null)
+        public static GameObject CreateScrollView(string name = "ScrollView", GameObject parent = null)
         {
             Sprite spriteBackground = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
             Sprite spriteUIMask = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UIMask.psd");
@@ -189,7 +189,7 @@ namespace VL.Gaming.Unity.Tools
 
             // 添加 ScrollView
             GameObject gameObject = new GameObject(name);
-            var image  = gameObject.AddComponent<Image>();
+            var image = gameObject.AddComponent<Image>();
             image.sprite = spriteBackground;
             image.type = Image.Type.Sliced;
             image.SetColorAlpha(0.4f);
@@ -213,7 +213,7 @@ namespace VL.Gaming.Unity.Tools
             // 添加 Content
             GameObject contentGO = new GameObject("Content");
             contentGO.transform.SetParent(viewportGO.transform);
-            var rectTransform= contentGO.AddComponent<RectTransform>();
+            var rectTransform = contentGO.AddComponent<RectTransform>();
             //rectTransform.anchorMin = new Vector2(0, 1);
             //rectTransform.anchorMax = new Vector2(1, 1);
             //rectTransform.pivot = new Vector2(0, 1);
@@ -295,26 +295,19 @@ namespace VL.Gaming.Unity.Tools
             image.type = Image.Type.Sliced;
             verticalScrollbar.targetGraphic = verticalHandle.GetComponent<Image>();
             verticalScrollbar.handleRect = verticalHandle.GetComponent<RectTransform>();
-            verticalScrollbar.direction = Scrollbar.Direction.TopToBottom;
+            verticalScrollbar.direction = Scrollbar.Direction.BottomToTop;
+            verticalScrollbar.value = 1;
 
             return gameObject;
         }
-        public static GameObject CreateSprite(Sprite sprite, string name = "", GameObject parent = null)
-        {
-            GameObject gameObject = CreateSprite(name, parent);
-            var image = gameObject.GetComponent<SpriteRenderer>();
-            image.sprite = sprite;
-            image.sortingOrder = 3;
-            return gameObject;
-        }
-        public static GameObject CreateSprite(string name = "", GameObject parent = null)
+        public static GameObject CreateSprite(string name = "Sprite", GameObject parent = null)
         {
             GameObject gameObject = new GameObject(name);
             if (parent) gameObject.transform.SetParent(parent.transform);
             gameObject.AddComponent<SpriteRenderer>();
             return gameObject;
         }
-        public static GameObject CreateText(string name = "", GameObject parent = null)
+        public static GameObject CreateText(string name = "Sprite", GameObject parent = null)
         {
             GameObject gameObject = new GameObject(name);
             if (parent) gameObject.transform.SetParent(parent.transform);
@@ -332,7 +325,6 @@ namespace VL.Gaming.Unity.Tools
         {
             Content.GetComponent<RectTransform>().sizeDelta = sizeDelta;
         }
-
         public static GameObject CreateDialogue(string name = "dialogue", GameObject parent = null)
         {
             //Canvas

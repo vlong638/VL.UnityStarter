@@ -112,6 +112,7 @@
     <Compile Include="Unity\Gaming\CameraManage\CameraManager.cs" />
     <Compile Include="Unity\Gaming\CameraManage\CameraHandTool.cs" />
     <Compile Include="Unity\Gaming\ColliderManage\ColliderTrigger.cs" />
+    <Compile Include="Unity\Gaming\Content\Entities\ItemData.cs" />
     <Compile Include="Unity\Gaming\GameSystem\Dialogue.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\EquipmentAttributes.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\InstrumentData.cs" />

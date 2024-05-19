@@ -20,9 +20,9 @@ namespace VL.Gaming.Unity.Tools
         [MenuItem("Tools/InitSceneGaming/InitPlayerBox")]
         static void InitPlayerBox()
         {
-            PlayerData data= new PlayerData();
-            data.Name = "PlayerVL";
-            data.UnitAttributes = new UnitAttributes()
+            PlayerData playerData= new PlayerData();
+            playerData.Name = "PlayerVL";
+            playerData.UnitAttributes = new UnitAttributes()
             {
                 Agility = 17,
                 Charisma = 18,
@@ -33,6 +33,20 @@ namespace VL.Gaming.Unity.Tools
                 Willpower = 23,
                 Luck = 24,
             };
+            playerData.Items = new List<ItemData>()
+            {
+                new ItemData(){ Name="木剑",Count=1,Description="一柄木制的剑"},
+                new ItemData(){ Name="布衣",Count=1,Description="布制衣物"},
+                new ItemData(){ Name="小瓶治疗药剂",Count=3,Description="闪耀着红色光芒的药剂,"},
+                new ItemData(){ Name="小石头",Count=3,Description="锐利的石头,投掷可以造成一些伤害"},
+                new ItemData(){ Name="草",Count=3,Description="随处可见的杂草"},
+                new ItemData(){ Name="铁矿石",Count=7,Description="铁矿原石,闪耀着黑色"},
+                new ItemData(){ Name="铜矿石",Count=8,Description="铜矿原石,闪耀着棕黄色"},
+            };
+            for (int i = 0; i < 8; i++)
+            {
+                playerData.Items.ForEach(c => playerData.Items.Add(new ItemData() { Name = c.Name }));
+            }
 
             //检查已存在
             var check  = ResourceHelper.FindGameObjectByName("Prefab_Canvas_Gaming_PlayerBox");
@@ -115,13 +129,13 @@ namespace VL.Gaming.Unity.Tools
             rectTransform = Image_PlayerName.GetComponent<RectTransform>();
             rectTransform.SetLeftDown(200, 650, 100, 200);
             text = Image_PlayerName.GetComponent<Text>();
-            text.text = data.Name;
+            text.text = playerData.Name;
             text.fontSize = 32;
             text.alignment = TextAnchor.MiddleCenter;
             text.color = Color.black;
             //小图标, 名称, 现值,附加值
             string[] attributes = new string[] { "力量", "敏捷", "体质", "智力", "意志", "魅力", "领导力", "幸运" };
-            string[] values = new string[] { $"{data.UnitAttributes.Strength}", $"{data.UnitAttributes.Agility}", $"{data.UnitAttributes.Constitution}", $"{data.UnitAttributes.Intelligence}", $"{data.UnitAttributes.Willpower}", $"{data.UnitAttributes.Charisma}", $"{data.UnitAttributes.Leadership}", $"{data.UnitAttributes.Luck}" };
+            string[] values = new string[] { $"{playerData.UnitAttributes.Strength}", $"{playerData.UnitAttributes.Agility}", $"{playerData.UnitAttributes.Constitution}", $"{playerData.UnitAttributes.Intelligence}", $"{playerData.UnitAttributes.Willpower}", $"{playerData.UnitAttributes.Charisma}", $"{playerData.UnitAttributes.Leadership}", $"{playerData.UnitAttributes.Luck}" };
             for (int i = 0; i < 8; i++)
             {
                 var Image_AttributeIcon = VLCreator.CreateImage("Image_AttributeIcon");
@@ -171,23 +185,44 @@ namespace VL.Gaming.Unity.Tools
 
             #endregion
 
-            #region Image_Right,装备栏
+            #region Image_Right,物品栏
 
-            //上分类 全部,武器,衣服,药水,特殊
+            //上分类: 全部,武器,衣服,药水,其他
+            for (int i = 0; i < 5; i++)
+            {
+                var Button_ItemCategory = VLCreator.CreateButton("Button_ItemCategory");
+                Button_ItemCategory.SetParent(Image_Right);
+                rectTransform = Button_ItemCategory.GetComponent<RectTransform>();
+                rectTransform.SetLeftTop(0 + i * 100, 0, 100, 100);
+                Button_ItemCategory.SetColor(MockHelper.MockColor2(), 1f);
+            }
+            //滚动栏
             GameObject ScrollView_Items = VLCreator.CreateScrollView("ScrollView_Items");
             ScrollView_Items.SetParent(Image_Right);
             rectTransform = ScrollView_Items.GetComponent<RectTransform>();
             rectTransform.SetLeftDown(0, 0, 500, 700);
             var ScrollViewContent = ScrollView_Items.ScrollViewGetContent();
             ScrollViewContent.SetSizeDelta(new Vector2(500, 700));
-
-
-
+            //物品
+            int itemPerLine = 5;
+            for (int i = 0; i < playerData.Items.Count; i++)
+            {
+                int row = Mathf.FloorToInt(i / 5f);
+                var Button_Item = VLCreator.CreateButton("Button_Item");
+                Button_Item.SetParent(ScrollViewContent);
+                rectTransform = Button_Item.GetComponent<RectTransform>();
+                rectTransform.SetLeftTop(20 + i % itemPerLine * 90, 20 + row * 90, 80, 80);
+                Button_Item.SetColor(MockHelper.MockColor2(), 1f);
+            }
+            //物品栏滚动支持
+            int rowCount = Mathf.FloorToInt(playerData.Items.Count / 5f);
+            ScrollViewContent.SetSizeDelta(new Vector2(480, 20 * 2 + rowCount * 90));
 
             #endregion
 
             #region Image_TopMini,快捷物品
 
+            //快捷物品
             for (int i = 0; i < 6; i++)
             {
                 var Button_FastItem = VLCreator.CreateButton("Button_FastItem");
@@ -199,7 +234,7 @@ namespace VL.Gaming.Unity.Tools
 
             #endregion
 
-            #region Image_LeftMini
+            #region Image_LeftMini,装备栏
 
             //状态,装备区
             //头           项链
@@ -209,6 +244,7 @@ namespace VL.Gaming.Unity.Tools
             //左手持       右手持
             //戒指         戒指
 
+            //状态,装备区
             string[] equipmentsLeft = new string[] { "Helmet", "Armor", "ArmGuard", "LegArmor", "LeftHand", "LeftRing" };
             for (int i = 0; i < 6; i++)
             {
@@ -221,7 +257,7 @@ namespace VL.Gaming.Unity.Tools
 
             #endregion
 
-            #region Image_RightMini
+            #region Image_RightMini,装备栏
 
             //状态,装备区
             //头           项链
@@ -230,6 +266,8 @@ namespace VL.Gaming.Unity.Tools
             //护腿         鞋子
             //左手持       右手持
             //戒指         戒指
+
+            //状态,装备区
             string[] equipmentsRight = new string[] { "Necklace", "Cloak", "Glove", "Boots", "RightHand", "RightRing" };
             for (int i = 0; i < 6; i++)
             {
@@ -244,6 +282,7 @@ namespace VL.Gaming.Unity.Tools
 
             #region Image_BottomMini,快捷技能
 
+            //快捷技能
             for (int i = 0; i < 6; i++)
             {
                 var Button_FastSkill = VLCreator.CreateButton("Button_FastSkill");
@@ -251,6 +290,20 @@ namespace VL.Gaming.Unity.Tools
                 rectTransform = Button_FastSkill.GetComponent<RectTransform>();
                 rectTransform.SetLeftDown(25 + i * 96, 20, 60, 60);
                 Button_FastSkill.SetColor(MockHelper.MockColor2(), 1f);
+            }
+
+            #endregion
+
+            #region Panel_Team,队伍栏
+
+            //队伍栏
+            for (int i = 0; i < 6; i++)
+            {
+                var Button_Teammate = VLCreator.CreateButton("Button_Teammate");
+                Button_Teammate.SetParent(Panel_Team);
+                rectTransform = Button_Teammate.GetComponent<RectTransform>();
+                rectTransform.SetLeftDown(10 + i * 90, 10, 80, 80);
+                Button_Teammate.SetColor(MockHelper.MockColor2(), 1f);
             }
 
             #endregion

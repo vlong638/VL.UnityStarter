@@ -9,6 +9,7 @@ namespace VL.Gaming.Unity.Gaming.Content.Entities
     public class PlayerData : UnitData
     {
         public Vector3 Location;
+        public List<ItemData> Items = new List<ItemData>();
 
         public PlayerData()
         {
