@@ -40,9 +40,9 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
         }
 
         public GameObject dialogueBox;
-        public Image background;
-        public Image leftPortrait;
-        public Image rightPortrait;
+        public Image imageBackground;
+        public Image imageLeftPortrait;
+        public Image imageRightPortrait;
         public Text textTitle;
         public Text textContent;
         public GameObject panelChoiceButtons;
@@ -78,11 +78,11 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
 
         public void StartDialogue(long id)
         {
-            currentDialogue = GameDialogueManager.Instance.GetDialogueById(1);
+            currentDialogue = DialogueDataManager.Instance.GetDialogueById(1);
             dialogueBox = ResourceHelper.FindGameObjectByName("Prefab_Canvas_Gaming_DialogBox");
-            background = ResourceHelper.FindGameObjectByName("Image_Background").GetComponent<Image>();
-            leftPortrait = ResourceHelper.FindGameObjectByName("Image_LeftPortrait").GetComponent<Image>();
-            rightPortrait = ResourceHelper.FindGameObjectByName("Image_RightPortrait").GetComponent<Image>();
+            imageBackground = ResourceHelper.FindGameObjectByName("Image_Background").GetComponent<Image>();
+            imageLeftPortrait = ResourceHelper.FindGameObjectByName("Image_LeftPortrait").GetComponent<Image>();
+            imageRightPortrait = ResourceHelper.FindGameObjectByName("Image_RightPortrait").GetComponent<Image>();
             textTitle = ResourceHelper.FindGameObjectByName("Text_Title").GetComponent<Text>();
             textContent = ResourceHelper.FindGameObjectByName("Text_Content").GetComponent<Text>();
             panelChoiceButtons = ResourceHelper.FindGameObjectByName("Panel_ChoiceButtons");
@@ -117,16 +117,16 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
                                 break;
                             texture = Resources.Load<Texture2D>(currentDialogue.PortraitSource);
                             sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                            leftPortrait.sprite = sprite;
-                            leftPortrait.SetNativeSize();
+                            imageLeftPortrait.sprite = sprite;
+                            imageLeftPortrait.SetNativeSize();
                             break;
                         case DialoguePortraitLocation.Right:
                             if (lastRightSource == currentDialogue.PortraitSource)
                                 break;
                             texture = Resources.Load<Texture2D>(currentDialogue.PortraitSource);
                             sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                            rightPortrait.sprite = sprite;
-                            rightPortrait.SetNativeSize();
+                            imageRightPortrait.sprite = sprite;
+                            imageRightPortrait.SetNativeSize();
                             break;
                         default:
                             break;
@@ -213,12 +213,12 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
             switch (currentDialogue.PortraitLocation)
             {
                 case DialoguePortraitLocation.Left:
-                    imageToShow = leftPortrait;
-                    imageToFade = rightPortrait;
+                    imageToShow = imageLeftPortrait;
+                    imageToFade = imageRightPortrait;
                     break;
                 case DialoguePortraitLocation.Right:
-                    imageToShow = rightPortrait;
-                    imageToFade = leftPortrait;
+                    imageToShow = imageRightPortrait;
+                    imageToFade = imageLeftPortrait;
                     break;
                 default:
                     break;

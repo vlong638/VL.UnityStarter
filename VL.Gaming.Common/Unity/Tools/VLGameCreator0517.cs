@@ -35,7 +35,7 @@ namespace VL.Gaming.Unity.Tools
             };
             playerData.Items = new List<ItemData>()
             {
-                new ItemData(){ Name="木剑",Count=1,Description="一柄木制的剑"},
+                new ItemData(){ Name="木剑",Count=1,Description="一柄木制的剑",ImageResource=""},
                 new ItemData(){ Name="布衣",Count=1,Description="布制衣物"},
                 new ItemData(){ Name="小瓶治疗药剂",Count=3,Description="闪耀着红色光芒的药剂,"},
                 new ItemData(){ Name="小石头",Count=3,Description="锐利的石头,投掷可以造成一些伤害"},

@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace VL.Gaming.Unity.Gaming.GameSystem
 {
-    public class GameDialogueManager : MonoBehaviour
+    public class DialogueDataManager : MonoBehaviour
     {
-        private static GameDialogueManager instance;
-        public static GameDialogueManager Instance
+        private static DialogueDataManager instance;
+        public static DialogueDataManager Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new GameObject("DialogueManager").AddComponent<GameDialogueManager>();
+                    instance = new GameObject("DialogueDataManager").AddComponent<DialogueDataManager>();
                 }
                 return instance;
             }
@@ -20,7 +20,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
         static Dialogue Dialogues = new Dialogue(0, -1);
 
-        static GameDialogueManager()
+        static DialogueDataManager()
         {
             string json = Resources.Load<TextAsset>("Dialogues/DialogueTest").text;
             var dialogues = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Dialogue>>(json);

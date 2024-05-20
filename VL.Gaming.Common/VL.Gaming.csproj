@@ -133,7 +133,7 @@
     <Compile Include="Unity\Gaming\Content\Enums\EquipmentType.cs" />
     <Compile Include="Unity\Gaming\Content\Enums\UnitType.cs" />
     <Compile Include="Unity\Gaming\DisplayManage\DramaBoxManager.cs" />
-    <Compile Include="Unity\Gaming\GameSystem\GameDialogueManager.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\DialogueDataManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameInitManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameLoadingManager.cs" />
     <Compile Include="Unity\Gaming\MovementManage\AutoMoveInDirections.cs" />

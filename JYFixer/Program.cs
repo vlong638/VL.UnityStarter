@@ -79,7 +79,7 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
 
         public void StartDialogue(long id)
         {
-            currentDialogue = GameDialogueManager.Instance.GetDialogueById(1);
+            currentDialogue = DialogueDataManager.Instance.GetDialogueById(1);
             dialogueBox = ResourceHelper.FindInactiveGameObjectByName("Prefab_Canvas_Gaming_DialogBox");
             background = ResourceHelper.FindInactiveGameObjectByName("Image_Background").GetComponent<Image>();
             leftPortrait = ResourceHelper.FindInactiveGameObjectByName("Image_LeftPortrait").GetComponent<Image>();

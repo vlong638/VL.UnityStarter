@@ -83,8 +83,6 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             SceneManager.LoadScene("Scene_StartMenu");
         } 
 
-
-
         #endregion
 
         #region StartMenu
