@@ -20,7 +20,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.ChessMove
 
         public float moveSpeed = 5f; // 移动速度
         public float jumpHeight = 1f; // 跳跃高度
-        private bool isMoving = false; // 是否正在移动
+        public bool isMoving = false; // 是否正在移动
 
         // 移动、模拟跳跃撞击然后返回原位置
         public void Display(GameObject currentObject, GameObject targetObject)

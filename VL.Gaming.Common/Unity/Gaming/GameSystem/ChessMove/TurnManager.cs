@@ -88,23 +88,21 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.ChessMove
                     {
                         EndPlayerTurn();
                     }
-                    if (Input.GetMouseButtonDown(0))
+                    if (!DisplayCrash.Instance.isMoving&&Input.GetMouseButtonDown(0))
                     {
-                        if (selectedPlayerUnit == null)//选择玩家棋子
+                        RaycastHit2D hitPlayer = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, playerLayer);
+                        if (hitPlayer.collider != null)
                         {
-                            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, playerLayer);
-                            if (hit.collider != null)
-                            {
-                                Debug.Log(hit.collider);
-                                if (selectedPlayerUnit != null)
-                                    PlayerUnitUnselected();
-                                selectedPlayerUnit = hit.collider.gameObject;
-                                PlayerUnitSelected();
-                            }
+                            Debug.Log(hitPlayer.collider);
+                            if (selectedPlayerUnit != null)
+                                PlayerUnitUnselected();
+                            PlayerUnitSelected(hitPlayer.collider.gameObject);
                         }
-                        if (selectedPlayerUnit != null && selectedEnermyUnit != null)//选择敌方棋子
+
+                        RaycastHit2D hitEnermy = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, enemyLayer);
+                        if (hitEnermy.collider != null)
                         {
-                            new DisplayCrash().Display(selectedPlayerUnit, selectedEnermyUnit);
+                            DisplayCrash.Instance.Display(selectedPlayerUnit, selectedEnermyUnit);
                         }
                     }
                     if (selectedPlayerUnit != null)//已选玩家棋子,悬浮敌方棋子
@@ -116,8 +114,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.ChessMove
                                 return;
                             if (selectedEnermyUnit != null)
                                 EnermyUnitUnselected();
-                            selectedEnermyUnit = hit.collider.gameObject;
-                            EnermyUnitSelected();
+                            EnermyUnitSelected(hit.collider.gameObject);
                         }
                         else
                         {
@@ -139,8 +136,10 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.ChessMove
             }
         }
 
-        private void PlayerUnitSelected()
+        private void PlayerUnitSelected(GameObject gameObject)
         {
+            //选中
+            selectedPlayerUnit = gameObject;
             //选中效果
             var animator = selectedPlayerUnit.GetComponent<Animator>();
             animator.runtimeAnimatorController = VLResource.Controller_Rotate;
@@ -158,12 +157,14 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.ChessMove
             animator.applyRootMotion = false;
             animator.updateMode = AnimatorUpdateMode.Normal;
             animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
-
+            //释放选中
             selectedPlayerUnit = null; ;
         }
 
-        private void EnermyUnitSelected()
+        private void EnermyUnitSelected(GameObject gameObject)
         {
+            //选中
+            selectedEnermyUnit = gameObject;
             //选中效果
             var animator = selectedEnermyUnit.GetComponent<Animator>();
             animator.runtimeAnimatorController = VLResource.Controller_Rotate;
@@ -181,7 +182,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.ChessMove
             animator.applyRootMotion = false;
             animator.updateMode = AnimatorUpdateMode.Normal;
             animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
-
+            //释放选中
             selectedEnermyUnit = null; ;
         }
 
