@@ -13,7 +13,7 @@ namespace VL.Gaming.Unity.Gaming.Ultis
         public static Sprite Sprite_Player { get { return Resources.Load<Sprite>("Sprites/DialogueTest_小红帽"); } }
         public static Sprite Sprite_Enermy { get { return Resources.Load<Sprite>("Sprites/DialogueTest_大灰狼"); } }
         public static Sprite Sprite_VS { get { return Resources.Load<Sprite>("Sprites/DialogueBoxBackground"); } }
-        public static Sprite Sprite_Funnel { get { return Resources.Load<Sprite>("Sprites/DialogueTest_大灰狼"); } }
+        public static Sprite Sprite_HourGlass { get { return Resources.Load<Sprite>("Sprites/hourglass"); } }
         public static Sprite Sprite_PlayerTurn { get { return Resources.Load<Sprite>("Sprites/DialogueTest_小红帽"); } }
         public static Sprite Sprite_EnermyTurn { get { return Resources.Load<Sprite>("Sprites/DialogueTest_大灰狼"); } }
 

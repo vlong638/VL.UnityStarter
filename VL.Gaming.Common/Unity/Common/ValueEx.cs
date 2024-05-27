@@ -6,13 +6,6 @@ namespace VL.Gaming.Common
 {
     public static partial class ValueEx
     {
-        #region Enum
-        public static int ToInt(this Enum enumValue)
-        {
-            return Convert.ToInt32(enumValue);
-        } 
-        #endregion
-
         #region Color
         /// <summary>
         /// 字符串 转 颜色
@@ -45,7 +38,14 @@ namespace VL.Gaming.Common
         public static void SetColorAlpha(this Image image, float alpha = 1)
         {
             var color = image.color;
-            image.color =  new Color(color.r, color.g, color.b, alpha);
+            image.color = new Color(color.r, color.g, color.b, alpha);
+        }
+        #endregion
+
+        #region Enum
+        public static int ToInt(this Enum enumValue)
+        {
+            return Convert.ToInt32(enumValue);
         }
         #endregion
 
@@ -60,14 +60,23 @@ namespace VL.Gaming.Common
         {
             go.transform.SetParent(parent.transform);
         }
-        public static void SetScale(this GameObject go, float x, float y, float z)
-        {
-            go.transform.localScale = new Vector3(x, y, z);
-        }
         public static void SetPosition(this GameObject go, float x, float y, float z)
         {
             go.transform.position = new Vector3(x, y, z);
         }
+        public static void SetScale(this GameObject go, float x, float y, float z = 1)
+        {
+            go.transform.localScale = new Vector3(x, y, z);
+        }
+        public static void SetSizeDelta(this GameObject go, float x, float y)
+        {
+            go.SetSizeDelta(new Vector2(x, y));
+        }
+        public static void SetSizeDelta(this GameObject go, Vector2 sizeDelta)
+        {
+            go.GetComponent<RectTransform>().sizeDelta = sizeDelta;
+        }
+
         #endregion
 
         #region RectTransform
@@ -125,8 +134,12 @@ namespace VL.Gaming.Common
         {
             rectTransform.anchorMin = new Vector2(0, 0);//设置RectTransform的最小锚点位置为左下角
             rectTransform.anchorMax = new Vector2(1, 0);//设置RectTransform的最大锚点位置为右上角
-            rectTransform.pivot = new Vector2( 0.5f,0);//设置RectTransform的中心点为中心, 翻转中心
+            rectTransform.pivot = new Vector2(0.5f, 0);//设置RectTransform的中心点为中心, 翻转中心
         }
+        #endregion
+
+
+        #region Text
         #endregion
     }
 }

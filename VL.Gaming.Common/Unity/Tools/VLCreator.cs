@@ -329,10 +329,6 @@ namespace VL.Gaming.Unity.Tools
         {
             return ScrollView.transform.Find("Viewport").transform.Find("Content").gameObject;
         }
-        public static void SetSizeDelta(this GameObject Content, Vector2 sizeDelta)
-        {
-            Content.GetComponent<RectTransform>().sizeDelta = sizeDelta;
-        }
         public static GameObject CreateDialogue(string name = "dialogue", GameObject parent = null)
         {
             //Canvas

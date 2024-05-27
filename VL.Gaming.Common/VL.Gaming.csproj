@@ -82,6 +82,7 @@
     <Compile Include="Study\Unity\Study_AnimatorController.cs" />
     <Compile Include="Study\Unity\Study_Animator.cs" />
     <Compile Include="Unity\Cache\ObjectPool.cs" />
+    <Compile Include="Unity\Common\Enums\VLSortingOrder.cs" />
     <Compile Include="Unity\Common\Enums\VLLayerMask.cs" />
     <Compile Include="Unity\Common\MockHelper.cs" />
     <Compile Include="Unity\Common\MyScriptableObject.cs" />
@@ -141,6 +142,8 @@
     <Compile Include="Unity\Gaming\GameSystem\GameInitManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameBattleManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameLoadingManager.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\Widgets\HourGlass\CountDownTimer.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\Widgets\HourGlass\HourGlassManager.cs" />
     <Compile Include="Unity\Gaming\MovementManage\AutoMoveInDirections.cs" />
     <Compile Include="Unity\Gaming\GameSystem\ChessMove\DisplayTransform.cs" />
     <Compile Include="Unity\Gaming\GameSystem\ChessMove\DisplayCrash.cs" />

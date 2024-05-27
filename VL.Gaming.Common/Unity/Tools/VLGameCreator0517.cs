@@ -58,6 +58,9 @@ namespace VL.Gaming.Unity.Tools
             //InBattle
             var InBattle = new GameObject("InBattle");
             InBattle.SetActive(true);
+            //Canvas
+            var Canvas_Main = VLCreator.CreateCanvas("Canvas_Main");
+            Canvas_Main.SetParent(InBattle);
             //背景 云顶,天空,悬浮,流云效果
             Sprite_Background = VLCreator.CreateSprite("Sprite_Background");
             Sprite_Background.SetParent(InBattle);
@@ -76,19 +79,50 @@ namespace VL.Gaming.Unity.Tools
             SpriteRenderer.sortingOrder = SortingOrderEnum.Floor.ToInt();
             SpriteRenderer.color = Color.green;
             //计时器,漏斗
-            var Sprite_Funnel = VLCreator.CreateSprite("Sprite_Funnel");
-            Sprite_Funnel.SetParent(InBattle);
-            Sprite_Funnel.SetPosition(-9, 0, 0);
-            SpriteRenderer = Sprite_Funnel.GetComponent<SpriteRenderer>();
-            SpriteRenderer.sprite = VLResource.Sprite_Funnel;
-            SpriteRenderer.sortingOrder = SortingOrderEnum.Item.ToInt();
+            var Sprite_HourGlass = VLCreator.CreateSprite("Sprite_HourGlass");
+            Sprite_HourGlass.SetParent(InBattle);
+            //SpriteRenderer = Sprite_HourGlass.GetComponent<SpriteRenderer>();
+            //SpriteRenderer.sprite = VLResource.Sprite_HourGlass;
+            //SpriteRenderer.sortingOrder = SortingOrderEnum.Item.ToInt();
+            var Canvas = VLCreator.CreateCanvas("Canvas");
+            Canvas.SetParent(Sprite_HourGlass);
+            Canvas.SetPosition(0, 0, 0);
+            var canvas = Canvas.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.WorldSpace;
+            canvas.sortingOrder = VLSortingOrder.Foreground.ToInt();
+            var Text = VLCreator.CreateText("Text");
+            Text.SetParent(Canvas);
+            Text.SetSizeDelta(90, 50);
+            Text.SetScale(0.02f, 0.02f, 1);
+            Text.SetPosition(0.08f, 0, 0);
+            var text = Text.GetComponent<Text>();
+            text.fontSize = 36;
+            text.text = "00:00";
+            text.color = Color.black;
+            Sprite_HourGlass.SetPosition(-9, 0, 0);
             //当前回合说明
             var Sprite_CurrentTurn = VLCreator.CreateSprite("Sprite_CurrentTurn");
             Sprite_CurrentTurn.SetParent(InBattle);
-            Sprite_CurrentTurn.SetPosition(-9, 3, 0);
-            SpriteRenderer = Sprite_CurrentTurn.GetComponent<SpriteRenderer>();
-            SpriteRenderer.sprite = VLResource.Sprite_PlayerTurn;
-            SpriteRenderer.sortingOrder = SortingOrderEnum.Item.ToInt();
+            //SpriteRenderer = Sprite_CurrentTurn.GetComponent<SpriteRenderer>();
+            //SpriteRenderer.sprite = VLResource.Sprite_PlayerTurn;
+            //SpriteRenderer.sortingOrder = SortingOrderEnum.Item.ToInt();
+            Canvas = VLCreator.CreateCanvas("Canvas");
+            Canvas.SetParent(Sprite_CurrentTurn);
+            Canvas.SetPosition(0, 0, 0);
+            canvas = Canvas.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.WorldSpace;
+            canvas.sortingOrder = VLSortingOrder.Foreground.ToInt();
+            Text = VLCreator.CreateText("Text");
+            Text.SetParent(Canvas);
+            Text.SetSizeDelta(120, 50);
+            Text.SetScale(0.02f, 0.02f, 1);
+            Text.SetPosition(0, 0, 0);
+            text = Text.GetComponent<Text>();
+            text.fontSize = 30;
+            text.text = "我方回合";
+            text.color = Color.black;
+            Sprite_CurrentTurn.SetPosition(-8.88f, 0.64f, 0);
+
             //行列
             float[] columns = new float[] { -7, -3.5f, 0, 3.5f, 7 };
             float[] rows = new float[] { 3.3f, 1.3f, -1f, -3f };
