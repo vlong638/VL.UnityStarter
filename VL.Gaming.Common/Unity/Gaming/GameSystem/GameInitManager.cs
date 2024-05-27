@@ -100,7 +100,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             maxAlpha = 1.0f; // 最大透明度
             currentAlpha = 0.0f;
             direction = 1.0f; // 控制透明度变化方向
-            lootTimes = 3;
+            lootTimes = 2;
         }
     }
 }

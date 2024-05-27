@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using VL.Gaming.Common;
+using VL.Gaming.Unity.Common.Enums;
 using VL.Gaming.Unity.Gaming.Content.Entities;
 using VL.Gaming.Unity.Gaming.Ultis;
 
@@ -10,17 +11,133 @@ namespace VL.Gaming.Unity.Tools
 {
     internal class VLGameCreator0517
     {
-        class Item
+        [MenuItem("Tools/InitSceneGaming/InitGameBoard")]
+        static void InitGameBoard()
         {
-            public string Name;
-            public string ImageSource;
-            public string Description;
+            //检查已存在
+            var check = ResourceHelper.FindGameObjectByName("PreBattle");
+            if (check != null)
+                Undo.DestroyObjectImmediate(check);
+            check = ResourceHelper.FindGameObjectByName("InBattle");
+            if (check != null)
+                Undo.DestroyObjectImmediate(check);
+
+            //PreBattle
+            var PreBattle = new GameObject("PreBattle");
+            PreBattle.SetActive(false);
+            //背景 云顶,天空,悬浮,流云效果
+            var Sprite_Background = VLCreator.CreateSprite("Sprite_Background");
+            Sprite_Background.SetParent(PreBattle);
+            Sprite_Background.SetPosition(0, 0, 0);
+            Sprite_Background.SetScale(34.2f, 19.2f, 1);
+            var SpriteRenderer = Sprite_Background.GetComponent<SpriteRenderer>();
+            SpriteRenderer.sprite = VLResource.Sprite_Rectangle;
+            SpriteRenderer.sortingOrder = SortingOrderEnum.Floor.ToInt();
+            //Player
+            var Sprite_Player = VLCreator.CreateSprite("Sprite_Player");
+            Sprite_Player.SetParent(PreBattle);
+            Sprite_Player.SetPosition(-5, 0, 0);
+            SpriteRenderer = Sprite_Player.GetComponent<SpriteRenderer>();
+            SpriteRenderer.sprite = VLResource.Sprite_Player;
+            SpriteRenderer.sortingOrder = SortingOrderEnum.Unit.ToInt();
+            //Enermy
+            var Sprite_Enermy = VLCreator.CreateSprite("Sprite_Enermy");
+            Sprite_Enermy.SetParent(PreBattle);
+            Sprite_Enermy.SetPosition(5, 0, 0);
+            SpriteRenderer = Sprite_Enermy.GetComponent<SpriteRenderer>();
+            SpriteRenderer.sprite = VLResource.Sprite_Enermy;
+            SpriteRenderer.sortingOrder = SortingOrderEnum.Unit.ToInt();
+            //VS
+            var Sprite_VS = VLCreator.CreateSprite("Sprite_VS");
+            Sprite_VS.SetParent(PreBattle);
+            Sprite_VS.SetPosition(0, 0, 0);
+            SpriteRenderer = Sprite_VS.GetComponent<SpriteRenderer>();
+            SpriteRenderer.sprite = VLResource.Sprite_VS;
+            SpriteRenderer.sortingOrder = SortingOrderEnum.Unit.ToInt();
+
+            //InBattle
+            var InBattle = new GameObject("InBattle");
+            InBattle.SetActive(true);
+            //背景 云顶,天空,悬浮,流云效果
+            Sprite_Background = VLCreator.CreateSprite("Sprite_Background");
+            Sprite_Background.SetParent(InBattle);
+            Sprite_Background.SetPosition(0, 0, 0);
+            Sprite_Background.SetScale(34.2f, 19.2f, 1);
+            SpriteRenderer = Sprite_Background.GetComponent<SpriteRenderer>();
+            SpriteRenderer.sprite = VLResource.Sprite_Rectangle;
+            SpriteRenderer.sortingOrder = SortingOrderEnum.Floor.ToInt();
+            //棋盘
+            var Sprite_Board = VLCreator.CreateSprite("Sprite_Board");
+            Sprite_Board.SetParent(InBattle);
+            Sprite_Board.SetPosition(0, 0, 0);
+            Sprite_Board.SetScale(20f, 10f, 1);
+            SpriteRenderer = Sprite_Board.GetComponent<SpriteRenderer>();
+            SpriteRenderer.sprite = VLResource.Sprite_Circle;
+            SpriteRenderer.sortingOrder = SortingOrderEnum.Floor.ToInt();
+            SpriteRenderer.color = Color.green;
+            //计时器,漏斗
+            var Sprite_Funnel = VLCreator.CreateSprite("Sprite_Funnel");
+            Sprite_Funnel.SetParent(InBattle);
+            Sprite_Funnel.SetPosition(-9, 0, 0);
+            SpriteRenderer = Sprite_Funnel.GetComponent<SpriteRenderer>();
+            SpriteRenderer.sprite = VLResource.Sprite_Funnel;
+            SpriteRenderer.sortingOrder = SortingOrderEnum.Item.ToInt();
+            //当前回合说明
+            var Sprite_CurrentTurn = VLCreator.CreateSprite("Sprite_CurrentTurn");
+            Sprite_CurrentTurn.SetParent(InBattle);
+            Sprite_CurrentTurn.SetPosition(-9, 3, 0);
+            SpriteRenderer = Sprite_CurrentTurn.GetComponent<SpriteRenderer>();
+            SpriteRenderer.sprite = VLResource.Sprite_PlayerTurn;
+            SpriteRenderer.sortingOrder = SortingOrderEnum.Item.ToInt();
+            //行列
+            float[] columns = new float[] { -7, -3.5f, 0, 3.5f, 7 };
+            float[] rows = new float[] { 3.3f, 1.3f, -1f, -3f };
+            //Player
+            var player = GameObject.Instantiate(VLResource.Prefab_Chess);
+            player.SetParent(InBattle);
+            player.transform.position = new Vector3(columns[2], rows[3], 0);
+            player.layer = VLLayerMask.PlayerUnit.ToInt();
+            player.AddComponent<BoxCollider2D>();
+            player.AddComponent<Animator>();
+            //Enermy
+            var enermy = GameObject.Instantiate(VLResource.Prefab_Chess);
+            enermy.SetParent(InBattle);
+            enermy.transform.position = new Vector3(columns[2], rows[0], 0);
+            enermy.layer = VLLayerMask.EnermyUnit.ToInt();
+            enermy.AddComponent<BoxCollider2D>();
+            enermy.AddComponent<Animator>();
+            //棋子位置(星空战旗)
+            for (int r = 0; r < rows.Length; r++)
+            {
+                for (int c = 0; c < columns.Length; c++)
+                {
+                    var chess = GameObject.Instantiate(VLResource.Prefab_ChessPlaceHolder);
+                    chess.SetParent(InBattle);
+                    chess.transform.position = new Vector3(columns[c], rows[r], 0);
+                    chess.layer = r >= 2 ? VLLayerMask.PlayerUnit.ToInt() : VLLayerMask.EnermyUnit.ToInt();
+                    chess.AddComponent<BoxCollider2D>();
+                    chess.AddComponent<Animator>();
+                }
+            }
+            //生成Player+Enermy
+            //开场动画 左右 街霸气势对抗,叫嚣
+            //Player+Enermy归位
+
+            //初始化棋子
+            //注入灵魂
+
+            //玩家回合开始
+
+            //选择英雄技能
+            //选择目标
+
+            //敌人
         }
 
         [MenuItem("Tools/InitSceneGaming/InitPlayerBox")]
         static void InitPlayerBox()
         {
-            PlayerData playerData= new PlayerData();
+            PlayerData playerData = new PlayerData();
             playerData.Name = "PlayerVL";
             playerData.UnitAttributes = new UnitAttributes()
             {
@@ -43,13 +160,15 @@ namespace VL.Gaming.Unity.Tools
                 new ItemData(){ Name="铁矿石",Count=7,Description="铁矿原石,闪耀着黑色"},
                 new ItemData(){ Name="铜矿石",Count=8,Description="铜矿原石,闪耀着棕黄色"},
             };
+            List<ItemData> items = new List<ItemData>();
             for (int i = 0; i < 8; i++)
             {
-                playerData.Items.ForEach(c => playerData.Items.Add(new ItemData() { Name = c.Name }));
+                playerData.Items.ForEach(c => items.Add(new ItemData() { Name = c.Name }));
             }
+            playerData.Items = items;
 
             //检查已存在
-            var check  = ResourceHelper.FindGameObjectByName("Prefab_Canvas_Gaming_PlayerBox");
+            var check = ResourceHelper.FindGameObjectByName("Prefab_Canvas_Gaming_PlayerBox");
             if (check != null)
                 Undo.DestroyObjectImmediate(check);
 
@@ -119,7 +238,7 @@ namespace VL.Gaming.Unity.Tools
             Image_Right.SetColor(MockHelper.MockColor(), 1f);
             rectTransform = Image_Right.GetComponent<Image>().GetComponent<RectTransform>();
             rectTransform.SetLeftDown(1100, 0, 500, 800);
-                                     
+
             Text text;
 
             #region Image_Left,属性栏
@@ -394,6 +513,5 @@ namespace VL.Gaming.Unity.Tools
 
             Debug.Log($"Instantiate End");
         }
-
     }
 }

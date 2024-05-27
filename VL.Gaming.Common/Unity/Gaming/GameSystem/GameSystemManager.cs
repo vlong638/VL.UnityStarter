@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using VL.Gaming.Unity.Gaming.DisplayManage;
 using VL.Gaming.Unity.Gaming.Ultis;
 
 namespace VL.Gaming.Unity.Gaming.GameSystem

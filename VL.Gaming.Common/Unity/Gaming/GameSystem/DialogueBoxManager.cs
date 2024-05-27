@@ -3,11 +3,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using VL.Gaming.Common;
-using VL.Gaming.Unity.Gaming.GameSystem;
 using VL.Gaming.Unity.Gaming.Ultis;
 using VL.Gaming.Unity.Tools;
 
-namespace VL.Gaming.Unity.Gaming.DisplayManage
+namespace VL.Gaming.Unity.Gaming.GameSystem
 {
 
     public class DialogueBoxManager : MonoBehaviour
@@ -63,7 +62,7 @@ namespace VL.Gaming.Unity.Gaming.DisplayManage
         float clickInterval = 1f;
         bool isUpdatingUI = false;
         bool isChoosing = false;
-        Dialogue currentDialogue;
+        Dialogue currentDialogue; 
         Dialogue lastDialogue;
         void Update()
         {

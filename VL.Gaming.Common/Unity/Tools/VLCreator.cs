@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using VL.Gaming.Common;
+using VL.Gaming.Unity.Gaming.Ultis;
 
 namespace VL.Gaming.Unity.Tools
 {
@@ -183,9 +184,9 @@ namespace VL.Gaming.Unity.Tools
         }
         public static GameObject CreateScrollView(string name = "ScrollView", GameObject parent = null)
         {
-            Sprite spriteBackground = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
-            Sprite spriteUIMask = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UIMask.psd");
-            Sprite spriteUISprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+            Sprite spriteBackground = VLResource.Sprite_Background;
+            Sprite spriteUIMask = VLResource.Sprite_UIMask;
+            Sprite spriteUISprite = VLResource.Sprite_UISprite;
 
             // 添加 ScrollView
             GameObject gameObject = new GameObject(name);
@@ -301,6 +302,13 @@ namespace VL.Gaming.Unity.Tools
             return gameObject;
         }
         public static GameObject CreateSprite(string name = "Sprite", GameObject parent = null)
+        {
+            GameObject gameObject = new GameObject(name);
+            if (parent) gameObject.transform.SetParent(parent.transform);
+            gameObject.AddComponent<SpriteRenderer>();
+            return gameObject;
+        }
+        public static GameObject CreateSquare(string name = "Square", GameObject parent = null)
         {
             GameObject gameObject = new GameObject(name);
             if (parent) gameObject.transform.SetParent(parent.transform);

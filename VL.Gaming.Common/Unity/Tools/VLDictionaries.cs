@@ -3,8 +3,22 @@ using UnityEngine;
 
 namespace VL.Gaming.Unity.Tools
 {
+    public enum SortingOrderEnum
+    {
+        None = 0,
+        Floor,
+        Item,
+        Unit,
+    }
     public static class VLDictionaries
     {
+        
+        //public static Dictionary<SortingOrderEnum, int> SortingOrderDic = new Dictionary<SortingOrderEnum, int>()
+        //{
+        //    { SortingOrderEnum.Floor,0},
+        //    { SortingOrderEnum.Item,0},
+        //    { SortingOrderEnum.Unit,0},
+        //};
         public static Dictionary<string, Color> ColorDic = new Dictionary<string, Color>()
         {
             //{ nameof(FastItem.FastItemBlock), Color.black},
