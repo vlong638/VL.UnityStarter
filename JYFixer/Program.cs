@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 using VL.Gaming.Framework.Tools;
 
 namespace JYFixer
@@ -11,11 +12,13 @@ namespace JYFixer
     {
         static void Main(string[] args)
         {
-
-
-
-
-
+            for (int i = 0; i < 100; i++)
+            {
+                var cycleDuration = 30f; ;
+                var timeElapsed = i; ;
+                float alpha = Mathf.PingPong((float)Math.Round(timeElapsed / cycleDuration, 2) , 1f);
+                Console.WriteLine(alpha);
+            }
             MockData_DialogueData();
 
 

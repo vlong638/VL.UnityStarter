@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 using VL.Gaming.Unity.Common.Enums;
+using VL.Gaming.Unity.Gaming.GameSystem.ChessMove;
 using VL.Gaming.Unity.Gaming.Ultis;
 
-namespace VL.Gaming.Unity.Gaming.GameSystem.ChessMove
+namespace VL.Gaming.Unity.Gaming.GameSystem.SubSystems
 {
     public class TurnManager : MonoBehaviour
     {

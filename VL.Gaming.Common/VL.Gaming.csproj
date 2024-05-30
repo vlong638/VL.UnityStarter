@@ -79,7 +79,6 @@
     <Compile Include="Study\Patterns\Others\ObjectPool.cs" />
     <Compile Include="Study\Patterns\Others\EventDriven.cs" />
     <Compile Include="Study\Patterns\Others\DependencyInjection.cs" />
-    <Compile Include="Study\Unity\Study_AnimatorController.cs" />
     <Compile Include="Study\Unity\Study_Animator.cs" />
     <Compile Include="Unity\Cache\ObjectPool.cs" />
     <Compile Include="Unity\Common\Enums\VLSortingOrder.cs" />
@@ -117,8 +116,9 @@
     <Compile Include="Unity\Gaming\CameraManage\CameraHandTool.cs" />
     <Compile Include="Unity\Gaming\ColliderManage\ColliderTrigger.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\ItemData.cs" />
-    <Compile Include="Unity\Gaming\GameSystem\ChessMove\DisplaySelected.cs" />
-    <Compile Include="Unity\Gaming\GameSystem\ChessMove\TurnManager.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\Game0517\CountDownTextManager.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\SubSystems\TurnManager.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\Widgets\ChessMove\DisplaySelected.cs" />
     <Compile Include="Unity\Gaming\GameSystem\Dialogue.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\EquipmentAttributes.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\InstrumentData.cs" />
@@ -142,11 +142,12 @@
     <Compile Include="Unity\Gaming\GameSystem\GameInitManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameBattleManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameLoadingManager.cs" />
-    <Compile Include="Unity\Gaming\GameSystem\Widgets\HourGlass\CountDownTimer.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\Widgets\CountDownTimer.cs" />
     <Compile Include="Unity\Gaming\GameSystem\Widgets\HourGlass\HourGlassManager.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\Widgets\TextColorFader.cs" />
     <Compile Include="Unity\Gaming\MovementManage\AutoMoveInDirections.cs" />
-    <Compile Include="Unity\Gaming\GameSystem\ChessMove\DisplayTransform.cs" />
-    <Compile Include="Unity\Gaming\GameSystem\ChessMove\DisplayCrash.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\Widgets\ChessMove\DisplayTransform.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\Widgets\ChessMove\DisplayCrash.cs" />
     <Compile Include="Unity\Gaming\MovementManage\ClickMove.cs" />
     <Compile Include="Unity\Gaming\MovementManage\WASDMove.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameSystemManager.cs" />
