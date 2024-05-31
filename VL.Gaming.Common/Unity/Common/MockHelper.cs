@@ -18,7 +18,7 @@ namespace VL.Gaming.Common
 
         static Color[] Colors = new Color[] { Color.cyan, Color.yellow, Color.green };
         static int ColorIndex = 0;
-        public static Color MockColor()
+        public static Color MockColorForBackground()
         {
             if (ColorIndex >= 3)
                 ColorIndex = 0;
@@ -26,7 +26,7 @@ namespace VL.Gaming.Common
         }
         static Color[] Colors2 = new Color[] { Color.red, Color.blue };
         static int ColorIndex2 = 0;
-        public static Color MockColor2()
+        public static Color MockColorForItem()
         {
             if (ColorIndex2 >= 2)
                 ColorIndex2 = 0;

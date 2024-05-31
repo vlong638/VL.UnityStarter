@@ -51,11 +51,6 @@ namespace VL.Gaming.Common
 
         #region GameObject
 
-        /// <summary>
-        /// 设置 Parent
-        /// </summary>
-        /// <param name="go"></param>
-        /// <param name="parent"></param>
         public static void SetParent(this GameObject go, GameObject parent)
         {
             go.transform.SetParent(parent.transform);
@@ -76,15 +71,50 @@ namespace VL.Gaming.Common
         {
             go.GetComponent<RectTransform>().sizeDelta = sizeDelta;
         }
+        public static void SetImageColor(this GameObject go, Color color)
+        {
+            go.GetComponent<Image>().color = color;
+        }
+        public static void SetRectStretch(this GameObject gameObject, int left = 0, int right = 0, int up = 0, int down = 0)
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.SetRectStretch(left, right, up, down);
+        }
+        public static void SetRectLeftDown(this GameObject gameObject, float offsetX, float offsetY, float x, float y)
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.SetRectLeftDown(offsetX, offsetY, x, y);
+        }
+        public static void SetRectLeftTop(this GameObject gameObject, float offsetX, float offsetY, float x, float y)
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.SetRectLeftTop(offsetX, offsetY, x, y);
+        }
+        public static void SetRectTopDownOnRight(this GameObject gameObject)
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.SetRectTopDownOnRight();
+        }
+        public static void SetRectLeftRightOnBottom(this GameObject gameObject)
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.SetRectLeftRightOnBottom();
+        }
+
+        public static GameObject GetTextObject(this GameObject go)
+        {
+            return go.transform.Find("Text").gameObject;
+        }
 
         #endregion
 
         #region RectTransform
+
         /// <summary>
         /// 设置成 Stretch
         /// </summary>
         /// <param name="rectTransform"></param>
-        public static void SetStretch(this RectTransform rectTransform, int left = 0, int right = 0, int up = 0, int down = 0)
+        public static void SetRectStretch(this RectTransform rectTransform, int left = 0, int right = 0, int up = 0, int down = 0)
         {
             rectTransform.anchorMin = new Vector2(0, 0);//设置RectTransform的最小锚点位置为左下角
             rectTransform.anchorMax = new Vector2(1, 1);//设置RectTransform的最大锚点位置为右上角
@@ -96,7 +126,7 @@ namespace VL.Gaming.Common
         /// 设置成 左下角对齐
         /// </summary>
         /// <param name="rectTransform"></param>
-        public static void SetLeftDown(this RectTransform rectTransform, float offsetX, float offsetY, float x, float y)
+        public static void SetRectLeftDown(this RectTransform rectTransform, float offsetX, float offsetY, float x, float y)
         {
             rectTransform.anchorMin = new Vector2(0, 0);//设置RectTransform的最小锚点位置为左下角
             rectTransform.anchorMax = new Vector2(0, 0);//设置RectTransform的最大锚点位置为右上角
@@ -108,19 +138,19 @@ namespace VL.Gaming.Common
         /// 设置成 左上角对齐
         /// </summary>
         /// <param name="rectTransform"></param>
-        public static void SetLeftTop(this RectTransform rectTransform, float offsetX, float offsetY, float x, float y)
+        public static void SetRectLeftTop(this RectTransform rectTransform, float offsetX, float offsetY, float x, float y)
         {
             rectTransform.anchorMin = new Vector2(0, 1);//设置RectTransform的最小锚点位置为左下角
             rectTransform.anchorMax = new Vector2(0, 1);//设置RectTransform的最大锚点位置为右上角
             rectTransform.pivot = new Vector2(0, 1);//设置RectTransform的中心点为中心, 翻转中心
             rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, offsetX, x);// SetInsetAndSizeFromParentEdge 根据父对象边缘设置位置和大小
-            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, offsetY, y);// SetInsetAndSizeFromParentEdge 根据父对象边缘设置位置和大小
+            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -offsetY, y);// SetInsetAndSizeFromParentEdge 根据父对象边缘设置位置和大小
         }
         /// <summary>
         /// 设置成 上下对齐(右侧)
         /// </summary>
         /// <param name="rectTransform"></param>
-        public static void SetTopDownOnRight(this RectTransform rectTransform)
+        public static void SetRectTopDownOnRight(this RectTransform rectTransform)
         {
             rectTransform.anchorMin = new Vector2(1, 0);//设置RectTransform的最小锚点位置为左下角
             rectTransform.anchorMax = new Vector2(1, 1);//设置RectTransform的最大锚点位置为右上角
@@ -130,7 +160,7 @@ namespace VL.Gaming.Common
         /// 设置成 左右对齐(底部)
         /// </summary>
         /// <param name="rectTransform"></param>
-        public static void SetLeftRightOnBottom(this RectTransform rectTransform)
+        public static void SetRectLeftRightOnBottom(this RectTransform rectTransform)
         {
             rectTransform.anchorMin = new Vector2(0, 0);//设置RectTransform的最小锚点位置为左下角
             rectTransform.anchorMax = new Vector2(1, 0);//设置RectTransform的最大锚点位置为右上角

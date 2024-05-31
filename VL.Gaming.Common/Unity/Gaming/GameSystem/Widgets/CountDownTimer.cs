@@ -64,5 +64,6 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.Widgets
             this.effectTriggerTime = effectTriggerTime;
             isStart = true;
             hasTriggeredEffect = OnTriggerEffect == null;
+        }
     }
 }

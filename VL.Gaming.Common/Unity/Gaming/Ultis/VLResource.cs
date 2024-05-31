@@ -20,6 +20,12 @@ namespace VL.Gaming.Unity.Gaming.Ultis
         public static GameObject Prefab_Chess { get { return Resources.Load<GameObject>("Prefabs/Prefab_Chess"); ; } }
         public static GameObject Prefab_ChessPlaceHolder { get { return Resources.Load<GameObject>("Prefabs/Prefab_ChessPlaceHolder"); } }
 
+        #region StartMenu
+        public static GameObject Prefab_Button_StartMenu_MiniButton { get { return Resources.Load<GameObject>("Prefabs/Prefab_Button_StartMenu_MiniButton"); } }
+        public static GameObject Prefab_Button_StartMenu_Normal { get { return Resources.Load<GameObject>("Prefabs/Prefab_Button_StartMenu_Normal"); } }
+        public static GameObject Prefab_Canvas_StartMenu_Declaration { get { return Resources.Load<GameObject>("Prefabs/Prefab_Canvas_StartMenu_Declaration"); } } 
+        #endregion
+
         public static RuntimeAnimatorController Controller_Rotate { get { return Resources.Load<RuntimeAnimatorController>("Animations/Rotate"); } }
 
     }

@@ -247,14 +247,14 @@ namespace VL.Gaming.Unity.Tools
             var horizontalSlidingArea = new GameObject("Sliding Area");
             horizontalSlidingArea.SetParent(horizontalScrollbarGO);
             rectTransform = horizontalSlidingArea.AddComponent<RectTransform>();
-            rectTransform.SetStretch(10, 10, 10, 10);
+            rectTransform.SetRectStretch(10, 10, 10, 10);
             // 添加 Handle
             var horizontalHandle = new GameObject("Handle");
             horizontalHandle.SetParent(horizontalSlidingArea);
             rectTransform = horizontalHandle.AddComponent<RectTransform>();
             //rectTransform.SetTopDown();
             //rectTransform.SetStretch(-10, -10, -10, -10);
-            rectTransform.SetStretch(-18, -18, -10, -10);
+            rectTransform.SetRectStretch(-18, -18, -10, -10);
             image = horizontalHandle.AddComponent<Image>();
             image.sprite = spriteUISprite;
             image.type = Image.Type.Sliced;
@@ -283,14 +283,14 @@ namespace VL.Gaming.Unity.Tools
             var verticalSlidingArea = new GameObject("Sliding Area");
             verticalSlidingArea.SetParent(verticalScrollbarGO);
             rectTransform = verticalSlidingArea.AddComponent<RectTransform>();
-            rectTransform.SetStretch(10, 10, 10, 10);
+            rectTransform.SetRectStretch(10, 10, 10, 10);
             // 添加 Handle
             var verticalHandle = new GameObject("Handle");
             verticalHandle.SetParent(verticalSlidingArea);
             rectTransform = verticalHandle.AddComponent<RectTransform>();
             //rectTransform.SetLeftRight();
             //rectTransform.SetStretch(-10, -10, -10, -10);
-            rectTransform.SetStretch(-10, -10, -18, -18);
+            rectTransform.SetRectStretch(-10, -10, -18, -18);
             image = verticalHandle.AddComponent<Image>();
             image.sprite = spriteUISprite;
             image.type = Image.Type.Sliced;
