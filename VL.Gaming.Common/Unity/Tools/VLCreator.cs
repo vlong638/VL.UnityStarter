@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VL.Gaming.Common;
 using VL.Gaming.Unity.Gaming.Ultis;
@@ -158,6 +159,14 @@ namespace VL.Gaming.Unity.Tools
             var canvasScaler = gameObject.AddComponent<CanvasScaler>();
             var graphicRaycaster = gameObject.AddComponent<GraphicRaycaster>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;// 设置Canvas的渲染模式为屏幕空间覆盖
+            return gameObject;
+        }
+        public static GameObject CreateEventSystem(string name = "EventSystem", GameObject parent = null)
+        {
+            GameObject gameObject = new GameObject(name);
+            if (parent) gameObject.transform.SetParent(parent.transform);
+            var eventSystem = gameObject.AddComponent<EventSystem>();
+            var standaloneInputModule = gameObject.AddComponent<StandaloneInputModule>();
             return gameObject;
         }
         public static GameObject CreateImage(Sprite sprite, string name = "Image", GameObject parent = null)

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using VL.Gaming.Unity.Gaming.Ultis;
+using VL.Gaming.Unity.Tools;
+using VL.Gaming.Unity.Ultis;
 
 namespace VL.Gaming.Unity.Gaming.GameSystem
 {
@@ -17,6 +20,15 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
         {
             if (pauseMenu != null)
                 pauseMenu.SetActive(false);
+
+            //StartGame
+            var gameObject = ResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.StartGame]);
+            gameObject.GetComponent<Button>().onClick.AddListener(() => StartGame());
+            //Load
+            //Config
+            //Quit
+            gameObject = ResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.Quit]);
+            gameObject.GetComponent<Button>().onClick.AddListener(() => QuitGame());
         }
 
         void Update()

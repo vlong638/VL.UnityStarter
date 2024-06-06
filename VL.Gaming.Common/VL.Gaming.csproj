@@ -161,7 +161,7 @@
     <Compile Include="Unity\Tools\VLCreator.cs" />
     <Compile Include="Unity\Tools\VLDebug.cs" />
     <Compile Include="Unity\Tools\VLDecorator.cs" />
-    <Compile Include="Unity\Tools\VLDictionaries.cs" />
+    <Compile Include="Unity\Gaming\Ultis\VLDictionaries.cs" />
     <Compile Include="Unity\Tools\VLGameCreator0517.cs" />
   </ItemGroup>
   <ItemGroup>

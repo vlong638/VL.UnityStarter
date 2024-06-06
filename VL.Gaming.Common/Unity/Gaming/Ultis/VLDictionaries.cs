@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace VL.Gaming.Unity.Tools
+namespace VL.Gaming.Unity.Ultis
 {
     public enum SortingOrderEnum
     {
@@ -10,9 +10,25 @@ namespace VL.Gaming.Unity.Tools
         Item,
         Unit,
     }
+    public enum VLButtons
+    {
+        None = 0,
+        StartGame,
+        Load,
+        Config,
+        Quit,
+    }
+
     public static class VLDictionaries
     {
-        
+
+        public static Dictionary<VLButtons, string> VLButtonsDic = new Dictionary<VLButtons, string>()
+        {
+            { VLButtons.StartGame,"Button_StartGame"},
+            { VLButtons.Load,"Button_Load"},
+            { VLButtons.Config,"Button_Config"},
+            { VLButtons.Quit,"Button_Quit"},
+        };
         //public static Dictionary<SortingOrderEnum, int> SortingOrderDic = new Dictionary<SortingOrderEnum, int>()
         //{
         //    { SortingOrderEnum.Floor,0},

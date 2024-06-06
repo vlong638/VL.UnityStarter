@@ -8,23 +8,13 @@ using VL.Gaming.Unity.Common.Enums;
 using VL.Gaming.Unity.Gaming.Content.Entities;
 using VL.Gaming.Unity.Gaming.GameSystem;
 using VL.Gaming.Unity.Gaming.Ultis;
+using VL.Gaming.Unity.Ultis;
 
 namespace VL.Gaming.Unity.Tools
 {
     internal class VLGameCreator0517
     {
-        [MenuItem("Tools/InitSceneGaming/InitNewProject")]
-        static void InitNewProject()
-        {
-            CreateDirectory("Resources");
-            CreateDirectory("Resources/Animations");
-            CreateDirectory("Resources/Dialogues");
-            CreateDirectory("Resources/Prefabs");
-            CreateDirectory("Resources/Sprites");
-            CreateDirectory("Sprites");
-            Debug.Log($"Instantiate End");
-        }
-
+        #region Utils
         private static void CreateDirectory(string fileName)
         {
             string fullPath = Path.Combine(Application.dataPath, fileName);
@@ -39,16 +29,33 @@ namespace VL.Gaming.Unity.Tools
             }
         }
 
+        private static GameObject CheckExist(string name, bool deleteOnExit = true)
+        {
+            var check = ResourceHelper.FindGameObjectByName(name);
+            if (check != null && deleteOnExit)
+                Undo.DestroyObjectImmediate(check);
+            return check;
+        }
+        #endregion
+
+        [MenuItem("Tools/InitSceneGaming/InitNewProject")]
+        static void InitNewProject()
+        {
+            CreateDirectory("Resources");
+            CreateDirectory("Resources/Animations");
+            CreateDirectory("Resources/Dialogues");
+            CreateDirectory("Resources/Prefabs");
+            CreateDirectory("Resources/Sprites");
+            CreateDirectory("Sprites");
+            Debug.Log($"Instantiate End");
+        }
+
         [MenuItem("Tools/InitSceneGaming/InitGameBoard")]
         static void InitGameBoard()
         {
             //检查已存在
-            var check = ResourceHelper.FindGameObjectByName("PreBattle");
-            if (check != null)
-                Undo.DestroyObjectImmediate(check);
-            check = ResourceHelper.FindGameObjectByName("InBattle");
-            if (check != null)
-                Undo.DestroyObjectImmediate(check);
+            CheckExist("PreBattle");
+            CheckExist("InBattle");
 
             //依赖前置
             var sprite = VLResource.Sprite_Rectangle;
@@ -240,9 +247,7 @@ namespace VL.Gaming.Unity.Tools
             playerData.Items = items;
 
             //检查已存在
-            var check = ResourceHelper.FindGameObjectByName("Prefab_Canvas_Gaming_PlayerBox");
-            if (check != null)
-                Undo.DestroyObjectImmediate(check);
+            CheckExist("Prefab_Canvas_Gaming_PlayerBox");
 
             //依赖前置
 
@@ -508,12 +513,9 @@ namespace VL.Gaming.Unity.Tools
         static void InitStartMenu()
         {
             //检查已存在
-            var check = ResourceHelper.FindGameObjectByName("GameSystemManager");
-            if (check != null)
-                Undo.DestroyObjectImmediate(check);
-            check = ResourceHelper.FindGameObjectByName("Canvas_StartMenu");
-            if (check != null)
-                Undo.DestroyObjectImmediate(check);
+            CheckExist("GameSystemManager");
+            CheckExist("Canvas_StartMenu");
+            CheckExist("EventSystem");
 
             //依赖前置
             var Prefab_Button_StartMenu_Normal = VLResource.Prefab_Button_StartMenu_Normal;
@@ -535,23 +537,28 @@ namespace VL.Gaming.Unity.Tools
             Image_Title.SetRectLeftTop(100, -50, 200, 400);
             Image_Title.SetImageColor(MockHelper.MockColorForItem());
 
-            //Prefab_Button_StartMenu
+            //Button_Start
             GameObject Prefab_Button_StartMenu = GameObject.Instantiate(Prefab_Button_StartMenu_Normal);
+            Debug.Log(VLDictionaries.VLButtonsDic[VLButtons.StartGame]);
+            Prefab_Button_StartMenu.name = VLDictionaries.VLButtonsDic[VLButtons.StartGame];
             Prefab_Button_StartMenu.SetParent(Panel);
             Prefab_Button_StartMenu.transform.Find("Text").GetComponent<Text>().text = "开始";
             Prefab_Button_StartMenu.SetRectLeftTop(100, -600, 200, 40);
-            //Prefab_Button_LoadData
+            //Button_Load
             GameObject Prefab_Button_LoadData = GameObject.Instantiate(Prefab_Button_StartMenu_Normal);
+            Prefab_Button_LoadData.name = VLDictionaries.VLButtonsDic[VLButtons.Load];
             Prefab_Button_LoadData.SetParent(Panel);
             Prefab_Button_LoadData.transform.Find("Text").GetComponent<Text>().text = "继续";
             Prefab_Button_LoadData.SetRectLeftTop(100, -680, 200, 40);
-            //Prefab_Button_Setting
+            //Button_Setting
             GameObject Prefab_Button_Setting = GameObject.Instantiate(Prefab_Button_StartMenu_Normal);
+            Prefab_Button_Setting.name = VLDictionaries.VLButtonsDic[VLButtons.Config];
             Prefab_Button_Setting.SetParent(Panel);
             Prefab_Button_Setting.transform.Find("Text").GetComponent<Text>().text = "设置";
             Prefab_Button_Setting.SetRectLeftTop(100, -760, 200, 40);
-            //Prefab_Button_Quit
+            //Button_Quit
             GameObject Prefab_Button_Quit = GameObject.Instantiate(Prefab_Button_StartMenu_Normal);
+            Prefab_Button_Quit.name = VLDictionaries.VLButtonsDic[VLButtons.Quit];
             Prefab_Button_Quit.SetParent(Panel);
             Prefab_Button_Quit.transform.Find("Text").GetComponent<Text>().text = "退出";
             Prefab_Button_Quit.SetRectLeftTop(100, -840, 200, 40);
@@ -585,6 +592,22 @@ namespace VL.Gaming.Unity.Tools
             Prefab_Panel_Version.SetParent(Panel);
             Prefab_Panel_Version.SetRectLeftDown(1720, 0, 200, 40);
             Prefab_Panel_Version.GetTextObject().GetComponent<Text>().text = "alpha 0.1.0";
+
+            //EventSystem
+            var EventSystem = VLCreator.CreateEventSystem("EventSystem");
+
+            Debug.Log($"Instantiate End");
+        }
+
+        [MenuItem("Tools/InitSceneGaming/InitGameInit")]
+        static void InitGameInit()
+        {
+            //检查已存在
+            CheckExist("GameSystemManager");
+            CheckExist("Canvas_StartMenu");
+
+            //依赖前置
+
 
             Debug.Log($"Instantiate End");
         }
