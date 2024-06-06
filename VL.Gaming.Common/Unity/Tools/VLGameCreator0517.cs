@@ -50,6 +50,16 @@ namespace VL.Gaming.Unity.Tools
             if (check != null)
                 Undo.DestroyObjectImmediate(check);
 
+            //依赖前置
+            var sprite = VLResource.Sprite_Rectangle;
+            sprite = VLResource.Sprite_Player;
+            sprite = VLResource.Sprite_Enermy;
+            sprite = VLResource.Sprite_VS;
+            sprite = VLResource.Sprite_Rectangle;
+            sprite = VLResource.Sprite_Circle;
+            var gameObject = VLResource.Prefab_Chess;
+            gameObject = VLResource.Prefab_ChessPlaceHolder;
+
             //PreBattle
             var PreBattle = new GameObject("PreBattle");
             PreBattle.SetActive(false);
@@ -234,8 +244,10 @@ namespace VL.Gaming.Unity.Tools
             if (check != null)
                 Undo.DestroyObjectImmediate(check);
 
+            //依赖前置
+
             //添加 canvas
-            GameObject Prefab_Canvas_Gaming_PlayerBox = VLCreator.CreateCanvas("Prefab_Canvas_Gaming_PlayerBox");
+            var Prefab_Canvas_Gaming_PlayerBox = VLCreator.CreateCanvas("Prefab_Canvas_Gaming_PlayerBox");
             //添加 Image_Mask
             var backgroundGO = VLCreator.CreateImage("Image_Mask");
             backgroundGO.SetParent(Prefab_Canvas_Gaming_PlayerBox);
@@ -503,8 +515,7 @@ namespace VL.Gaming.Unity.Tools
             if (check != null)
                 Undo.DestroyObjectImmediate(check);
 
-
-            //需求资源
+            //依赖前置
             var Prefab_Button_StartMenu_Normal = VLResource.Prefab_Button_StartMenu_Normal;
             var Prefab_Canvas_StartMenu_Declaration = VLResource.Prefab_Canvas_StartMenu_Declaration;
 

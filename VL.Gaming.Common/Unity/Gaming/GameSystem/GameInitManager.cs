@@ -88,6 +88,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             GameObject panel_Settings = ResourceHelper.FindGameObjectByName("Panel_Settings");
             panel_Settings.SetActive(true);
         }
+
         public void Confirm()
         {
             Debug.Log("Confirm");
