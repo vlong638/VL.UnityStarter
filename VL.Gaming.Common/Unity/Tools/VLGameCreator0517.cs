@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,32 @@ namespace VL.Gaming.Unity.Tools
 {
     internal class VLGameCreator0517
     {
+        [MenuItem("Tools/InitSceneGaming/InitNewProject")]
+        static void InitNewProject()
+        {
+            CreateDirectory("Resources");
+            CreateDirectory("Resources/Animations");
+            CreateDirectory("Resources/Dialogues");
+            CreateDirectory("Resources/Prefabs");
+            CreateDirectory("Resources/Sprites");
+            CreateDirectory("Sprites");
+            Debug.Log($"Instantiate End");
+        }
+
+        private static void CreateDirectory(string fileName)
+        {
+            string fullPath = Path.Combine(Application.dataPath, fileName);
+            if (!Directory.Exists(fullPath))
+            {
+                Directory.CreateDirectory(fullPath);
+                Debug.Log("文件夹已创建： " + fullPath);
+            }
+            else
+            {
+                Debug.Log("文件夹已存在： " + fullPath);
+            }
+        }
+
         [MenuItem("Tools/InitSceneGaming/InitGameBoard")]
         static void InitGameBoard()
         {
@@ -462,90 +489,6 @@ namespace VL.Gaming.Unity.Tools
 
             #endregion
 
-
-
-
-
-            //#region init startGO
-            //GameObject startGO;
-            //GameObject assetGO;
-            //GameObject gameboardGO;
-            //GameObject settingGO;
-            //GameObject soundManagerGO;
-            //GameObject startCameraGO;
-            //GameObject startCanvasGO;
-            //RectTransform rectTransform;
-            //Camera camera2D;
-            //Image image;
-            //Text text;
-            ////添加游戏对象收纳
-            //startGO = new GameObject("startGO");
-            ////添加摄像机
-            //startCameraGO = VLCreator.CreateCamera("startCameraGO", startGO);
-            //camera2D = startCameraGO.GetComponent<Camera>();
-            //camera2D.orthographic = true;
-            ////添加画布
-            //startCanvasGO = VLCreator.CreateCanvas("start_BackgroundCanvas", startGO);
-            ////添加背景
-            //var backgroundGO = new GameObject("backgroundGO");
-            //backgroundGO.SetParent(startCanvasGO);
-            //image = backgroundGO.AddComponent<Image>();
-            //image.sprite = Resources.Load<Sprite>("xDRpfI");
-            //rectTransform = image.GetComponent<RectTransform>();
-            //rectTransform.anchorMin = new Vector2(0f, 0f);
-            //rectTransform.anchorMax = new Vector2(1f, 1f);
-            //rectTransform.offsetMin = new Vector2(0f, 0f);
-            //rectTransform.offsetMax = new Vector2(0f, 0f);
-            //rectTransform.localPosition = new Vector3(0f, 0f, 0f);
-            ////添加按钮
-            ////Start
-            //var gameObject = VLCreator.CreateButton("start", startCanvasGO);
-            //gameObject.ToStartMenuButtonStyle();
-            //text = gameObject.GetComponentInChildren<Text>();
-            //text.text = "开始游戏";
-            //rectTransform = gameObject.GetComponent<RectTransform>();
-            //rectTransform.localPosition = new Vector3(0f, 200f, 0f);
-            ////Load
-            //gameObject = VLCreator.CreateButton("load", startCanvasGO);
-            //gameObject.ToStartMenuButtonStyle();
-            //text = gameObject.GetComponentInChildren<Text>();
-            //text.text = "加载游戏";
-            //rectTransform = gameObject.GetComponent<RectTransform>();
-            //rectTransform.localPosition = new Vector3(0f, 100f, 0f);
-            ////Config
-            //gameObject = VLCreator.CreateButton("config", startCanvasGO);
-            //gameObject.ToStartMenuButtonStyle();
-            //text = gameObject.GetComponentInChildren<Text>();
-            //text.text = "游戏设置";
-            //rectTransform = gameObject.GetComponent<RectTransform>();
-            //rectTransform.localPosition = new Vector3(0f, 0f, 0f);
-            ////Quit
-            //gameObject = VLCreator.CreateButton("end", startCanvasGO);
-            //gameObject.ToStartMenuButtonStyle();
-            //text = gameObject.GetComponentInChildren<Text>();
-            //text.text = "退出";
-            //rectTransform = gameObject.GetComponent<RectTransform>();
-            //rectTransform.localPosition = new Vector3(0f, -100f, 0f);
-
-            //#endregion
-
-            //assetGO = new GameObject("assetGO");
-            //gameboardGO = new GameObject("gameboardGO");
-            //settingGO = new GameObject("settingGO");
-            //soundManagerGO = new GameObject("soundManagerGO");
-
-            //startGO.SetParent(gameManager);
-            //assetGO.SetParent(gameManager);
-            //gameboardGO.SetParent(gameManager);
-            //settingGO.SetParent(gameManager);
-            //soundManagerGO.SetParent(gameManager);
-
-            ////添加Player from Prefab
-            //GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Scripts/0316/Player.prefab"); 
-            //GameObject playerGO = Instantiate(prefab, gamingGO.transform);
-            //gaming0316.playerGO = playerGO;
-            //gaming0316.canvasGO = gamingCanvasGO;
-
             Debug.Log($"Instantiate End");
         }
 
@@ -559,6 +502,11 @@ namespace VL.Gaming.Unity.Tools
             check = ResourceHelper.FindGameObjectByName("Canvas_StartMenu");
             if (check != null)
                 Undo.DestroyObjectImmediate(check);
+
+
+            //需求资源
+            var Prefab_Button_StartMenu_Normal = VLResource.Prefab_Button_StartMenu_Normal;
+            var Prefab_Canvas_StartMenu_Declaration = VLResource.Prefab_Canvas_StartMenu_Declaration;
 
             //GameSystemManager
             GameObject gameSystemManager = new GameObject("GameSystemManager");
@@ -576,24 +524,23 @@ namespace VL.Gaming.Unity.Tools
             Image_Title.SetRectLeftTop(100, -50, 200, 400);
             Image_Title.SetImageColor(MockHelper.MockColorForItem());
 
-            var prefab = VLResource.Prefab_Button_StartMenu_Normal;
             //Prefab_Button_StartMenu
-            GameObject Prefab_Button_StartMenu = GameObject.Instantiate(prefab);
+            GameObject Prefab_Button_StartMenu = GameObject.Instantiate(Prefab_Button_StartMenu_Normal);
             Prefab_Button_StartMenu.SetParent(Panel);
-            Prefab_Button_StartMenu.transform.Find("Text").GetComponent<Text>().text = "开始战役";
+            Prefab_Button_StartMenu.transform.Find("Text").GetComponent<Text>().text = "开始";
             Prefab_Button_StartMenu.SetRectLeftTop(100, -600, 200, 40);
             //Prefab_Button_LoadData
-            GameObject Prefab_Button_LoadData = GameObject.Instantiate(prefab);
+            GameObject Prefab_Button_LoadData = GameObject.Instantiate(Prefab_Button_StartMenu_Normal);
             Prefab_Button_LoadData.SetParent(Panel);
             Prefab_Button_LoadData.transform.Find("Text").GetComponent<Text>().text = "继续";
             Prefab_Button_LoadData.SetRectLeftTop(100, -680, 200, 40);
             //Prefab_Button_Setting
-            GameObject Prefab_Button_Setting = GameObject.Instantiate(prefab);
+            GameObject Prefab_Button_Setting = GameObject.Instantiate(Prefab_Button_StartMenu_Normal);
             Prefab_Button_Setting.SetParent(Panel);
             Prefab_Button_Setting.transform.Find("Text").GetComponent<Text>().text = "设置";
             Prefab_Button_Setting.SetRectLeftTop(100, -760, 200, 40);
             //Prefab_Button_Quit
-            GameObject Prefab_Button_Quit = GameObject.Instantiate(prefab);
+            GameObject Prefab_Button_Quit = GameObject.Instantiate(Prefab_Button_StartMenu_Normal);
             Prefab_Button_Quit.SetParent(Panel);
             Prefab_Button_Quit.transform.Find("Text").GetComponent<Text>().text = "退出";
             Prefab_Button_Quit.SetRectLeftTop(100, -840, 200, 40);
@@ -617,14 +564,13 @@ namespace VL.Gaming.Unity.Tools
   我会持续的推进这个游戏的更新.
   敬请期待...";
 
-            prefab = VLResource.Prefab_Canvas_StartMenu_Declaration;
             //Prefab_Panel_Declaration
-            GameObject Prefab_Panel_Declaration = GameObject.Instantiate(prefab);
+            GameObject Prefab_Panel_Declaration = GameObject.Instantiate(Prefab_Canvas_StartMenu_Declaration);
             Prefab_Panel_Declaration.SetParent(Panel);
             Prefab_Panel_Declaration.SetRectLeftDown(360, 0, 1200, 40);
             Prefab_Panel_Declaration.GetTextObject().GetComponent<Text>().text = "抵制不良游戏，拒绝盗版游戏。注意自我保护，谨防受骗上当。适度游戏益脑，沉迷游戏伤身。合理安排时间，享受健康生活。";
             //Prefab_Panel_Version
-            GameObject Prefab_Panel_Version = GameObject.Instantiate(prefab);
+            GameObject Prefab_Panel_Version = GameObject.Instantiate(Prefab_Canvas_StartMenu_Declaration);
             Prefab_Panel_Version.SetParent(Panel);
             Prefab_Panel_Version.SetRectLeftDown(1720, 0, 200, 40);
             Prefab_Panel_Version.GetTextObject().GetComponent<Text>().text = "alpha 0.1.0";
