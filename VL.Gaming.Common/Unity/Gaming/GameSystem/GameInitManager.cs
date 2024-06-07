@@ -7,18 +7,89 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 {
     public class GameInitManager : MonoBehaviour
     {
+        #region 显影控制
         Image image_curtain;
         public float changingSpeed; // 控制变化速率
-        float minAlpha ; // 最小透明度
+        float minAlpha; // 最小透明度
         float maxAlpha; // 最大透明度
         float currentAlpha;
         float direction; // 控制透明度变化方向
         bool isFading;
-        int lootTimes;
+        int lootTimes; 
+        #endregion
+
+        GameObject Toggle_Race;
+        GameObject Toggle_Profession;
+        GameObject Toggle_Attributes;
+        GameObject Toggle_MapSettings;
+        GameObject Panel_SubCategory_Race;
+        GameObject Panel_SubCategory_Profession;
+        GameObject Panel_SubCategory_Attributes;
+        GameObject Panel_SubCategory_MapSettings;
+        GameObject Image_Curtain;
+        GameObject Button_Back;
+        GameObject Button_Continue;
+        GameObject Button_Confirm;
 
         void Start()
         {
-            GameObject.Find("Image_Curtain")?.SetActive(false);
+            Toggle_Race = ResourceHelper.FindGameObjectByName("Toggle_Race");
+            Toggle_Profession = ResourceHelper.FindGameObjectByName("Toggle_Profession");
+            Toggle_Attributes = ResourceHelper.FindGameObjectByName("Toggle_Attributes");
+            Toggle_MapSettings = ResourceHelper.FindGameObjectByName("Toggle_MapSettings");
+            Panel_SubCategory_Race = ResourceHelper.FindGameObjectByName("Panel_SubCategory_Race");
+            Panel_SubCategory_Profession = ResourceHelper.FindGameObjectByName("Panel_SubCategory_Profession");
+            Panel_SubCategory_Attributes = ResourceHelper.FindGameObjectByName("Panel_SubCategory_Attributes");
+            Panel_SubCategory_MapSettings = ResourceHelper.FindGameObjectByName("Panel_SubCategory_MapSettings");
+            Toggle_Race.GetComponent<Toggle>().onValueChanged.AddListener(c =>
+            {
+                if (c)
+                {
+                    Panel_SubCategory_Race.SetActive(true);
+                    Panel_SubCategory_Profession.SetActive(false);
+                    Panel_SubCategory_Attributes.SetActive(false);
+                    Panel_SubCategory_MapSettings.SetActive(false);
+                };
+            });
+            Toggle_Profession.GetComponent<Toggle>().onValueChanged.AddListener(c =>
+            {
+                if (c)
+                {
+                    Panel_SubCategory_Race.SetActive(false);
+                    Panel_SubCategory_Profession.SetActive(true);
+                    Panel_SubCategory_Attributes.SetActive(false);
+                    Panel_SubCategory_MapSettings.SetActive(false);
+                };
+            });
+            Toggle_Attributes.GetComponent<Toggle>().onValueChanged.AddListener(c =>
+            {
+                if (c)
+                {
+                    Panel_SubCategory_Race.SetActive(false);
+                    Panel_SubCategory_Profession.SetActive(false);
+                    Panel_SubCategory_Attributes.SetActive(true);
+                    Panel_SubCategory_MapSettings.SetActive(false);
+                };
+            });
+            Toggle_MapSettings.GetComponent<Toggle>().onValueChanged.AddListener(c =>
+            {
+                if (c)
+                {
+                    Panel_SubCategory_Race.SetActive(false);
+                    Panel_SubCategory_Profession.SetActive(false);
+                    Panel_SubCategory_Attributes.SetActive(false);
+                    Panel_SubCategory_MapSettings.SetActive(true);
+                };
+            });
+            Image_Curtain = ResourceHelper.FindGameObjectByName("Image_Curtain");
+            Button_Continue = ResourceHelper.FindGameObjectByName("Button_Continue");
+            Button_Continue.GetComponent<Button>().onClick.AddListener(() => { Continue(); });
+            Button_Confirm = ResourceHelper.FindGameObjectByName("Button_Confirm");
+            Button_Confirm.GetComponent<Button>().onClick.AddListener(() => { Confirm(); });
+            Button_Back = ResourceHelper.FindGameObjectByName("Button_Back");
+            Button_Back.GetComponent<Button>().onClick.AddListener(() => { Return(); });
+            Image_Curtain?.SetActive(false);
+            Toggle_Race.GetComponent<Toggle>().isOn = true;
         }
 
         void Update()
@@ -46,14 +117,12 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             image_curtain.color = new Color(image_curtain.color.r, image_curtain.color.g, image_curtain.color.b, currentAlpha);
         }
 
-        public void Continue()
+        void Continue()
         {
-            Debug.Log("Continue");
-
-            Toggle race = GameObject.Find("Prefab_Toggle_MainCategory_Race").GetComponent<Toggle>();
-            Toggle profession = GameObject.Find("Prefab_Toggle_MainCategory_Profession").GetComponent<Toggle>();
-            Toggle attributes = GameObject.Find("Prefab_Toggle_MainCategory_Attributes").GetComponent<Toggle>();
-            Toggle mapSettings = GameObject.Find("Prefab_Toggle_MainCategory_MapSettings").GetComponent<Toggle>();
+            Toggle race = Toggle_Race.GetComponent<Toggle>();
+            Toggle profession = Toggle_Profession.GetComponent<Toggle>();
+            Toggle attributes = Toggle_Attributes.GetComponent<Toggle>();
+            Toggle mapSettings = Toggle_MapSettings.GetComponent<Toggle>();
             if (race.isOn)
             {
                 profession.isOn = true;
@@ -81,8 +150,6 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
         public void Return()
         {
-            Debug.Log("Return");
-
             GameObject panel_Ready = GameObject.Find("Panel_Ready");
             panel_Ready.SetActive(false);
             GameObject panel_Settings = ResourceHelper.FindGameObjectByName("Panel_Settings");
@@ -91,17 +158,16 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
         public void Confirm()
         {
-            Debug.Log("Confirm");
             var go_curtain = ResourceHelper.FindGameObjectByName("Image_Curtain");
             go_curtain.SetActive(true);
             image_curtain = go_curtain.GetComponent<Image>();
-            isFading = true;
             changingSpeed = 1.0f; // 控制变化速率
             minAlpha = 0.0f; // 最小透明度
             maxAlpha = 1.0f; // 最大透明度
             currentAlpha = 0.0f;
             direction = 1.0f; // 控制透明度变化方向
             lootTimes = 2;
+            isFading = true;
         }
     }
 }

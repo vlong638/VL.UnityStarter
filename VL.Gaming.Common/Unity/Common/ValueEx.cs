@@ -59,26 +59,23 @@ namespace VL.Gaming.Common
         {
             go.transform.position = new Vector3(x, y, z);
         }
-        public static void SetScale(this GameObject go, float x, float y, float z = 1)
+        public static void SetRectSizeDelta(this GameObject go, float x, float y)
         {
-            go.transform.localScale = new Vector3(x, y, z);
+            go.SetRectSizeDelta(new Vector2(x, y));
         }
-        public static void SetSizeDelta(this GameObject go, float x, float y)
-        {
-            go.SetSizeDelta(new Vector2(x, y));
-        }
-        public static void SetSizeDelta(this GameObject go, Vector2 sizeDelta)
+        public static void SetRectSizeDelta(this GameObject go, Vector2 sizeDelta)
         {
             go.GetComponent<RectTransform>().sizeDelta = sizeDelta;
-        }
-        public static void SetImageColor(this GameObject go, Color color)
-        {
-            go.GetComponent<Image>().color = color;
         }
         public static void SetRectStretch(this GameObject gameObject, int left = 0, int right = 0, int up = 0, int down = 0)
         {
             var rectTransform = gameObject.GetComponent<RectTransform>();
             rectTransform.SetRectStretch(left, right, up, down);
+        }
+        public static void SetRectCenter(this GameObject gameObject, float offsetX, float offsetY, float x, float y)
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.SetRectCenter(offsetX, offsetY, x, y);
         }
         public static void SetRectLeftDown(this GameObject gameObject, float offsetX, float offsetY, float x, float y)
         {
@@ -90,6 +87,11 @@ namespace VL.Gaming.Common
             var rectTransform = gameObject.GetComponent<RectTransform>();
             rectTransform.SetRectLeftTop(offsetX, offsetY, x, y);
         }
+        public static void SetRectRightTop(this GameObject gameObject, float offsetX, float offsetY, float x, float y)
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.SetRectRightTop(offsetX, offsetY, x, y);
+        }
         public static void SetRectTopDownOnRight(this GameObject gameObject)
         {
             var rectTransform = gameObject.GetComponent<RectTransform>();
@@ -100,10 +102,34 @@ namespace VL.Gaming.Common
             var rectTransform = gameObject.GetComponent<RectTransform>();
             rectTransform.SetRectLeftRightOnBottom();
         }
-
-        public static GameObject GetTextObject(this GameObject go)
+        public static void SetScale(this GameObject go, float x, float y, float z = 1)
         {
-            return go.transform.Find("Text").gameObject;
+            go.transform.localScale = new Vector3(x, y, z);
+        }
+        public static void SetToggleGroup(this GameObject go, ToggleGroup toggleGroup)
+        {
+            var toggle = go.GetComponent<Toggle>();
+            toggle.group = toggleGroup;
+        }
+
+        public static Text GetText(this GameObject go)
+        {
+            var text = go.GetComponent<Text>();
+            if (text != null)
+                return text;
+            text = go.transform.Find("Text")?.gameObject.GetComponent<Text>();
+            if (text != null)
+                return text;
+            text = go.transform.Find("Label")?.gameObject.GetComponent<Text>();
+            if (text != null)
+                return text;
+            return null;
+        }
+        public static void SetTextContent(this GameObject go, string content)
+        {
+            var text = go.GetText();
+            if (text != null)
+                text.text = content;
         }
 
         #endregion
@@ -123,16 +149,31 @@ namespace VL.Gaming.Common
             rectTransform.pivot = new Vector2(0.5f, 0.5f);//设置RectTransform的中心点为中心, 翻转中心
         }
         /// <summary>
+        /// 设置成 Center,Middle
+        /// </summary>
+        /// <param name="rectTransform"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public static void SetRectCenter(this RectTransform rectTransform, float offsetX, float offsetY, float x, float y)
+        {
+            rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            rectTransform.offsetMin = new Vector2(offsetX, offsetY);
+            rectTransform.offsetMax = new Vector2(offsetX, offsetY);
+            rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            rectTransform.sizeDelta = new Vector2(x, y);
+        }
+        /// <summary>
         /// 设置成 左下角对齐
         /// </summary>
         /// <param name="rectTransform"></param>
         public static void SetRectLeftDown(this RectTransform rectTransform, float offsetX, float offsetY, float x, float y)
         {
-            rectTransform.anchorMin = new Vector2(0, 0);//设置RectTransform的最小锚点位置为左下角
-            rectTransform.anchorMax = new Vector2(0, 0);//设置RectTransform的最大锚点位置为右上角
-            rectTransform.pivot = new Vector2(0, 0);//设置RectTransform的中心点为中心, 翻转中心
-            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, offsetX, x);// SetInsetAndSizeFromParentEdge 根据父对象边缘设置位置和大小
-            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, offsetY, y);// SetInsetAndSizeFromParentEdge 根据父对象边缘设置位置和大小
+            rectTransform.anchorMin = new Vector2(0, 0);
+            rectTransform.anchorMax = new Vector2(0, 0);
+            rectTransform.pivot = new Vector2(0, 0);
+            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, offsetX, x);
+            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, offsetY, y);
         }
         /// <summary>
         /// 设置成 左上角对齐
@@ -140,11 +181,19 @@ namespace VL.Gaming.Common
         /// <param name="rectTransform"></param>
         public static void SetRectLeftTop(this RectTransform rectTransform, float offsetX, float offsetY, float x, float y)
         {
-            rectTransform.anchorMin = new Vector2(0, 1);//设置RectTransform的最小锚点位置为左下角
-            rectTransform.anchorMax = new Vector2(0, 1);//设置RectTransform的最大锚点位置为右上角
-            rectTransform.pivot = new Vector2(0, 1);//设置RectTransform的中心点为中心, 翻转中心
-            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, offsetX, x);// SetInsetAndSizeFromParentEdge 根据父对象边缘设置位置和大小
-            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -offsetY, y);// SetInsetAndSizeFromParentEdge 根据父对象边缘设置位置和大小
+            rectTransform.anchorMin = new Vector2(0, 1);
+            rectTransform.anchorMax = new Vector2(0, 1);
+            rectTransform.pivot = new Vector2(0, 1);
+            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, offsetX, x);
+            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -offsetY, y);
+        }
+        public static void SetRectRightTop(this RectTransform rectTransform, float offsetX, float offsetY, float x, float y)
+        {
+            rectTransform.anchorMin = new Vector2(1, 1);
+            rectTransform.anchorMax = new Vector2(1, 1);
+            rectTransform.pivot = new Vector2(1, 1);
+            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, -offsetX, x);
+            rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, -offsetY, y);
         }
         /// <summary>
         /// 设置成 上下对齐(右侧)

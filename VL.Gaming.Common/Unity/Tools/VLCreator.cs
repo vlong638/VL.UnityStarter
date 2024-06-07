@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -324,11 +325,19 @@ namespace VL.Gaming.Unity.Tools
             gameObject.AddComponent<SpriteRenderer>();
             return gameObject;
         }
-        public static GameObject CreateText(string name = "Sprite", GameObject parent = null)
+        public static GameObject CreateText(string name = "Text", GameObject parent = null)
         {
             GameObject gameObject = new GameObject(name);
             if (parent) gameObject.transform.SetParent(parent.transform);
-            Text textComponent = gameObject.AddComponent<Text>();
+            gameObject.AddComponent<Text>();
+            return gameObject;
+        }
+
+        public static GameObject CreateToggleGroup(string name = "ToggleGroup", GameObject parent = null)
+        {
+            GameObject gameObject = new GameObject(name);
+            if (parent) gameObject.transform.SetParent(parent.transform);
+            gameObject.AddComponent<ToggleGroup>();
             return gameObject;
         }
     }

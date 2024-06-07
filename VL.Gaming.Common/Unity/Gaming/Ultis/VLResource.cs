@@ -23,7 +23,14 @@ namespace VL.Gaming.Unity.Gaming.Ultis
         #region StartMenu
         public static GameObject Prefab_Button_StartMenu_MiniButton { get { return Resources.Load<GameObject>("Prefabs/Prefab_Button_StartMenu_MiniButton"); } }
         public static GameObject Prefab_Button_StartMenu_Normal { get { return Resources.Load<GameObject>("Prefabs/Prefab_Button_StartMenu_Normal"); } }
-        public static GameObject Prefab_Canvas_StartMenu_Declaration { get { return Resources.Load<GameObject>("Prefabs/Prefab_Canvas_StartMenu_Declaration"); } } 
+        public static GameObject Prefab_Canvas_StartMenu_Declaration { get { return Resources.Load<GameObject>("Prefabs/Prefab_Canvas_StartMenu_Declaration"); } }
+        #endregion
+
+        #region GameInit
+        public static GameObject Prefab_Toggle_GameInit_MainCategory { get { return Resources.Load<GameObject>("Prefabs/Prefab_Toggle_GameInit_MainCategory"); } }
+        public static GameObject Prefab_Toggle_GameInit_SubCategory { get { return Resources.Load<GameObject>("Prefabs/Prefab_Toggle_GameInit_SubCategory"); } }
+        public static GameObject Prefab_Button_GameInit_Normal { get { return Resources.Load<GameObject>("Prefabs/Prefab_Button_GameInit_Normal"); } } 
+        public static GameObject Prefab_InputField_GameInit_Normal { get { return Resources.Load<GameObject>("Prefabs/Prefab_InputField_GameInit_Normal"); } }
         #endregion
 
         public static RuntimeAnimatorController Controller_Rotate { get { return Resources.Load<RuntimeAnimatorController>("Animations/Rotate"); } }
