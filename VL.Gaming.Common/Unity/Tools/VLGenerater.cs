@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 using VL.Gaming.Unity.Common;
 
-namespace VL.Gaming.Common
+namespace VL.Gaming.Unity.Tools
 {
     /// <summary>
     /// 模拟数据生成器
     /// </summary>
-    public class MockHelper
+    public class VLGenerater
     {
-        public static int[] MockInts(int length,int minValue,int maxValue)
+        #region Int
+        public static int[] MockInts(int length, int minValue, int maxValue)
         {
             var result = new int[length];
             for (int i = 0; i < length; i++)
-                result[i] = RandomHelper.Random.Next(minValue, maxValue);
+                result[i] = VLRandomHelper.Random.Next(minValue, maxValue);
             return result;
-        }
+        } 
+        #endregion
 
+        #region Color
         static Color[] Colors = new Color[] { Color.cyan, Color.yellow, Color.green };
         static int ColorIndex = 0;
         public static Color MockColorForBackground()
@@ -31,6 +34,7 @@ namespace VL.Gaming.Common
             if (ColorIndex2 >= 2)
                 ColorIndex2 = 0;
             return Colors2[ColorIndex2++];
-        }
+        } 
+        #endregion
     }
 }

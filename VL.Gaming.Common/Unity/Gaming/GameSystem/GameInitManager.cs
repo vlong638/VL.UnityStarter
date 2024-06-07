@@ -15,7 +15,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
         float currentAlpha;
         float direction; // 控制透明度变化方向
         bool isFading;
-        int lootTimes; 
+        int lootTimes;
         #endregion
 
         GameObject Toggle_Race;
@@ -30,6 +30,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
         GameObject Button_Back;
         GameObject Button_Continue;
         GameObject Button_Confirm;
+        GameObject InputField_Name;
 
         void Start()
         {
@@ -81,15 +82,29 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
                     Panel_SubCategory_MapSettings.SetActive(true);
                 };
             });
+            Toggle_Race.GetComponent<Toggle>().isOn = true;
+            //Image_Curtain
             Image_Curtain = ResourceHelper.FindGameObjectByName("Image_Curtain");
+            Image_Curtain?.SetActive(false);
+            //Button_Continue
             Button_Continue = ResourceHelper.FindGameObjectByName("Button_Continue");
             Button_Continue.GetComponent<Button>().onClick.AddListener(() => { Continue(); });
+            //Button_Confirm
             Button_Confirm = ResourceHelper.FindGameObjectByName("Button_Confirm");
             Button_Confirm.GetComponent<Button>().onClick.AddListener(() => { Confirm(); });
+            Button_Confirm.GetComponent<Button>().interactable = false;
+            //Button_Back
             Button_Back = ResourceHelper.FindGameObjectByName("Button_Back");
             Button_Back.GetComponent<Button>().onClick.AddListener(() => { Return(); });
-            Image_Curtain?.SetActive(false);
-            Toggle_Race.GetComponent<Toggle>().isOn = true;
+            //InputField_Name
+            InputField_Name = ResourceHelper.FindGameObjectByName("InputField_Name");
+            InputField_Name.GetComponent<InputField>().onValueChanged.AddListener((s) =>
+            {
+                if (string.IsNullOrEmpty(s))
+                    Button_Confirm.GetComponent<Button>().interactable = false;
+                else
+                    Button_Confirm.GetComponent<Button>().interactable = true;
+            });
         }
 
         void Update()
@@ -106,7 +121,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
                 if (lootTimes == 0)
                 {
                     isFading = false;
-                    SceneManager.LoadSceneAsync("Scene_Loading");
+                    SceneManager.LoadSceneAsync("Scene_Gaming");
                 }
             }
             else if (currentAlpha < minAlpha)

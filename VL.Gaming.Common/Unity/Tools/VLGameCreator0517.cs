@@ -262,7 +262,7 @@ namespace VL.Gaming.Unity.Tools
             //添加 Panel_Team
             var Panel_Team = VLCreator.CreatePanel("Panel_Team");
             Panel_Team.SetParent(Prefab_Canvas_Gaming_PlayerBox);
-            Panel_Team.SetColor(MockHelper.MockColorForBackground(), 1f);
+            Panel_Team.SetColor(VLGenerater.MockColorForBackground(), 1f);
             rectTransform = Panel_Team.GetComponent<Image>().GetComponent<RectTransform>();
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1200);
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
@@ -278,43 +278,43 @@ namespace VL.Gaming.Unity.Tools
             //添加 Image_Left
             var Image_Left = VLCreator.CreateImage("Image_Left");
             Image_Left.SetParent(Panel_Unit);
-            Image_Left.SetColor(MockHelper.MockColorForBackground(), 1f);
+            Image_Left.SetColor(VLGenerater.MockColorForBackground(), 1f);
             rectTransform = Image_Left.GetComponent<Image>().GetComponent<RectTransform>();
             rectTransform.SetRectLeftDown(0, 0, 500, 800);
             //添加 Image_BottomMini
             var Image_BottomMini = VLCreator.CreateImage("Image_BottomMini");
             Image_BottomMini.SetParent(Panel_Unit);
-            Image_BottomMini.SetColor(MockHelper.MockColorForBackground(), 1f);
+            Image_BottomMini.SetColor(VLGenerater.MockColorForBackground(), 1f);
             rectTransform = Image_BottomMini.GetComponent<Image>().GetComponent<RectTransform>();
             rectTransform.SetRectLeftDown(500, 0, 600, 100);
             //添加 Image_LeftMini
             var Image_LeftMini = VLCreator.CreateImage("Image_LeftMini");
             Image_LeftMini.SetParent(Panel_Unit);
-            Image_LeftMini.SetColor(MockHelper.MockColorForBackground(), 1f);
+            Image_LeftMini.SetColor(VLGenerater.MockColorForBackground(), 1f);
             rectTransform = Image_LeftMini.GetComponent<Image>().GetComponent<RectTransform>();
             rectTransform.SetRectLeftDown(500, 100, 100, 600);
             //添加 Image_TopMini
             var Image_TopMini = VLCreator.CreateImage("Image_TopMini");
             Image_TopMini.SetParent(Panel_Unit);
-            Image_TopMini.SetColor(MockHelper.MockColorForBackground(), 1f);
+            Image_TopMini.SetColor(VLGenerater.MockColorForBackground(), 1f);
             rectTransform = Image_TopMini.GetComponent<Image>().GetComponent<RectTransform>();
             rectTransform.SetRectLeftDown(500, 700, 600, 100);
             //添加 Image_Portrait
             var Image_Portrait = VLCreator.CreateImage("Image_Portrait");
             Image_Portrait.SetParent(Panel_Unit);
-            Image_Portrait.SetColor(MockHelper.MockColorForBackground(), 1f);
+            Image_Portrait.SetColor(VLGenerater.MockColorForBackground(), 1f);
             rectTransform = Image_Portrait.GetComponent<Image>().GetComponent<RectTransform>();
             rectTransform.SetRectLeftDown(600, 100, 400, 600);
             //添加 Image_RightMini
             var Image_RightMini = VLCreator.CreateImage("Image_RightMini");
             Image_RightMini.SetParent(Panel_Unit);
-            Image_RightMini.SetColor(MockHelper.MockColorForBackground(), 1f);
+            Image_RightMini.SetColor(VLGenerater.MockColorForBackground(), 1f);
             rectTransform = Image_RightMini.GetComponent<Image>().GetComponent<RectTransform>();
             rectTransform.SetRectLeftDown(1000, 100, 100, 600);
             //添加 Image_Right
             var Image_Right = VLCreator.CreateImage("Image_Right");
             Image_Right.SetParent(Panel_Unit);
-            Image_Right.SetColor(MockHelper.MockColorForBackground(), 1f);
+            Image_Right.SetColor(VLGenerater.MockColorForBackground(), 1f);
             rectTransform = Image_Right.GetComponent<Image>().GetComponent<RectTransform>();
             rectTransform.SetRectLeftDown(1100, 0, 500, 800);
 
@@ -340,7 +340,7 @@ namespace VL.Gaming.Unity.Tools
                 Image_AttributeIcon.SetParent(Image_Left);
                 rectTransform = Image_AttributeIcon.GetComponent<RectTransform>();
                 rectTransform.SetRectLeftDown(60, 650 - i * 80, 60, 60);
-                Image_AttributeIcon.SetColor(MockHelper.MockColorForItem(), 1f);
+                Image_AttributeIcon.SetColor(VLGenerater.MockColorForItem(), 1f);
 
                 var Image_AttributeDiscribe = VLCreator.CreateText("Image_AttributeDiscribe");
                 Image_AttributeDiscribe.SetParent(Image_Left);
@@ -366,20 +366,20 @@ namespace VL.Gaming.Unity.Tools
                 Button_AttributeMinus.SetParent(Image_Left);
                 rectTransform = Button_AttributeMinus.GetComponent<RectTransform>();
                 rectTransform.SetRectLeftDown(360, 665 - i * 80, 30, 30);
-                Button_AttributeMinus.SetColor(MockHelper.MockColorForItem(), 1f);
+                Button_AttributeMinus.SetColor(VLGenerater.MockColorForItem(), 1f);
 
                 var Button_AttributePlus = VLCreator.CreateButton("Button_AttributePlus");
                 Button_AttributePlus.SetParent(Image_Left);
                 rectTransform = Button_AttributePlus.GetComponent<RectTransform>();
                 rectTransform.SetRectLeftDown(400, 665 - i * 80, 30, 30);
-                Button_AttributePlus.SetColor(MockHelper.MockColorForItem(), 1f);
+                Button_AttributePlus.SetColor(VLGenerater.MockColorForItem(), 1f);
             }
 
             var Button_AttributeConfirm = VLCreator.CreateButton("Button_AttributeConfirm");
             Button_AttributeConfirm.SetParent(Image_Left);
             rectTransform = Button_AttributeConfirm.GetComponent<RectTransform>();
             rectTransform.SetRectLeftDown(355, 30, 80, 40);
-            Button_AttributeConfirm.SetColor(MockHelper.MockColorForItem(), 1f);
+            Button_AttributeConfirm.SetColor(VLGenerater.MockColorForItem(), 1f);
 
             #endregion
 
@@ -392,7 +392,7 @@ namespace VL.Gaming.Unity.Tools
                 Button_ItemCategory.SetParent(Image_Right);
                 rectTransform = Button_ItemCategory.GetComponent<RectTransform>();
                 rectTransform.SetRectLeftTop(0 + i * 100, 0, 100, 100);
-                Button_ItemCategory.SetColor(MockHelper.MockColorForItem(), 1f);
+                Button_ItemCategory.SetColor(VLGenerater.MockColorForItem(), 1f);
             }
             //滚动栏
             GameObject ScrollView_Items = VLCreator.CreateScrollView("ScrollView_Items");
@@ -410,7 +410,7 @@ namespace VL.Gaming.Unity.Tools
                 Button_Item.SetParent(ScrollViewContent);
                 rectTransform = Button_Item.GetComponent<RectTransform>();
                 rectTransform.SetRectLeftTop(20 + i % itemPerLine * 90, -(20 + row * 90), 80, 80);
-                Button_Item.SetColor(MockHelper.MockColorForItem(), 1f);
+                Button_Item.SetColor(VLGenerater.MockColorForItem(), 1f);
             }
             //物品栏滚动支持
             int rowCount = Mathf.FloorToInt(playerData.Items.Count / 5f);
@@ -427,7 +427,7 @@ namespace VL.Gaming.Unity.Tools
                 Button_FastItem.SetParent(Image_TopMini);
                 rectTransform = Button_FastItem.GetComponent<RectTransform>();
                 rectTransform.SetRectLeftDown(25 + i * 96, 20, 60, 60);
-                Button_FastItem.SetColor(MockHelper.MockColorForItem(), 1f);
+                Button_FastItem.SetColor(VLGenerater.MockColorForItem(), 1f);
             }
 
             #endregion
@@ -450,7 +450,7 @@ namespace VL.Gaming.Unity.Tools
                 Button_Equipment.SetParent(Image_LeftMini);
                 rectTransform = Button_Equipment.GetComponent<RectTransform>();
                 rectTransform.SetRectLeftDown(20, 20 + i * 96, 60, 60);
-                Button_Equipment.SetColor(MockHelper.MockColorForItem(), 1f);
+                Button_Equipment.SetColor(VLGenerater.MockColorForItem(), 1f);
             }
 
             #endregion
@@ -473,7 +473,7 @@ namespace VL.Gaming.Unity.Tools
                 Button_Equipment.SetParent(Image_RightMini);
                 rectTransform = Button_Equipment.GetComponent<RectTransform>();
                 rectTransform.SetRectLeftDown(20, 20 + i * 96, 60, 60);
-                Button_Equipment.SetColor(MockHelper.MockColorForItem(), 1f);
+                Button_Equipment.SetColor(VLGenerater.MockColorForItem(), 1f);
             }
 
             #endregion
@@ -487,7 +487,7 @@ namespace VL.Gaming.Unity.Tools
                 Button_FastSkill.SetParent(Image_BottomMini);
                 rectTransform = Button_FastSkill.GetComponent<RectTransform>();
                 rectTransform.SetRectLeftDown(25 + i * 96, 20, 60, 60);
-                Button_FastSkill.SetColor(MockHelper.MockColorForItem(), 1f);
+                Button_FastSkill.SetColor(VLGenerater.MockColorForItem(), 1f);
             }
 
             #endregion
@@ -501,7 +501,7 @@ namespace VL.Gaming.Unity.Tools
                 Button_Teammate.SetParent(Panel_Team);
                 rectTransform = Button_Teammate.GetComponent<RectTransform>();
                 rectTransform.SetRectLeftDown(10 + i * 90, 10, 80, 80);
-                Button_Teammate.SetColor(MockHelper.MockColorForItem(), 1f);
+                Button_Teammate.SetColor(VLGenerater.MockColorForItem(), 1f);
             }
 
             #endregion
@@ -531,12 +531,12 @@ namespace VL.Gaming.Unity.Tools
             var Panel = VLCreator.CreatePanel("Panel");
             Panel.SetParent(Canvas);
             Panel.SetRectStretch();
-            Panel.SetColor(MockHelper.MockColorForBackground());
+            Panel.SetColor(VLGenerater.MockColorForBackground());
             //Image_Title
             var Image_Title = VLCreator.CreateImage("Image_Title");
             Image_Title.SetParent(Panel);
             Image_Title.SetRectLeftTop(100, -50, 200, 400);
-            Image_Title.SetColor(MockHelper.MockColorForItem());
+            Image_Title.SetColor(VLGenerater.MockColorForItem());
 
             //Button_Start
             GameObject Prefab_Button_StartMenu = GameObject.Instantiate(Prefab_Button_StartMenu_Normal);
@@ -593,6 +593,7 @@ namespace VL.Gaming.Unity.Tools
 
             Debug.Log($"Instantiate End");
         }
+
         [MenuItem("Tools/InitSceneGaming/InitGameInit")]
         static void InitGameInit()
         {
@@ -637,26 +638,19 @@ namespace VL.Gaming.Unity.Tools
             //Canvas
             var Canvas = VLCreator.CreateCanvas("Canvas");
 
-            //Image_Curtain
-            var Image_Curtain = VLCreator.CreateImage("Image_Curtain");
-            Image_Curtain.SetParent(Canvas);
-            Image_Curtain.SetRectStretch();
-            Image_Curtain.SetColor(Color.black);
-            Image_Curtain.SetActive(false);
-
             #region Panel_Settings
 
             //Panel_Settings
             var Panel_Settings = VLCreator.CreatePanel("Panel_Settings");
             Panel_Settings.SetParent(Canvas);
             Panel_Settings.SetRectStretch();
-            Panel_Settings.SetColor(MockHelper.MockColorForBackground());
+            Panel_Settings.SetColor(VLGenerater.MockColorForBackground());
 
             //Image_Portrait
             var Image_Portrait = VLCreator.CreateImage("Image_Portrait");
             Image_Portrait.SetParent(Panel_Settings);
             Image_Portrait.SetRectRightTop(-40, -40, 1000, 1000);
-            Image_Portrait.SetColor(MockHelper.MockColorForItem());
+            Image_Portrait.SetColor(VLGenerater.MockColorForItem());
 
             #region Panel_MainCategory
 
@@ -664,7 +658,7 @@ namespace VL.Gaming.Unity.Tools
             var Panel_MainCategory = VLCreator.CreatePanel("Panel_MainCategory");
             Panel_MainCategory.SetParent(Panel_Settings);
             Panel_MainCategory.SetRectLeftTop(0, 0, 200, 1080);
-            Panel_MainCategory.SetColor(MockHelper.MockColorForBackground());
+            Panel_MainCategory.SetColor(VLGenerater.MockColorForBackground());
             //ToggleGroup
             var ToggleGroup = VLCreator.CreateToggleGroup("ToggleGroup");
             ToggleGroup.SetParent(Panel_MainCategory);
@@ -705,7 +699,7 @@ namespace VL.Gaming.Unity.Tools
             var Panel_SubCategory_Race = VLCreator.CreatePanel("Panel_SubCategory_Race");
             Panel_SubCategory_Race.SetParent(Panel_Settings);
             Panel_SubCategory_Race.SetRectLeftTop(220, -20, 600, 800);
-            Panel_SubCategory_Race.SetColor(MockHelper.MockColorForItem());
+            Panel_SubCategory_Race.SetColor(VLGenerater.MockColorForItem());
             //Panel_SubCategoryType 种族标题区域
             var Panel_SubCategoryType = VLCreator.CreatePanel("Panel_SubCategoryType");
             Panel_SubCategoryType.SetParent(Panel_SubCategory_Race);
@@ -713,7 +707,7 @@ namespace VL.Gaming.Unity.Tools
             var Background = VLCreator.CreateImage("Background");
             Background.SetParent(Panel_SubCategoryType);
             Background.SetRectStretch();
-            Background.SetColor(MockHelper.MockColorForItem());
+            Background.SetColor(VLGenerater.MockColorForItem());
             var Text = VLCreator.CreateText("Text");
             Text.SetParent(Panel_SubCategoryType);
             Text.SetRectLeftTop(220, -5, 160, 40);
@@ -735,7 +729,7 @@ namespace VL.Gaming.Unity.Tools
             var Panel_RaceType_Details = VLCreator.CreatePanel("Panel_RaceType_Details");
             Panel_RaceType_Details.SetParent(Panel_SubCategory_Race);
             Panel_RaceType_Details.SetRectLeftTop(0, -350, 600, 450);
-            Panel_RaceType_Details.SetColor(MockHelper.MockColorForItem());
+            Panel_RaceType_Details.SetColor(VLGenerater.MockColorForItem());
             //Text_RaceType
             var Text_RaceType = VLCreator.CreateText("Text_RaceType");
             Text_RaceType.SetParent(Panel_RaceType_Details);
@@ -761,7 +755,7 @@ namespace VL.Gaming.Unity.Tools
             var Panel_SubCategory_Profession = VLCreator.CreatePanel("Panel_SubCategory_Profession");
             Panel_SubCategory_Profession.SetParent(Panel_Settings);
             Panel_SubCategory_Profession.SetRectLeftTop(220, -20, 600, 800);
-            Panel_SubCategory_Profession.SetColor(MockHelper.MockColorForItem());
+            Panel_SubCategory_Profession.SetColor(VLGenerater.MockColorForItem());
             Panel_SubCategory_Profession.SetActive(false);
             //Panel_SubCategory_ProfessionType 职业标题区域
             var Panel_SubCategory_ProfessionType = VLCreator.CreatePanel("Panel_SubCategory_ProfessionType");
@@ -770,7 +764,7 @@ namespace VL.Gaming.Unity.Tools
             Background = VLCreator.CreateImage("Background");
             Background.SetParent(Panel_SubCategory_ProfessionType);
             Background.SetRectStretch();
-            Background.SetColor(MockHelper.MockColorForItem());
+            Background.SetColor(VLGenerater.MockColorForItem());
             Text = VLCreator.CreateText("Text");
             Text.SetParent(Panel_SubCategory_ProfessionType);
             Text.SetRectLeftTop(220, -5, 160, 40);
@@ -792,7 +786,7 @@ namespace VL.Gaming.Unity.Tools
             var Panel_ProfessionType_Details = VLCreator.CreatePanel("Panel_ProfessionType_Details");
             Panel_ProfessionType_Details.SetParent(Panel_SubCategory_Profession);
             Panel_ProfessionType_Details.SetRectLeftTop(0, -350, 600, 450);
-            Panel_ProfessionType_Details.SetColor(MockHelper.MockColorForItem());
+            Panel_ProfessionType_Details.SetColor(VLGenerater.MockColorForItem());
             //Text_ProfessionType
             var Text_ProfessionType = VLCreator.CreateText("Text_ProfessionType");
             Text_ProfessionType.SetParent(Panel_ProfessionType_Details);
@@ -818,7 +812,7 @@ namespace VL.Gaming.Unity.Tools
             var Panel_SubCategory_Attributes = VLCreator.CreatePanel("Panel_SubCategory_Attributes");
             Panel_SubCategory_Attributes.SetParent(Panel_Settings);
             Panel_SubCategory_Attributes.SetRectLeftTop(220, -20, 600, 800);
-            Panel_SubCategory_Attributes.SetColor(MockHelper.MockColorForItem());
+            Panel_SubCategory_Attributes.SetColor(VLGenerater.MockColorForItem());
             Panel_SubCategory_Attributes.SetActive(false);
 
             #endregion
@@ -829,7 +823,7 @@ namespace VL.Gaming.Unity.Tools
             var Panel_SubCategory_MapSettings = VLCreator.CreatePanel("Panel_SubCategory_MapSettings");
             Panel_SubCategory_MapSettings.SetParent(Panel_Settings);
             Panel_SubCategory_MapSettings.SetRectLeftTop(220, -20, 600, 800);
-            Panel_SubCategory_MapSettings.SetColor(MockHelper.MockColorForItem());
+            Panel_SubCategory_MapSettings.SetColor(VLGenerater.MockColorForItem());
             Panel_SubCategory_MapSettings.SetActive(false);
 
             #endregion
@@ -849,13 +843,13 @@ namespace VL.Gaming.Unity.Tools
             var Panel_Ready = VLCreator.CreatePanel("Panel_Ready");
             Panel_Ready.SetParent(Canvas);
             Panel_Ready.SetRectStretch();
-            Panel_Ready.SetColor(MockHelper.MockColorForBackground());
+            Panel_Ready.SetColor(VLGenerater.MockColorForBackground());
             Panel_Ready.SetActive(false);
             //Image_Portrait
             Image_Portrait = VLCreator.CreateImage("Image_Portrait");
             Image_Portrait.SetParent(Panel_Ready);
             Image_Portrait.SetRectStretch();
-            Image_Portrait.SetColor(MockHelper.MockColorForItem());
+            Image_Portrait.SetColor(VLGenerater.MockColorForItem());
             //Text1
             var Text1 = VLCreator.CreateText("Text1");
             Text1.SetParent(Panel_Ready);
@@ -897,6 +891,13 @@ namespace VL.Gaming.Unity.Tools
             Button_Confirm.SetTextContent("确认");
 
             #endregion
+
+            //Image_Curtain
+            var Image_Curtain = VLCreator.CreateImage("Image_Curtain");
+            Image_Curtain.SetParent(Canvas);
+            Image_Curtain.SetRectStretch();
+            Image_Curtain.SetColor(Color.black);
+            Image_Curtain.SetActive(false);
 
             Debug.Log($"Instantiate End");
         }

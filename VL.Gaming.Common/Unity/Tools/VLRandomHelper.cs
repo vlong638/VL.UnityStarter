@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace VL.Gaming.Unity.Common
+namespace VL.Gaming.Unity.Tools
 {
-    public class RandomHelper
+    public class VLRandomHelper
     {
         static Random _random;
         static object _object = new object();

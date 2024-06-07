@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using VL.Gaming.Unity.Gaming.GameSystem.Widgets;
 
-namespace VL.Gaming.Unity.Gaming.GameSystem.Game0517
+namespace VL.Gaming.Unity.Gaming.GameSystem.Widgets
 {
     internal class CountDownTextManager : MonoBehaviour
     {
