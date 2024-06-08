@@ -2,7 +2,7 @@
 
 namespace VL.Gaming.Unity.Tools
 {
-    public class VLRandomHelper
+    public class VLRandom
     {
         static Random _random;
         static object _object = new object();

@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +53,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils\ImageResize.cs" />
+    <Compile Include="Utils\ImageMerge.cs" />
     <None Include="packages.config" />
     <None Include="Sample.json" />
     <Compile Include="Program.cs" />

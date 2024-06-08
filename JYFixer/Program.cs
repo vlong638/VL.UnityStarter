@@ -12,27 +12,31 @@ namespace JYFixer
     {
         static void Main(string[] args)
         {
-            for (int i = 0; i < 100; i++)
-            {
-                var cycleDuration = 30f; ;
-                var timeElapsed = i; ;
-                float alpha = Mathf.PingPong((float)Math.Round(timeElapsed / cycleDuration, 2) , 1f);
-                Console.WriteLine(alpha);
-            }
-            MockData_DialogueData();
+            //ImageMerge.MergeImages(@"D:\游戏开发\地图素材已处理\InputMerge", @"D:\游戏开发\地图素材已处理\OutputMerge\Result.png");
+
+            ImageResize.TileImage(@"D:\游戏开发\地图素材已处理\InputResize\grass1.png", @"D:\游戏开发\地图素材已处理\InputResize\Result.png", 1000,1000);
+
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    var cycleDuration = 30f; ;
+            //    var timeElapsed = i; ;
+            //    float alpha = Mathf.PingPong((float)Math.Round(timeElapsed / cycleDuration, 2) , 1f);
+            //    Console.WriteLine(alpha);
+            //}
+            //MockData_DialogueData();
 
 
-            // 输入图片路径
-            string inputImagePath = "D:\\input_image.jpg";
+            //// 输入图片路径
+            //string inputImagePath = "D:\\input_image.jpg";
 
-            // 输出图片路径
-            string outputImagePath = "D:\\output_pixel_art.png";
+            //// 输出图片路径
+            //string outputImagePath = "D:\\output_pixel_art.png";
 
-            // 指定像素画大小
-            int pixelSize = 32;
+            //// 指定像素画大小
+            //int pixelSize = 32;
 
-            // 调用转换方法
-            PixelConverter.ConvertToPixelArt(inputImagePath, outputImagePath, pixelSize);
+            //// 调用转换方法
+            //PixelConverter.ConvertToPixelArt(inputImagePath, outputImagePath, pixelSize);
         }
 
         private static void MockData_DialogueData()

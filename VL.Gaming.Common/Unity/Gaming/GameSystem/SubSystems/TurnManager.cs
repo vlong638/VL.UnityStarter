@@ -41,14 +41,14 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.SubSystems
 
         void StartPlayerTurn()
         {
-            GameObject.Find("Sprite_CurrentTurn").GetComponent<SpriteRenderer>().sprite = VLResource.Sprite_PlayerTurn;
+            GameObject.Find("Sprite_CurrentTurn").GetComponent<SpriteRenderer>().sprite = VLResourcePool.Sprite_PlayerTurn;
             turnState = TurnState.PlayerTurn;
             playerActionPoints = 3; // 示例值，实际值根据需要设定
         }
 
         void StartEnemyTurn()
         {
-            GameObject.Find("Sprite_CurrentTurn").GetComponent<SpriteRenderer>().sprite = VLResource.Sprite_EnermyTurn;
+            GameObject.Find("Sprite_CurrentTurn").GetComponent<SpriteRenderer>().sprite = VLResourcePool.Sprite_EnermyTurn;
             turnState = TurnState.EnemyTurn;
             enemyActionPoints = 3; // 示例值
                                    // 启动敌方AI逻辑
@@ -143,7 +143,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.SubSystems
             selectedPlayerUnit = gameObject;
             //选中效果
             var animator = selectedPlayerUnit.GetComponent<Animator>();
-            animator.runtimeAnimatorController = VLResource.Controller_Rotate;
+            animator.runtimeAnimatorController = VLResourcePool.Controller_Rotate;
             animator.avatar = null;
             animator.applyRootMotion = false;
             animator.updateMode = AnimatorUpdateMode.Normal;
@@ -168,7 +168,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.SubSystems
             selectedEnermyUnit = gameObject;
             //选中效果
             var animator = selectedEnermyUnit.GetComponent<Animator>();
-            animator.runtimeAnimatorController = VLResource.Controller_Rotate;
+            animator.runtimeAnimatorController = VLResourcePool.Controller_Rotate;
             animator.avatar = null;
             animator.applyRootMotion = false;
             animator.updateMode = AnimatorUpdateMode.Normal;

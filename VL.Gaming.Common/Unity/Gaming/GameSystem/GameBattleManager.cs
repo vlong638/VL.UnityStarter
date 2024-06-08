@@ -19,7 +19,6 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
                 return instance;
             }
         }
-        GameObject GameBoard;
 
         void Awake()
         {
@@ -35,13 +34,13 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
         private void InitGameBoard()
         {
-            GameBoard = new GameObject("GameBoard");
-            //背景
-            var Square_Background = new GameObject("Square_Background");
-            var SpriteRenderer = Square_Background.AddComponent<SpriteRenderer>();
-            SpriteRenderer.sprite = VLResource.Sprite_Rectangle;
-            Square_Background.SetParent(GameBoard);
-            Square_Background.SetScale(34.2f, 19.2f, 1);
+            //GameBoard = new GameObject("GameBoard");
+            ////背景
+            //var Square_Background = new GameObject("Square_Background");
+            //var SpriteRenderer = Square_Background.AddComponent<SpriteRenderer>();
+            //SpriteRenderer.sprite = VLResourcePool.Sprite_Rectangle;
+            //Square_Background.SetParent(GameBoard);
+            //Square_Background.SetScale(34.2f, 19.2f, 1);
             //英雄位置
 
             //棋子位置(星空战旗)

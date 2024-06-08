@@ -34,14 +34,14 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
         void Start()
         {
-            Toggle_Race = ResourceHelper.FindGameObjectByName("Toggle_Race");
-            Toggle_Profession = ResourceHelper.FindGameObjectByName("Toggle_Profession");
-            Toggle_Attributes = ResourceHelper.FindGameObjectByName("Toggle_Attributes");
-            Toggle_MapSettings = ResourceHelper.FindGameObjectByName("Toggle_MapSettings");
-            Panel_SubCategory_Race = ResourceHelper.FindGameObjectByName("Panel_SubCategory_Race");
-            Panel_SubCategory_Profession = ResourceHelper.FindGameObjectByName("Panel_SubCategory_Profession");
-            Panel_SubCategory_Attributes = ResourceHelper.FindGameObjectByName("Panel_SubCategory_Attributes");
-            Panel_SubCategory_MapSettings = ResourceHelper.FindGameObjectByName("Panel_SubCategory_MapSettings");
+            Toggle_Race = VLResourceHelper.FindGameObjectByName("Toggle_Race");
+            Toggle_Profession = VLResourceHelper.FindGameObjectByName("Toggle_Profession");
+            Toggle_Attributes = VLResourceHelper.FindGameObjectByName("Toggle_Attributes");
+            Toggle_MapSettings = VLResourceHelper.FindGameObjectByName("Toggle_MapSettings");
+            Panel_SubCategory_Race = VLResourceHelper.FindGameObjectByName("Panel_SubCategory_Race");
+            Panel_SubCategory_Profession = VLResourceHelper.FindGameObjectByName("Panel_SubCategory_Profession");
+            Panel_SubCategory_Attributes = VLResourceHelper.FindGameObjectByName("Panel_SubCategory_Attributes");
+            Panel_SubCategory_MapSettings = VLResourceHelper.FindGameObjectByName("Panel_SubCategory_MapSettings");
             Toggle_Race.GetComponent<Toggle>().onValueChanged.AddListener(c =>
             {
                 if (c)
@@ -84,20 +84,20 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             });
             Toggle_Race.GetComponent<Toggle>().isOn = true;
             //Image_Curtain
-            Image_Curtain = ResourceHelper.FindGameObjectByName("Image_Curtain");
+            Image_Curtain = VLResourceHelper.FindGameObjectByName("Image_Curtain");
             Image_Curtain?.SetActive(false);
             //Button_Continue
-            Button_Continue = ResourceHelper.FindGameObjectByName("Button_Continue");
+            Button_Continue = VLResourceHelper.FindGameObjectByName("Button_Continue");
             Button_Continue.GetComponent<Button>().onClick.AddListener(() => { Continue(); });
             //Button_Confirm
-            Button_Confirm = ResourceHelper.FindGameObjectByName("Button_Confirm");
+            Button_Confirm = VLResourceHelper.FindGameObjectByName("Button_Confirm");
             Button_Confirm.GetComponent<Button>().onClick.AddListener(() => { Confirm(); });
             Button_Confirm.GetComponent<Button>().interactable = false;
             //Button_Back
-            Button_Back = ResourceHelper.FindGameObjectByName("Button_Back");
+            Button_Back = VLResourceHelper.FindGameObjectByName("Button_Back");
             Button_Back.GetComponent<Button>().onClick.AddListener(() => { Return(); });
             //InputField_Name
-            InputField_Name = ResourceHelper.FindGameObjectByName("InputField_Name");
+            InputField_Name = VLResourceHelper.FindGameObjectByName("InputField_Name");
             InputField_Name.GetComponent<InputField>().onValueChanged.AddListener((s) =>
             {
                 if (string.IsNullOrEmpty(s))
@@ -157,7 +157,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
             {
                 GameObject panel_Settings = GameObject.Find("Panel_Settings");
                 panel_Settings.SetActive(false);
-                GameObject panel_Ready = ResourceHelper.FindGameObjectByName("Panel_Ready");
+                GameObject panel_Ready = VLResourceHelper.FindGameObjectByName("Panel_Ready");
                 panel_Ready.SetActive(true);
                 return;
             }
@@ -167,13 +167,13 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
         {
             GameObject panel_Ready = GameObject.Find("Panel_Ready");
             panel_Ready.SetActive(false);
-            GameObject panel_Settings = ResourceHelper.FindGameObjectByName("Panel_Settings");
+            GameObject panel_Settings = VLResourceHelper.FindGameObjectByName("Panel_Settings");
             panel_Settings.SetActive(true);
         }
 
         public void Confirm()
         {
-            var go_curtain = ResourceHelper.FindGameObjectByName("Image_Curtain");
+            var go_curtain = VLResourceHelper.FindGameObjectByName("Image_Curtain");
             go_curtain.SetActive(true);
             image_curtain = go_curtain.GetComponent<Image>();
             changingSpeed = 1.0f; // 控制变化速率

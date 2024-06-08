@@ -31,7 +31,7 @@ namespace VL.Gaming.Unity.Tools
 
         private static GameObject CheckExist(string name, bool deleteOnExit = true)
         {
-            var check = ResourceHelper.FindGameObjectByName(name);
+            var check = VLResourceHelper.FindGameObjectByName(name);
             if (check != null && deleteOnExit)
                 Undo.DestroyObjectImmediate(check);
             return check;
@@ -58,14 +58,14 @@ namespace VL.Gaming.Unity.Tools
             CheckExist("InBattle");
 
             //依赖前置
-            var sprite = VLResource.Sprite_Rectangle;
-            sprite = VLResource.Sprite_Player;
-            sprite = VLResource.Sprite_Enermy;
-            sprite = VLResource.Sprite_VS;
-            sprite = VLResource.Sprite_Rectangle;
-            sprite = VLResource.Sprite_Circle;
-            var gameObject = VLResource.Prefab_Chess;
-            gameObject = VLResource.Prefab_ChessPlaceHolder;
+            var sprite = VLResourcePool.Sprite_Rectangle;
+            sprite = VLResourcePool.Sprite_Player;
+            sprite = VLResourcePool.Sprite_Enermy;
+            sprite = VLResourcePool.Sprite_VS;
+            sprite = VLResourcePool.Sprite_Rectangle;
+            sprite = VLResourcePool.Sprite_Circle;
+            var gameObject = VLResourcePool.Prefab_Chess;
+            gameObject = VLResourcePool.Prefab_ChessPlaceHolder;
 
             //PreBattle
             var PreBattle = new GameObject("PreBattle");
@@ -76,28 +76,28 @@ namespace VL.Gaming.Unity.Tools
             Sprite_Background.SetPosition(0, 0, 0);
             Sprite_Background.SetScale(34.2f, 19.2f, 1);
             var SpriteRenderer = Sprite_Background.GetComponent<SpriteRenderer>();
-            SpriteRenderer.sprite = VLResource.Sprite_Rectangle;
+            SpriteRenderer.sprite = VLResourcePool.Sprite_Rectangle;
             SpriteRenderer.sortingOrder = SortingOrderEnum.Floor.ToInt();
             //Player
             var Sprite_Player = VLCreator.CreateSprite("Sprite_Player");
             Sprite_Player.SetParent(PreBattle);
             Sprite_Player.SetPosition(-5, 0, 0);
             SpriteRenderer = Sprite_Player.GetComponent<SpriteRenderer>();
-            SpriteRenderer.sprite = VLResource.Sprite_Player;
+            SpriteRenderer.sprite = VLResourcePool.Sprite_Player;
             SpriteRenderer.sortingOrder = SortingOrderEnum.Unit.ToInt();
             //Enermy
             var Sprite_Enermy = VLCreator.CreateSprite("Sprite_Enermy");
             Sprite_Enermy.SetParent(PreBattle);
             Sprite_Enermy.SetPosition(5, 0, 0);
             SpriteRenderer = Sprite_Enermy.GetComponent<SpriteRenderer>();
-            SpriteRenderer.sprite = VLResource.Sprite_Enermy;
+            SpriteRenderer.sprite = VLResourcePool.Sprite_Enermy;
             SpriteRenderer.sortingOrder = SortingOrderEnum.Unit.ToInt();
             //VS
             var Sprite_VS = VLCreator.CreateSprite("Sprite_VS");
             Sprite_VS.SetParent(PreBattle);
             Sprite_VS.SetPosition(0, 0, 0);
             SpriteRenderer = Sprite_VS.GetComponent<SpriteRenderer>();
-            SpriteRenderer.sprite = VLResource.Sprite_VS;
+            SpriteRenderer.sprite = VLResourcePool.Sprite_VS;
             SpriteRenderer.sortingOrder = SortingOrderEnum.Unit.ToInt();
 
             //InBattle
@@ -112,7 +112,7 @@ namespace VL.Gaming.Unity.Tools
             Sprite_Background.SetPosition(0, 0, 0);
             Sprite_Background.SetScale(34.2f, 19.2f, 1);
             SpriteRenderer = Sprite_Background.GetComponent<SpriteRenderer>();
-            SpriteRenderer.sprite = VLResource.Sprite_Rectangle;
+            SpriteRenderer.sprite = VLResourcePool.Sprite_Rectangle;
             SpriteRenderer.sortingOrder = SortingOrderEnum.Floor.ToInt();
             //棋盘
             var Sprite_Board = VLCreator.CreateSprite("Sprite_Board");
@@ -120,7 +120,7 @@ namespace VL.Gaming.Unity.Tools
             Sprite_Board.SetPosition(0, 0, 0);
             Sprite_Board.SetScale(20f, 10f, 1);
             SpriteRenderer = Sprite_Board.GetComponent<SpriteRenderer>();
-            SpriteRenderer.sprite = VLResource.Sprite_Circle;
+            SpriteRenderer.sprite = VLResourcePool.Sprite_Circle;
             SpriteRenderer.sortingOrder = SortingOrderEnum.Floor.ToInt();
             SpriteRenderer.color = Color.green;
             //计时器,漏斗
@@ -172,14 +172,14 @@ namespace VL.Gaming.Unity.Tools
             float[] columns = new float[] { -7, -3.5f, 0, 3.5f, 7 };
             float[] rows = new float[] { 3.3f, 1.3f, -1f, -3f };
             //Player
-            var player = GameObject.Instantiate(VLResource.Prefab_Chess);
+            var player = GameObject.Instantiate(VLResourcePool.Prefab_Chess);
             player.SetParent(InBattle);
             player.transform.position = new Vector3(columns[2], rows[3], 0);
             player.layer = VLLayerMask.PlayerUnit.ToInt();
             player.AddComponent<BoxCollider2D>();
             player.AddComponent<Animator>();
             //Enermy
-            var enermy = GameObject.Instantiate(VLResource.Prefab_Chess);
+            var enermy = GameObject.Instantiate(VLResourcePool.Prefab_Chess);
             enermy.SetParent(InBattle);
             enermy.transform.position = new Vector3(columns[2], rows[0], 0);
             enermy.layer = VLLayerMask.EnermyUnit.ToInt();
@@ -190,7 +190,7 @@ namespace VL.Gaming.Unity.Tools
             {
                 for (int c = 0; c < columns.Length; c++)
                 {
-                    var chess = GameObject.Instantiate(VLResource.Prefab_ChessPlaceHolder);
+                    var chess = GameObject.Instantiate(VLResourcePool.Prefab_ChessPlaceHolder);
                     chess.SetParent(InBattle);
                     chess.transform.position = new Vector3(columns[c], rows[r], 0);
                     chess.layer = r >= 2 ? VLLayerMask.PlayerUnit.ToInt() : VLLayerMask.EnermyUnit.ToInt();
@@ -519,8 +519,8 @@ namespace VL.Gaming.Unity.Tools
 
             //依赖前置
             var EventSystem = VLCreator.CreateEventSystem("EventSystem");
-            var Prefab_Button_StartMenu_Normal = VLResource.Prefab_Button_StartMenu_Normal;
-            var Prefab_Canvas_StartMenu_Declaration = VLResource.Prefab_Canvas_StartMenu_Declaration;
+            var Prefab_Button_StartMenu_Normal = VLResourcePool.Prefab_Button_StartMenu_Normal;
+            var Prefab_Canvas_StartMenu_Declaration = VLResourcePool.Prefab_Canvas_StartMenu_Declaration;
 
             //GameSystemManager
             GameObject gameSystemManager = new GameObject("GameSystemManager");
@@ -604,10 +604,10 @@ namespace VL.Gaming.Unity.Tools
 
             //依赖前置
             var EventSystem = VLCreator.CreateEventSystem("EventSystem");
-            var Prefab_Toggle_GameInit_MainCategory = VLResource.Prefab_Toggle_GameInit_MainCategory;
-            var Prefab_Toggle_GameInit_SubCategory = VLResource.Prefab_Toggle_GameInit_SubCategory;
-            var Prefab_Button_GameInit_Normal = VLResource.Prefab_Button_GameInit_Normal;
-            var Prefab_InputField_GameInit_Normal = VLResource.Prefab_InputField_GameInit_Normal;
+            var Prefab_Toggle_GameInit_MainCategory = VLResourcePool.Prefab_Toggle_GameInit_MainCategory;
+            var Prefab_Toggle_GameInit_SubCategory = VLResourcePool.Prefab_Toggle_GameInit_SubCategory;
+            var Prefab_Button_GameInit_Normal = VLResourcePool.Prefab_Button_GameInit_Normal;
+            var Prefab_InputField_GameInit_Normal = VLResourcePool.Prefab_InputField_GameInit_Normal;
             var Races = new List<RaceData> {
                 new RaceData("人族"),
                 new RaceData("精灵"),

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace VL.Gaming.Unity.Gaming.Ultis
 {
-    public class ResourceHelper
+    public class VLResourceHelper
     {
         public static GameObject FindGameObjectByName(string name, bool findPrefabInstance = true)
         {

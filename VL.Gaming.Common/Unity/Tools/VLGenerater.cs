@@ -13,7 +13,7 @@ namespace VL.Gaming.Unity.Tools
         {
             var result = new int[length];
             for (int i = 0; i < length; i++)
-                result[i] = VLRandomHelper.Random.Next(minValue, maxValue);
+                result[i] = VLRandom.Random.Next(minValue, maxValue);
             return result;
         } 
         #endregion

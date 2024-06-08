@@ -13,7 +13,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
         void Awake()
         {
-            pauseMenu = ResourceHelper.FindGameObjectByName("Canvas_PauseMenu");
+            pauseMenu = VLResourceHelper.FindGameObjectByName("Canvas_PauseMenu");
         }
 
         void Start()
@@ -22,12 +22,12 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
                 pauseMenu.SetActive(false);
 
             //StartGame
-            var gameObject = ResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.StartGame]);
+            var gameObject = VLResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.StartGame]);
             gameObject.GetComponent<Button>().onClick.AddListener(() => StartGame());
             //Load
             //Config
             //Quit
-            gameObject = ResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.Quit]);
+            gameObject = VLResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.Quit]);
             gameObject.GetComponent<Button>().onClick.AddListener(() => QuitGame());
         }
 

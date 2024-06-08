@@ -15,8 +15,8 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
         void Awake()
         {
-            progressBar = ResourceHelper.FindGameObjectByName("Slider_ProgressBar").GetComponent<Slider>();
-            progressText = ResourceHelper.FindGameObjectByName("Text_ProgressBar").GetComponent<Text>();
+            progressBar = VLResourceHelper.FindGameObjectByName("Slider_ProgressBar").GetComponent<Slider>();
+            progressText = VLResourceHelper.FindGameObjectByName("Text_ProgressBar").GetComponent<Text>();
         }
 
         void Start()

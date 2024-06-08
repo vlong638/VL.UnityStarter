@@ -4,8 +4,9 @@
     {
         Default = 0,
         Background = 1,
-        Item = 2,
-        Units = 3,
-        Foreground = 4,
+        Building = 2,
+        Item = 3,
+        Units = 4,
+        Foreground = 5,
     }
 }

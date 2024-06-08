@@ -79,13 +79,15 @@
     <Compile Include="Study\Patterns\Others\ObjectPool.cs" />
     <Compile Include="Study\Patterns\Others\EventDriven.cs" />
     <Compile Include="Study\Patterns\Others\DependencyInjection.cs" />
+    <Compile Include="Study\Unity\Study_Coroutine.cs" />
     <Compile Include="Study\Unity\Study_Animator.cs" />
     <Compile Include="Unity\Cache\ObjectPool.cs" />
     <Compile Include="Unity\Common\Enums\VLSortingOrder.cs" />
     <Compile Include="Unity\Common\Enums\VLLayerMask.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\Generator\QuadGameBoard.cs" />
     <Compile Include="Unity\Tools\VLGenerater.cs" />
     <Compile Include="Unity\Common\MyScriptableObject.cs" />
-    <Compile Include="Unity\Tools\VLRandomHelper.cs" />
+    <Compile Include="Unity\Tools\VLRandom.cs" />
     <Compile Include="Unity\Common\ValueEx.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,7 +121,7 @@
     <Compile Include="Unity\Gaming\Content\Entities\ProfessionData.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\RaceData.cs" />
     <Compile Include="Unity\Gaming\GameSystem\Widgets\CountDownTextManager.cs" />
-    <Compile Include="Unity\Gaming\GameSystem\GameBoardManager.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\QuadGameMapManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\HexGameBoardManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\SubSystems\TurnManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\Widgets\ChessMove\DisplaySelected.cs" />
@@ -159,14 +161,15 @@
     <Compile Include="Unity\Gaming\Content\GameData.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameDataManager.cs" />
     <Compile Include="Unity\Gaming\Samples\JobSystemExample .cs" />
-    <Compile Include="Unity\Gaming\Ultis\ResourceHelper.cs" />
-    <Compile Include="Unity\Gaming\Ultis\VLResource.cs" />
+    <Compile Include="Unity\Gaming\Ultis\VLResourceHelper.cs" />
+    <Compile Include="Unity\Gaming\Ultis\VLResourcePool.cs" />
     <Compile Include="Unity\Tools\SliceSpritesTool.cs" />
     <Compile Include="Unity\Tools\VLCreator.cs" />
     <Compile Include="Unity\Tools\VLDebug.cs" />
     <Compile Include="Unity\Tools\VLDecorator.cs" />
     <Compile Include="Unity\Gaming\Ultis\VLDictionaries.cs" />
     <Compile Include="Unity\Tools\VLGameCreator0517.cs" />
+    <Compile Include="Unity\Tools\VLSeedRandom.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -175,5 +178,6 @@
   <ItemGroup>
     <Content Include="Unity\ThirdParty\Newtonsoft.Json.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
