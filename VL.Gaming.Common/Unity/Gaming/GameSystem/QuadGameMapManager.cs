@@ -48,8 +48,19 @@ namespace VL.Gaming.Unity.Gaming.GameSystem
 
             Debug.Log($"开始生成地形");
             yield return QuadGameBoard.Instance.GenerateFloors(FloorsGO);
-            Debug.Log($"开始生成建筑");
+            Debug.Log($"开始生成建筑(小城镇)");
             yield return QuadGameBoard.Instance.GenerateBuildings(BuildingsGO);
+            Debug.Log($"开始生成建筑(大城镇)");
+            yield return QuadGameBoard.Instance.GenerateCities(BuildingsGO);
+            Debug.Log($"开始生成建筑(事件)");
+            yield return QuadGameBoard.Instance.GenerateEvents(BuildingsGO);
+            Debug.Log($"开始生成岩石");
+            yield return QuadGameBoard.Instance.GenerateRocks(ItemsGO);
+            Debug.Log($"开始生成树林");
+            yield return QuadGameBoard.Instance.GenerateTrees(ItemsGO);
+            Debug.Log($"开始生成果树");
+            yield return QuadGameBoard.Instance.GenerateTreeFruits(ItemsGO);
+
         }
 
         void PrepareAsset()

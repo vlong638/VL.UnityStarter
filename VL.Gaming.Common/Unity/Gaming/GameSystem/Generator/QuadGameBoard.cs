@@ -29,7 +29,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.Generator
         public static float StepY = 1f;
 
         public Floor[,] Floors = new Floor[XSteps, YSteps];
-        public Building[,] Buildings = new Building[XSteps, YSteps];
+        //public Building[,] Buildings = new Building[XSteps, YSteps];
 
         internal GameObject GameboardGO { set; get; }
 
@@ -39,7 +39,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.Generator
             {
                 for (int y = 0; y < YSteps; y++)
                 {
-                    var sprite = Instantiate(VLResourcePool.GetCellGrass(0));
+                    var sprite = Instantiate(VLResourcePool.GetRandomCell(CellType.CellGrass, 0));
                     var name = $"Floor{x}_{y}";
                     Floors[x, y] = new Floor(name, sprite, FloorType.Grass);
                     sprite.name = name;
@@ -50,18 +50,131 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.Generator
             return null;
         }
 
-        public Object GenerateBuildings(GameObject buildingsGO)
+        public Object GenerateRocks(GameObject buildingsGO)
+        {
+            VLSeedRandom random = new VLSeedRandom(60, 1);
+            var offset = 2;
+            for (int x = offset; x < XSteps - offset; x++)
+            {
+                for (int y = offset; y < YSteps - offset; y++)
+                {
+                    if (Floors[x, y].Building != null)
+                        continue;
+                    if (random.GetNext() == 0)
+                        continue;
+                    var sprite = Instantiate(VLResourcePool.GetRandomCell(CellType.CellRock));
+                    var name = $"Builidng{x}_{y}";
+                    Floors[x, y].Building = new Building(name, sprite, BuildingType.Rock);
+                    sprite.name = name;
+                    sprite.transform.position = new Vector2((x - XSteps / 2) * StepX, (y - YSteps / 2) * StepY);
+                    sprite.SetParent(buildingsGO);
+                }
+            }
+            return null;
+        }
+        public Object GenerateTrees(GameObject buildingsGO)
+        {
+            VLSeedRandom random = new VLSeedRandom(30, 1);
+            var offset = 2;
+            for (int x = offset; x < XSteps - offset; x++)
+            {
+                for (int y = offset; y < YSteps - offset; y++)
+                {
+                    if (Floors[x, y].Building != null)
+                        continue;
+                    if (random.GetNext() == 0)
+                        continue;
+                    var sprite = Instantiate(VLResourcePool.GetRandomCell(CellType.CellTree));
+                    var name = $"Builidng{x}_{y}";
+                    Floors[x, y].Building = new Building(name, sprite, BuildingType.Tree);
+                    sprite.name = name;
+                    sprite.transform.position = new Vector2((x - XSteps / 2) * StepX, (y - YSteps / 2) * StepY);
+                    sprite.SetParent(buildingsGO);
+                }
+            }
+            return null;
+        }
+        public Object GenerateTreeFruits(GameObject buildingsGO)
         {
             VLSeedRandom random = new VLSeedRandom(100, 1);
-            for (int x = 2; x < XSteps; x++)
+            var offset = 2;
+            for (int x = offset; x < XSteps - offset; x++)
             {
-                for (int y = 0; y < YSteps; y++)
+                for (int y = offset; y < YSteps - offset; y++)
                 {
-                    if (random.GetNext()==0)
+                    if (Floors[x, y].Building != null)
                         continue;
-                    var sprite = Instantiate(VLResourcePool.GetBuildingType1());
+                    if (random.GetNext() == 0)
+                        continue;
+                    var sprite = Instantiate(VLResourcePool.GetRandomCell(CellType.CellTreeFruit));
                     var name = $"Builidng{x}_{y}";
-                    Buildings[x, y] = new Building(name, sprite, BuildingType.City);
+                    Floors[x, y].Building = new Building(name, sprite, BuildingType.Tree);
+                    sprite.name = name;
+                    sprite.transform.position = new Vector2((x - XSteps / 2) * StepX, (y - YSteps / 2) * StepY);
+                    sprite.SetParent(buildingsGO);
+                }
+            }
+            return null;
+        }
+        public Object GenerateBuildings(GameObject buildingsGO)
+        {
+            VLSeedRandom random = new VLSeedRandom(200, 1);
+            var offset = 10;
+            for (int x = offset; x < XSteps - offset; x++)
+            {
+                for (int y = offset; y < YSteps - offset; y++)
+                {
+                    if (Floors[x, y].Building != null)
+                        continue;
+                    if (random.GetNext() == 0)
+                        continue;
+                    var sprite = Instantiate(VLResourcePool.GetRandomCell(CellType.CellBuilding));
+                    var name = $"Builidng{x}_{y}";
+                    Floors[x, y].Building = new Building(name, sprite, BuildingType.City);
+                    sprite.name = name;
+                    sprite.transform.position = new Vector2((x - XSteps / 2) * StepX, (y - YSteps / 2) * StepY);
+                    sprite.SetParent(buildingsGO);
+                }
+            }
+            return null;
+        }
+        public Object GenerateEvents(GameObject buildingsGO)
+        {
+            VLSeedRandom random = new VLSeedRandom(300, 1);
+            var offset = 10;
+            for (int x = offset; x < XSteps - offset; x++)
+            {
+                for (int y = offset; y < YSteps - offset; y++)
+                {
+                    if (Floors[x, y].Building != null)
+                        continue;
+                    if (random.GetNext() == 0)
+                        continue;
+                    var sprite = Instantiate(VLResourcePool.GetRandomCell(CellType.CellEvent));
+                    var name = $"Builidng{x}_{y}";
+                    Floors[x, y].Building = new Building(name, sprite, BuildingType.City);
+                    sprite.name = name;
+                    sprite.transform.position = new Vector2((x - XSteps / 2) * StepX, (y - YSteps / 2) * StepY);
+                    sprite.SetParent(buildingsGO);
+                }
+            }
+            return null;
+        }
+        public Object GenerateCities(GameObject buildingsGO)
+        {
+            VLSeedRandom random = new VLSeedRandom(500, 1);
+            var offset = 10;
+            for (int x = offset; x < XSteps - offset; x++)
+            {
+                for (int y = offset; y < YSteps - offset; y++)
+                {
+                    if (Floors[x, y].Building != null)
+                        continue;
+                    if (random.GetNext() == 0)
+                        continue;
+                    var sprite = Instantiate(VLResourcePool.GetRandomCell(CellType.CellCity));
+                    var name = $"Builidng{x}_{y}";
+                    Floors[x, y].Building = new Building(name, sprite, BuildingType.City);
                     sprite.name = name;
                     sprite.transform.position = new Vector2((x - XSteps / 2) * StepX, (y - YSteps / 2) * StepY);
                     sprite.SetParent(buildingsGO);
@@ -98,6 +211,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.Generator
     public class Floor : UnityObject
     {
         public FloorType FloorType;
+        public Building Building;
 
         public Floor(string name, GameObject spriteGO, FloorType floorType) : base(name, spriteGO)
         {
@@ -138,5 +252,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.Generator
     {
         None = 0,
         City,
+        Rock,
+        Tree,
     }
 }

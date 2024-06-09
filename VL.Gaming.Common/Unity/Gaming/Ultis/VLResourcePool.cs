@@ -5,6 +5,16 @@ using VL.Gaming.Unity.Tools;
 
 namespace VL.Gaming.Unity.Gaming.Ultis
 {
+    public enum CellType
+    {
+        CellGrass,
+        CellBuilding,
+        CellCity,
+        CellEvent,
+        CellTree,
+        CellRock,
+        CellTreeFruit,
+    }
     public static class VLResourcePool
     {
         public static Sprite Sprite_Rectangle { get { return Resources.Load<Sprite>("Sprites/Rectangle"); } }
@@ -38,77 +48,117 @@ namespace VL.Gaming.Unity.Gaming.Ultis
         public static RuntimeAnimatorController Controller_Rotate { get { return Resources.Load<RuntimeAnimatorController>("Animations/Rotate"); } }
 
         public static List<GameObject> CellGrass = new List<GameObject>();
-        public static List<GameObject> CellRock= new List<GameObject>();
-        public static List<GameObject> CellSand = new List<GameObject>();
-        public static List<GameObject> CellSea = new List<GameObject>();
-        public static List<GameObject> CellWater = new List<GameObject>();
+        public static List<GameObject> CellBuilding = new List<GameObject>();
+        public static List<GameObject> CellCity = new List<GameObject>();
+        public static List<GameObject> CellEvent = new List<GameObject>();
+        public static List<GameObject> CellTree = new List<GameObject>();
+        public static List<GameObject> CellRock = new List<GameObject>();
+        public static List<GameObject> CellTreeFruit = new List<GameObject>();
 
-        public static List<GameObject> BuildingType1 = new List<GameObject>();
+        public static GameObject GetRandomCell(CellType cellType, int index = -1)
+        {
+            List<GameObject> cellList = null;
+            switch (cellType)
+            {
+                case CellType.CellGrass:
+                    cellList = CellGrass;
+                    break;
+                case CellType.CellBuilding:
+                    cellList = CellBuilding;
+                    break;
+                case CellType.CellCity:
+                    cellList = CellCity;
+                    break;
+                case CellType.CellEvent:
+                    cellList = CellEvent;
+                    break;
+                case CellType.CellTree:
+                    cellList = CellTree;
+                    break;
+                case CellType.CellRock:
+                    cellList = CellRock;
+                    break;
+                case CellType.CellTreeFruit:
+                    cellList = CellTreeFruit;
+                    break;
+                default:
+                    break;
+            }
+            if (index == -1)
+                return cellList[Random.Range(0, cellList.Count - 1)];
+            return cellList[index];
+        }
 
         public static bool IsResourceReady = false;
         public static void LoadResource(GameObject assetsGO)
         {
-            CellGrass.Add(VLCreator.CreateSprite("Ground", Resources.Load<Sprite>("Sprites/grass_60"), assetsGO));
-            BuildingType1.Add(VLCreator.CreateSprite("BuildingType1", Resources.Load<Sprite>("Sprites/Buildings/Building1"), assetsGO));
-            BuildingType1.Add(VLCreator.CreateSprite("BuildingType1", Resources.Load<Sprite>("Sprites/Buildings/Building2"), assetsGO));
-            BuildingType1.Add(VLCreator.CreateSprite("BuildingType1", Resources.Load<Sprite>("Sprites/Buildings/Building3"), assetsGO));
-            BuildingType1.Add(VLCreator.CreateSprite("BuildingType1", Resources.Load<Sprite>("Sprites/Buildings/Building4"), assetsGO));
-            BuildingType1.Add(VLCreator.CreateSprite("BuildingType1", Resources.Load<Sprite>("Sprites/Buildings/Building5"), assetsGO));
-            BuildingType1.Add(VLCreator.CreateSprite("BuildingType1", Resources.Load<Sprite>("Sprites/Buildings/Building6"), assetsGO));
-            BuildingType1.Add(VLCreator.CreateSprite("BuildingType1", Resources.Load<Sprite>("Sprites/Buildings/Building7"), assetsGO));
+            CellGrass.Add(VLCreator.CreateSprite("CellGrass", Resources.Load<Sprite>("Sprites/grass_60"), assetsGO));
 
-            var sprites = Resources.LoadAll<Sprite>("Sprites/Ground");
+            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building1"), assetsGO));
+            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building2"), assetsGO));
+            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building3"), assetsGO));
+            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building4"), assetsGO));
+            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building5"), assetsGO));
+            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building6"), assetsGO));
+            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building7"), assetsGO));
+            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building8"), assetsGO));
+            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building9"), assetsGO));
+            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building10"), assetsGO));
+
+            CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City1"), assetsGO));
+            CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City2"), assetsGO));
+            CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City3"), assetsGO));
+            CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City4"), assetsGO));
+
+            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event1"), assetsGO));
+            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event2"), assetsGO));
+            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event3"), assetsGO));
+            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event4"), assetsGO));
+            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event5"), assetsGO));
+            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event6"), assetsGO));
+            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event7"), assetsGO));
+            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event8"), assetsGO));
+
+            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree1"), assetsGO));
+            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree2"), assetsGO));
+            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree3"), assetsGO));
+            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree4"), assetsGO));
+            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree5"), assetsGO));
+            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree6"), assetsGO));
+            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree7"), assetsGO));
+            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree8"), assetsGO));
+            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree9"), assetsGO));
+
+            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock1"), assetsGO));
+            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock2"), assetsGO));
+            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock3"), assetsGO));
+            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock4"), assetsGO));
+            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock5"), assetsGO));
+            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock6"), assetsGO));
+            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock7"), assetsGO));
+            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock8"), assetsGO));
+            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock9"), assetsGO));
+
+            CellTreeFruit.Add(VLCreator.CreateSprite("CellTreeFruits", Resources.Load<Sprite>("Sprites/TreeFruits/TreeFruit1"), assetsGO));
+            CellTreeFruit.Add(VLCreator.CreateSprite("CellTreeFruits", Resources.Load<Sprite>("Sprites/TreeFruits/TreeFruit2"), assetsGO));
+
+            //var sprites = Resources.LoadAll<Sprite>("Sprites/Ground");
             //CellGrass.Add(VLCreator.CreateSprite("Ground", sprites[0], assetsGO));
             //CellGrass.Add(VLCreator.CreateSprite("Ground", sprites[1], assetsGO));
             //CellGrass.Add(VLCreator.CreateSprite("Ground", sprites[2], assetsGO));
-            CellRock.Add(VLCreator.CreateSprite("Ground", sprites[4], assetsGO));
-            CellRock.Add(VLCreator.CreateSprite("Ground", sprites[5], assetsGO));
-            CellSand.Add(VLCreator.CreateSprite("Ground", sprites[6], assetsGO));
-            CellSand.Add(VLCreator.CreateSprite("Ground", sprites[7], assetsGO));
-            CellSand.Add(VLCreator.CreateSprite("Ground", sprites[8], assetsGO));
-            CellSea.Add(VLCreator.CreateSprite("Ground", sprites[9], assetsGO));
-            CellSea.Add(VLCreator.CreateSprite("Ground", sprites[10], assetsGO));
-            CellSea.Add(VLCreator.CreateSprite("Ground", sprites[11], assetsGO));
-            CellWater.Add(VLCreator.CreateSprite("Ground", sprites[12], assetsGO));
-            CellWater.Add(VLCreator.CreateSprite("Ground", sprites[13], assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("Ground", sprites[4], assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("Ground", sprites[5], assetsGO));
+            //CellSand.Add(VLCreator.CreateSprite("Ground", sprites[6], assetsGO));
+            //CellSand.Add(VLCreator.CreateSprite("Ground", sprites[7], assetsGO));
+            //CellSand.Add(VLCreator.CreateSprite("Ground", sprites[8], assetsGO));
+            //CellSea.Add(VLCreator.CreateSprite("Ground", sprites[9], assetsGO));
+            //CellSea.Add(VLCreator.CreateSprite("Ground", sprites[10], assetsGO));
+            //CellSea.Add(VLCreator.CreateSprite("Ground", sprites[11], assetsGO));
+            //CellWater.Add(VLCreator.CreateSprite("Ground", sprites[12], assetsGO));
+            //CellWater.Add(VLCreator.CreateSprite("Ground", sprites[13], assetsGO));
+
             IsResourceReady = true;
         }
 
-        public static GameObject GetCellGrass(int index = -1)
-        {
-            if (index == -1)
-                return CellGrass[Random.Range(0, CellGrass.Count - 1)];
-            return CellGrass[index];
-        }
-        public static GameObject GetCellRock(int index = -1)
-        {
-            if (index == -1)
-                return CellRock[Random.Range(0, CellRock.Count)];
-            return CellRock[index];
-        }
-        public static GameObject GetCellSand(int index = -1)
-        {
-            if (index == -1)
-                return CellSand[Random.Range(0, CellSand.Count)];
-            return CellSand[index];
-        }
-        public static GameObject GetCellSea(int index = -1)
-        {
-            if (index == -1)
-                return CellSea[Random.Range(0, CellSea.Count)];
-            return CellSea[index];
-        }
-        public static GameObject GetCellWater(int index = -1)
-        {
-            if (index == -1)
-                return CellWater[Random.Range(0, CellWater.Count)];
-            return CellWater[index];
-        }
-        public static GameObject GetBuildingType1(int index = -1)
-        {
-            if (index == -1)
-                return BuildingType1[Random.Range(0, BuildingType1.Count - 1)];
-            return BuildingType1[index];
-        }
     }
 }
