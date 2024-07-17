@@ -12,16 +12,22 @@ namespace VL.Gaming.Study.Patterns
     /// 在不改变元素类的情况下，根据不同的访问者执行不同的操作
     /// 元素类需要支持各自不同的访问行为
     /// 比如文件系统的遍历器，计算文件夹的大小，统计文件夹的数量
+    /// 
+    /// 价值: 将对对象的访问收束在Visitor类中,保持元素的封装性
+    /// 代价: 每增加一个元素便需要对所有的访问者进行维护
+    /// 行为: 1:1 * N
     /// </summary>
     public class SampleVisitor
     {
         public void Test()
         {
             var elements = new List<IVisitable>() { new ConcreteElementA("A11"), new ConcreteElementA("B13"), new ConcreteElementB(18) };
-            var visitor = new ConcreteVisitor();
+            var visitorA = new ConcreteVisitorA();
+            var visitorB = new ConcreteVisitorB();
             foreach (var element in elements)
             {
-                element.Accept(visitor);
+                element.Accept(visitorA);
+                element.Accept(visitorB);
             }
         }
     }
@@ -74,16 +80,31 @@ namespace VL.Gaming.Study.Patterns
         void VisitConcreteElement(ConcreteElementA element);
         void VisitConcreteElement(ConcreteElementB element);
     }
-    class ConcreteVisitor : IVisitor
+    class ConcreteVisitorA : IVisitor
     {
         public void VisitConcreteElement(ConcreteElementA element)
         {
-            Console.WriteLine($"Visiting ConcreteElementA");
+            Console.WriteLine($"高贵的A Visiting ConcreteElementA");
             element.Operation();
         }
         public void VisitConcreteElement(ConcreteElementB element)
         {
-            Console.WriteLine($"Visiting ConcreteElementB");
+            Console.WriteLine($"高贵的A Visiting ConcreteElementB");
+            element.Operation();
+        }
+    }
+    class ConcreteVisitorB : IVisitor
+    {
+        public void VisitConcreteElement(ConcreteElementA element)
+        {
+            Console.WriteLine($"低贱的B Visiting ConcreteElementA");
+            element.Name = "XXX";
+            element.Operation();
+        }
+        public void VisitConcreteElement(ConcreteElementB element)
+        {
+            Console.WriteLine($"低贱的B Visiting ConcreteElementB");
+            element.Age = 0;
             element.Operation();
         }
     }

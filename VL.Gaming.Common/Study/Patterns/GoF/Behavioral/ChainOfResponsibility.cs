@@ -15,6 +15,9 @@ namespace VL.Gaming.Study.Patterns
     /// 在需要不明确接收者的情况下，将请求发送给多个对象中的一个
     /// 当需要按顺序执行处理逻辑，直到找到能够处理请求的对象。
     /// 要点：业务传递的行为模式，传递行为构建=传递关系+传递处理
+    /// 
+    /// 行为:职责链
+    /// 
     /// </summary>
     public class SampleChainOfResponsibility
     {

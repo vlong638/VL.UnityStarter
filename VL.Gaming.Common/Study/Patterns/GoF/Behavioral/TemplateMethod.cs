@@ -10,6 +10,9 @@ namespace VL.Gaming.Study.Patterns
     /// 模版方法模式基于虚方法或抽象方法，预定义了算法的流程骨架
     /// 具体的实现由子类定义实现
     /// 要点：虚方法or抽象方法+定义模版
+    /// 
+    /// 行为:模板
+    /// 
     /// </summary>
     public class SampleTemplateMethod
     {

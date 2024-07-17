@@ -10,6 +10,9 @@ namespace VL.Gaming.Study.Patterns
     /// <summary>
     /// 迭代器
     /// 要点：迭代对象化=迭代体对象化+聚合体
+    /// 
+    /// 行为:迭代
+    /// 
     /// </summary>
     public class SampleIterator
     {

@@ -14,6 +14,9 @@ namespace VL.Gaming.Study.Patterns
     /// 比如 排序算法，有快速排序策略，冒泡排序策略，插入排序策略
     /// 比如 销售策略：有折扣策略，有溢价策略，有常规策略
     /// 要点：策略+策略调参
+    /// 
+    /// 行为:策略
+    /// 
     /// </summary>
     public class SampleStrategy
     {

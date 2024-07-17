@@ -7,6 +7,7 @@ using VL.Gaming.Study.Algorithms.Graph;
 using VL.Gaming.Study.Algorithms.Search;
 using VL.Gaming.Study.Algorithms.Sorting;
 using VL.Gaming.Study.Patterns;
+using VL.Gaming.Unity.Tools;
 
 namespace UnitTestProject1
 {
@@ -233,7 +234,7 @@ namespace UnitTestProject1
         {
             for (int i = 0; i < 10; i++)
             {
-                var input = MockHelper.MockInts(20, 1, 100);
+                var input = VLGenerater.MockInts(20, 1, 100);
                 var output = new Sample_BubbleSort().Sort(input);
                 Console.WriteLine("input:" + String.Join(",", input));
                 Console.WriteLine("output:" + String.Join(",", output));

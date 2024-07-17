@@ -12,6 +12,8 @@ namespace VL.Gaming.Study.Patterns
     /// 他以第三方中介形式构建
     /// 用以抽离多方之间的协调性质的业务
     /// 要点：中介者对象化+协调性业务独立
+    /// 
+    /// 行为: 1:n
     /// </summary>
     public class SampleMediator
     {

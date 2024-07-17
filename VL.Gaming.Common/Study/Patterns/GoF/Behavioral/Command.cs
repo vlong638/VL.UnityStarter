@@ -14,6 +14,9 @@ namespace VL.Gaming.Study.Patterns
     /// 当需要支持命令的操作进行排队，记录日志，撤销操作，或重做操作
     /// 当需要将命令的执行与发起者解耦，以支持请求的异步执行或者延迟执行时
     /// 要点：封装请求行为=请求对象化+调用方应用对象化请求
+    /// 
+    /// 行为:命令
+    /// 
     /// </summary>
     public class SampleCommand
     {

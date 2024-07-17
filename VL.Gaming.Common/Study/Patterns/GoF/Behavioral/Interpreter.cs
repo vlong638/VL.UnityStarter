@@ -13,6 +13,9 @@ namespace VL.Gaming.Study.Patterns
     /// 终结符表达式，Contain，等等
     /// 非终结符表达式，And，Or
     /// 要点：表达式对象化=终结符表达式+非终结符表达式
+    /// 
+    /// 行为:转译(一个上下文,多种转译语法)
+    /// 
     /// </summary>
     public class SampleInterpreter
     {

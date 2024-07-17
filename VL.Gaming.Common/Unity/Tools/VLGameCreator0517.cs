@@ -46,6 +46,11 @@ namespace VL.Gaming.Unity.Tools
             CreateDirectory("Resources/Dialogues");
             CreateDirectory("Resources/Prefabs");
             CreateDirectory("Resources/Sprites");
+            CreateDirectory("Resources/fbx");
+            CreateDirectory("Resources/fbx/AnimatorControllers");
+            CreateDirectory("Resources/fbx/Models");
+            CreateDirectory("Resources/fbx/Motions");
+            CreateDirectory("Resources/fbx/Textures");
             CreateDirectory("Sprites");
             Debug.Log($"Instantiate End");
         }
