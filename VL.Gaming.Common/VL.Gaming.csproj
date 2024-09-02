@@ -123,7 +123,7 @@
     <Compile Include="Unity\Gaming\GameSystem\Widgets\CountDownTextManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\QuadGameMapManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\HexGameBoardManager.cs" />
-    <Compile Include="Unity\Gaming\GameSystem\SubSystems\TurnManager.cs" />
+    <Compile Include="Unity\Gaming\GameSystem\SubSystem\TurnManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\Widgets\ChessMove\DisplaySelected.cs" />
     <Compile Include="Unity\Gaming\GameSystem\Dialogue.cs" />
     <Compile Include="Unity\Gaming\Content\Entities\EquipmentAttributes.cs" />
@@ -178,6 +178,10 @@
   <ItemGroup>
     <Content Include="Unity\ThirdParty\Newtonsoft.Json.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Unity\Gaming\GameSystem\SubSystemInput\" />
+    <Folder Include="Unity\Gaming\GameSystem\SubSystemMovement\" />
+    <Folder Include="Unity\Gaming\GameSystem\SubSystemUI\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
