@@ -84,6 +84,7 @@
     <Compile Include="Unity\Cache\ObjectPool.cs" />
     <Compile Include="Unity\Common\Enums\VLSortingOrder.cs" />
     <Compile Include="Unity\Common\Enums\VLLayerMask.cs" />
+    <Compile Include="Unity\GamingV2\GameManager.cs" />
     <Compile Include="Unity\Gaming\GameSystem\Generator\QuadGameBoard.cs" />
     <Compile Include="Unity\Tools\VLGenerater.cs" />
     <Compile Include="Unity\Common\MyScriptableObject.cs" />
