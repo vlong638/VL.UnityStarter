@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JYFixer", "..\JYFixer\JYFix
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.ConsoleApp", "..\VL.ConsoleApp\VL.ConsoleApp.csproj", "{BDCC4CF5-7433-4101-840C-A714695087E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.ServerV0.0.1", "..\VL.ServerV0.0.1\VL.ServerV0.0.1.csproj", "{A07996B2-F86C-4C42-9917-0EAF68DAB809}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.ClientV0.0.1", "..\VL.ClientV0.0.1\VL.ClientV0.0.1.csproj", "{87B86FA8-53E1-46D9-BB2F-EF53A87A69CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{BDCC4CF5-7433-4101-840C-A714695087E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDCC4CF5-7433-4101-840C-A714695087E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDCC4CF5-7433-4101-840C-A714695087E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A07996B2-F86C-4C42-9917-0EAF68DAB809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A07996B2-F86C-4C42-9917-0EAF68DAB809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A07996B2-F86C-4C42-9917-0EAF68DAB809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A07996B2-F86C-4C42-9917-0EAF68DAB809}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B86FA8-53E1-46D9-BB2F-EF53A87A69CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B86FA8-53E1-46D9-BB2F-EF53A87A69CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B86FA8-53E1-46D9-BB2F-EF53A87A69CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B86FA8-53E1-46D9-BB2F-EF53A87A69CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

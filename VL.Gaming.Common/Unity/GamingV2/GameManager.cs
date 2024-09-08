@@ -7,7 +7,7 @@ namespace VL.Gaming.Unity.GamingV2
     public interface IGameSystem
     {
         void Welcome();
-        VLCommand GetCommand(string name);
+        VLCommand GetCommand(string input);
         void NoValidCommand();
     }
 
@@ -32,6 +32,7 @@ namespace VL.Gaming.Unity.GamingV2
             new VLCommand("s"),
             new VLCommand("a"),
             new VLCommand("d"),
+            new VLCommand("h"),
         };
         public VLCommand GetCommand(string name)
         {

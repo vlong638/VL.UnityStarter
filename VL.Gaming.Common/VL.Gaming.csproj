@@ -56,6 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\ClientServer\Observer.cs" />
+    <Compile Include="Framework\ClientServer\Server.cs" />
+    <Compile Include="Framework\ClientServer\Subject.cs" />
     <Compile Include="Framework\Tools\PixelConverter.cs" />
     <Compile Include="Study\Algorithms\DynamicProgramming\ShortestPath.cs" />
     <Compile Include="Study\Algorithms\DynamicProgramming\LongestCommonSubsequence.cs" />
