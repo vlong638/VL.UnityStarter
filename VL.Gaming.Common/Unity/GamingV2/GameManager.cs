@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using VL.Gaming.Framework.LocalServer;
 
 namespace VL.Gaming.Unity.GamingV2
 {
     public interface IGameSystem
     {
-        void Welcome();
-        VLCommand GetCommand(string input);
+        Command GetCommand(string input);
         void NoValidCommand();
     }
 
@@ -26,37 +26,36 @@ namespace VL.Gaming.Unity.GamingV2
             }
         }
 
-        List<VLCommand> Commands = new List<VLCommand>()
+        List<Command> Commands = new List<Command>()
         {
-            new VLCommand("w"),
-            new VLCommand("s"),
-            new VLCommand("a"),
-            new VLCommand("d"),
-            new VLCommand("h"),
+            new Command("w"),
+            new Command("s"),
+            new Command("a"),
+            new Command("d"),
+            new Command("login",() =>
+            {
+                Console.WriteLine("Player1 log in");
+                Console.WriteLine("hello world");
+            }),
         };
-        public VLCommand GetCommand(string name)
+        public Command GetCommand(string name)
         {
-            return Commands.FirstOrDefault(c => c.Command == name);
+            return Commands.FirstOrDefault(c => c.Name == name);
         }
         public void NoValidCommand()
         {
             Console.WriteLine("No Valid Command Founded");
         }
 
-        public void Welcome()
-        {
-            Console.WriteLine("Welcome to Unique Land");
-            Console.WriteLine("h for help");
-            Console.WriteLine("u can find happyness here");
-        }
-    }
-    public class VLCommand
-    {
-        public string Command;
+        //public void PlayerLogin()
+        //{
+        //    var command  = Commands.FirstOrDefault(c => c.Name == "login");
+        //    Server.Instance.Commands.Enqueue(command);
+        //}
 
-        public VLCommand(string command)
+        public void GameStart()
         {
-            Command = command;
+            Server.Instance.Start();
         }
     }
 }
