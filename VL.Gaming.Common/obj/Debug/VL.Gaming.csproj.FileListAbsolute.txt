@@ -9,8 +9,7 @@ D:\Dev\Projects\VL.Unity\VL.Gaming.Common\bin\Debug\UnityEditor.xml
 D:\Dev\Projects\VL.Unity\VL.Gaming.Common\bin\Debug\UnityEngine.xml
 D:\Dev\Projects\VL.Unity\VL.Gaming.Common\bin\Debug\UnityEngine.UI.xml
 D:\Dev\Projects\VL.Unity\VL.Gaming.Common\obj\Debug\VL.Gaming.csproj.AssemblyReference.cache
-D:\Dev\Projects\VL.Unity\VL.Gaming.Common\obj\Debug\VL.Gaming.csproj.SuggestedBindingRedirects.cache
 D:\Dev\Projects\VL.Unity\VL.Gaming.Common\obj\Debug\VL.Gaming.csproj.CoreCompileInputs.cache
-D:\Dev\Projects\VL.Unity\VL.Gaming.Common\obj\Debug\VL.Gaming.csproj.CopyComplete
+D:\Dev\Projects\VL.Unity\VL.Gaming.Common\obj\Debug\VL.Gaming.csproj.Up2Date
 D:\Dev\Projects\VL.Unity\VL.Gaming.Common\obj\Debug\VL.Gaming.exe
 D:\Dev\Projects\VL.Unity\VL.Gaming.Common\obj\Debug\VL.Gaming.pdb
