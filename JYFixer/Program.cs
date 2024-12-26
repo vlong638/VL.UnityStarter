@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using JYFixer.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,9 +13,15 @@ namespace JYFixer
     {
         static void Main(string[] args)
         {
+            new MazeGeneratorV2Helper().Generate();
+
+            //string inputDirectory = @"D:\Dev\Projects\VL.Unity\JYFixer\bin\Debug\Pics"; // 输入图片文件夹路径
+            //string outputFilePath = @"D:\Dev\Projects\VL.Unity\JYFixer\bin\Debug\PicsMerge\Merged.png"; // 输出图片路径
+            //ImageMergerV2.Merge(inputDirectory, outputFilePath, 100, 7);
+
             //ImageMerge.MergeImages(@"D:\游戏开发\地图素材已处理\InputMerge", @"D:\游戏开发\地图素材已处理\OutputMerge\Result.png");
 
-            ImageResize.TileImage(@"D:\游戏开发\地图素材已处理\InputResize\grass1.png", @"D:\游戏开发\地图素材已处理\InputResize\Result.png", 1000,1000);
+            //ImageResize.TileImage(@"D:\游戏开发\地图素材已处理\InputResize\grass1.png", @"D:\游戏开发\地图素材已处理\InputResize\Result.png", 1000,1000);
 
             //for (int i = 0; i < 100; i++)
             //{

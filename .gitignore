@@ -4,6 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # User-specific files
+*.cache
+*.FileListAbsolute.txt
 *.rsuser
 *.suo
 *.user
@@ -361,3 +363,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/VL.Gaming25D/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache

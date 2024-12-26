@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>JYFixer.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\VL.UnityStarter\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -53,8 +56,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils\ImageMergeV2.cs" />
     <Compile Include="Utils\ImageResize.cs" />
     <Compile Include="Utils\ImageMerge.cs" />
+    <Compile Include="Utils\MazeGeneratorV2.cs" />
+    <Compile Include="Utils\MazeGenerator.cs" />
     <None Include="packages.config" />
     <None Include="Sample.json" />
     <Compile Include="Program.cs" />
