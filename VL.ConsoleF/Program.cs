@@ -38,9 +38,8 @@ namespace VL.ConsoleF
 
                 // 排序文件夹和文件名
                 var sortedEntries = filteredEntries
-                    .Select(Path.GetFileName)
-                    .Where(name => !string.IsNullOrEmpty(name))
-                    .Where(name => !blacklistedFiles.Any(blackFile => blackFile==name))
+                    .Select(name=> name.Substring(directoryPath.Length))
+                    .Where(file => !blacklistedFiles.Any(blackFile => blackFile==(Path.GetFileName(file))))
                     .OrderBy(name => name, StringComparer.OrdinalIgnoreCase);
 
                 // 将结果写入B文件
