@@ -11,9 +11,9 @@ using VL.Gaming.Unity.Utils;
 
 namespace VL.Gaming.Unity.UnityTools
 {
-    public class Tools_UI_InitStartMenu
+    public class Tools_Scene_InitStartMenu
     {
-        [MenuItem("Tools/UI/InitStartMenu")]
+        [MenuItem("Tools/Scene/InitStartMenu")]
         static void InitStartMenu()
         {
             //检查已存在

@@ -194,7 +194,7 @@
     <Compile Include="Unity\UnityTools\Tools_Project_InitNewProject.cs" />
     <Compile Include="Unity\UnityTools\Tools_Scene_InitGameSetup.cs" />
     <Compile Include="Unity\UnityTools\Tools_Scene_InitGameBoard.cs" />
-    <Compile Include="Unity\UnityTools\Tools_UI_InitStartMenu.cs" />
+    <Compile Include="Unity\UnityTools\Tools_Scene_InitStartMenu.cs" />
     <Compile Include="Unity\UnityTools\Tools_UI_InitPlayerBox.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -202,7 +202,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Unity\ThirdParty\Newtonsoft.Json.dll" />
+    <Content Include="ThirdParty\Newtonsoft.Json.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Unity\Gaming\GameSystem\SubSystemInput\" />
