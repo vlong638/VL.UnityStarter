@@ -1,6 +1,6 @@
 ﻿namespace VL.Gaming.Unity.Common.Enums
 {
-    public enum VLLayerMask
+    public enum LayerMask
     {
         Default = 0,
         TransparentFX = 1,

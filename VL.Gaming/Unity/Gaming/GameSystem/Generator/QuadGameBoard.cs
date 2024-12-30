@@ -200,7 +200,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.Generator
     {
         public Item(string name, GameObject spriteGO) : base(name, spriteGO)
         {
-            this.SpriteGO.GetComponent<SpriteRenderer>().sortingOrder = VLSortingOrder.Item.ToInt();
+            this.SpriteGO.GetComponent<SpriteRenderer>().sortingOrder = Common.Enums.SortingOrder.Item.ToInt();
         }
 
         public Item Clone()
@@ -216,7 +216,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.Generator
         public Floor(string name, GameObject spriteGO, FloorType floorType) : base(name, spriteGO)
         {
             this.FloorType = floorType;
-            this.SpriteGO.GetComponent<SpriteRenderer>().sortingOrder = VLSortingOrder.Background.ToInt();
+            this.SpriteGO.GetComponent<SpriteRenderer>().sortingOrder = Common.Enums.SortingOrder.Background.ToInt();
         }
 
         public Floor Clone()
@@ -240,7 +240,7 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.Generator
         public Building(string name, GameObject spriteGO, BuildingType BuildingType) : base(name, spriteGO)
         {
             this.BuildingType = BuildingType;
-            this.SpriteGO.GetComponent<SpriteRenderer>().sortingOrder = VLSortingOrder.Building.ToInt();
+            this.SpriteGO.GetComponent<SpriteRenderer>().sortingOrder = Common.Enums.SortingOrder.Building.ToInt();
         }
 
         public Building Clone()

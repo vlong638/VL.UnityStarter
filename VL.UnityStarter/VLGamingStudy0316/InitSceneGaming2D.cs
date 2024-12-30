@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+using Assets.Scenes.VLGamingStudy;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,12 +16,6 @@ namespace VL.UnityStarter.VLGamingStudy0316
 
         GameObject startCameraGO;
         GameObject startCanvasGO;
-
-        GameObject gamingCameraGO;
-        GameObject gamingCanvasGO;
-
-        GameObject settingCameraGO;
-        GameObject settingCanvasGO;
 
         void Start()
         {

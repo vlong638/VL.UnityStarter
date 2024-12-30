@@ -1,6 +1,6 @@
 ﻿namespace VL.Gaming.Unity.Common.Enums
 {
-    public enum VLSortingOrder
+    public enum SortingOrder
     {
         Default = 0,
         Background = 1,

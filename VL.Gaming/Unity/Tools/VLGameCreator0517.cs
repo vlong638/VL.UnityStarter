@@ -139,7 +139,7 @@ namespace VL.Gaming.Unity.Tools
             Canvas.SetPosition(0, 0, 0);
             var canvas = Canvas.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.WorldSpace;
-            canvas.sortingOrder = VLSortingOrder.Foreground.ToInt();
+            canvas.sortingOrder = Common.Enums.SortingOrder.Foreground.ToInt();
             var Text = VLCreator.CreateText("Text");
             Text.SetParent(Canvas);
             Text.SetRectSizeDelta(90, 50);
@@ -161,7 +161,7 @@ namespace VL.Gaming.Unity.Tools
             Canvas.SetPosition(0, 0, 0);
             canvas = Canvas.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.WorldSpace;
-            canvas.sortingOrder = VLSortingOrder.Foreground.ToInt();
+            canvas.sortingOrder = Common.Enums.SortingOrder.Foreground.ToInt();
             Text = VLCreator.CreateText("Text");
             Text.SetParent(Canvas);
             Text.SetRectSizeDelta(120, 50);
@@ -180,14 +180,14 @@ namespace VL.Gaming.Unity.Tools
             var player = GameObject.Instantiate(VLResourcePool.Prefab_Chess);
             player.SetParent(InBattle);
             player.transform.position = new Vector3(columns[2], rows[3], 0);
-            player.layer = VLLayerMask.PlayerUnit.ToInt();
+            player.layer = Common.Enums.LayerMask.PlayerUnit.ToInt();
             player.AddComponent<BoxCollider2D>();
             player.AddComponent<Animator>();
             //Enermy
             var enermy = GameObject.Instantiate(VLResourcePool.Prefab_Chess);
             enermy.SetParent(InBattle);
             enermy.transform.position = new Vector3(columns[2], rows[0], 0);
-            enermy.layer = VLLayerMask.EnermyUnit.ToInt();
+            enermy.layer = Common.Enums.LayerMask.EnermyUnit.ToInt();
             enermy.AddComponent<BoxCollider2D>();
             enermy.AddComponent<Animator>();
             //棋子位置(星空战旗)
@@ -198,7 +198,7 @@ namespace VL.Gaming.Unity.Tools
                     var chess = GameObject.Instantiate(VLResourcePool.Prefab_ChessPlaceHolder);
                     chess.SetParent(InBattle);
                     chess.transform.position = new Vector3(columns[c], rows[r], 0);
-                    chess.layer = r >= 2 ? VLLayerMask.PlayerUnit.ToInt() : VLLayerMask.EnermyUnit.ToInt();
+                    chess.layer = r >= 2 ? Common.Enums.LayerMask.PlayerUnit.ToInt() : Common.Enums.LayerMask.EnermyUnit.ToInt();
                     chess.AddComponent<BoxCollider2D>();
                     chess.AddComponent<Animator>();
                 }

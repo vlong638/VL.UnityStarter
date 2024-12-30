@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming25D", "..\VL.Gamin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming3D", "..\VL.Gaming3D\VL.Gaming3D.csproj", "{DEEE0B83-BAAA-45C4-9BBB-FD59F809576A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming", "..\VL.Gaming.Common\VL.Gaming.csproj", "{A75242F8-A43F-412D-ACE8-BBBA5A074D4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming", "..\VL.Gaming\VL.Gaming.csproj", "{A75242F8-A43F-412D-ACE8-BBBA5A074D4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "..\UnitTestProject1\UnitTestProject1.csproj", "{154A98E3-37A2-4281-A174-BDD9C72B3423}"
 EndProject

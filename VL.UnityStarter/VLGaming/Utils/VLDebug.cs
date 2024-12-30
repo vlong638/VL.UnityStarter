@@ -2,7 +2,7 @@ using System;
 
 namespace Assets.Scenes.VLGamingStudy
 {
-    public class VLDebug
+    class VLDebug
     {
         public static bool IsDebug = true;
         /// <summary>

@@ -34,8 +34,8 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.SubSystems
 
         void Start()
         {
-            playerLayer = LayerMask.GetMask(VLLayerMask.PlayerUnit.ToString());
-            enemyLayer = LayerMask.GetMask(VLLayerMask.EnermyUnit.ToString());
+            playerLayer = UnityEngine.LayerMask.GetMask(Common.Enums.LayerMask.PlayerUnit.ToString());
+            enemyLayer = UnityEngine.LayerMask.GetMask(Common.Enums.LayerMask.EnermyUnit.ToString());
             StartPlayerTurn();
         }
 
@@ -75,8 +75,8 @@ namespace VL.Gaming.Unity.Gaming.GameSystem.SubSystems
             StartPlayerTurn();
         }
 
-        public LayerMask playerLayer;
-        public LayerMask enemyLayer;
+        public UnityEngine.LayerMask playerLayer;
+        public UnityEngine.LayerMask enemyLayer;
         public GameObject selectedPlayerUnit;
         public GameObject selectedEnermyUnit;
 

@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scenes.VLGamingStudy;
 using UnityEngine;
-using System.Text;
-using UnityEditor;
 using UnityEngine.UI;
+
 namespace VL.UnityStarter.VLGamingStudy0311
 {
     public static partial class Dictionaries
@@ -435,9 +434,9 @@ namespace VL.UnityStarter.VLGamingStudy0311
     }
     class Floor
     {
-        public int X;
-        public int Y;
-        public FloorType FloorType;
+        public int X = 0;
+        public int Y = 0;
+        public FloorType FloorType = 0;
         public List<Item> Items = new List<Item>();
         public List<Creature> Creatures = new List<Creature>();
         private Image image;
@@ -445,6 +444,14 @@ namespace VL.UnityStarter.VLGamingStudy0311
         public Floor(Image image)
         {
             this.image = image;
+        }
+
+        public Floor(int x, int y, FloorType floorType,Image image)
+        {
+            this.image = image;
+            X = x;
+            Y = y;
+            FloorType = floorType;
         }
     }
     enum FloorType
