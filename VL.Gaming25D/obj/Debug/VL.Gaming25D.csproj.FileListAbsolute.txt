@@ -1,7 +1,0 @@
-D:\Dev\Projects\VL.Unity\VL.Gaming25D\bin\Debug\VL.Gaming25D.exe.config
-D:\Dev\Projects\VL.Unity\VL.Gaming25D\bin\Debug\VL.Gaming25D.exe
-D:\Dev\Projects\VL.Unity\VL.Gaming25D\bin\Debug\VL.Gaming25D.pdb
-D:\Dev\Projects\VL.Unity\VL.Gaming25D\obj\Debug\VL.Gaming25D.csproj.AssemblyReference.cache
-D:\Dev\Projects\VL.Unity\VL.Gaming25D\obj\Debug\VL.Gaming25D.csproj.CoreCompileInputs.cache
-D:\Dev\Projects\VL.Unity\VL.Gaming25D\obj\Debug\VL.Gaming25D.exe
-D:\Dev\Projects\VL.Unity\VL.Gaming25D\obj\Debug\VL.Gaming25D.pdb
