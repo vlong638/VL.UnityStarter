@@ -70,7 +70,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VL.Gaming.Common\VL.Gaming.csproj">
+    <ProjectReference Include="..\VL.Gaming\VL.Gaming.csproj">
       <Project>{a75242f8-a43f-412d-ace8-bbba5a074d4d}</Project>
       <Name>VL.Gaming</Name>
     </ProjectReference>

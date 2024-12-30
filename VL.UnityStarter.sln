@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.UnityStarter", "VL.UnityStarter.csproj", "{BCFBFC3C-6B14-40A3-A7E7-C12B88E1E3DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.UnityStarter", "VL.UnityStarter\VL.UnityStarter.csproj", "{BCFBFC3C-6B14-40A3-A7E7-C12B88E1E3DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming2D", "..\VL.Gaming2D\VL.Gaming2D.csproj", "{BCC4B000-1359-4E20-ADB2-EFC0811A162E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming2D", "VL.Gaming2D\VL.Gaming2D.csproj", "{BCC4B000-1359-4E20-ADB2-EFC0811A162E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming", "..\VL.Gaming\VL.Gaming.csproj", "{A75242F8-A43F-412D-ACE8-BBBA5A074D4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Gaming", "VL.Gaming\VL.Gaming.csproj", "{A75242F8-A43F-412D-ACE8-BBBA5A074D4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JYFixer", "..\JYFixer\JYFixer.csproj", "{FC0F3C60-CBA5-444A-9578-18EE186294CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JYFixer", "JYFixer\JYFixer.csproj", "{FC0F3C60-CBA5-444A-9578-18EE186294CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
