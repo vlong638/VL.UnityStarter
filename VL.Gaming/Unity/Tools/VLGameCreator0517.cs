@@ -7,8 +7,8 @@ using VL.Gaming.Common;
 using VL.Gaming.Unity.Common.Enums;
 using VL.Gaming.Unity.Gaming.Content.Entities;
 using VL.Gaming.Unity.Gaming.GameSystem;
-using VL.Gaming.Unity.Gaming.Ultis;
-using VL.Gaming.Unity.Ultis;
+using VL.Gaming.Unity.Gaming.Utils;
+using VL.Gaming.Unity.Utils;
 
 namespace VL.Gaming.Unity.Tools
 {

@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace VL.Gaming.Unity.Gaming.Ultis
+namespace VL.Gaming.Unity.Gaming.Utils
 {
     public class VLResourceHelper
     {

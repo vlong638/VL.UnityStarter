@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using VL.Gaming.Unity.Gaming.Ultis;
+using VL.Gaming.Unity.Gaming.Utils;
 using VL.Gaming.Unity.Tools;
-using VL.Gaming.Unity.Ultis;
+using VL.Gaming.Unity.Utils;
 
 namespace VL.Gaming.Unity.Gaming.GameSystem
 {

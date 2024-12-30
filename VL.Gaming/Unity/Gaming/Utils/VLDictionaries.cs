@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace VL.Gaming.Unity.Ultis
+namespace VL.Gaming.Unity.Utils
 {
     public enum SortingOrderEnum
     {

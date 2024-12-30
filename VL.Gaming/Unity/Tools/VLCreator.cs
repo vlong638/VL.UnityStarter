@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VL.Gaming.Common;
-using VL.Gaming.Unity.Gaming.Ultis;
+using VL.Gaming.Unity.Gaming.Utils;
 
 namespace VL.Gaming.Unity.Tools
 {

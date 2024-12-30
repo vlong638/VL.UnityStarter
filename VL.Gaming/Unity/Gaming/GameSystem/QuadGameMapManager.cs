@@ -2,7 +2,7 @@
 using UnityEngine;
 using VL.Gaming.Common;
 using VL.Gaming.Unity.Gaming.GameSystem.Generator;
-using VL.Gaming.Unity.Gaming.Ultis;
+using VL.Gaming.Unity.Gaming.Utils;
 
 namespace VL.Gaming.Unity.Gaming.GameSystem
 {

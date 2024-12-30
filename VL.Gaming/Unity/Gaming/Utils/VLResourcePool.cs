@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using VL.Gaming.Unity.Tools;
 
-namespace VL.Gaming.Unity.Gaming.Ultis
+namespace VL.Gaming.Unity.Gaming.Utils
 {
     public enum CellType
     {

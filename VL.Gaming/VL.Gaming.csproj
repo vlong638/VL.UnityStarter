@@ -181,13 +181,13 @@
     <Compile Include="Unity\Gaming\Content\GameData.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameDataManager.cs" />
     <Compile Include="Unity\Gaming\Samples\JobSystemExample .cs" />
-    <Compile Include="Unity\Gaming\Ultis\VLResourceHelper.cs" />
-    <Compile Include="Unity\Gaming\Ultis\VLResourcePool.cs" />
+    <Compile Include="Unity\Gaming\Utils\VLResourceHelper.cs" />
+    <Compile Include="Unity\Gaming\Utils\VLResourcePool.cs" />
     <Compile Include="Unity\Tools\SliceSpritesTool.cs" />
     <Compile Include="Unity\Tools\VLCreator.cs" />
     <Compile Include="Unity\Tools\VLDebug.cs" />
     <Compile Include="Unity\Tools\VLDecorator.cs" />
-    <Compile Include="Unity\Gaming\Ultis\VLDictionaries.cs" />
+    <Compile Include="Unity\Gaming\Utils\VLDictionaries.cs" />
     <Compile Include="Unity\Tools\VLGameCreator0517.cs" />
     <Compile Include="Unity\Tools\VLSeedRandom.cs" />
   </ItemGroup>
@@ -202,6 +202,7 @@
     <Folder Include="Unity\Gaming\GameSystem\SubSystemInput\" />
     <Folder Include="Unity\Gaming\GameSystem\SubSystemMovement\" />
     <Folder Include="Unity\Gaming\GameSystem\SubSystemUI\" />
+    <Folder Include="Unity\UnityTools\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

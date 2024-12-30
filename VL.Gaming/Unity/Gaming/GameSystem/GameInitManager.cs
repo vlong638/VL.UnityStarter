@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using VL.Gaming.Unity.Gaming.Ultis;
+using VL.Gaming.Unity.Gaming.Utils;
 
 namespace VL.Gaming.Unity.Gaming.GameSystem
 {

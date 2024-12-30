@@ -2,7 +2,7 @@
 using UnityEngine;
 using VL.Gaming.Unity.Common.Enums;
 using VL.Gaming.Unity.Gaming.GameSystem.ChessMove;
-using VL.Gaming.Unity.Gaming.Ultis;
+using VL.Gaming.Unity.Gaming.Utils;
 
 namespace VL.Gaming.Unity.Gaming.GameSystem.SubSystems
 {
