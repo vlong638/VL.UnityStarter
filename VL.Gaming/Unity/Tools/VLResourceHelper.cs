@@ -1,10 +1,18 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace VL.Gaming.Unity.Gaming.Utils
+namespace VL.Gaming.Unity.Gaming.Tools
 {
     public class VLResourceHelper
     {
+        public static GameObject CheckExist(string name, bool deleteOnExit = true)
+        {
+            var check = FindGameObjectByName(name);
+            if (check != null && deleteOnExit)
+                Undo.DestroyObjectImmediate(check);
+            return check;
+        }
+
         public static GameObject FindGameObjectByName(string name, bool findPrefabInstance = true)
         {
             var gameobject = GameObject.Find(name);

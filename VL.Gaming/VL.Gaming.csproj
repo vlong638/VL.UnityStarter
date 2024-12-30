@@ -107,6 +107,7 @@
     <Compile Include="Unity\Gaming\GameSystem\Generator\QuadGameBoard.cs" />
     <Compile Include="Unity\Tools\VLGenerater.cs" />
     <Compile Include="Unity\Common\MyScriptableObject.cs" />
+    <Compile Include="Unity\Tools\VLIOHelper.cs" />
     <Compile Include="Unity\Tools\VLRandom.cs" />
     <Compile Include="Unity\Common\ValueEx.cs" />
     <Compile Include="Program.cs" />
@@ -181,7 +182,7 @@
     <Compile Include="Unity\Gaming\Content\GameData.cs" />
     <Compile Include="Unity\Gaming\GameSystem\GameDataManager.cs" />
     <Compile Include="Unity\Gaming\Samples\JobSystemExample .cs" />
-    <Compile Include="Unity\Gaming\Utils\VLResourceHelper.cs" />
+    <Compile Include="Unity\Tools\VLResourceHelper.cs" />
     <Compile Include="Unity\Gaming\Utils\VLResourcePool.cs" />
     <Compile Include="Unity\Tools\SliceSpritesTool.cs" />
     <Compile Include="Unity\Tools\VLCreator.cs" />
@@ -190,6 +191,11 @@
     <Compile Include="Unity\Gaming\Utils\VLDictionaries.cs" />
     <Compile Include="Unity\Tools\VLGameCreator0517.cs" />
     <Compile Include="Unity\Tools\VLSeedRandom.cs" />
+    <Compile Include="Unity\UnityTools\Tools_Project_InitNewProject.cs" />
+    <Compile Include="Unity\UnityTools\Tools_Scene_InitGameSetup.cs" />
+    <Compile Include="Unity\UnityTools\Tools_Scene_InitGameBoard.cs" />
+    <Compile Include="Unity\UnityTools\Tools_UI_InitStartMenu.cs" />
+    <Compile Include="Unity\UnityTools\Tools_UI_InitPlayerBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -202,7 +208,6 @@
     <Folder Include="Unity\Gaming\GameSystem\SubSystemInput\" />
     <Folder Include="Unity\Gaming\GameSystem\SubSystemMovement\" />
     <Folder Include="Unity\Gaming\GameSystem\SubSystemUI\" />
-    <Folder Include="Unity\UnityTools\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
