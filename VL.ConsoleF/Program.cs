@@ -25,7 +25,7 @@ namespace VL.ConsoleF
 
                 // 定义黑名单文件夹
                 var blacklistedFolders = new[] { ".vs", ".git" }; // 替换为实际黑名单文件夹名称
-                var blacklistedFiles = new[] { ".vs", ".git", ".gitignore", "FileList.txt", "VL.ConsoleF.exe" };
+                var blacklistedFiles = new[] { ".vs", ".git", ".gitignore", "FileList.txt", "FileLister.exe" };
 
                 // 检查A目录是否存在
                 if (!Directory.Exists(directoryPath))
