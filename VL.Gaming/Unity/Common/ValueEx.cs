@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace VL.Gaming.Common
+namespace VL.Gaming.Unity.Common
 {
     public static partial class ValueEx
     {

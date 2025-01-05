@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using VL.Gaming.Common;
+using VL.Gaming.Unity.Common;
 using VL.Gaming.Unity.Gaming.Tools;
 using VL.Gaming.Unity.Tools;
 using VL.Gaming.Unity.Utils;

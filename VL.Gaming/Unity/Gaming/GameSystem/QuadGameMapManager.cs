@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using VL.Gaming.Common;
+using VL.Gaming.Unity.Common;
 using VL.Gaming.Unity.Gaming.GameSystem.Generator;
 using VL.Gaming.Unity.Gaming.Tools;
 

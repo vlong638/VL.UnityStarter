@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using VL.Gaming.Common;
+using VL.Gaming.Unity.Common;
 using VL.Gaming.Unity.Gaming.Tools;
 
 namespace VL.Gaming.Unity.Tools
