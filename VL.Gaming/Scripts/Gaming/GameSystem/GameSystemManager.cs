@@ -23,12 +23,17 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem
 
             //StartGame
             var gameObject = VLResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.StartGame]);
-            gameObject.GetComponent<Button>().onClick.AddListener(() => StartGame());
+            gameObject?.GetComponent<Button>()?.onClick.AddListener(() => StartGame());
+            //Save
+            gameObject = VLResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.Save]);
+            gameObject?.GetComponent<Button>()?.onClick.AddListener(() => SaveGameData());
             //Load
+            gameObject = VLResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.Load]);
+            gameObject?.GetComponent<Button>()?.onClick.AddListener(() => LoadGameData());
             //Config
             //Quit
             gameObject = VLResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.Quit]);
-            gameObject.GetComponent<Button>().onClick.AddListener(() => QuitGame());
+            gameObject?.GetComponent<Button>()?.onClick.AddListener(() => QuitGame());
         }
 
         void Update()
@@ -37,14 +42,14 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem
             {
                 TogglePauseMenu();
             }
-            if (Input.GetKeyDown(KeyCode.F5))
-            {
-                SaveGameData();
-            }
-            if (Input.GetKeyDown(KeyCode.F8))
-            {
-                LoadGameData();
-            }
+            //if (Input.GetKeyDown(KeyCode.F5))
+            //{
+            //    SaveGameData();
+            //}
+            //if (Input.GetKeyDown(KeyCode.F8))
+            //{
+            //    LoadGameData();
+            //}
             if (Input.GetKeyDown(KeyCode.C))
             {
                 DialogueBoxManager.Instance.StartDialogue(1);
@@ -100,7 +105,7 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem
 
         public void StartGame()
         {
-            SceneManager.LoadScene("Scene_GameInit");
+            SceneManager.LoadScene("Scene_StartGame");
         }
         public void QuitGame()
         {

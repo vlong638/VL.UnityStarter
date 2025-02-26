@@ -77,6 +77,11 @@ namespace VL.Gaming.Scripts.Common
             var rectTransform = gameObject.GetComponent<RectTransform>();
             rectTransform.SetRectCenter(offsetX, offsetY, x, y);
         }
+        public static void SetRectCenterTop(this GameObject gameObject, float offsetX, float offsetY, float x, float y)
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.SetRectCenterTop(offsetX, offsetY, x, y);
+        }
         public static void SetRectLeftDown(this GameObject gameObject, float offsetX, float offsetY, float x, float y)
         {
             var rectTransform = gameObject.GetComponent<RectTransform>();
@@ -161,6 +166,21 @@ namespace VL.Gaming.Scripts.Common
             rectTransform.offsetMin = new Vector2(offsetX, offsetY);
             rectTransform.offsetMax = new Vector2(offsetX, offsetY);
             rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            rectTransform.sizeDelta = new Vector2(x, y);
+        }
+        /// <summary>
+        /// 设置成 Center,Middle
+        /// </summary>
+        /// <param name="rectTransform"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public static void SetRectCenterTop(this RectTransform rectTransform, float offsetX, float offsetY, float x, float y)
+        {
+            rectTransform.anchorMin = new Vector2(0.5f, 1f);
+            rectTransform.anchorMax = new Vector2(0.5f, 1f);
+            rectTransform.offsetMin = new Vector2(offsetX, offsetY);
+            rectTransform.offsetMax = new Vector2(offsetX, offsetY);
+            rectTransform.pivot = new Vector2(0.5f, 1f);
             rectTransform.sizeDelta = new Vector2(x, y);
         }
         /// <summary>

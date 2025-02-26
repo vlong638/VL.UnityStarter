@@ -95,7 +95,12 @@
     <Compile Include="Scripts\Common\Enums\SortingOrder.cs" />
     <Compile Include="Scripts\Common\MyScriptableObject.cs" />
     <Compile Include="Scripts\Common\ValueEx.cs" />
-    <Compile Include="Scripts\GamingV2\VLBaseSystem.cs" />
+    <Compile Include="Scripts\GamingV2\Entities\Floor.cs" />
+    <Compile Include="Scripts\GamingV2\Systems\Input\VLBaseSystemV3.cs" />
+    <Compile Include="Scripts\GamingV2\Systems\Input\VLBaseSystemV2.cs" />
+    <Compile Include="Scripts\GamingV2\Systems\Input\VLBaseSystem.cs" />
+    <Compile Include="Scripts\GamingV2\Systems\Map\VLMapGenerator.cs" />
+    <Compile Include="Scripts\GamingV2\Systems\VLGameBoard.cs" />
     <Compile Include="Scripts\Gaming\CameraManage\CameraHandTool.cs" />
     <Compile Include="Scripts\Gaming\CameraManage\CameraManager.cs" />
     <Compile Include="Scripts\Gaming\CameraManage\CameraScaleTool.cs" />
@@ -159,6 +164,7 @@
     <Compile Include="Scripts\Tools\VLSeedRandom.cs" />
     <Compile Include="Scripts\UnityTools\Tools_Project_InitNewProject.cs" />
     <Compile Include="Scripts\UnityTools\Tools_Scene_InitGameBoard.cs" />
+    <Compile Include="Scripts\UnityTools\Tools_Scene_InitPauseMenu.cs" />
     <Compile Include="Scripts\UnityTools\Tools_Scene_InitGameSetup.cs" />
     <Compile Include="Scripts\UnityTools\Tools_Scene_InitStartMenu.cs" />
     <Compile Include="Scripts\UnityTools\Tools_UI_InitPlayerBox.cs" />
@@ -220,32 +226,6 @@
     <Content Include="ThirdPartyUnity\Unity.TextMeshPro.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Scripts\GamingV2\Building\" />
-    <Folder Include="Scripts\GamingV2\Business\Hero\" />
-    <Folder Include="Scripts\GamingV2\Business\Merchant\" />
-    <Folder Include="Scripts\GamingV2\Business\Shop\" />
-    <Folder Include="Scripts\GamingV2\Business\Wanderer\" />
-    <Folder Include="Scripts\GamingV2\Fishing\" />
-    <Folder Include="Scripts\GamingV2\Home\" />
-    <Folder Include="Scripts\GamingV2\Item\Equipment\" />
-    <Folder Include="Scripts\GamingV2\Item\Goods\" />
-    <Folder Include="Scripts\GamingV2\Item\Material\" />
-    <Folder Include="Scripts\GamingV2\Item\Potion\" />
-    <Folder Include="Scripts\GamingV2\Item\Relics\" />
-    <Folder Include="Scripts\GamingV2\Map\" />
-    <Folder Include="Scripts\GamingV2\MiniMap\" />
-    <Folder Include="Scripts\GamingV2\MultipleFfight\" />
-    <Folder Include="Scripts\GamingV2\Quest\MainQuest\" />
-    <Folder Include="Scripts\GamingV2\Quest\QuestBase\AttributeQuest\" />
-    <Folder Include="Scripts\GamingV2\Quest\QuestBase\CollectQuest\" />
-    <Folder Include="Scripts\GamingV2\Quest\QuestBase\FightQuest\" />
-    <Folder Include="Scripts\GamingV2\Quest\QuestBase\RoutingQuest\" />
-    <Folder Include="Scripts\GamingV2\Quest\RandomQuest\" />
-    <Folder Include="Scripts\GamingV2\Quest\SideQuest\" />
-    <Folder Include="Scripts\GamingV2\RandomEvent\" />
-    <Folder Include="Scripts\GamingV2\SingleFight\" />
-    <Folder Include="Scripts\GamingV2\Skill\" />
-    <Folder Include="Scripts\GamingV2\WarFight\" />
     <Folder Include="Scripts\Gaming\GameSystem\SubSystemInput\" />
     <Folder Include="Scripts\Gaming\GameSystem\SubSystemMovement\" />
     <Folder Include="Scripts\Gaming\GameSystem\SubSystemUI\" />

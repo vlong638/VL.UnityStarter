@@ -1,9 +1,15 @@
 ﻿using UnityEngine;
 
-namespace VL.Gaming.Scripts.GamingV2
+namespace VL.Gaming.Scripts.GamingV2.Systems
 {
-    internal class VLBaseSystem : MonoBehaviour
+    /// <summary>
+    /// 遍历所有 KeyCode 可能影响性能（尤其是每帧执行）。
+    /// 使用 Input.inputString 监听字符输入，并仅监听常用按键（如 WASD、空格等）：
+    /// </summary>
+    internal class VLBaseSystemV2 : MonoBehaviour
     {
+        private KeyCode[] monitoredKeys = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.Space };
+
         void Update()
         {
             // 监听键盘按键
@@ -12,31 +18,17 @@ namespace VL.Gaming.Scripts.GamingV2
             // 监听鼠标点击
             CheckMouseClick();
 
-            // 监听鼠标移动和滚轮
-            CheckMouseMovement();
+            //// 监听鼠标移动和滚轮
+            //CheckMouseMovement();
         }
 
         private void CheckKeyboardInput()
         {
-            if (Input.anyKeyDown)
+            foreach (KeyCode key in monitoredKeys)
             {
-                // 遍历所有可能的按键
-                foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
+                if (Input.GetKeyDown(key))
                 {
-                    if (Input.GetKeyDown(keyCode))
-                    {
-                        Debug.Log($"键盘按键按下: {keyCode}");
-                    }
-                }
-            }
-
-            // 监听字符输入（如 Shift+A 会输出 'A'）
-            string inputChars = Input.inputString;
-            if (!string.IsNullOrEmpty(inputChars))
-            {
-                foreach (char c in inputChars)
-                {
-                    Debug.Log($"字符输入: {c}");
+                    Debug.Log($"监听到按键: {key}");
                 }
             }
         }
@@ -61,7 +53,6 @@ namespace VL.Gaming.Scripts.GamingV2
             {
                 Debug.Log($"鼠标移动: X={mouseX}, Y={mouseY}");
             }
-
             // 监听滚轮滚动
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (scroll != 0)

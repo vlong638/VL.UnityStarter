@@ -14,6 +14,7 @@ namespace VL.Gaming.Scripts.Utils
     {
         None = 0,
         StartGame,
+        Save,
         Load,
         Config,
         Quit,
@@ -25,6 +26,7 @@ namespace VL.Gaming.Scripts.Utils
         public static Dictionary<VLButtons, string> VLButtonsDic = new Dictionary<VLButtons, string>()
         {
             { VLButtons.StartGame,"Button_StartGame"},
+            { VLButtons.Save,"Button_Save"},
             { VLButtons.Load,"Button_Load"},
             { VLButtons.Config,"Button_Config"},
             { VLButtons.Quit,"Button_Quit"},

@@ -17,6 +17,17 @@ namespace VL.Gaming.Scripts.Gaming.Tools
     }
     public static class VLResourcePool
     {
+        #region 0224
+
+        //StartMenu
+        public static GameObject Prefab_Button_StartMenu_MiniButton { get { return Resources.Load<GameObject>("Prefabs/UI/Prefab_Button_StartMenu_MiniButton"); } }
+        public static GameObject Prefab_Button_StartMenu_Normal { get { return Resources.Load<GameObject>("Prefabs/UI/Prefab_Button_StartMenu_Normal"); } }
+        public static GameObject Prefab_Canvas_StartMenu_Declaration { get { return Resources.Load<GameObject>("Prefabs/UI/Prefab_Canvas_StartMenu_Declaration"); } }
+        //PauseMenu
+        public static GameObject Prefab_Button_PauseMenu_Normal { get { return Resources.Load<GameObject>("Prefabs/UI/Prefab_Button_PauseMenu_Normal"); } }
+
+        #endregion
+
         public static Sprite Sprite_Rectangle { get { return Resources.Load<Sprite>("Sprites/Rectangle"); } }
         public static Sprite Sprite_Circle { get { return Resources.Load<Sprite>("Sprites/Circle"); } }
         public static Sprite Sprite_Background { get { return AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd"); } }
@@ -33,15 +44,12 @@ namespace VL.Gaming.Scripts.Gaming.Tools
         public static GameObject Prefab_ChessPlaceHolder { get { return Resources.Load<GameObject>("Prefabs/Prefab_ChessPlaceHolder"); } }
 
         #region StartMenu
-        public static GameObject Prefab_Button_StartMenu_MiniButton { get { return Resources.Load<GameObject>("Prefabs/Prefab_Button_StartMenu_MiniButton"); } }
-        public static GameObject Prefab_Button_StartMenu_Normal { get { return Resources.Load<GameObject>("Prefabs/Prefab_Button_StartMenu_Normal"); } }
-        public static GameObject Prefab_Canvas_StartMenu_Declaration { get { return Resources.Load<GameObject>("Prefabs/Prefab_Canvas_StartMenu_Declaration"); } }
         #endregion
 
         #region GameInit
         public static GameObject Prefab_Toggle_GameInit_MainCategory { get { return Resources.Load<GameObject>("Prefabs/Prefab_Toggle_GameInit_MainCategory"); } }
         public static GameObject Prefab_Toggle_GameInit_SubCategory { get { return Resources.Load<GameObject>("Prefabs/Prefab_Toggle_GameInit_SubCategory"); } }
-        public static GameObject Prefab_Button_GameInit_Normal { get { return Resources.Load<GameObject>("Prefabs/Prefab_Button_GameInit_Normal"); } } 
+        public static GameObject Prefab_Button_GameInit_Normal { get { return Resources.Load<GameObject>("Prefabs/Prefab_Button_GameInit_Normal"); } }
         public static GameObject Prefab_InputField_GameInit_Normal { get { return Resources.Load<GameObject>("Prefabs/Prefab_InputField_GameInit_Normal"); } }
         #endregion
 

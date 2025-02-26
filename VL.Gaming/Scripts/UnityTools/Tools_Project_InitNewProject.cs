@@ -12,13 +12,13 @@ namespace VL.Gaming.Scripts.UnityTools
             VLIOHelper.CreateDirectory("Resources/Animations");
             VLIOHelper.CreateDirectory("Resources/Dialogues");
             VLIOHelper.CreateDirectory("Resources/Prefabs");
+            VLIOHelper.CreateDirectory("Resources/Prefabs/UI");
             VLIOHelper.CreateDirectory("Resources/Sprites");
             VLIOHelper.CreateDirectory("Resources/fbx");
             VLIOHelper.CreateDirectory("Resources/fbx/AnimatorControllers");
             VLIOHelper.CreateDirectory("Resources/fbx/Models");
             VLIOHelper.CreateDirectory("Resources/fbx/Motions");
             VLIOHelper.CreateDirectory("Resources/fbx/Textures");
-            VLIOHelper.CreateDirectory("Scripts");
         }
     }
 }
