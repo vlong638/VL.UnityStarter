@@ -69,6 +69,10 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem
             GameDataManager.SaveGameData();
             ClosePauseMenu();
         }
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
 
         /// <summary>
         /// 关闭暂停界面
@@ -106,10 +110,6 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem
         public void StartGame()
         {
             SceneManager.LoadScene("Scene_StartGame");
-        }
-        public void QuitGame()
-        {
-            Application.Quit();
         }
 
         #endregion

@@ -22,6 +22,10 @@ namespace VL.Gaming.Scripts.UnityTools
             //依赖前置
             var Prefab_Button_PauseMenu_Normal = VLResourcePool.Prefab_Button_PauseMenu_Normal;
 
+            //脚本
+            GameObject PauseMenuManager = new GameObject("PauseMenuManager");
+            PauseMenuManager.AddComponent<PauseMenuManager>();
+
             //Canvas_PauseMenu
             var Canvas_PauseMenu = VLCreator.CreateCanvas("Canvas_PauseMenu");
 
@@ -37,27 +41,33 @@ namespace VL.Gaming.Scripts.UnityTools
             //Buttons
             var button = GameObject.Instantiate(Prefab_Button_PauseMenu_Normal);
             button.SetParent(Panel_Background);
-            button.name = "Button_Continue";
+            button.name = VLDictionaries.VLButtonsDic[VLButtons.Continue];
             button.SetRectCenterTop(0, -100, 200, 40);
-            button.SetTextContent("继续游戏");
+            button.SetTextContent(VLDictionaries.VLTextsDic[VLTexts.Button_Continue]);
 
             button = GameObject.Instantiate(Prefab_Button_PauseMenu_Normal);
             button.SetParent(Panel_Background);
-            button.name = "Button_Save";
+            button.name = VLDictionaries.VLButtonsDic[VLButtons.Save];
             button.SetRectCenterTop(0, -180, 200, 40);
-            button.SetTextContent("保存 ");
+            button.SetTextContent(VLDictionaries.VLTextsDic[VLTexts.Button_Save]);
 
             button = GameObject.Instantiate(Prefab_Button_PauseMenu_Normal);
             button.SetParent(Panel_Background);
-            button.name = "Button_Load";
+            button.name = VLDictionaries.VLButtonsDic[VLButtons.Load];
             button.SetRectCenterTop(0, -260, 200, 40);
-            button.SetTextContent("加载 ");
+            button.SetTextContent(VLDictionaries.VLTextsDic[VLTexts.Button_Load]);
 
             button = GameObject.Instantiate(Prefab_Button_PauseMenu_Normal);
             button.SetParent(Panel_Background);
-            button.name = "Button_Quit";
+            button.name = VLDictionaries.VLButtonsDic[VLButtons.StartMenu];
             button.SetRectCenterTop(0, -340, 200, 40);
-            button.SetTextContent("退出 ");
+            button.SetTextContent(VLDictionaries.VLTextsDic[VLTexts.Button_StartMenu]);
+
+            button = GameObject.Instantiate(Prefab_Button_PauseMenu_Normal);
+            button.SetParent(Panel_Background);
+            button.name = VLDictionaries.VLButtonsDic[VLButtons.Quit];
+            button.SetRectCenterTop(0, -420, 200, 40);
+            button.SetTextContent(VLDictionaries.VLTextsDic[VLTexts.Button_Quit]);
 
             Debug.Log($"Instantiate End");
         }

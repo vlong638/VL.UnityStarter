@@ -24,9 +24,10 @@ namespace VL.Gaming.Scripts.UnityTools
             var Prefab_Button_StartMenu_Normal = VLResourcePool.Prefab_Button_StartMenu_Normal;
             var Prefab_Canvas_StartMenu_Declaration = VLResourcePool.Prefab_Canvas_StartMenu_Declaration;
 
-            //GameSystemManager
+            //脚本
             GameObject gameSystemManager = new GameObject("GameSystemManager");
             gameSystemManager.AddComponent<GameSystemManager>();
+
             //Canvas
             var Canvas = VLCreator.CreateCanvas("Canvas");
             //Panel

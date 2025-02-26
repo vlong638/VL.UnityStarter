@@ -134,6 +134,7 @@
     <Compile Include="Scripts\Gaming\GameSystem\GameDataManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\GameInitManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\GameLoadingManager.cs" />
+    <Compile Include="Scripts\Gaming\GameSystem\PauseMenuManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\GameSystemManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\Generator\QuadGameBoard.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\HexGameBoardManager.cs" />

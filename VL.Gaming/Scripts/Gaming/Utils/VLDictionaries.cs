@@ -14,22 +14,58 @@ namespace VL.Gaming.Scripts.Utils
     {
         None = 0,
         StartGame,
+        StartMenu,
+        Continue,
         Save,
         Load,
         Config,
         Quit,
     }
+    public enum VLScenes
+    {
+        None = 0,
+        StartMenu,
+        StartGame,
+    }
+    public enum VLTexts
+    {
+        None = 0,
+        Button_StartGame,
+        Button_StartMenu,
+        Button_Continue,
+        Button_Save,
+        Button_Load,
+        Button_Config,
+        Button_Quit,
+    }
 
     public static class VLDictionaries
     {
 
+        public static Dictionary<VLScenes, string> VLScenesDic = new Dictionary<VLScenes, string>()
+        {
+            { VLScenes.StartMenu,"Scene_StartMenu"},
+            { VLScenes.StartGame,"Scene_StartGame"},
+        };
         public static Dictionary<VLButtons, string> VLButtonsDic = new Dictionary<VLButtons, string>()
         {
             { VLButtons.StartGame,"Button_StartGame"},
+            { VLButtons.StartMenu,"Button_StartMenu"},
+            { VLButtons.Continue,"Button_Continue"},
             { VLButtons.Save,"Button_Save"},
             { VLButtons.Load,"Button_Load"},
             { VLButtons.Config,"Button_Config"},
             { VLButtons.Quit,"Button_Quit"},
+        };
+        public static Dictionary<VLTexts, string> VLTextsDic = new Dictionary<VLTexts, string>()
+        {
+            { VLTexts.Button_StartGame,"开始游戏"},
+            { VLTexts.Button_StartMenu,"返回菜单界面"},
+            { VLTexts.Button_Continue,"继续游戏"},
+            { VLTexts.Button_Save,"保存"},
+            { VLTexts.Button_Load,"加载"},
+            { VLTexts.Button_Config,"配置界面"},
+            { VLTexts.Button_Quit,"离开游戏"},
         };
         //public static Dictionary<SortingOrderEnum, int> SortingOrderDic = new Dictionary<SortingOrderEnum, int>()
         //{
