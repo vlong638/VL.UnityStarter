@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-namespace VL.Gaming.Scripts.GamingV2.Systems
+namespace VL.Gaming.Scripts.Gaming.GameSystem
 {
     /// <summary>
     /// 遍历所有 KeyCode 可能影响性能（尤其是每帧执行）。
     /// 使用 Input.inputString 监听字符输入，并仅监听常用按键（如 WASD、空格等）：
     /// </summary>
-    internal class VLBaseSystemV2 : MonoBehaviour
+    internal class VLInputSystem : MonoBehaviour
     {
         private KeyCode[] monitoredKeys = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.Space };
 
