@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using VL.Gaming.Scripts.Gaming.GameSystem.Generator;
 using VL.Gaming.Scripts.Tools;
 
-namespace VL.Gaming.Scripts.Gaming.Tools
+namespace VL.Gaming.Scripts.Gaming.Utils
 {
     public enum CellType
     {
@@ -26,6 +27,7 @@ namespace VL.Gaming.Scripts.Gaming.Tools
         //PauseMenu
         public static GameObject Prefab_Button_PauseMenu_Normal { get { return Resources.Load<GameObject>("Prefabs/UI/Prefab_Button_PauseMenu_Normal"); } }
 
+
         #endregion
 
         public static Sprite Sprite_Rectangle { get { return Resources.Load<Sprite>("Sprites/Rectangle"); } }
@@ -42,9 +44,6 @@ namespace VL.Gaming.Scripts.Gaming.Tools
 
         public static GameObject Prefab_Chess { get { return Resources.Load<GameObject>("Prefabs/Prefab_Chess"); ; } }
         public static GameObject Prefab_ChessPlaceHolder { get { return Resources.Load<GameObject>("Prefabs/Prefab_ChessPlaceHolder"); } }
-
-        #region StartMenu
-        #endregion
 
         #region GameInit
         public static GameObject Prefab_Toggle_GameInit_MainCategory { get { return Resources.Load<GameObject>("Prefabs/Prefab_Toggle_GameInit_MainCategory"); } }
@@ -98,57 +97,74 @@ namespace VL.Gaming.Scripts.Gaming.Tools
         }
 
         public static bool IsResourceReady = false;
-        public static void LoadResource(GameObject assetsGO)
+        public static void LoadAllResource(GameObject assetsGO)
         {
-            CellGrass.Add(VLCreator.CreateSprite("CellGrass", Resources.Load<Sprite>("Sprites/grass_60"), assetsGO));
+            var sprites = Resources.LoadAll<Sprite>("Sprites/Floors");
 
-            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building1"), assetsGO));
-            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building2"), assetsGO));
-            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building3"), assetsGO));
-            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building4"), assetsGO));
-            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building5"), assetsGO));
-            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building6"), assetsGO));
-            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building7"), assetsGO));
-            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building8"), assetsGO));
-            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building9"), assetsGO));
-            CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building10"), assetsGO));
+            //CellGrass.Add(VLCreator.CreateSprite("Ground", sprites[0], assetsGO));
+            //CellGrass.Add(VLCreator.CreateSprite("Ground", sprites[1], assetsGO));
+            //CellGrass.Add(VLCreator.CreateSprite("Ground", sprites[2], assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("Ground", sprites[4], assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("Ground", sprites[5], assetsGO));
+            //CellSand.Add(VLCreator.CreateSprite("Ground", sprites[6], assetsGO));
+            //CellSand.Add(VLCreator.CreateSprite("Ground", sprites[7], assetsGO));
+            //CellSand.Add(VLCreator.CreateSprite("Ground", sprites[8], assetsGO));
+            //CellSea.Add(VLCreator.CreateSprite("Ground", sprites[9], assetsGO));
+            //CellSea.Add(VLCreator.CreateSprite("Ground", sprites[10], assetsGO));
+            //CellSea.Add(VLCreator.CreateSprite("Ground", sprites[11], assetsGO));
+            //CellWater.Add(VLCreator.CreateSprite("Ground", sprites[12], assetsGO));
+            //CellWater.Add(VLCreator.CreateSprite("Ground", sprites[13], assetsGO));
 
-            CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City1"), assetsGO));
-            CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City2"), assetsGO));
-            CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City3"), assetsGO));
-            CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City4"), assetsGO));
 
-            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event1"), assetsGO));
-            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event2"), assetsGO));
-            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event3"), assetsGO));
-            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event4"), assetsGO));
-            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event5"), assetsGO));
-            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event6"), assetsGO));
-            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event7"), assetsGO));
-            CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event8"), assetsGO));
+            //CellGrass.Add(VLCreator.CreateSprite("CellGrass", Resources.Load<Sprite>("Sprites/grass_60"), assetsGO));
 
-            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree1"), assetsGO));
-            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree2"), assetsGO));
-            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree3"), assetsGO));
-            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree4"), assetsGO));
-            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree5"), assetsGO));
-            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree6"), assetsGO));
-            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree7"), assetsGO));
-            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree8"), assetsGO));
-            CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree9"), assetsGO));
+            //CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building1"), assetsGO));
+            //CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building2"), assetsGO));
+            //CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building3"), assetsGO));
+            //CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building4"), assetsGO));
+            //CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building5"), assetsGO));
+            //CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building6"), assetsGO));
+            //CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building7"), assetsGO));
+            //CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building8"), assetsGO));
+            //CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building9"), assetsGO));
+            //CellBuilding.Add(VLCreator.CreateSprite("CellBuildings", Resources.Load<Sprite>("Sprites/Buildings/Building10"), assetsGO));
 
-            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock1"), assetsGO));
-            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock2"), assetsGO));
-            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock3"), assetsGO));
-            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock4"), assetsGO));
-            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock5"), assetsGO));
-            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock6"), assetsGO));
-            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock7"), assetsGO));
-            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock8"), assetsGO));
-            CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock9"), assetsGO));
+            //CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City1"), assetsGO));
+            //CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City2"), assetsGO));
+            //CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City3"), assetsGO));
+            //CellCity.Add(VLCreator.CreateSprite("CellCities", Resources.Load<Sprite>("Sprites/Cities/City4"), assetsGO));
 
-            CellTreeFruit.Add(VLCreator.CreateSprite("CellTreeFruits", Resources.Load<Sprite>("Sprites/TreeFruits/TreeFruit1"), assetsGO));
-            CellTreeFruit.Add(VLCreator.CreateSprite("CellTreeFruits", Resources.Load<Sprite>("Sprites/TreeFruits/TreeFruit2"), assetsGO));
+            //CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event1"), assetsGO));
+            //CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event2"), assetsGO));
+            //CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event3"), assetsGO));
+            //CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event4"), assetsGO));
+            //CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event5"), assetsGO));
+            //CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event6"), assetsGO));
+            //CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event7"), assetsGO));
+            //CellEvent.Add(VLCreator.CreateSprite("CellEvents", Resources.Load<Sprite>("Sprites/Events/Event8"), assetsGO));
+
+            //CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree1"), assetsGO));
+            //CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree2"), assetsGO));
+            //CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree3"), assetsGO));
+            //CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree4"), assetsGO));
+            //CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree5"), assetsGO));
+            //CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree6"), assetsGO));
+            //CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree7"), assetsGO));
+            //CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree8"), assetsGO));
+            //CellTree.Add(VLCreator.CreateSprite("CellTrees", Resources.Load<Sprite>("Sprites/Trees/Tree9"), assetsGO));
+
+            //CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock1"), assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock2"), assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock3"), assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock4"), assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock5"), assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock6"), assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock7"), assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock8"), assetsGO));
+            //CellRock.Add(VLCreator.CreateSprite("CellRocks", Resources.Load<Sprite>("Sprites/Rocks/Rock9"), assetsGO));
+
+            //CellTreeFruit.Add(VLCreator.CreateSprite("CellTreeFruits", Resources.Load<Sprite>("Sprites/TreeFruits/TreeFruit1"), assetsGO));
+            //CellTreeFruit.Add(VLCreator.CreateSprite("CellTreeFruits", Resources.Load<Sprite>("Sprites/TreeFruits/TreeFruit2"), assetsGO));
 
             //var sprites = Resources.LoadAll<Sprite>("Sprites/Ground");
             //CellGrass.Add(VLCreator.CreateSprite("Ground", sprites[0], assetsGO));

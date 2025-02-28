@@ -3,6 +3,7 @@ using UnityEngine;
 using VL.Gaming.Scripts.Common;
 using VL.Gaming.Scripts.Gaming.GameSystem.Generator;
 using VL.Gaming.Scripts.Gaming.Tools;
+using VL.Gaming.Scripts.Gaming.Utils;
 
 namespace VL.Gaming.Scripts.Gaming.GameSystem
 {
@@ -65,7 +66,7 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem
 
         void PrepareAsset()
         {
-            VLResourcePool.LoadResource(AssetsGO);
+            VLResourcePool.LoadAllResource(AssetsGO);
         }
     }
 }

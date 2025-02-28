@@ -1,14 +1,12 @@
-﻿using Newtonsoft.Json;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using VL.Gaming.Scripts.Gaming.GameSystem.Generator;
 using VL.Gaming.Scripts.Gaming.Tools;
 using VL.Gaming.Scripts.Utils;
 
 namespace VL.Gaming.Scripts.Gaming.GameSystem
 {
-    public class StartMenuManager : MonoBehaviour
+    public class GameSystemManager : MonoBehaviour
     {
         void Awake()
         {
@@ -19,9 +17,6 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem
             //StartGame
             var gameObject = VLResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.StartGame]);
             gameObject?.GetComponent<Button>()?.onClick.AddListener(() => StartGame());
-            //Load
-            gameObject = VLResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.Load]);
-            gameObject?.GetComponent<Button>()?.onClick.AddListener(() => LoadGameData());
             //Config
             //Quit
             gameObject = VLResourceHelper.FindGameObjectByName(VLDictionaries.VLButtonsDic[VLButtons.Quit]);
@@ -34,13 +29,6 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem
 
         public void StartGame()
         {
-            GameDataManager.GameData = new Content.Entities.GameData();
-            GameDataManager.GameData.MapData = new MapGenerator().GenerateMap();
-            SceneManager.LoadScene("Scene_StartGame");
-        }
-        public void LoadGameData()
-        {
-            GameDataManager.LoadGameData();
             SceneManager.LoadScene("Scene_StartGame");
         }
         public void QuitGame()

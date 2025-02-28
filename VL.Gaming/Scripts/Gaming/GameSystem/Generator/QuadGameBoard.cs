@@ -2,6 +2,7 @@
 using VL.Gaming.Scripts.Common;
 using VL.Gaming.Scripts.Common.Enums;
 using VL.Gaming.Scripts.Gaming.Tools;
+using VL.Gaming.Scripts.Gaming.Utils;
 using VL.Gaming.Scripts.Tools;
 
 namespace VL.Gaming.Scripts.Gaming.GameSystem.Generator
@@ -41,7 +42,7 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem.Generator
                 {
                     var sprite = Instantiate(VLResourcePool.GetRandomCell(CellType.CellGrass, 0));
                     var name = $"Floor{x}_{y}";
-                    Floors[x, y] = new Floor(name, sprite, FloorType.Grass);
+                    Floors[x, y] = new Floor(name, FloorType.Grass);
                     sprite.name = name;
                     sprite.transform.position = new Vector2((x - XSteps / 2) * StepX, (y - YSteps / 2) * StepY);
                     sprite.SetParent(floorsGO);
@@ -183,16 +184,26 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem.Generator
             return null;
         }
     }
-    public class UnityObject
+    [System.Serializable]
+    public class LogicObject
     {
-        public GameObject SpriteGO { set; get; }
         public string Name;
         public int X;
         public int Y;
 
-        public UnityObject(string name, GameObject spriteGO)
+        public LogicObject(string name, int x = 0, int y = 0)
         {
             Name = name;
+            X = x;
+            Y = y;
+        }
+    }
+    public class UnityObject : LogicObject
+    {
+        public GameObject SpriteGO { set; get; }
+
+        public UnityObject(string name, GameObject spriteGO) : base(name)
+        {
             SpriteGO = spriteGO;
         }
     }
@@ -208,26 +219,27 @@ namespace VL.Gaming.Scripts.Gaming.GameSystem.Generator
             return new Item(Name, Object.Instantiate(SpriteGO));
         }
     }
-    public class Floor : UnityObject
+    [System.Serializable]
+    public class Floor : LogicObject
     {
         public FloorType FloorType;
         public Building Building;
 
-        public Floor(string name, GameObject spriteGO, FloorType floorType) : base(name, spriteGO)
+        public Floor(string name, FloorType floorType) : base(name)
         {
             this.FloorType = floorType;
-            this.SpriteGO.GetComponent<SpriteRenderer>().sortingOrder = Common.Enums.SortingOrder.Background.ToInt();
         }
 
-        public Floor Clone()
+        internal Floor Clone()
         {
-            return new Floor(Name, Object.Instantiate(SpriteGO), this.FloorType);
+            return new Floor(Name, this.FloorType) { X = this.X, Y = this.Y };
         }
     }
     public enum FloorType
     {
         None = 0,
         Grass,
+        Tree,
         Rock,
         Sand,
         Sea,

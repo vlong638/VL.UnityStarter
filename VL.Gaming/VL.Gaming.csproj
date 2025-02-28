@@ -89,6 +89,7 @@
     <Compile Include="Framework\LocalServer\Server.cs" />
     <Compile Include="Framework\Tools\PixelConverter.cs" />
     <Compile Include="Scripts\Cache\ObjectPool.cs" />
+    <Compile Include="Scripts\Common\Entities\Serializable2DArray.cs" />
     <Compile Include="Scripts\Common\Entities\UnitData.cs" />
     <Compile Include="Scripts\Common\Entities\UnitDataController.cs" />
     <Compile Include="Scripts\Common\Enums\LayerMask.cs" />
@@ -128,6 +129,8 @@
     <Compile Include="Scripts\Gaming\GameSystem\GameDataManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\GameInitManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\GameLoadingManager.cs" />
+    <Compile Include="Scripts\Gaming\GameSystem\Generator\MapGenerator.cs" />
+    <Compile Include="Scripts\Gaming\GameSystem\StartMenuManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\PauseMenuManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\GameSystemManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\Generator\QuadGameBoard.cs" />
@@ -147,6 +150,7 @@
     <Compile Include="Scripts\Gaming\MovementManage\WASDMove.cs" />
     <Compile Include="Scripts\Gaming\Samples\JobSystemExample .cs" />
     <Compile Include="Scripts\Gaming\Utils\VLDictionaries.cs" />
+    <Compile Include="Scripts\Gaming\Utils\VLStatics.cs" />
     <Compile Include="Scripts\Gaming\Utils\VLResourcePool.cs" />
     <Compile Include="Scripts\Tools\SliceSpritesTool.cs" />
     <Compile Include="Scripts\Tools\VLCreator.cs" />
