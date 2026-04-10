@@ -11,7 +11,10 @@ namespace JYFixer
     {
         static void Main(string[] args)
         {
-            new MazeGeneratorV2Helper().Generate();
+
+
+
+            //new MazeGeneratorV2Helper().Generate();
 
             //string inputDirectory = @"D:\Dev\Projects\VL.Unity\JYFixer\bin\Debug\Pics"; // 输入图片文件夹路径
             //string outputFilePath = @"D:\Dev\Projects\VL.Unity\JYFixer\bin\Debug\PicsMerge\Merged.png"; // 输出图片路径

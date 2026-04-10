@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>JYFixer.Program</StartupObject>
+    <StartupObject>SixBySixSudokuSolver.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SixBySixSudokuSolver.cs" />
     <Compile Include="Utils\ImageMergeV2.cs" />
     <Compile Include="Utils\ImageResize.cs" />
     <Compile Include="Utils\ImageMerge.cs" />

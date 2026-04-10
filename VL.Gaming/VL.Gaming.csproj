@@ -137,6 +137,7 @@
     <Compile Include="Scripts\Gaming\GameSystem\HexGameBoardManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\QuadGameMapManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\SubSystemInput\VLInputSystem.cs" />
+    <Compile Include="Scripts\Gaming\GameSystem\SubSystem\MiniMapManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\SubSystem\TurnManager.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\Widgets\ChessMove\DisplayCrash.cs" />
     <Compile Include="Scripts\Gaming\GameSystem\Widgets\ChessMove\DisplaySelected.cs" />
