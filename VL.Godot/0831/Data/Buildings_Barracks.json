@@ -1,0 +1,20 @@
+[
+  {
+    "id": "barracks_1",
+    "name": "一级矮人兵营",
+    "next": "barracks_2",
+    "cost": " 5 木材, 5 石头"
+  },
+  {
+    "id": "barracks_2",
+    "name": "二级矮人兵营",
+    "next": "barracks_3",
+    "cost": "2 食尸鬼利爪, 5 木材, 5 石头"
+  },
+  {
+    "id": "barracks_3",
+    "name": "三级矮人兵营",
+    "next": "",
+    "cost": "5 食尸鬼利爪, 10 木材, 10 石头"
+  }
+]

@@ -1,0 +1,7 @@
+[
+ {"id":"archer_1","name":"一级弓箭防御塔","next":"archer_2","cost":""},
+ {"id":"archer_2","name":"二级弓箭防御塔","next":"archer_3","cost":"2 食尸鬼利爪, 5 木材, 5 石头"},
+ {"id":"archer_3","name":"三级弓箭防御塔","next":"","cost":"5 食尸鬼利爪, 10 木材, 10 石头"},
+ {"id":"fire_1","name":"一级火焰塔","next":"","cost":"1 炎魔心, 15 木材, 15 石头"},
+ {"id":"frost_1","name":"一级冰霜塔","next":"","cost":"1 冰霜草, 15 木材, 15 石头"}
+]

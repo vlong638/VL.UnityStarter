@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JYFixer", "JYFixer\JYFixer.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.ConsoleF", "VL.ConsoleF\VL.ConsoleF.csproj", "{4FA3677E-4AEB-45AE-8F53-79D80AC1C0B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VL.Godot", "VL.Godot\VL.Godot.csproj", "{B922DBBF-86FD-4E17-A9DD-96AE59D46F46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{4FA3677E-4AEB-45AE-8F53-79D80AC1C0B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FA3677E-4AEB-45AE-8F53-79D80AC1C0B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FA3677E-4AEB-45AE-8F53-79D80AC1C0B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B922DBBF-86FD-4E17-A9DD-96AE59D46F46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B922DBBF-86FD-4E17-A9DD-96AE59D46F46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B922DBBF-86FD-4E17-A9DD-96AE59D46F46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B922DBBF-86FD-4E17-A9DD-96AE59D46F46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

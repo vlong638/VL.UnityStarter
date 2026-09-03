@@ -1,0 +1,10 @@
+[
+ {"id":"player","name":"玩家","health":100,"attack":10,"defense":0,"interval":2},
+ {"id":"archer_1","name":"一级弓箭防御塔","health":100,"attack":11,"defense":1,"interval":3},
+ {"id":"archer_2","name":"二级弓箭防御塔","health":150,"attack":25,"defense":2,"interval":3},
+ {"id":"archer_3","name":"三级弓箭防御塔","health":250,"attack":34,"defense":3,"interval":3},
+ {"id":"dwarf_guard_1","name":"一级战斗矮人守卫","health":50,"attack":10,"defense":3,"interval":1},
+ {"id":"wolf","name":"野狼","health":30,"attack":10,"defense":0,"interval":3},
+ {"id":"ghoul","name":"普通食尸鬼","health":100,"attack":20,"defense":0,"interval":1},
+ {"id":"ogre","name":"普通食人魔","health":400,"attack":80,"defense":1,"interval":3,"skill":"重锤大地"}
+]

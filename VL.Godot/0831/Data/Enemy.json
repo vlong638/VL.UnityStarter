@@ -1,0 +1,6 @@
+{
+  "waves":[
+    {"name":"第一波","units":[{"id":"ghoul","name":"食尸鬼","color":"#ff3030","attack":20,"interval":1,"health":100,"spawnInterval":5,"count":3,"start":0,"drop":"90% 食尸鬼利爪"}]},
+    {"name":"第二波","units":[{"id":"ghoul","name":"食尸鬼","color":"#ff3030","attack":20,"interval":1,"health":100,"spawnInterval":5,"count":3,"start":0},{"id":"ogre","name":"食人魔","color":"#8b0000","attack":80,"interval":3,"health":400,"spawnInterval":0,"count":1,"start":20,"drop":"冰霜草 / 炎魔心"}]}
+  ]
+}

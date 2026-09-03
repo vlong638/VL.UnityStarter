@@ -1,0 +1,18 @@
+[
+  {
+    "id": "EndlessForest1",
+    "level": 1,
+    "treesMax": 10,
+    "stonesMax": 10,
+    "berriesMax": 10,
+    "enemies": "ghoul*1|ghoul*2"
+  },
+  {
+    "id": "EndlessForest2",
+    "level": 2,
+    "treesMax": 10,
+    "stonesMax": 10,
+    "berriesMax": 10,
+    "enemies": "ghoul*3|ogre*1"
+  }
+]

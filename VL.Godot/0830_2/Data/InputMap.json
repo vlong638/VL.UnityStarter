@@ -1,0 +1,10 @@
+{
+  "MoveUp": "W",
+  "MoveDown": "S",
+  "MoveLeft": "A",
+  "MoveRight": "D",
+  "Interact": "E",
+  "Inventory": "I",
+  "Build": "C",
+  "Pause": "Escape"
+}

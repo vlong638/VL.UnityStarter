@@ -1,0 +1,30 @@
+[
+  {
+    "wave": 1,
+    "enemy": "ghoul",
+    "attack": 20,
+    "interval": 1,
+    "health": 100,
+    "spawnEvery": 5,
+    "total": 3
+  },
+  {
+    "wave": 2,
+    "enemy": "ghoul",
+    "attack": 20,
+    "interval": 1,
+    "health": 100,
+    "spawnEvery": 5,
+    "total": 3
+  },
+  {
+    "wave": 2,
+    "enemy": "ogre",
+    "attack": 80,
+    "interval": 3,
+    "health": 400,
+    "spawnEvery": 0,
+    "total": 1,
+    "start": 20
+  }
+]

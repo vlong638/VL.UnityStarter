@@ -1,0 +1,4 @@
+[
+ {"id":"wood","color":"#d49a4a","name":"木头"},{"id":"stone","color":"#9ca3af","name":"石头"},{"id":"berry","color":"#d9466e","name":"浆果"},
+ {"id":"mushroom_soup","color":"#fde047","name":"菌菇汤"},{"id":"iron_axe","color":"#facc15","name":"铁斧"},{"id":"iron_sword","color":"#facc15","name":"铁剑"}
+]

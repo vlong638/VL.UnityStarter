@@ -1,0 +1,51 @@
+[
+  {
+    "id": "tower_1",
+    "health": 100,
+    "attack": 11,
+    "defense": 1,
+    "interval": 3
+  },
+  {
+    "id": "tower_2",
+    "health": 150,
+    "attack": 25,
+    "defense": 2,
+    "interval": 3
+  },
+  {
+    "id": "tower_3",
+    "health": 250,
+    "attack": 34,
+    "defense": 3,
+    "interval": 3
+  },
+  {
+    "id": "fire_tower_1",
+    "health": 250,
+    "attack": 25,
+    "defense": 3,
+    "skill": "burn"
+  },
+  {
+    "id": "ice_tower_1",
+    "health": 250,
+    "attack": 25,
+    "defense": 3,
+    "skill": "freeze"
+  },
+  {
+    "id": "ghoul",
+    "health": 100,
+    "attack": 20,
+    "defense": 0,
+    "interval": 1
+  },
+  {
+    "id": "ogre",
+    "health": 400,
+    "attack": 80,
+    "defense": 1,
+    "interval": 3
+  }
+]

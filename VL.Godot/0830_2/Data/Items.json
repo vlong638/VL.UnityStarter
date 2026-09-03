@@ -1,0 +1,37 @@
+[
+  {
+    "id": "wood",
+    "displayName": "木材",
+    "iconColor": "#8B5A2B"
+  },
+  {
+    "id": "stone",
+    "displayName": "石头",
+    "iconColor": "#808080"
+  },
+  {
+    "id": "berry",
+    "displayName": "浆果",
+    "iconColor": "#b00080"
+  },
+  {
+    "id": "mushroom_soup",
+    "displayName": "菌菇汤",
+    "iconColor": "#ffff00"
+  },
+  {
+    "id": "ghoul_claw",
+    "displayName": "食尸鬼利爪",
+    "iconColor": "#ff0000"
+  },
+  {
+    "id": "iron_axe",
+    "displayName": "铁斧",
+    "iconColor": "#aaaaaa"
+  },
+  {
+    "id": "iron_sword",
+    "displayName": "铁剑",
+    "iconColor": "#dddddd"
+  }
+]

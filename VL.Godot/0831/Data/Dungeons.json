@@ -1,0 +1,4 @@
+[
+  {"id":"EndlessForest1","level":1,"trees":10,"stones":10,"berries":10,"enemies":["食尸鬼*1","食尸鬼*2"]},
+  {"id":"EndlessForest2","level":2,"trees":10,"stones":10,"berries":10,"enemies":["食尸鬼*3","巨魔*1"]}
+]

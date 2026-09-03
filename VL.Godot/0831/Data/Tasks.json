@@ -1,0 +1,6 @@
+[
+  { "hostId":"dwarf_olphi", "id":1, "name":"初识", "rewards":["菌菇汤","饥饿引导提示钥匙","任务2令牌"] },
+  { "hostId":"dwarf_olphi", "id":2, "name":"工具", "rewards":["铁斧","工具引导提示钥匙","任务3令牌"] },
+  { "hostId":"dwarf_olphi", "id":3, "name":"武器", "rewards":["铁剑","装备引导提示钥匙","任务4令牌"] },
+  { "hostId":"dwarf_olphi", "id":4, "name":"劳有所得", "repeatable":true, "rewards":["菌菇汤","菌菇汤"] }
+]

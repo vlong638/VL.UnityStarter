@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "hostId": "dwarf_orphi",
+    "name": "饮食",
+    "description": "使用菌菇汤恢复饥饿度。",
+    "reward": "iron_axe"
+  },
+  {
+    "id": 2,
+    "hostId": "dwarf_orphi",
+    "name": "工具",
+    "trigger": "task:1:complete",
+    "reward": "iron_axe"
+  },
+  {
+    "id": 3,
+    "hostId": "dwarf_orphi",
+    "name": "武器",
+    "trigger": "task:2:complete",
+    "reward": "iron_sword"
+  },
+  {
+    "id": 4,
+    "hostId": "dwarf_orphi",
+    "name": "劳有所得",
+    "trigger": "task:2:complete",
+    "repeatable": true,
+    "reward": "mushroom_soup*2"
+  }
+]

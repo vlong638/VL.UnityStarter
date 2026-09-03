@@ -1,0 +1,17 @@
+[
+  {
+    "id": "arrow_tower_1",
+    "next": "arrow_tower_2",
+    "unit": "tower_1"
+  },
+  {
+    "id": "fire_tower_1",
+    "unit": "fire_tower_1",
+    "cost": "demon_heart:1,wood:15,stone:15"
+  },
+  {
+    "id": "ice_tower_1",
+    "unit": "ice_tower_1",
+    "cost": "frost_grass:1,wood:15,stone:15"
+  }
+]
