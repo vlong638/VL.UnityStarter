@@ -36,13 +36,11 @@ public partial class Player : CharacterBody2D
 
     void animate()
     {
-        if (direction.X < 0)
+        //方案2
+        animation.FlipH = direction.X > 0;
+        if (direction.X != 0)
         {
             animation.Play("walkleft");
-        }
-        else if (direction.X > 0)
-        {
-            animation.Play("walkright");
         }
         else if (direction.Y > 0)
         {
@@ -56,5 +54,27 @@ public partial class Player : CharacterBody2D
         {
             animation.Play("idle");
         }
+
+        ////方案1
+        //if (direction.X < 0)
+        //{
+        //    animation.Play("walkleft");
+        //}
+        //else if (direction.X > 0)
+        //{
+        //    animation.Play("walkright");
+        //}
+        //else if (direction.Y > 0)
+        //{
+        //    animation.Play("walkdown");
+        //}
+        //else if (direction.Y < 0)
+        //{
+        //    animation.Play("walkup");
+        //}
+        //else
+        //{
+        //    animation.Play("idle");
+        //}
     }
 }
