@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Godot;
+using Timer = Godot.Timer;
 namespace VL.Game0903;
 
 public partial class Game : Node2D
@@ -12,6 +13,20 @@ public partial class Game : Node2D
     {
         //配置映射内容
         InputMapper.Load();
+        //timer
+        timer = GetNodeOrNull<Timer>("Timer");
+        if (timer == null) GD.PrintErr("❌ 无效的timer对象");
+        timer.Start();
+        //配置Car
+        if (carScene == null)
+        {
+            carScene = GD.Load<PackedScene>("res://Assets/Nodes/Car.tscn");
+            if (carScene == null)
+            {
+                GD.PrintErr("❌ 无法加载 Car.tscn 文件！");
+                return;
+            }
+        }
         //配置Player
         player = GetNodeOrNull<Player>("Player");
         if (player == null)
@@ -27,7 +42,7 @@ public partial class Game : Node2D
             player.Name = "Player";
             player.Position = new Vector2(0, 0);
             AddChild(player);
-            GD.Print("✅ 从 Player.tscn 创建了玩家");
+            GD.Print("创建了玩家");
         }
         //配置Player
         // ✅ 创建 BoxGenerator 并生成 Box
@@ -53,5 +68,15 @@ public partial class Game : Node2D
         {
             player.PhysicsMove(delta, playBounds, true,this);
         }
+    }
+
+    Timer timer;
+    PackedScene carScene;
+    void _on_timer_timeout()
+    {
+        GD.Print("_on_timer_timeout");
+        var car = carScene.Instantiate();
+        AddChild(car);
+        GD.Print("创建了小汽车");
     }
 }
