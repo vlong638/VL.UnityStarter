@@ -6,7 +6,7 @@ namespace VL.Game0903;
 public partial class Game : Node2D
 {
     private Player player = null!;
-    public Rect2 playBounds = new(0, 0, 192*2, 320*2);
+    public Rect2 playBounds = new(-192, -320, 192 * 2, 320 * 2);
     private bool paused = false;
 
     public override void _Ready()
@@ -27,6 +27,8 @@ public partial class Game : Node2D
                 return;
             }
         }
+        cars = GetNodeOrNull<Node2D>("Cars");
+        if (cars == null) GD.PrintErr("❌ 无效的cars对象");
         //配置Player
         player = GetNodeOrNull<Player>("Player");
         if (player == null)
@@ -60,23 +62,36 @@ public partial class Game : Node2D
         //{
         //    player.NoPhysicsMove(delta, playBounds, canMove: true);
         //}
+
+        //小汽车越界销毁
+        foreach (Node2D car in cars.GetChildren())
+        {
+            GD.Print($"{playBounds}HasPoint Position:{car.Position}");
+            GD.Print($"{playBounds}HasPoint GlobalPosition:{car.GlobalPosition}");
+            if (!playBounds.HasPoint(car.Position))
+            {
+                car.QueueFree();
+                GD.Print($"小汽车销毁于GlobalPosition:{car.GlobalPosition}");
+            }
+        }
     }
 
     public override void _PhysicsProcess(double delta)
     {
         if (!paused)
         {
-            player.PhysicsMove(delta, playBounds, true,this);
+            player.PhysicsMove(delta, playBounds, true, this);
         }
     }
 
     Timer timer;
     PackedScene carScene;
+    Node2D cars;
     void _on_timer_timeout()
     {
         GD.Print("_on_timer_timeout");
         var car = carScene.Instantiate();
-        AddChild(car);
+        cars.AddChild(car);
         GD.Print("创建了小汽车");
     }
 }
