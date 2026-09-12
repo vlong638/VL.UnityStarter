@@ -30,7 +30,7 @@ public partial class Game : Node2D
         cars = GetNodeOrNull<Node2D>("Cars");
         if (cars == null) GD.PrintErr("❌ 无效的cars对象");
         //配置Player
-        player = GetNodeOrNull<Player>("Player");
+        player = GetNodeOrNull<Player>("/root/Game/YSortNode/Player");
         if (player == null)
         {
             var playerScene = GD.Load<PackedScene>("res://Assets/Nodes/Player.tscn");
@@ -47,16 +47,22 @@ public partial class Game : Node2D
             GD.Print("创建了玩家");
         }
         //配置Box
-        // ✅ 创建 BoxGenerator 并生成 Box
-        var _boxGenerator = new BoxGenerator();
-        _boxGenerator.Name = "BoxGenerator";
-        _boxGenerator._spawnRangeX = 192;
-        _boxGenerator._spawnRangeY = 320;
-        AddChild(_boxGenerator);
-        _boxGenerator.GenerateBoxes(30);
-        //配置Tree
+        //// ✅ 创建 BoxGenerator 并生成 Box
+        //var _boxGenerator = new BoxGenerator();
+        //_boxGenerator.Name = "BoxGenerator";
+        //_boxGenerator._spawnRangeX = 192;
+        //_boxGenerator._spawnRangeY = 320;
+        //AddChild(_boxGenerator);
+        //_boxGenerator.GenerateBoxes(30);
+        
+        //通用方案
+        //配置Box
         var itemGenerator = new ItemGenerator();
-        itemGenerator.GenerateItems("res://Assets/Nodes/Tree.tscn", playBounds, 40, this);
+        itemGenerator.GenerateItems("res://Assets/Nodes/Box.tscn", playBounds, 30, this);
+        //配置Tree
+        var trees = GetNodeOrNull<Node2D>("YSortNode");
+        if (trees == null) GD.PrintErr("❌ 无效的trees对象");
+        itemGenerator.GenerateItems("res://Assets/Nodes/Tree.tscn", playBounds, 40, trees);
     }
 
     public override void _Process(double delta)
