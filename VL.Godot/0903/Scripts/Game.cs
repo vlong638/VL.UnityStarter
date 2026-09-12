@@ -46,7 +46,7 @@ public partial class Game : Node2D
             AddChild(player);
             GD.Print("创建了玩家");
         }
-        //配置Player
+        //配置Box
         // ✅ 创建 BoxGenerator 并生成 Box
         var _boxGenerator = new BoxGenerator();
         _boxGenerator.Name = "BoxGenerator";
@@ -54,6 +54,9 @@ public partial class Game : Node2D
         _boxGenerator._spawnRangeY = 320;
         AddChild(_boxGenerator);
         _boxGenerator.GenerateBoxes(30);
+        //配置Tree
+        var itemGenerator = new ItemGenerator();
+        itemGenerator.GenerateItems("res://Assets/Nodes/Tree.tscn", playBounds, 40, this);
     }
 
     public override void _Process(double delta)
