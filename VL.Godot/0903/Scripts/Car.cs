@@ -10,9 +10,30 @@ public partial class Car : Node2D
     public override void _Ready()
     {
         area = GetNodeOrNull<Area2D>("Area2D");
-        if (area == null) GD.PrintErr("❌ 无效的area对象");
+        if (area == null)
+        {
+            GD.PushError("❌ 无效的area对象");
+            SetProcess(false);
+            return;   // ✅ 必须 return
+        }
         direction = Vector2.Left;
         speed = 2;
+        //信号检测
+        Name = "car" + (int)(GD.Randi() % 256);
+        
+        ////方案1 非推荐
+        //this.Connect("body_entered", new Callable(this,nameof(OnBodyEntered)));
+        //方案2 强类型
+        area.BodyEntered += OnBodyEntered;
+
+        //碰撞层级设定
+        area.SetCollisionLayerValue(2, true);
+        area.SetCollisionMaskValue(1, true);
+    }
+
+    public void OnBodyEntered(Node2D body)
+    {
+        GD.Print($"碰撞,{Name} vs {body.Name}");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

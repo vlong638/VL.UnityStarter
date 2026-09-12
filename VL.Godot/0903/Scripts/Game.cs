@@ -58,6 +58,7 @@ public partial class Game : Node2D
 
     public override void _Process(double delta)
     {
+        //非物理性移动,纯图片
         //if (!paused)
         //{
         //    player.NoPhysicsMove(delta, playBounds, canMove: true);
@@ -66,8 +67,8 @@ public partial class Game : Node2D
         //小汽车越界销毁
         foreach (Node2D car in cars.GetChildren())
         {
-            GD.Print($"{playBounds}HasPoint Position:{car.Position}");
-            GD.Print($"{playBounds}HasPoint GlobalPosition:{car.GlobalPosition}");
+            //GD.Print($"{playBounds}HasPoint Position:{car.Position}");
+            //GD.Print($"{playBounds}HasPoint GlobalPosition:{car.GlobalPosition}");
             if (!playBounds.HasPoint(car.Position))
             {
                 car.QueueFree();

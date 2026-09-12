@@ -11,7 +11,9 @@ public partial class Player : CharacterBody2D
     {
         Speed = 5000;
         animation = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
-
+        Name = "Player";
+        //碰撞层级设定
+        this.SetCollisionLayerValue(1, true);
     }
 
     public override void _Draw()
@@ -36,7 +38,7 @@ public partial class Player : CharacterBody2D
 
     void animate()
     {
-        //方案2
+        //方案2 +FlipH 免去了walkright
         animation.FlipH = direction.X > 0;
         if (direction.X != 0)
         {
@@ -54,27 +56,5 @@ public partial class Player : CharacterBody2D
         {
             animation.Play("idle");
         }
-
-        ////方案1
-        //if (direction.X < 0)
-        //{
-        //    animation.Play("walkleft");
-        //}
-        //else if (direction.X > 0)
-        //{
-        //    animation.Play("walkright");
-        //}
-        //else if (direction.Y > 0)
-        //{
-        //    animation.Play("walkdown");
-        //}
-        //else if (direction.Y < 0)
-        //{
-        //    animation.Play("walkup");
-        //}
-        //else
-        //{
-        //    animation.Play("idle");
-        //}
     }
 }
