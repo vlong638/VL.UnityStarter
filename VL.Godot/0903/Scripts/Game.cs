@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Godot;
+using VL.Godot.VLCommon;
 using Timer = Godot.Timer;
 namespace VL.Game0903;
 
@@ -7,7 +9,9 @@ public partial class Game : Node2D
 {
     private Player player = null!;
     public Rect2 playBounds = new(-192, -320, 192 * 2, 320 * 2);
+    public Rect2 carBounds;
     private bool paused = false;
+    List<Vector2> markerPositions = [];
 
     public override void _Ready()
     {
@@ -54,7 +58,7 @@ public partial class Game : Node2D
         //_boxGenerator._spawnRangeY = 320;
         //AddChild(_boxGenerator);
         //_boxGenerator.GenerateBoxes(30);
-        
+
         //通用方案
         //配置Box
         var itemGenerator = new ItemGenerator();
@@ -63,22 +67,23 @@ public partial class Game : Node2D
         var trees = GetNodeOrNull<Node2D>("YSortNode");
         if (trees == null) GD.PrintErr("❌ 无效的trees对象");
         itemGenerator.GenerateItems("res://Assets/Nodes/Tree.tscn", playBounds, 40, trees);
+        //PositionMarkers
+        carBounds = playBounds.Grow(10);
+        GD.Print($"carBounds:{carBounds}");
+        var markers = GetNodeOrNull<Node2D>("Markers");
+        foreach (Marker2D marker in markers.GetChildren())
+        {
+            markerPositions.Add(marker.Position);
+        }
+        GD.Print($"markerPositions:{markerPositions.ToPrint()}");
     }
 
     public override void _Process(double delta)
     {
-        //非物理性移动,纯图片
-        //if (!paused)
-        //{
-        //    player.NoPhysicsMove(delta, playBounds, canMove: true);
-        //}
-
         //小汽车越界销毁
         foreach (Node2D car in cars.GetChildren())
         {
-            //GD.Print($"{playBounds}HasPoint Position:{car.Position}");
-            //GD.Print($"{playBounds}HasPoint GlobalPosition:{car.GlobalPosition}");
-            if (!playBounds.HasPoint(car.Position))
+            if (!carBounds.HasPoint(car.Position))
             {
                 car.QueueFree();
                 GD.Print($"小汽车销毁于GlobalPosition:{car.GlobalPosition}");
@@ -100,8 +105,11 @@ public partial class Game : Node2D
     void _on_timer_timeout()
     {
         GD.Print("_on_timer_timeout");
-        var car = carScene.Instantiate();
+        Node2D? car = carScene.Instantiate() as Node2D;
         cars.AddChild(car);
-        GD.Print("创建了小汽车");
+        car.Position = markerPositions.PickRandom();
+        var carEntity = car as Car;
+        carEntity.Direction = car.Position.X < 0 ? Vector2.Right : Vector2.Left;
+        GD.Print($"创建小汽车{car.Position},Direction:{carEntity.Direction}");
     }
 }

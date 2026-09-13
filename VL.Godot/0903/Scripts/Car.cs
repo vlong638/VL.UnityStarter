@@ -5,8 +5,8 @@ public partial class Car : Node2D
 {
     // Called when the node enters the scene tree for the first time.
     Area2D area;
-    Vector2 direction ;
-    float speed ;
+    public Vector2 Direction;
+    float speed;
     static IMGResourceManager images;
 
     static Car()
@@ -25,8 +25,8 @@ public partial class Car : Node2D
             SetProcess(false);
             return;   // ✅ 必须 return
         }
-        direction = Vector2.Left;
-        speed = 2;
+        Direction = Vector2.Left;
+        speed = 2 * 60;
         //信号检测
         Name = "car" + (int)(GD.Randi() % 256);
         //Texture
@@ -49,8 +49,8 @@ public partial class Car : Node2D
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        Position += direction * speed;
+        Position += Direction * speed * (float)delta;
     }
 }
