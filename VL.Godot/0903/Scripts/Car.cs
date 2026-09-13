@@ -7,6 +7,15 @@ public partial class Car : Node2D
     Area2D area;
     Vector2 direction ;
     float speed ;
+    static IMGResourceManager images;
+
+    static Car()
+    {
+        //图片
+        images = new IMGResourceManager();
+        images.Load("res://Assets/Images/red.png", "res://Assets/Images/yellow.png");
+    }
+
     public override void _Ready()
     {
         area = GetNodeOrNull<Area2D>("Area2D");
@@ -20,7 +29,10 @@ public partial class Car : Node2D
         speed = 2;
         //信号检测
         Name = "car" + (int)(GD.Randi() % 256);
-        
+        //Texture
+        var sprite2D = GetNodeOrNull<Sprite2D>("Sprite2D");
+        sprite2D.Texture = images.GetRandomOne();
+
         ////方案1 非推荐
         //this.Connect("body_entered", new Callable(this,nameof(OnBodyEntered)));
         //方案2 强类型
