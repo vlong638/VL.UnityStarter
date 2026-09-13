@@ -12,9 +12,13 @@ public partial class Game : Node2D
     public Rect2 carBounds;
     private bool paused = false;
     List<Vector2> markerPositions = [];
+    private Label _timerLabel;
+    private double _elapsedTime = 0.0;
 
     public override void _Ready()
     {
+        //Label
+        _timerLabel = GetNode<Label>("CanvasLayer/Label");
         //配置映射内容
         InputMapper.Load();
         //timer
@@ -96,7 +100,26 @@ public partial class Game : Node2D
         if (!paused)
         {
             player.PhysicsMove(delta, playBounds, true, this);
+
+            _elapsedTime += delta;
+            UpdateLabel();
         }
+    }
+
+    private void UpdateLabel()
+    {
+        if (_timerLabel == null) return;
+
+        int totalSeconds = (int)_elapsedTime;
+        int hours = totalSeconds / 3600;
+        int minutes = (totalSeconds % 3600) / 60;
+        int seconds = totalSeconds % 60;
+
+        string text = hours > 0
+            ? $"{hours:D2}:{minutes:D2}:{seconds:D2}"
+            : $"{minutes:D2}:{seconds:D2}";
+
+        _timerLabel.Text = text;
     }
 
     Timer timer;
