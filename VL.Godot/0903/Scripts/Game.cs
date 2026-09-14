@@ -80,6 +80,24 @@ public partial class Game : Node2D
             markerPositions.Add(marker.Position);
         }
         GD.Print($"markerPositions:{markerPositions.ToPrint()}");
+        //配置家
+        var home = GetNodeOrNull<Node2D>("Home");
+        home.GetNode<Area2D>("Area2D").BodyEntered += Game_BodyEntered;
+    }
+
+    private void Game_BodyEntered(Node2D body)
+    {
+        GD.Print("Game_BodyEntered");
+        if (body is Player)
+        {
+            GameState.Instance.Score = score;
+            CallDeferred(nameof(ChangeScene));
+        }
+    }
+
+    private void ChangeScene()
+    {
+        GetTree().ChangeSceneToFile("res://Assets/Nodes/GameEnd.tscn");
     }
 
     public override void _Process(double delta)
@@ -90,7 +108,7 @@ public partial class Game : Node2D
             if (!carBounds.HasPoint(car.Position))
             {
                 car.QueueFree();
-                GD.Print($"小汽车销毁于GlobalPosition:{car.GlobalPosition}");
+                //GD.Print($"小汽车销毁于GlobalPosition:{car.GlobalPosition}");
             }
         }
     }
@@ -115,24 +133,23 @@ public partial class Game : Node2D
         int minutes = (totalSeconds % 3600) / 60;
         int seconds = totalSeconds % 60;
 
-        string text = hours > 0
-            ? $"{hours:D2}:{minutes:D2}:{seconds:D2}"
-            : $"{minutes:D2}:{seconds:D2}";
 
+        string text = $"剩余时间:{100 - totalSeconds}";
+        score = 100 - totalSeconds;
         _timerLabel.Text = text;
     }
-
+    int score;
     Timer timer;
     PackedScene carScene;
     Node2D cars;
     void _on_timer_timeout()
     {
-        GD.Print("_on_timer_timeout");
+        //GD.Print("_on_timer_timeout");
         Node2D? car = carScene.Instantiate() as Node2D;
         cars.AddChild(car);
         car.Position = markerPositions.PickRandom();
         var carEntity = car as Car;
         carEntity.Direction = car.Position.X < 0 ? Vector2.Right : Vector2.Left;
-        GD.Print($"创建小汽车{car.Position},Direction:{carEntity.Direction}");
+        //GD.Print($"创建小汽车{car.Position},Direction:{carEntity.Direction}");
     }
 }
