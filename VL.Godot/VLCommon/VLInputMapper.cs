@@ -5,7 +5,7 @@ using FileAccess = Godot.FileAccess;
 
 namespace VL.Godot.VLCommon;
 
-public static class InputMapper
+public static class VLInputMapper
 {
     private static readonly Dictionary<string, Key[]> Bindings = new();
 

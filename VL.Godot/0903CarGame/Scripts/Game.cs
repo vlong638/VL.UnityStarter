@@ -20,7 +20,7 @@ public partial class Game : Node2D
         //Label
         _timerLabel = GetNode<Label>("CanvasLayer/Label");
         //配置映射内容
-        InputMapper.Load();
+        VLInputMapper.Load();
         //timer
         timer = GetNodeOrNull<Timer>("Timer");
         if (timer == null) GD.PrintErr("❌ 无效的timer对象");
