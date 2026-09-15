@@ -2,7 +2,7 @@
 using System;
 using Godot;
 
-namespace VL.Game0903;
+namespace VL.Godot.VLCommon;
 
 public partial class ItemGenerator : Node2D
 {
@@ -87,7 +87,7 @@ public partial class ItemGenerator : Node2D
             }
             return item;
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             GD.PrintErr($"❌ 生成第 {index} 个 Item 时发生异常: {ex.Message}");
             return null;

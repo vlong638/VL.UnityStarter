@@ -1,0 +1,12 @@
+{
+  "MoveUp": [ "W", "Up" ],
+  "MoveDown": [ "S", "Down" ],
+  "MoveLeft": [ "A", "Left" ],
+  "MoveRight": [ "D", "Right" ],
+  "Jump": [ "Space" ],
+  "Interact": [ "E" ],
+  "Inventory": [ "I" ],
+  "Create": [ "C" ],
+  "Build": [ "B" ],
+  "Pause": [ "Escape" ]
+}

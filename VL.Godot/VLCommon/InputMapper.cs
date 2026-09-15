@@ -3,7 +3,7 @@ using System.Text.Json;
 using Godot;
 using FileAccess = Godot.FileAccess;
 
-namespace VL.Game0903;
+namespace VL.Godot.VLCommon;
 
 public static class InputMapper
 {
@@ -32,7 +32,7 @@ public static class InputMapper
             var parsed = new List<Key>();
             foreach (var key in keys)
             {
-                if (System.Enum.TryParse<Key>(key, true, out var value))
+                if (Enum.TryParse<Key>(key, true, out var value))
                 {
                     parsed.Add(value);
                     GD.Print($"绑定: {action} -> {key} (KeyCode: {value})");
@@ -89,7 +89,7 @@ public static class InputMapper
     public static bool Pressed(string action)
     {
         return Bindings.TryGetValue(action, out var keys) &&
-               System.Array.Exists(keys, Input.IsKeyPressed);
+               Array.Exists(keys, Input.IsKeyPressed);
     }
 
     public static bool JustPressed(InputEvent e, string action)
@@ -98,7 +98,7 @@ public static class InputMapper
                key.Pressed &&
                !key.Echo &&
                Bindings.TryGetValue(action, out var keys) &&
-               System.Array.Exists(keys, x => x == key.Keycode);
+               Array.Exists(keys, x => x == key.Keycode);
     }
 
     public static Vector2 GetMove()

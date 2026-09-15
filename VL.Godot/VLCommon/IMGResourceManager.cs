@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 
+namespace VL.Godot.VLCommon;
+
 /// <summary>
 /// 图片资源管理器：批量预加载图片，支持随机获取。
 /// </summary>
