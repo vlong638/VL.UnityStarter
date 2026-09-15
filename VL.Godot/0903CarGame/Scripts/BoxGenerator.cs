@@ -2,7 +2,7 @@
 using System;
 using Godot;
 
-namespace VL.Game0903;
+namespace VL.Godot.Game0903;
 
 public partial class BoxGenerator : Node2D
 {

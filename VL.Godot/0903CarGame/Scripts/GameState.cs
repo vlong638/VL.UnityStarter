@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace VL.Game0903;
+namespace VL.Godot.Game0903;
 public class GameState
 {
     public static GameState Instance = new GameState();

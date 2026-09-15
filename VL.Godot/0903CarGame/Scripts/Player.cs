@@ -1,7 +1,7 @@
 ﻿using Godot;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace VL.Game0903;
+namespace VL.Godot.Game0903;
 
 public partial class Player : CharacterBody2D
 {

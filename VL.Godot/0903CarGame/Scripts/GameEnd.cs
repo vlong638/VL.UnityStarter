@@ -1,6 +1,6 @@
 using Godot;
 using System;
-namespace VL.Game0903;
+namespace VL.Godot.Game0903;
 
 public partial class GameEnd : Control
 {

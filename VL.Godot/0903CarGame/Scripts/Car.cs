@@ -1,5 +1,7 @@
 ﻿using Godot;
 using System;
+using VL.Godot.VLCommon;
+namespace VL.Godot.Game0903;
 
 public partial class Car : Node2D
 {

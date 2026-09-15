@@ -3,7 +3,7 @@ using System.Linq;
 using Godot;
 using VL.Godot.VLCommon;
 using Timer = Godot.Timer;
-namespace VL.Game0903;
+namespace VL.Godot.Game0903;
 
 public partial class Game : Node2D
 {
