@@ -21,7 +21,7 @@ public partial class GameEnd : Control
     {
         if (Input.IsKeyPressed(Key.Space))
         {
-            GetTree().ChangeSceneToFile("res://Assets/Nodes/0903CarGame/Game.tscn");
+            GetTree().ChangeSceneToFile("res://Assets/0903CarGame/Nodes/Game.tscn");
         }
     }
 }

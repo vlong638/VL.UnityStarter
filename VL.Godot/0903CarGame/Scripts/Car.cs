@@ -13,7 +13,7 @@ public partial class Car : Node2D
     {
         //图片
         images = new IMGResourceManager();
-        images.Load("res://Assets/Images/red.png", "res://Assets/Images/yellow.png");
+        images.Load("res://Assets/0903CarGame/Images/red.png", "res://Assets/0903CarGame/Images/yellow.png");
     }
 
     public override void _Ready()
