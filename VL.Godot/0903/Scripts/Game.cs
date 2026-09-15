@@ -28,7 +28,7 @@ public partial class Game : Node2D
         //配置Car
         if (carScene == null)
         {
-            carScene = GD.Load<PackedScene>("res://Assets/Nodes/Car.tscn");
+            carScene = GD.Load<PackedScene>("res://Assets/Nodes/0903CarGame/Car.tscn");
             if (carScene == null)
             {
                 GD.PrintErr("❌ 无法加载 Car.tscn 文件！");
@@ -41,7 +41,7 @@ public partial class Game : Node2D
         player = GetNodeOrNull<Player>("/root/Game/YSortNode/Player");
         if (player == null)
         {
-            var playerScene = GD.Load<PackedScene>("res://Assets/Nodes/Player.tscn");
+            var playerScene = GD.Load<PackedScene>("res://Assets/Nodes/0903CarGame/Player.tscn");
             if (playerScene == null)
             {
                 GD.PrintErr("❌ 无法加载 Player.tscn 文件！");
@@ -66,11 +66,11 @@ public partial class Game : Node2D
         //通用方案
         //配置Box
         var itemGenerator = new ItemGenerator();
-        itemGenerator.GenerateItems("res://Assets/Nodes/Box.tscn", playBounds, 30, this);
+        itemGenerator.GenerateItems("res://Assets/Nodes/0903CarGame/Box.tscn", playBounds, 30, this);
         //配置Tree
         var trees = GetNodeOrNull<Node2D>("YSortNode");
         if (trees == null) GD.PrintErr("❌ 无效的trees对象");
-        itemGenerator.GenerateItems("res://Assets/Nodes/Tree.tscn", playBounds, 40, trees);
+        itemGenerator.GenerateItems("res://Assets/Nodes/0903CarGame/Tree.tscn", playBounds, 40, trees);
         //PositionMarkers
         carBounds = playBounds.Grow(10);
         GD.Print($"carBounds:{carBounds}");
@@ -97,7 +97,7 @@ public partial class Game : Node2D
 
     private void ChangeScene()
     {
-        GetTree().ChangeSceneToFile("res://Assets/Nodes/GameEnd.tscn");
+        GetTree().ChangeSceneToFile("res://Assets/Nodes/0903CarGame/GameEnd.tscn");
     }
 
     public override void _Process(double delta)
