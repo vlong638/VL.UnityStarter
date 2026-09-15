@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using Godot;
 using FileAccess = Godot.FileAccess;
@@ -12,7 +13,7 @@ public static class VLInputMapper
     public static void Load()
     {
         Bindings.Clear();
-        var file = FileAccess.Open("res://Assets/Data/InputMap.json", FileAccess.ModeFlags.Read);
+        var file = FileAccess.Open("res://Assets/Configs/InputMap.json", FileAccess.ModeFlags.Read);
         if (file == null)
         {
             GD.PrintErr("无法加载 InputMap.json 文件！");
