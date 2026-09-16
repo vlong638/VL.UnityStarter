@@ -2,6 +2,7 @@
 using Godot;
 using VL.Godot.VLCommon;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Timer = Godot.Timer;
 using Vector2 = Godot.Vector2;
 
 namespace VL.Godot.SideScrolling;
@@ -9,17 +10,27 @@ namespace VL.Godot.SideScrolling;
 public partial class Player : Node2D
 {
     [Export] public float HorizontalSpeed = 100;
-    [Export] public float VerticalSpeed = 200;
-    [Export] public float Gravity = 80;
+    [Export] public float JumpSpeed = 400;
+    [Export] public float Gravity = 20;
     [Export] public float FPS = 60;
     [Export] public float JumpDuration = 0.2f;          // 跳跃持续时间
-    private float jumpTimer = 0f;             // 跳跃剩余时间
 
     CharacterBody2D body2D;
+    Timer shootTimer;
+    Timer jumpTimer;
+    PackedScene bulletScene;
+    Node2D bullets;
 
     public override void _Ready()
     {
-
+        bulletScene = GD.Load<PackedScene>("res://Assets/0915SideScrolling/Nodes/Bullet.tscn");
+        bullets = GetNode<Node2D>("Bullets");
+        shootTimer = GetNode<Timer>("ShootTimer");
+        shootTimer.WaitTime = 0.2;
+        shootTimer.OneShot = true;
+        jumpTimer = GetNode<Timer>("JumpTimer");
+        jumpTimer.WaitTime = JumpDuration;
+        jumpTimer.OneShot = true; ;
         animation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         body2D = GetNode<CharacterBody2D>("CharacterBody2D");
         Name = "Player";
@@ -37,24 +48,29 @@ public partial class Player : Node2D
     /// </summary>
     public void PhysicsMove(double delta, Game game)
     {
+        //移动
         Vector2 input = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
         direction = input.Normalized();
         body2D.Velocity = body2D.Velocity.SetX((direction * HorizontalSpeed * FPS * (float)delta).X);
-
+        //跳跃
         float dt = (float)delta;
-        bool onFloor = body2D.IsOnFloor();
-        bool jumpPressed = Input.IsActionJustPressed("Jump");
-        if (onFloor && jumpTimer <= 0f && jumpPressed)
+        if (body2D.IsOnFloor() && Input.IsActionJustPressed("Jump"))
         {
-            jumpTimer = JumpDuration;     // 启动 1 秒跳跃
+            jumpTimer.Start();
             GD.Print($"jump");
         }
-        if (jumpTimer > 0f)
+        body2D.Velocity = body2D.Velocity.SetY(( (jumpTimer.TimeLeft > 0 ? -JumpSpeed : Gravity)) * FPS * (float)delta);
+        //射击
+        if (Input.IsActionJustPressed("Shoot"))
         {
-            jumpTimer -= dt;
-            GD.Print($"jumpTimer{jumpTimer}");
+            shootTimer.Start();
+            var dir = GetLocalMousePosition().Normalized();
+            var bullet = bulletScene.Instantiate() as Node2D;
+            bullets.AddChild(bullet);
+            (bullet as Bullet).SetUp(Position, dir);
+            //GD.Print($"Shoot:{dir}");
         }
-        body2D.Velocity = body2D.Velocity.SetY((Gravity - (jumpTimer > 0f ? VerticalSpeed : 0)) * FPS * (float)delta);
+        //机制运行
         animate();
         body2D.MoveAndSlide();
         QueueRedraw();

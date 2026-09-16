@@ -3,9 +3,9 @@
   "MoveDown": [ "S", "Down" ],
   "MoveLeft": [ "A", "Left" ],
   "MoveRight": [ "D", "Right" ],
+  "Jump": [ "Space" ],
   "Interact": [ "E" ],
   "Inventory": [ "I" ],
   "Build": [ "C" ],
-  "Pause": [ "Escape" ],
-  "Jump": [ "Space" ]
+  "Pause": [ "Escape" ]
 }

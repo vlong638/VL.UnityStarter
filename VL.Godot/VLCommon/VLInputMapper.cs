@@ -8,7 +8,15 @@ namespace VL.Godot.VLCommon;
 
 public static class VLInputMapper
 {
-    private static readonly Dictionary<string, Key[]> Bindings = new();
+    // 一个动作可能同时绑定键盘键和鼠标键
+    private static readonly Dictionary<string, InputBinding> Bindings = new();
+
+    // 用一个小类把键盘和鼠标分开存
+    private class InputBinding
+    {
+        public List<Key> Keys = new();
+        public List<MouseButton> MouseButtons = new();
+    }
 
     public static void Load()
     {
@@ -28,22 +36,41 @@ public static class VLInputMapper
             return;
         }
 
-        foreach (var (action, keys) in map)
+        foreach (var (action, entries) in map)
         {
-            var parsed = new List<Key>();
-            foreach (var key in keys)
+            var binding = new InputBinding();
+            foreach (var entry in entries)
             {
-                if (Enum.TryParse<Key>(key, true, out var value))
+                // 鼠标：以 "Mouse:" 开头，例如 "Mouse:Left"
+                if (entry.StartsWith("Mouse:", StringComparison.OrdinalIgnoreCase))
                 {
-                    parsed.Add(value);
-                    GD.Print($"绑定: {action} -> {key} (KeyCode: {value})");
+                    var mouseName = entry.Substring("Mouse:".Length);
+                    if (Enum.TryParse<MouseButton>(mouseName, true, out var mb))
+                    {
+                        binding.MouseButtons.Add(mb);
+                        GD.Print($"绑定: {action} -> Mouse:{mouseName} (MouseButton: {mb})");
+                    }
+                    else
+                    {
+                        GD.PrintErr($"无法解析鼠标按键: {entry} (Action: {action})");
+                    }
                 }
+                // 键盘：直接按 Key 解析
                 else
                 {
-                    GD.PrintErr($"无法解析按键: {key} (Action: {action})");
+                    if (Enum.TryParse<Key>(entry, true, out var key))
+                    {
+                        binding.Keys.Add(key);
+                        GD.Print($"绑定: {action} -> {entry} (KeyCode: {key})");
+                    }
+                    else
+                    {
+                        GD.PrintErr($"无法解析按键: {entry} (Action: {action})");
+                    }
                 }
             }
-            Bindings[action] = parsed.ToArray();
+
+            Bindings[action] = binding;
         }
 
         GD.Print($"InputMapper 加载完成，共 {Bindings.Count} 个动作绑定");
@@ -53,13 +80,8 @@ public static class VLInputMapper
     {
         GD.Print("🔄 正在更新 Godot Input Map...");
 
-        // 可选：清除所有已有的输入动作（谨慎使用）
-        // 如果只想覆盖特定动作，可以注释掉这行
-        // ClearAllGodotInputs();
-
-        foreach (var (action, keys) in Bindings)
+        foreach (var (action, binding) in Bindings)
         {
-            // 如果动作不存在，创建它
             if (!InputMap.HasAction(action))
             {
                 InputMap.AddAction(action);
@@ -72,15 +94,20 @@ public static class VLInputMapper
                 GD.Print($"  🔄 更新动作: {action}");
             }
 
-            // 添加按键绑定
-            foreach (var key in keys)
+            // 键盘
+            foreach (var key in binding.Keys)
             {
-                var inputEvent = new InputEventKey
-                {
-                    Keycode = key
-                };
+                var inputEvent = new InputEventKey { Keycode = key };
                 InputMap.ActionAddEvent(action, inputEvent);
                 GD.Print($"    ⌨️ 绑定: {key}");
+            }
+
+            // 鼠标
+            foreach (var mb in binding.MouseButtons)
+            {
+                var inputEvent = new InputEventMouseButton { ButtonIndex = mb };
+                InputMap.ActionAddEvent(action, inputEvent);
+                GD.Print($"    🖱️ 绑定: {mb}");
             }
         }
 
@@ -89,17 +116,46 @@ public static class VLInputMapper
 
     public static bool Pressed(string action)
     {
-        return Bindings.TryGetValue(action, out var keys) &&
-               Array.Exists(keys, Input.IsKeyPressed);
+        if (!Bindings.TryGetValue(action, out var binding))
+            return false;
+
+        foreach (var key in binding.Keys)
+        {
+            if (Input.IsKeyPressed(key)) return true;
+        }
+
+        foreach (var mb in binding.MouseButtons)
+        {
+            if (Input.IsMouseButtonPressed(mb)) return true;
+        }
+
+        return false;
     }
 
     public static bool JustPressed(InputEvent e, string action)
     {
-        return e is InputEventKey key &&
-               key.Pressed &&
-               !key.Echo &&
-               Bindings.TryGetValue(action, out var keys) &&
-               Array.Exists(keys, x => x == key.Keycode);
+        if (!Bindings.TryGetValue(action, out var binding))
+            return false;
+
+        // 键盘
+        if (e is InputEventKey key && key.Pressed && !key.Echo)
+        {
+            foreach (var k in binding.Keys)
+            {
+                if (k == key.Keycode) return true;
+            }
+        }
+
+        // 鼠标
+        if (e is InputEventMouseButton mb && mb.Pressed)
+        {
+            foreach (var m in binding.MouseButtons)
+            {
+                if (m == mb.ButtonIndex) return true;
+            }
+        }
+
+        return false;
     }
 
     public static Vector2 GetMove()
@@ -116,10 +172,11 @@ public static class VLInputMapper
     public static void PrintBindings()
     {
         GD.Print("=== 当前按键绑定 ===");
-        foreach (var (action, keys) in Bindings)
+        foreach (var (action, binding) in Bindings)
         {
-            var keyNames = string.Join(", ", keys);
-            GD.Print($"{action}: [{keyNames}]");
+            var keyNames = string.Join(", ", binding.Keys);
+            var mouseNames = string.Join(", ", binding.MouseButtons);
+            GD.Print($"{action}: Keys=[{keyNames}] Mouse=[{mouseNames}]");
         }
     }
 }

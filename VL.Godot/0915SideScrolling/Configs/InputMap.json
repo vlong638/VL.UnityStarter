@@ -6,7 +6,9 @@
   "Jump": [ "Space" ],
   "Interact": [ "E" ],
   "Inventory": [ "I" ],
-  "Create": [ "C" ],
-  "Build": [ "B" ],
-  "Pause": [ "Escape" ]
+  "Build": [ "C" ],
+  "Pause": [ "Escape" ],
+
+  "Shoot": [ "Mouse:Left" ],
+  "Focus": [ "Mouse:Right" ]
 }
