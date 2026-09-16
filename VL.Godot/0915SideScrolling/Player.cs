@@ -8,17 +8,17 @@ namespace VL.Godot.SideScrolling;
 
 public partial class Player : Node2D
 {
-    [Export] public float HorizontalSpeed { get; set; }
-    [Export] public float VerticalSpeed { get; set; }
-    [Export] public float Gravity { get; set; }
+    [Export] public float HorizontalSpeed = 100 * 60;
+    [Export] public float VerticalSpeed = 200 * 60;
+    [Export] public float Gravity = 80 * 60;
+    [Export] public float JumpDuration = 0.2f;          // 跳跃持续时间
+    private float jumpTimer = 0f;             // 跳跃剩余时间
 
     CharacterBody2D body2D;
 
     public override void _Ready()
     {
-        HorizontalSpeed = 100 * 60;
-        VerticalSpeed = 200 * 60;
-        Gravity = 100 * 60;
+
         animation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         body2D = GetNode<CharacterBody2D>("CharacterBody2D");
         Name = "Player";
@@ -30,8 +30,6 @@ public partial class Player : Node2D
 
     Vector2 direction;
     AnimatedSprite2D animation;
-    private float jumpTimer = 0f;                 // 跳跃剩余时间
-    private const float JumpDuration = 1.0f;      // 跳跃持续 1 秒
     /// <summary>
     /// 物理移动（支持碰撞检测）
     /// Velocity 速率
@@ -41,11 +39,27 @@ public partial class Player : Node2D
         Vector2 input = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
         direction = input.Normalized();
         body2D.Velocity = body2D.Velocity.SetX((direction * HorizontalSpeed * (float)delta).X);
-        var isJump = Input.GetActionStrength("Jump");
-        body2D.Velocity = body2D.Velocity.SetY((Gravity - 1 * isJump * VerticalSpeed) * (float)delta);
+
+        float dt = (float)delta;
+        bool onFloor = body2D.IsOnFloor();
+        bool jumpPressed = Input.IsActionJustPressed("Jump");
+        if (onFloor && jumpTimer <= 0f && jumpPressed)
+        {
+            jumpTimer = JumpDuration;     // 启动 1 秒跳跃
+            GD.Print($"jump");
+        }
+        if (jumpTimer > 0f)
+        {
+            jumpTimer -= dt;
+            GD.Print($"jumpTimer{jumpTimer}");
+        }
+        body2D.Velocity = body2D.Velocity.SetY((Gravity - (jumpTimer > 0f ? VerticalSpeed : 0)) * (float)delta);
         animate();
         body2D.MoveAndSlide();
         QueueRedraw();
+
+        //GD.Print($"body2D.Velocity:{(Gravity - (jumpTimer > 0f ? VerticalSpeed : 0))}");
+        //GD.Print($"body2D.Velocity:{body2D.Velocity}");
         //GD.Print($"input:{input}");
         //GD.Print($"direction:{direction}");
         //GD.Print($"HorizontalSpeed:{HorizontalSpeed}");
