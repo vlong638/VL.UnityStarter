@@ -22,6 +22,10 @@ public partial class Player : Node2D
     Timer jumpTimer;
     PackedScene bulletScene;
     Node2D bullets;
+    Sprite2D crossHair;
+    float crossHairLength;
+    AnimatedSprite2D lowerBodyAnimation;
+    AnimationPlayer crossHairAnimation;
 
     private readonly Dictionary<Vector2I, int> gunDirections = new Dictionary<Vector2I, int>
     {
@@ -47,8 +51,11 @@ public partial class Player : Node2D
         jumpTimer.WaitTime = JumpDuration;
         jumpTimer.OneShot = true; ;
         character = GetNode<CharacterBody2D>("CharacterBody2D");
-        animation = GetNode<AnimatedSprite2D>("CharacterBody2D/AnimatedSprite2D");
+        lowerBodyAnimation = GetNode<AnimatedSprite2D>("CharacterBody2D/AnimatedSprite2D");
+        crossHairAnimation = GetNode<AnimationPlayer>("CrossHairAnimationPlayer");
         upperBody = GetNode<Sprite2D>("CharacterBody2D/UpperBodySprite2D");
+        crossHair = GetNode<Sprite2D>("CrossHairSprite2D");
+        crossHairLength = (crossHair.Position - character.Position).Length();
         Name = "Player";
     }
 
@@ -57,7 +64,6 @@ public partial class Player : Node2D
     }
 
     Vector2 direction;
-    AnimatedSprite2D animation;
     /// <summary>
     /// 物理移动（支持碰撞检测）
     /// Velocity 速率
@@ -83,6 +89,8 @@ public partial class Player : Node2D
         var dir = character.GetLocalMousePosition().Normalized();
         var adjustDirection = dir.ToRound();
         upperBody.Frame = gunDirections[adjustDirection];
+        //十字准心
+        crossHair.Position = character.Position + dir * crossHairLength;
         //射击
         if (Input.IsActionJustPressed("Shoot"))
         {
@@ -91,6 +99,7 @@ public partial class Player : Node2D
             var bullet = bulletScene.Instantiate() as Node2D;
             bullets.AddChild(bullet);
             (bullet as Bullet).SetUp(character.Position, dir);
+            crossHairAnimation.Play("fire");
             //GD.Print($"Shoot:{dir}");
         }
         //机制运行
@@ -113,19 +122,19 @@ public partial class Player : Node2D
     {
         if (!character.IsOnFloor())
         {
-            animation.Play("jump");
+            lowerBodyAnimation.Play("jump");
         }
         else if (direction.X > 0)
         {
-            animation.Play("walkright");
+            lowerBodyAnimation.Play("walkright");
         }
         else if (direction.X < 0)
         {
-            animation.Play("walkleft");
+            lowerBodyAnimation.Play("walkleft");
         }
         else
         {
-            animation.Play("idle");
+            lowerBodyAnimation.Play("idle");
         }
     }
 }
