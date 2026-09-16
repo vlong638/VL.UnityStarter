@@ -28,7 +28,12 @@ namespace VL.Godot.VLCommon
         public static Vector2 SetY(this Vector2 vector2, float value)
         {
             return new Vector2(vector2.X, value);
-        } 
+        }
+        public static Vector2I ToRound(this Vector2 vector2)
+        {
+            return new Vector2I((int)Math.Round(vector2.X), (int)Math.Round(vector2.Y));
+        }
+        
         #endregion
     }
 }

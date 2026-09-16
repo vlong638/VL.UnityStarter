@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 using Godot;
 using VL.Godot.VLCommon;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -15,11 +16,25 @@ public partial class Player : Node2D
     [Export] public float FPS = 60;
     [Export] public float JumpDuration = 0.2f;          // 跳跃持续时间
 
-    CharacterBody2D body2D;
+    CharacterBody2D character;
+    Sprite2D upperBody;
     Timer shootTimer;
     Timer jumpTimer;
     PackedScene bulletScene;
     Node2D bullets;
+
+    private readonly Dictionary<Vector2I, int> gunDirections = new Dictionary<Vector2I, int>
+    {
+        { new Vector2I(1, 0), 0 },
+        { new Vector2I(1, 1), 1 },
+        { new Vector2I(0, 1), 2 },
+        { new Vector2I(-1, 1), 3 },
+        { new Vector2I(-1, 0), 4 },
+        { new Vector2I(-1, -1), 5 },
+        { new Vector2I(0, -1), 6 },
+        { new Vector2I(1, -1), 7 }
+    };
+
 
     public override void _Ready()
     {
@@ -31,8 +46,9 @@ public partial class Player : Node2D
         jumpTimer = GetNode<Timer>("JumpTimer");
         jumpTimer.WaitTime = JumpDuration;
         jumpTimer.OneShot = true; ;
-        animation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        body2D = GetNode<CharacterBody2D>("CharacterBody2D");
+        character = GetNode<CharacterBody2D>("CharacterBody2D");
+        animation = GetNode<AnimatedSprite2D>("CharacterBody2D/AnimatedSprite2D");
+        upperBody = GetNode<Sprite2D>("CharacterBody2D/UpperBodySprite2D");
         Name = "Player";
     }
 
@@ -50,29 +66,36 @@ public partial class Player : Node2D
     {
         //移动
         Vector2 input = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
+        if (input.LengthSquared() < 0.01f) input = Vector2.Zero;
         direction = input.Normalized();
-        body2D.Velocity = body2D.Velocity.SetX((direction * HorizontalSpeed * FPS * (float)delta).X);
+        float speedX = direction.X > 0 ? 1 : 0.8f;
+        character.Velocity = character.Velocity.SetX((direction * HorizontalSpeed * speedX * FPS * (float)delta).X);
         //跳跃
         float dt = (float)delta;
-        if (body2D.IsOnFloor() && Input.IsActionJustPressed("Jump"))
+        if (character.IsOnFloor() && Input.IsActionJustPressed("Jump"))
         {
             jumpTimer.Start();
             GD.Print($"jump");
         }
-        body2D.Velocity = body2D.Velocity.SetY(( (jumpTimer.TimeLeft > 0 ? -JumpSpeed : Gravity)) * FPS * (float)delta);
+        character.Velocity = character.Velocity.SetY(( (jumpTimer.TimeLeft > 0 ? -JumpSpeed : Gravity)) * FPS * (float)delta);
+        //GD.Print($"body2D.Velocity:{character.Velocity}");
+        //躯干朝向
+        var dir = character.GetLocalMousePosition().Normalized();
+        var adjustDirection = dir.ToRound();
+        upperBody.Frame = gunDirections[adjustDirection];
         //射击
         if (Input.IsActionJustPressed("Shoot"))
         {
+            GD.Print($"adjustDirection:{adjustDirection}");
             shootTimer.Start();
-            var dir = GetLocalMousePosition().Normalized();
             var bullet = bulletScene.Instantiate() as Node2D;
             bullets.AddChild(bullet);
-            (bullet as Bullet).SetUp(Position, dir);
+            (bullet as Bullet).SetUp(character.Position, dir);
             //GD.Print($"Shoot:{dir}");
         }
         //机制运行
         animate();
-        body2D.MoveAndSlide();
+        character.MoveAndSlide();
         QueueRedraw();
 
         //GD.Print($"body2D.Velocity:{(Gravity - (jumpTimer > 0f ? VerticalSpeed : 0))}");
@@ -88,9 +111,15 @@ public partial class Player : Node2D
 
     void animate()
     {
-        //方案2 +FlipH 免去了walkright
-        animation.FlipH = direction.X > 0;
-        if (direction.X != 0)
+        if (!character.IsOnFloor())
+        {
+            animation.Play("jump");
+        }
+        else if (direction.X > 0)
+        {
+            animation.Play("walkright");
+        }
+        else if (direction.X < 0)
         {
             animation.Play("walkleft");
         }

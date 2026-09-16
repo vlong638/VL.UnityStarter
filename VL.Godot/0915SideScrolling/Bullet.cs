@@ -18,7 +18,6 @@ public partial class Bullet : Node2D
     [Export] public float speed = 30;
     internal void SetUp(Vector2 pos,Vector2 dir)
     {
-        
         Position = pos;
         direction = dir;
     }
