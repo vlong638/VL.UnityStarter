@@ -8,9 +8,10 @@ namespace VL.Godot.SideScrolling;
 
 public partial class Player : Node2D
 {
-    [Export] public float HorizontalSpeed = 100 * 60;
-    [Export] public float VerticalSpeed = 200 * 60;
-    [Export] public float Gravity = 80 * 60;
+    [Export] public float HorizontalSpeed = 100;
+    [Export] public float VerticalSpeed = 200;
+    [Export] public float Gravity = 80;
+    [Export] public float FPS = 60;
     [Export] public float JumpDuration = 0.2f;          // 跳跃持续时间
     private float jumpTimer = 0f;             // 跳跃剩余时间
 
@@ -38,7 +39,7 @@ public partial class Player : Node2D
     {
         Vector2 input = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
         direction = input.Normalized();
-        body2D.Velocity = body2D.Velocity.SetX((direction * HorizontalSpeed * (float)delta).X);
+        body2D.Velocity = body2D.Velocity.SetX((direction * HorizontalSpeed * FPS * (float)delta).X);
 
         float dt = (float)delta;
         bool onFloor = body2D.IsOnFloor();
@@ -53,7 +54,7 @@ public partial class Player : Node2D
             jumpTimer -= dt;
             GD.Print($"jumpTimer{jumpTimer}");
         }
-        body2D.Velocity = body2D.Velocity.SetY((Gravity - (jumpTimer > 0f ? VerticalSpeed : 0)) * (float)delta);
+        body2D.Velocity = body2D.Velocity.SetY((Gravity - (jumpTimer > 0f ? VerticalSpeed : 0)) * FPS * (float)delta);
         animate();
         body2D.MoveAndSlide();
         QueueRedraw();
