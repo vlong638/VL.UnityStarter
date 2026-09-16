@@ -21,13 +21,13 @@ namespace VL.Godot.VLCommon
         #endregion
 
         #region Vector2
-        public static void SetX(this Vector2 vector2, float value)
+        public static Vector2 SetX(this Vector2 vector2, float value)
         {
-            vector2 = new Vector2(value, vector2.Y);
+            return  new Vector2(value, vector2.Y);
         }
-        public static void SetY(this Vector2 vector2, float value)
+        public static Vector2 SetY(this Vector2 vector2, float value)
         {
-            vector2 = new Vector2(vector2.X, value);
+            return new Vector2(vector2.X, value);
         } 
         #endregion
     }
