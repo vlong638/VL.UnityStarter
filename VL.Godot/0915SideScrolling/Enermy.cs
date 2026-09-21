@@ -24,18 +24,32 @@ public partial class Enermy : Node2D
         if (bParent is Bullet)
         {
             (bParent as Bullet).Explosion();
-            HP -= 1;
-            if (HP == 0)
-            {
-                animatedSprite2D.AnimationFinished += AnimatedSprite2D_AnimationFinished;
-                animatedSprite2D.Play("explosion");
-            }
+            TakeDamage();
         }
     }
 
+    private void TakeDamage()
+    {
+        HP -= 1;
+        GD.Print($"{Name} take damage");
+        if (HP == 0)
+        {
+            animatedSprite2D.AnimationFinished += AnimatedSprite2D_AnimationFinished;
+            animatedSprite2D.Play("explosion");
+        }
+    }
+
+    public int ExplosionRange = 50;
     private void AnimatedSprite2D_AnimationFinished()
     {
         animatedSprite2D.AnimationFinished -= AnimatedSprite2D_AnimationFinished;
+        foreach (Enermy e in GetTree().GetNodesInGroup("Enermies"))
+        {
+            if (e.Position.DistanceTo(this.Position)<ExplosionRange)
+            {
+                e.TakeDamage();
+            }
+        }
         QueueFree();
     }
 

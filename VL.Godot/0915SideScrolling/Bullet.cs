@@ -28,6 +28,7 @@ public partial class Bullet : Node2D
 
     internal void Explosion()
     {
+        speed = 0;
         QueueFree();
     }
 }
