@@ -15,7 +15,7 @@ public partial class Bullet : Node2D
     }
 
     Vector2 direction;
-    [Export] public float speed = 30;
+    [Export] public float speed = 10;
     internal void SetUp(Vector2 pos,Vector2 dir)
     {
         Position = pos;
@@ -24,5 +24,10 @@ public partial class Bullet : Node2D
     public override void _PhysicsProcess(double delta)
     {
         Position += direction * speed * GameState.Instance.FPS * (float)delta;
+    }
+
+    internal void Explosion()
+    {
+        QueueFree();
     }
 }
