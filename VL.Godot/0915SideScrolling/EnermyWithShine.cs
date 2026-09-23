@@ -1,8 +1,10 @@
 ﻿using Godot;
 using System;
+using VL.Godot.VLCommon;
+using VL.Godot.VLShaders;
 
 namespace VL.Godot.SideScrolling;
-public partial class Enermy : Node2D
+public partial class EnermyWithShine : Node2D
 {
     Area2D area2D;
     AnimatedSprite2D animatedSprite2D;
@@ -26,6 +28,13 @@ public partial class Enermy : Node2D
         {
             (bParent as Bullet).Explosion();
             TakeDamage();
+
+            var shine = animatedSprite2D.GetNode<ShineAnimatedSprite2D>("Node2D");
+            shine.SetColor(Colors.Red);
+            shine.SetSpeed(5f);
+            shine.ToggleAxis();          // 切水平/垂直
+            shine.PlayOnce(1.0f);        // 扫一次后关闭
+            GD.Print("启用ShineAnimatedSprite2D");
         }
     }
 
@@ -44,9 +53,9 @@ public partial class Enermy : Node2D
     private void AnimatedSprite2D_AnimationFinished()
     {
         animatedSprite2D.AnimationFinished -= AnimatedSprite2D_AnimationFinished;
-        foreach (Enermy e in GetTree().GetNodesInGroup("Enermies"))
+        foreach (EnermyWithShine e in GetTree().GetNodesInGroup("Enermies"))
         {
-            if (e.Position.DistanceTo(this.Position)<ExplosionRange)
+            if (e.Position.DistanceTo(this.Position) < ExplosionRange)
             {
                 e.TakeDamage();
             }

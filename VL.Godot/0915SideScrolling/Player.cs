@@ -7,7 +7,6 @@ using Timer = Godot.Timer;
 using Vector2 = Godot.Vector2;
 
 namespace VL.Godot.SideScrolling;
-
 public partial class Player : Node2D
 {
     [Export] public float HorizontalSpeed = 100;

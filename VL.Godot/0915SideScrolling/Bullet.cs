@@ -1,7 +1,7 @@
 ﻿using Godot;
 using System;
-using VL.Godot.SideScrolling;
 
+namespace VL.Godot.SideScrolling;
 public partial class Bullet : Node2D
 {
     // Called when the node enters the scene tree for the first time.

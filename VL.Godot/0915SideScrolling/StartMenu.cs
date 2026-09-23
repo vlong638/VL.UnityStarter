@@ -2,7 +2,6 @@
 using System;
 
 namespace VL.Godot.SideScrolling;
-
 public partial class StartMenu : Control
 {
     // Called when the node enters the scene tree for the first time.

@@ -3,7 +3,8 @@ using System;
 using VL.Godot.VLCommon;
 using VL.Godot.VLShader;
 
-public partial class EnermyWithShader : Node2D
+namespace VL.Godot.SideScrolling;
+public partial class EnermyWithExplosion : Node2D
 {
     Area2D area2D;
     AnimatedSprite2D animatedSprite2D;

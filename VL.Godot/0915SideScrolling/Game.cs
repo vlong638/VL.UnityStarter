@@ -3,8 +3,8 @@ using System.Linq;
 using Godot;
 using VL.Godot.VLCommon;
 using Timer = Godot.Timer;
-namespace VL.Godot.SideScrolling;
 
+namespace VL.Godot.SideScrolling;
 public partial class Game : Node2D
 {
     private Player player = null!;
