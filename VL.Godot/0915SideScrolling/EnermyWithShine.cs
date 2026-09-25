@@ -44,23 +44,9 @@ public partial class EnermyWithShine : Node2D
         GD.Print($"{Name} take damage");
         if (HP == 0)
         {
-            animatedSprite2D.AnimationFinished += AnimatedSprite2D_AnimationFinished;
             animatedSprite2D.Play("explosion");
+            QueueFree();
         }
-    }
-
-    public int ExplosionRange = 50;
-    private void AnimatedSprite2D_AnimationFinished()
-    {
-        animatedSprite2D.AnimationFinished -= AnimatedSprite2D_AnimationFinished;
-        foreach (EnermyWithShine e in GetTree().GetNodesInGroup("Enermies"))
-        {
-            if (e.Position.DistanceTo(this.Position) < ExplosionRange)
-            {
-                e.TakeDamage();
-            }
-        }
-        QueueFree();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
