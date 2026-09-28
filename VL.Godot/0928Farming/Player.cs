@@ -9,25 +9,34 @@ using Vector2 = Godot.Vector2;
 namespace VL.Godot.Farming;
 public partial class Player : Node2D
 {
-    float crossHairLength;
-    float horizontalSpeed;
-    float _FPS;
-    CharacterBody2D character;
-    AnimationTree animationTree_BlendSpace2D;
-    AnimationTree animationTree_StateMachine;
-    AnimationNodeStateMachinePlayback playback;
+    [Export] public float HorizontalSpeed = 200f;
+    [Export] public float FPS = 60f;
+    [Export] public bool ExternalDriven = false;
+
+    // ===== 节点引用 =====
+    private CharacterBody2D _character;
+    private AnimationTree _animationTree_BlendSpace2D;
+    private AnimationTree _animationTree_StateMachine;
+    private AnimationNodeStateMachinePlayback _playback;
+    // ===== 状态 =====
+    private WorkState _workState = WorkState.None;
+    private Vector2 _direction;
+    private StringName _lastAnimState = "";
 
     public override void _Ready()
     {
-        character = GetNode<CharacterBody2D>("CharacterBody2D");
-        animationTree_BlendSpace2D = GetNode<AnimationTree>("CharacterBody2D/AnimationTree_BlendSpace2D");
-        animationTree_StateMachine = GetNode<AnimationTree>("CharacterBody2D/AnimationTree_StateMachine");
         Name = "Player";
-        horizontalSpeed = 200;
-        _FPS = 60;
 
-        playback = (AnimationNodeStateMachinePlayback)animationTree_StateMachine.Get("parameters/playback");
-        playback.StateFinished += Playback_StateFinished;
+        _character = GetNode<CharacterBody2D>("CharacterBody2D");
+        _animationTree_BlendSpace2D = GetNode<AnimationTree>("CharacterBody2D/AnimationTree_BlendSpace2D");
+        _animationTree_StateMachine = GetNode<AnimationTree>("CharacterBody2D/AnimationTree_StateMachine");
+        _playback = (AnimationNodeStateMachinePlayback)_animationTree_StateMachine.Get("parameters/playback");
+        _playback.StateFinished += Playback_StateFinished;
+
+        ExternalDriven = GetParent() is Game;
+
+        if (ExternalDriven) return;
+        VLInputMapper.Load();
     }
 
     bool StateFinished;
@@ -37,8 +46,12 @@ public partial class Player : Node2D
         StateFinished = true;
     }
 
-    public override void _Draw()
+    // 只有"非外部驱动"时才自己跑
+    public override void _PhysicsProcess(double delta)
     {
+        if (ExternalDriven) return;
+
+        Tick(delta);
     }
 
     Vector2 direction;
@@ -48,44 +61,79 @@ public partial class Player : Node2D
     /// </summary>
     public void PhysicsMove(double delta, Game game)
     {
-        //移动
-        Vector2 input = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
-        if (input.LengthSquared() < 0.01f) input = Vector2.Zero;
-        direction = input.Normalized();
-        //GD.Print($"direction:{direction}");
-        float speedX = direction.X > 0 ? 1 : 0.8f;
-        var velocity = direction.SetX((direction * horizontalSpeed * speedX * _FPS * (float)delta).X);
-        character.Velocity = velocity;
-        //GD.Print($"character.Velocity:{character.Velocity}");
+        Tick(delta);
+    }
 
-        //BlendSpace2D方案
-        //通过position方向控制,具体参数可查文件
-        //animationTree_BlendSpace2D.Set("parameters/blend_position", character.Velocity.Normalized());
-
-        //StateMachine方案
-        animationTree_StateMachine.Set("parameters/BlendSpace2D/blend_position", character.Velocity.Normalized());
-
+    private void Tick(double delta)
+    {
+        UpdateVelocity(delta);
         UpdateState();
-
-        //机制运行
-        animate();
-        character.MoveAndSlide();
+        _character.MoveAndSlide();
         QueueRedraw();
+    }
+
+
+    private void UpdateVelocity(double delta)
+    {
+        Vector2 input = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
+        if (input.LengthSquared() < 0.01f)
+            input = Vector2.Zero;
+
+        _direction = input.Normalized();
+
+        // 左右移动速度略有差异（保留你原来的设计）
+        float speedX = _direction.X > 0 ? 1f : 0.8f;
+
+        // 注意：Velocity 就是"每秒速度"，不要再乘 delta * FPS
+        _character.Velocity = _direction * HorizontalSpeed * speedX;
     }
 
     private void UpdateState()
     {
-        //animationTree_StateMachine.Set("parameters/conditions/IsIdling", !isInteract);
-        //animationTree_StateMachine.Set("parameters/conditions/IsMining", isInteract);
+        //参数更新
+        _animationTree_StateMachine.Set(
+            "parameters/BlendSpace2D/blend_position",
+            _character.Velocity.Normalized()
+        );
 
-        var isInteract = Input.IsActionPressed("Interact");
+        bool isInteract = Input.IsActionPressed("Interact");
+
         if (isInteract)
-            playback.Travel("mine");
+        {
+            _workState = WorkState.Mining;
+        }
+        else if (_direction.LengthSquared() < 0.01f)
+        {
+            _workState = WorkState.Idle;
+        }
+        else if (Mathf.Abs(_direction.X) > Mathf.Abs(_direction.Y))
+        {
+            _workState = _direction.X > 0 ? WorkState.MoveRight : WorkState.MoveLeft;
+        }
         else
-            playback.Travel("BlendSpace2D");
-    }
+        {
+            _workState = _direction.Y > 0 ? WorkState.MoveDown : WorkState.MoveUp;
+        }
 
-    void animate()
-    {
+        // 状态名必须和动画树里的节点名完全一致（大小写敏感）
+        StringName targetState = _workState switch
+        {
+            WorkState.Mining => "mine", 
+            _ => "BlendSpace2D",
+        };
+
+        if (_playback.GetCurrentNode() != targetState)
+            _playback.Travel(targetState);
     }
+}
+
+enum WorkState
+{
+    None,
+    Idle,
+    MoveUp,
+    MoveDown,
+    MoveLeft,
+    MoveRight,
+    Mining,
 }
