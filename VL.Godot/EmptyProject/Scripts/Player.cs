@@ -11,10 +11,9 @@ public partial class Player : Node2D
 
     // ===== 节点引用 =====
     private CharacterBody2D _character;
-    // ===== 状态 =====
+    // ===== 状态+值 =====
     private WorkState _workState = WorkState.None;
     private Vector2 _direction;
-    private StringName _lastAnimState = "";
 
     public override void _Ready()
     {
@@ -52,13 +51,8 @@ public partial class Player : Node2D
         Vector2 input = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
         if (input.LengthSquared() < 0.01f)
             input = Vector2.Zero;
-
         _direction = input.Normalized();
-
-        // 左右移动速度略有差异（保留你原来的设计）
         float speedX = _direction.X > 0 ? 1f : 0.8f;
-
-        // 注意：Velocity 就是"每秒速度"，不要再乘 delta * FPS
         _character.Velocity = _direction * HorizontalSpeed * speedX;
     }
 
@@ -67,7 +61,7 @@ public partial class Player : Node2D
         bool isInteract = Input.IsActionPressed("Interact");
         if (isInteract)
         {
-            _workState = WorkState.Mining;
+            _workState = WorkState.Interact;
         }
         else if (_direction.LengthSquared() < 0.01f)
         {
@@ -82,11 +76,10 @@ public partial class Player : Node2D
             _workState = _direction.Y > 0 ? WorkState.MoveDown : WorkState.MoveUp;
         }
 
-        // 状态名必须和动画树里的节点名完全一致（大小写敏感）
         StringName targetState = _workState switch
         {
-            WorkState.Mining => "mine", 
-            _ => "BlendSpace2D",
+            WorkState.Interact => "Interact", 
+            _ => "Idle",
         };
     }
 }
@@ -99,5 +92,5 @@ enum WorkState
     MoveDown,
     MoveLeft,
     MoveRight,
-    Mining,
+    Interact,
 }
