@@ -1,0 +1,14 @@
+{
+  "MoveUp": [ "W", "Up" ],
+  "MoveDown": [ "S", "Down" ],
+  "MoveLeft": [ "A", "Left" ],
+  "MoveRight": [ "D", "Right" ],
+  "Jump": [ "K", "Space" ],
+  "Interact": [ "E" ],
+  "Inventory": [ "I" ],
+  "Build": [ "C" ],
+  "Pause": [ "Escape" ],
+
+  "Shoot": [ "J", "Mouse:Left" ],
+  "Focus": [ "Mouse:Right" ]
+}

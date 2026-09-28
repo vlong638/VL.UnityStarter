@@ -11,4 +11,9 @@
     <PackageReference Include="GodotSharp" Version="4.7.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EmptyProject\Images\" />
+    <Folder Include="EmptyProject\Nodes\" />
+  </ItemGroup>
+
 </Project>
