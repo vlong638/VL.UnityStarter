@@ -17,13 +17,13 @@ namespace VL.Godot.VLCommon
             if (list == null || list.Count == 0)
                 throw new ArgumentException("集合为空");
             return list[_rand.Next(list.Count)];
-        } 
+        }
         #endregion
 
         #region Vector2
         public static Vector2 SetX(this Vector2 vector2, float value)
         {
-            return  new Vector2(value, vector2.Y);
+            return new Vector2(value, vector2.Y);
         }
         public static Vector2 SetY(this Vector2 vector2, float value)
         {

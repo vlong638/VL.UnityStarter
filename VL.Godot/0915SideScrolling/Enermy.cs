@@ -5,6 +5,7 @@ namespace VL.Godot.SideScrolling;
 public partial class Enermy : Node2D
 {
     Area2D area2D;
+    Area2D area2DTracing;
     AnimatedSprite2D animatedSprite2D;
     public int HP = 2;
 
@@ -13,9 +14,21 @@ public partial class Enermy : Node2D
     {
         area2D = GetNode<Area2D>("Area2D");
         area2D.BodyEntered += Area2D_BodyEntered;
+        area2DTracing = GetNode<Area2D>("Area2DTracing");
+        area2DTracing.BodyEntered += Area2DTracing_BodyEntered; ;
         animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         animatedSprite2D.Play("default");
         animatedSprite2D.SpriteFrames.SetAnimationLoopMode("explosion", SpriteFrames.LoopMode.None);
+    }
+
+    private void Area2DTracing_BodyEntered(Node2D body)
+    {
+        var bParent = body.GetParent();
+        if (bParent is Player)
+        {
+            (bParent as Bullet).Explosion();
+            TakeDamage();
+        }
     }
 
     private void Area2D_BodyEntered(Node2D body)
