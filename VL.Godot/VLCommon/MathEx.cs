@@ -33,7 +33,11 @@ namespace VL.Godot.VLCommon
         {
             return new Vector2I((int)Math.Round(vector2.X), (int)Math.Round(vector2.Y));
         }
-        
+        public static Vector2I ToGDGrid(this Vector2 vector2)
+        {
+           return  new Vector2I((int)(vector2.X / 16), (int)(vector2.Y / 16));
+        }
+
         #endregion
     }
 }

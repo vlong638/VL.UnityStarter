@@ -101,6 +101,8 @@ public partial class Player : Node2D
         if (isInteract)
         {
             _workState = WorkState.Mining;
+            GD.Print("Mining");
+            EmitSignal(nameof(OnToolUseEventHandler).ToGDSignal(), (int)ToolType.Draft, _character.Position);
         }
         else if (_direction.LengthSquared() < 0.01f)
         {
@@ -125,9 +127,19 @@ public partial class Player : Node2D
         if (_playback.GetCurrentNode() != targetState)
             _playback.Travel(targetState);
     }
+
+    [Signal]
+    public delegate void OnToolUseEventHandler(ToolType toolType, Vector2 position);
 }
 
-enum WorkState
+public enum ToolType
+{
+    None,
+    Axe,
+    Draft,
+    Shovel,
+}
+public enum WorkState
 {
     None,
     Idle,

@@ -14,6 +14,10 @@ public partial class Game : Node2D
     {
         //配置映射内容
         VLInputMapper.Load();
+        //SoilLayer
+        SoilLayer = GetNodeOrNull<TileMapLayer>("Layers/SoilLayer");
+        if (SoilLayer == null)
+            GD.PrintErr("❌ 无法加载SoilLayer对象！");
         //配置Player
         player = GetNodeOrNull<Player>("Player");
         if (player == null)
@@ -43,6 +47,17 @@ public partial class Game : Node2D
         if (!paused)
         {
             player.PhysicsMove(delta, this);
+        }
+    }
+
+    private TileMapLayer SoilLayer;
+    public void _on_player_on_tool_use(ToolType toolType, Vector2 position)
+    {
+        GD.Print($"_on_player_on_tool_use,{toolType},{position}");
+        var gridPosition = position.ToGDGrid();
+        if (toolType==ToolType.Draft)
+        {
+            SoilLayer.SetCellsTerrainConnect([gridPosition], terrainSet: 0, terrain: 0);
         }
     }
 }

@@ -14,5 +14,13 @@ namespace VL.Godot.VLCommon
         {
             return string.Join(", ", list);
         }
+        public static string ToGDSignal(this string signal)
+        {
+            const string suffix = "EventHandler";
+
+            return signal.EndsWith(suffix, StringComparison.Ordinal)
+                ? signal[..^suffix.Length]
+                : signal;
+        }
     }
 }
